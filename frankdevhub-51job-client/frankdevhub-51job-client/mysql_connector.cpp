@@ -1,6 +1,8 @@
+#include<iostream>
 #include "stdio.h"
 #include "mysql.h"
-
+#include "windows.h"
+ 
 
 /**
 * @file HandleMySQL
@@ -79,7 +81,7 @@ int main()
 	res = mysql_store_result(con);//将结果保存在res结构体中
 
 	while (row = mysql_fetch_row(res)) {
-		for (t = 0; t<mysql_num_fields(res); t++) {
+		for (t = 0; t < mysql_num_fields(res); t++) {
 			printf("%s  ", row[t]);
 		}
 		printf(".............\n");
