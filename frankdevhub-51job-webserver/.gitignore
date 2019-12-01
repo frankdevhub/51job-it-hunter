@@ -1,0 +1,17 @@
+/target
+/.idea
+.classpath
+/.settings
+/out
+*.iml
+/data
+/build
+/bin
+
+*.class
+*.project
+*.jar
+*.war
+*.zip
+*.rar
+*.tar.gz
