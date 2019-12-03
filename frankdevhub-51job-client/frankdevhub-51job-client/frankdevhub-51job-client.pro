@@ -19,14 +19,9 @@ RCC_DIR += ./GeneratedFiles
 include(frankdevhub-51job-client.pri)
 win32:RC_FILE = frankdevhub-51job-client.rc
 
-T       += core gui webenginewidgets
- 
+QT       += core gui webenginewidgets 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
- 
-TARGET = web
-TEMPLATE = app
- 
- 
+
 SOURCES += \
         main.cpp \
         frankdevhub_51job_client.cpp

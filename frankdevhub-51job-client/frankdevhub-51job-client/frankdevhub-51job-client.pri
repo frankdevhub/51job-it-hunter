@@ -7,7 +7,8 @@
 message("You are running qmake on a generated .pro file. This may not work!")
 
 
-HEADERS += ./frankdevhub_51job_client.h
+HEADERS += ./frankdevhub_51job_client.h \
+    ./GeneratedFiles/ui_frankdevhub_51job_client.h
 SOURCES += ./main.cpp \
     ./frankdevhub_51job_client.cpp
 FORMS += ./frankdevhub_51job_client.ui

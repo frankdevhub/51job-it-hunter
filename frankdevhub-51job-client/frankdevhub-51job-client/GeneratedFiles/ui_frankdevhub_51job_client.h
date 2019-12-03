@@ -20,7 +20,7 @@
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QToolBar>
 #include <QtWidgets/QWidget>
-#include <QtWebKit/QWebView>
+#include <QWebEngineView>
 
 QT_BEGIN_NAMESPACE
 
