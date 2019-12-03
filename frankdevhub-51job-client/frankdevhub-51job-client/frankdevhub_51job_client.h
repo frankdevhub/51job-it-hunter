@@ -1,6 +1,5 @@
 #pragma once
 
-#include <QWidget>
 #include <QtWidgets/QMainWindow>
 #include "ui_frankdevhub_51job_client.h"
 
