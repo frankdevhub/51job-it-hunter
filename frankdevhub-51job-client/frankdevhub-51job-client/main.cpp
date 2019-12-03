@@ -1,5 +1,6 @@
 #include "frankdevhub_51job_client.h"
 #include <QtWidgets/QApplication>
+#include <QUrl>
 
 int main(int argc, char *argv[])
 {

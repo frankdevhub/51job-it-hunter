@@ -46,4 +46,9 @@
   <ItemGroup>
     <ResourceCompile Include="frankdevhub-51job-client.rc" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="GeneratedFiles\ui_frankdevhub_51job_client.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
 </Project>
