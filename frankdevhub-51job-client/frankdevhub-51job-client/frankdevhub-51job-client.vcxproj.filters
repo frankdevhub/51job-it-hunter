@@ -55,24 +55,27 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <QtMoc Include="frankdevhub_51job_client.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
     <ClInclude Include="GeneratedFiles\ui_frankdevhub_51job_client.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="frankdevhub_51job_client.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <CustomBuild Include="frankdevhub_51job_client.ui">
+      <Filter>Form Files</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="frankdevhub-51job-client.pro">
+      <Filter>Resource Files</Filter>
+    </None>
     <QtRcc Include="frankdevhub_51job_client.qrc">
       <Filter>Resource Files</Filter>
     </QtRcc>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="frankdevhub-51job-client.rc" />
-  </ItemGroup>
-  <ItemGroup>
-    <QtUic Include="frankdevhub_51job_client.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
   </ItemGroup>
 </Project>

@@ -5,22 +5,13 @@
 TEMPLATE = app
 TARGET = frankdevhub-51job-client
 DESTDIR = ../x64/Debug
-QT += core widgets websockets concurrent webengine webenginewidgets
+QT += core sql network gui widgets location websockets 3dcore 3dquick charts
 CONFIG += debug
-DEFINES += _UNICODE WIN64 QT_NETWORK_LIB QT_QUICK_LIB QT_UITOOLS_LIB QT_WEBCHANNEL_LIB QT_WEBSOCKETS_LIB QT_WEBENGINE_LIB QT_WEBENGINECORE_LIB QT_WEBENGINEWIDGETS_LIB QT_WIDGETS_LIB QT_CONCURRENT_LIB
+CONFIG += c++11
+DEFINES += _UNICODE WIN64 QT_DLL QT_3DCORE_LIB QT_3DANIMATION_LIB QT_3DEXTRAS_LIB QT_3DINPUT_LIB QT_3DLOGIC_LIB QT_3DRENDER_LIB QT_3DQUICK_LIB QT_3DQUICKANIMATION_LIB QT_3DQUICKEXTRAS_LIB QT_3DQUICKINPUT_LIB QT_3DQUICKRENDER_LIB QT_3DQUICKSCENE2D_LIB QT_CHARTS_LIB QT_LOCATION_LIB QT_NETWORK_LIB QT_SQL_LIB QT_WEBSOCKETS_LIB QT_WIDGETS_LIB
 INCLUDEPATH += ./GeneratedFiles \
     . \
-    ./GeneratedFiles/$(ConfigurationName) \
-    ../../../../../include/QtNetwork \
-    ../../../../../include/QtQuick \
-    ../../../../../include/QtUiTools \
-    ../../../../../include/QtWebChannel \
-    ../../../../../include/QtWebSockets \
-    ../../../../../include/QtWebEngine \
-    ../../../../../include/QtWebEngineCore \
-    ../../../../../include/QtWebEngineWidgets \
-    ../../../../../include/QtWidgets
-LIBS += -L"../../../../../lib"
+    ./GeneratedFiles/$(ConfigurationName)
 DEPENDPATH += .
 MOC_DIR += ./GeneratedFiles/$(ConfigurationName)
 OBJECTS_DIR += debug
@@ -28,3 +19,18 @@ UI_DIR += ./GeneratedFiles
 RCC_DIR += ./GeneratedFiles
 include(frankdevhub-51job-client.pri)
 win32:RC_FILE = frankdevhub-51job-client.rc
+
+QT       += core gui webenginewidgets 
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+
+SOURCES += \
+        main.cpp \
+        frankdevhub_51job_client.cpp
+ 
+HEADERS += \
+        ui_frankdevhub_51job_client.h
+ 
+FORMS += \
+        frankdevhub_51job_client.ui
+ 
+RESOURCES +=

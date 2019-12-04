@@ -14,4 +14,3 @@ private:
 	Ui::frankdevhub_51job_clientClass ui;
 };
 
-

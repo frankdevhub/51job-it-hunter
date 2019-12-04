@@ -1,9 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
     <ProjectConfiguration Include="Debug|x64">
       <Configuration>Debug</Configuration>
       <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
     </ProjectConfiguration>
     <ProjectConfiguration Include="Release|x64">
       <Configuration>Release</Configuration>
@@ -12,29 +20,50 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{B12702AD-ABFB-343A-A199-8E24837244A3}</ProjectGuid>
+    <RootNamespace>frankdevhub-51job-client</RootNamespace>
     <Keyword>Qt4VSv1.0</Keyword>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <PlatformToolset>v120</PlatformToolset>
+    <OutputDirectory>..\x64\Debug\</OutputDirectory>
+    <ATLMinimizesCRunTimeLibraryUsage>false</ATLMinimizesCRunTimeLibraryUsage>
+    <CharacterSet>NotSet</CharacterSet>
+    <ConfigurationType>Application</ConfigurationType>
+    <IntermediateDirectory>debug\</IntermediateDirectory>
+    <PrimaryOutput>frankdevhub-51job-client</PrimaryOutput>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <PlatformToolset>v141</PlatformToolset>
+    <OutputDirectory>..\x64\Debug\</OutputDirectory>
+    <ATLMinimizesCRunTimeLibraryUsage>false</ATLMinimizesCRunTimeLibraryUsage>
+    <CharacterSet>NotSet</CharacterSet>
+    <ConfigurationType>Application</ConfigurationType>
+    <IntermediateDirectory>debug\</IntermediateDirectory>
+    <PrimaryOutput>frankdevhub-51job-client</PrimaryOutput>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <PlatformToolset>v120</PlatformToolset>
+    <OutputDirectory>..\x64\Debug\</OutputDirectory>
+    <ATLMinimizesCRunTimeLibraryUsage>false</ATLMinimizesCRunTimeLibraryUsage>
+    <CharacterSet>NotSet</CharacterSet>
+    <ConfigurationType>Application</ConfigurationType>
+    <IntermediateDirectory>release\</IntermediateDirectory>
+    <PrimaryOutput>frankdevhub-51job-client</PrimaryOutput>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
     <PlatformToolset>v120</PlatformToolset>
+    <OutputDirectory>..\x64\Debug\</OutputDirectory>
+    <ATLMinimizesCRunTimeLibraryUsage>false</ATLMinimizesCRunTimeLibraryUsage>
+    <CharacterSet>NotSet</CharacterSet>
+    <ConfigurationType>Application</ConfigurationType>
+    <IntermediateDirectory>release\</IntermediateDirectory>
+    <PrimaryOutput>frankdevhub-51job-client</PrimaryOutput>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <PropertyGroup Condition="'$(QtMsBuild)'=='' or !Exists('$(QtMsBuild)\qt.targets')">
     <QtMsBuild>$(MSBuildProjectDirectory)\QtMsBuild</QtMsBuild>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
-    <IncludePath>$(QTDIR)\include\QtWebEngineWidgets;$(IncludePath)</IncludePath>
-    <IntDir>$(Platform)\$(Configuration)\</IntDir>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
-    <IntDir>$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <Target Name="QtMsBuildNotFound" BeforeTargets="CustomBuild;ClCompile" Condition="!Exists('$(QtMsBuild)\qt.targets') or !Exists('$(QtMsBuild)\qt.props')">
     <Message Importance="High" Text="QtMsBuild: could not locate qt.targets, qt.props; project may not build correctly." />
@@ -43,86 +72,280 @@
     <Import Project="$(QtMsBuild)\qt.props" />
   </ImportGroup>
   <ImportGroup Label="ExtensionSettings" />
-  <ImportGroup Label="Shared" />
-  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" />
   </ImportGroup>
-  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+  <PropertyGroup>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\x64\Debug\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(Platform)\$(Configuration)\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">frankdevhub-51job-client</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">frankdevhub-51job-client</TargetName>
+    <IgnoreImportLibrary Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</IgnoreImportLibrary>
+    <IgnoreImportLibrary Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</IgnoreImportLibrary>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\x64\Debug\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(Platform)\$(Configuration)\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">frankdevhub-51job-client</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">frankdevhub-51job-client</TargetName>
+    <IgnoreImportLibrary Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</IgnoreImportLibrary>
+    <IgnoreImportLibrary Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</IgnoreImportLibrary>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <IntDir>$(Platform)\$(Configuration)\</IntDir>
+    <IncludePath>$(QTDIR)\include\QtWebEngineWidgets;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <IntDir>$(Platform)\$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <PreprocessorDefinitions>UNICODE;_UNICODE;WIN32;WIN64;QT_NETWORK_LIB;QT_QUICK_LIB;QT_UITOOLS_LIB;QT_WEBCHANNEL_LIB;QT_WEBSOCKETS_LIB;QT_WEBENGINE_LIB;QT_WEBENGINECORE_LIB;QT_WEBENGINEWIDGETS_LIB;QT_WIDGETS_LIB;QT_CORE_LIB;QT_CONCURRENT_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>.\GeneratedFiles;.;D:\Qt\Qt5.10.0\5.10.0\msvc2017_64\include;.\GeneratedFiles\$(ConfigurationName);D:\Qt\Qt5.10.0\5.10.0\msvc2017_64\include\QtWebEngineWidgets;\include\QtNetwork;\include\QtQuick;\include\QtUiTools;\include\QtWebChannel;\include\QtWebSockets;\include\QtWebEngine;\include\QtWebEngineCore;\include\QtWebEngineWidgets;\include\QtWidgets;D:\Qt\Qt5.10.0\5.10.0\msvc2017_64\include\QtCore;D:\Qt\Qt5.10.0\5.10.0\msvc2017_64\include\QtWebSockets;D:\Qt\Qt5.10.0\5.10.0\msvc2017_64\include\QtWebEngine;D:\Qt\Qt5.10.0\5.10.0\msvc2017_64\include\QtWebEngineCore;D:\Qt\Qt5.10.0\5.10.0\msvc2017_64\include\QtWebEngineWidgets;D:\Qt\Qt5.10.0\5.10.0\msvc2017_64\include\QtWidgets;D:\Qt\Qt5.10.0\5.10.0\msvc2017_64\include\QtConcurrent;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>.\GeneratedFiles\$(ConfigurationName);.\GeneratedFiles;.;GeneratedFiles;./GeneratedFiles/$(ConfigurationName);../../../../../include/QtNetwork;../../../../../include/QtQuick;../../../../../include/QtUiTools;../../../../../include/QtWebChannel;../../../../../include/QtWebSockets;../../../../../include/QtWebEngine;../../../../../include/QtWebEngineCore;../../../../../include/QtWebEngineWidgets;../../../../../include/QtWidgets;..\..\..\..\QT\QT5.10.0\5.10.0\MSVC2017_64\include;..\..\..\..\QT\QT5.10.0\5.10.0\MSVC2017_64\include\QtGui;..\..\..\..\QT\QT5.10.0\5.10.0\MSVC2017_64\include\QtANGLE;..\..\..\..\QT\QT5.10.0\5.10.0\MSVC2017_64\include\QtCore;./GeneratedFiles/$(ConfigurationName);\include;..\..\..\..\QT\QT5.10.0\5.10.0\MSVC2017_64\mkspecs\win32-msvc;\include\QtCore;\include\QtWebChannel;\include\QtWebSockets;\include\QtWebEngine;\include\QtWebEngineCore;\include\QtWebEngineWidgets;\include\QtWidgets;\include\QtNetwork;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>-Zc:rvalueCast -Zc:inline -w34100 -w34189 -w44996 %(AdditionalOptions)</AdditionalOptions>
+      <AssemblerListingLocation>debug\</AssemblerListingLocation>
+      <BrowseInformation>false</BrowseInformation>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
-      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
-      <SDLCheck>false</SDLCheck>
+      <ExceptionHandling>Sync</ExceptionHandling>
       <ObjectFileName>$(IntDir)</ObjectFileName>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>_WINDOWS;UNICODE;_UNICODE;WIN32;_UNICODE;WIN64;QT_NETWORK_LIB;QT_QUICK_LIB;QT_WEBCHANNEL_LIB;QT_WEBSOCKETS_LIB;QT_WEBENGINE_LIB;QT_WEBENGINECORE_LIB;QT_WEBENGINEWIDGETS_LIB;QT_WIDGETS_LIB;QT_CONCURRENT_LIB;QT_GUI_LIB;QT_CORE_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessToFile>false</PreprocessToFile>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+      <WarningLevel>Level3</WarningLevel>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <ProgramDataBaseFileName>$(IntDir)vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
     </ClCompile>
     <Link>
-      <SubSystem>Windows</SubSystem>
-      <OutputFile>$(OutDir)\$(ProjectName).exe</OutputFile>
-      <AdditionalLibraryDirectories>$(QTDIR)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>D:\QT\QT5.10.0\5.10.0\MSVC2017_64\lib\\lib\qtmaind.lib;shell32.lib;D:\QT\QT5.10.0\5.10.0\MSVC2017_64\lib\\lib\Qt5Guid.lib;D:\QT\QT5.10.0\5.10.0\MSVC2017_64\lib\\lib\Qt5Cored.lib;\lib\Qt5Cored.lib;\lib\Qt5WebChanneld.lib;\lib\Qt5WebSocketsd.lib;\lib\Qt5WebEngined.lib;\lib\Qt5WebEngineCored.lib;\lib\Qt5WebEngineWidgetsd.lib;\lib\Qt5Widgetsd.lib;\lib\Qt5Networkd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>D:\QT\QT5.10.0\5.10.0\MSVC2017_64\lib;C:\utils\my_sql\my_sql\lib;C:\utils\postgresql\pgsql\lib;\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>"/MANIFESTDEPENDENCY:type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' publicKeyToken='6595b64144ccf1df' language='*' processorArchitecture='*'" %(AdditionalOptions)</AdditionalOptions>
+      <DataExecutionPrevention>true</DataExecutionPrevention>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>qtmaind.lib;Qt5Cored.lib;Qt5Guid.lib;Qt5WebSocketsd.lib;Qt5WebEngined.lib;Qt5WebEngineCored.lib;Qt5Widgetsd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <IgnoreImportLibrary>true</IgnoreImportLibrary>
+      <OutputFile>$(OutDir)\frankdevhub-51job-client.exe</OutputFile>
+      <RandomizedBaseAddress>true</RandomizedBaseAddress>
+      <SubSystem>Windows</SubSystem>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
     </Link>
+    <Midl>
+      <DefaultCharType>Unsigned</DefaultCharType>
+      <EnableErrorChecks>None</EnableErrorChecks>
+      <WarningLevel>0</WarningLevel>
+    </Midl>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_WINDOWS;UNICODE;_UNICODE;WIN32;_UNICODE;WIN64;QT_NETWORK_LIB;QT_QUICK_LIB;QT_UITOOLS_LIB;QT_WEBCHANNEL_LIB;QT_WEBSOCKETS_LIB;QT_WEBENGINE_LIB;QT_WEBENGINECORE_LIB;QT_WEBENGINEWIDGETS_LIB;QT_WIDGETS_LIB;QT_CONCURRENT_LIB;QT_GUI_LIB;QT_CORE_LIB;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ResourceCompile>
     <QtMoc>
-      <OutputFile>.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</OutputFile>
+      <QTDIR>D:\QT\QT5.10.0\5.10.0\MSVC2017_64</QTDIR>
+      <InputFile>%(FullPath)</InputFile>
+      <OutputFile>GeneratedFiles\moc_%(Filename).cpp</OutputFile>
+      <IncludePath>.\GeneratedFiles\$(ConfigurationName);.\GeneratedFiles;.;GeneratedFiles;./GeneratedFiles/$(ConfigurationName);../../../../../include/QtNetwork;../../../../../include/QtQuick;../../../../../include/QtUiTools;../../../../../include/QtWebChannel;../../../../../include/QtWebSockets;../../../../../include/QtWebEngine;../../../../../include/QtWebEngineCore;../../../../../include/QtWebEngineWidgets;../../../../../include/QtWidgets;..\..\..\..\QT\QT5.10.0\5.10.0\MSVC2017_64\include;..\..\..\..\QT\QT5.10.0\5.10.0\MSVC2017_64\include\QtGui;..\..\..\..\QT\QT5.10.0\5.10.0\MSVC2017_64\include\QtANGLE;..\..\..\..\QT\QT5.10.0\5.10.0\MSVC2017_64\include\QtCore;./GeneratedFiles/$(ConfigurationName);\include;..\..\..\..\QT\QT5.10.0\5.10.0\MSVC2017_64\mkspecs\win32-msvc;\include\QtCore;\include\QtWebChannel;\include\QtWebSockets;\include\QtWebEngine;\include\QtWebEngineCore;\include\QtWebEngineWidgets;\include\QtWidgets;\include\QtNetwork;%(AdditionalIncludeDirectories)</IncludePath>
+      <Define>_WINDOWS;UNICODE;_UNICODE;WIN32;_UNICODE;WIN64;QT_NETWORK_LIB;QT_QUICK_LIB;QT_WEBCHANNEL_LIB;QT_WEBSOCKETS_LIB;QT_WEBENGINE_LIB;QT_WEBENGINECORE_LIB;QT_WEBENGINEWIDGETS_LIB;QT_WIDGETS_LIB;QT_CONCURRENT_LIB;QT_GUI_LIB;QT_CORE_LIB;%(PreprocessorDefinitions)</Define>
+      <CompilerFlavor>msvc</CompilerFlavor>
+      <Include>./GeneratedFiles/$(ConfigurationName)/moc_predefs.h</Include>
       <ExecutionDescription>Moc'ing %(Identity)...</ExecutionDescription>
-      <IncludePath>.\GeneratedFiles;.;D:\Qt\Qt5.10.0\5.10.0\msvc2017_64\include;.\GeneratedFiles\$(ConfigurationName);D:\Qt\Qt5.10.0\5.10.0\msvc2017_64\include\QtWebEngineWidgets;\include\QtNetwork;\include\QtQuick;\include\QtUiTools;\include\QtWebChannel;\include\QtWebSockets;\include\QtWebEngine;\include\QtWebEngineCore;\include\QtWebEngineWidgets;\include\QtWidgets;D:\Qt\Qt5.10.0\5.10.0\msvc2017_64\include\QtCore;D:\Qt\Qt5.10.0\5.10.0\msvc2017_64\include\QtWebSockets;D:\Qt\Qt5.10.0\5.10.0\msvc2017_64\include\QtWebEngine;D:\Qt\Qt5.10.0\5.10.0\msvc2017_64\include\QtWebEngineCore;D:\Qt\Qt5.10.0\5.10.0\msvc2017_64\include\QtWebEngineWidgets;D:\Qt\Qt5.10.0\5.10.0\msvc2017_64\include\QtWidgets;D:\Qt\Qt5.10.0\5.10.0\msvc2017_64\include\QtConcurrent;%(AdditionalIncludeDirectories)</IncludePath>
-      <Define>UNICODE;_UNICODE;WIN32;WIN64;QT_NETWORK_LIB;QT_QUICK_LIB;QT_UITOOLS_LIB;QT_WEBCHANNEL_LIB;QT_WEBSOCKETS_LIB;QT_WEBENGINE_LIB;QT_WEBENGINECORE_LIB;QT_WEBENGINEWIDGETS_LIB;QT_WIDGETS_LIB;QT_CORE_LIB;QT_CONCURRENT_LIB;%(PreprocessorDefinitions)</Define>
-      <QTDIR>D:\Qt\Qt5.10.0\5.10.0\msvc2017_64</QTDIR>
+      <DynamicSource>false</DynamicSource>
     </QtMoc>
-    <QtUic>
-      <ExecutionDescription>Uic'ing %(Identity)...</ExecutionDescription>
-      <OutputFile>.\GeneratedFiles\ui_%(Filename).h</OutputFile>
-      <QTDIR>D:\Qt\Qt5.10.0\5.10.0\msvc2017_64</QTDIR>
-    </QtUic>
     <QtRcc>
+      <QTDIR>D:\QT\QT5.10.0\5.10.0\MSVC2017_64</QTDIR>
+      <InputFile>%(FullPath)</InputFile>
+      <OutputFile>GeneratedFiles\qrc_%(Filename).cpp</OutputFile>
+      <InitFuncName>frankdevhub_51job_client</InitFuncName>
+      <Compression>default</Compression>
       <ExecutionDescription>Rcc'ing %(Identity)...</ExecutionDescription>
-      <OutputFile>.\GeneratedFiles\qrc_%(Filename).cpp</OutputFile>
-      <QTDIR>D:\Qt\Qt5.10.0\5.10.0\msvc2017_64</QTDIR>
+    </QtRcc>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>.\GeneratedFiles\$(ConfigurationName);.\GeneratedFiles;.;GeneratedFiles;./GeneratedFiles/$(ConfigurationName);../../../../../include/QtNetwork;../../../../../include/QtQuick;../../../../../include/QtUiTools;../../../../../include/QtWebChannel;../../../../../include/QtWebSockets;../../../../../include/QtWebEngine;../../../../../include/QtWebEngineCore;../../../../../include/QtWebEngineWidgets;../../../../../include/QtWidgets;..\..\..\..\QT\QT5.10.0\5.10.0\MSVC2017_64\include;..\..\..\..\QT\QT5.10.0\5.10.0\MSVC2017_64\include\QtGui;..\..\..\..\QT\QT5.10.0\5.10.0\MSVC2017_64\include\QtANGLE;..\..\..\..\QT\QT5.10.0\5.10.0\MSVC2017_64\include\QtCore;./GeneratedFiles/$(ConfigurationName);\include;..\..\..\..\QT\QT5.10.0\5.10.0\MSVC2017_64\mkspecs\win32-msvc;\include\QtCore;\include\QtWebChannel;\include\QtWebSockets;\include\QtWebEngine;\include\QtWebEngineCore;\include\QtWebEngineWidgets;\include\QtWidgets;\include\QtNetwork;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>-Zc:rvalueCast -Zc:inline -w34100 -w34189 -w44996 %(AdditionalOptions)</AdditionalOptions>
+      <AssemblerListingLocation>debug\</AssemblerListingLocation>
+      <BrowseInformation>false</BrowseInformation>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>_WINDOWS;UNICODE;_UNICODE;WIN32;WIN64;QT_NETWORK_LIB;QT_QUICK_LIB;QT_WEBCHANNEL_LIB;QT_WEBSOCKETS_LIB;QT_WEBENGINE_LIB;QT_WEBENGINECORE_LIB;QT_WEBENGINEWIDGETS_LIB;QT_WIDGETS_LIB;QT_CONCURRENT_LIB;QT_GUI_LIB;QT_CORE_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessToFile>false</PreprocessToFile>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+      <WarningLevel>Level3</WarningLevel>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <ProgramDataBaseFileName>$(IntDir)vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>qtmaind.lib;Qt5Cored.lib;Qt5Guid.lib;Qt5WebSocketsd.lib;Qt5WebEngined.lib;Qt5WebEngineCored.lib;Qt5Widgetsd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(QTDIR)\lib;C:\utils\my_sql\my_sql\lib;C:\utils\postgresql\pgsql\lib;\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>"/MANIFESTDEPENDENCY:type=%27win32%27 name=%27Microsoft.Windows.Common-Controls%27 version=%276.0.0.0%27 publicKeyToken=%276595b64144ccf1df%27 language=%27*%27 processorArchitecture=%27*%27"  /SUBSYSTEM:WINDOWS %(AdditionalOptions)</AdditionalOptions>
+      <DataExecutionPrevention>true</DataExecutionPrevention>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <IgnoreImportLibrary>true</IgnoreImportLibrary>
+      <OutputFile>$(OutDir)\frankdevhub-51job-client.exe</OutputFile>
+      <RandomizedBaseAddress>true</RandomizedBaseAddress>
+      <SubSystem>Windows</SubSystem>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TargetMachine>MachineX64</TargetMachine>
+    </Link>
+    <Midl>
+      <DefaultCharType>Unsigned</DefaultCharType>
+      <EnableErrorChecks>None</EnableErrorChecks>
+      <WarningLevel>0</WarningLevel>
+    </Midl>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_WINDOWS;UNICODE;_UNICODE;WIN32;_UNICODE;WIN64;QT_NETWORK_LIB;QT_QUICK_LIB;QT_UITOOLS_LIB;QT_WEBCHANNEL_LIB;QT_WEBSOCKETS_LIB;QT_WEBENGINE_LIB;QT_WEBENGINECORE_LIB;QT_WEBENGINEWIDGETS_LIB;QT_WIDGETS_LIB;QT_CONCURRENT_LIB;QT_GUI_LIB;QT_CORE_LIB;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ResourceCompile>
+    <QtMoc>
+      <QTDIR>D:\QT\QT5.10.0\5.10.0\MSVC2017_64</QTDIR>
+      <InputFile>%(FullPath)</InputFile>
+      <OutputFile>GeneratedFiles\moc_%(Filename).cpp</OutputFile>
+      <IncludePath>.\GeneratedFiles\$(ConfigurationName);.\GeneratedFiles;.;GeneratedFiles;./GeneratedFiles/$(ConfigurationName);../../../../../include/QtNetwork;../../../../../include/QtQuick;../../../../../include/QtUiTools;../../../../../include/QtWebChannel;../../../../../include/QtWebSockets;../../../../../include/QtWebEngine;../../../../../include/QtWebEngineCore;../../../../../include/QtWebEngineWidgets;../../../../../include/QtWidgets;..\..\..\..\QT\QT5.10.0\5.10.0\MSVC2017_64\include;..\..\..\..\QT\QT5.10.0\5.10.0\MSVC2017_64\include\QtGui;..\..\..\..\QT\QT5.10.0\5.10.0\MSVC2017_64\include\QtANGLE;..\..\..\..\QT\QT5.10.0\5.10.0\MSVC2017_64\include\QtCore;./GeneratedFiles/$(ConfigurationName);\include;..\..\..\..\QT\QT5.10.0\5.10.0\MSVC2017_64\mkspecs\win32-msvc;\include\QtCore;\include\QtWebChannel;\include\QtWebSockets;\include\QtWebEngine;\include\QtWebEngineCore;\include\QtWebEngineWidgets;\include\QtWidgets;\include\QtNetwork;%(AdditionalIncludeDirectories)</IncludePath>
+      <Define>_WINDOWS;UNICODE;_UNICODE;WIN32;WIN64;QT_NETWORK_LIB;QT_QUICK_LIB;QT_WEBCHANNEL_LIB;QT_WEBSOCKETS_LIB;QT_WEBENGINE_LIB;QT_WEBENGINECORE_LIB;QT_WEBENGINEWIDGETS_LIB;QT_WIDGETS_LIB;QT_CONCURRENT_LIB;QT_GUI_LIB;QT_CORE_LIB;%(PreprocessorDefinitions)</Define>
+      <CompilerFlavor>msvc</CompilerFlavor>
+      <Include>./GeneratedFiles/$(ConfigurationName)/moc_predefs.h</Include>
+      <ExecutionDescription>Moc'ing %(Identity)...</ExecutionDescription>
+      <DynamicSource>false</DynamicSource>
+    </QtMoc>
+    <QtRcc>
+      <QTDIR>D:\QT\QT5.10.0\5.10.0\MSVC2017_64</QTDIR>
+      <InputFile>%(FullPath)</InputFile>
+      <OutputFile>GeneratedFiles\qrc_%(Filename).cpp</OutputFile>
+      <InitFuncName>frankdevhub_51job_client</InitFuncName>
+      <Compression>default</Compression>
+      <ExecutionDescription>Rcc'ing %(Identity)...</ExecutionDescription>
+    </QtRcc>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>.\GeneratedFiles\$(ConfigurationName);.\GeneratedFiles;.;GeneratedFiles;./GeneratedFiles/$(ConfigurationName);../../../../../include/QtNetwork;../../../../../include/QtQuick;../../../../../include/QtUiTools;../../../../../include/QtWebChannel;../../../../../include/QtWebSockets;../../../../../include/QtWebEngine;../../../../../include/QtWebEngineCore;../../../../../include/QtWebEngineWidgets;../../../../../include/QtWidgets;..\..\..\..\QT\QT5.10.0\5.10.0\MSVC2017_64\include;..\..\..\..\QT\QT5.10.0\5.10.0\MSVC2017_64\include\QtGui;..\..\..\..\QT\QT5.10.0\5.10.0\MSVC2017_64\include\QtANGLE;..\..\..\..\QT\QT5.10.0\5.10.0\MSVC2017_64\include\QtCore;./GeneratedFiles/$(ConfigurationName);\include;..\..\..\..\QT\QT5.10.0\5.10.0\MSVC2017_64\mkspecs\win32-msvc;\include\QtCore;\include\QtWebChannel;\include\QtWebSockets;\include\QtWebEngine;\include\QtWebEngineCore;\include\QtWebEngineWidgets;\include\QtWidgets;\include\QtNetwork;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>-Zc:rvalueCast -Zc:inline -Zc:strictStrings -w34100 -w34189 -w44996 %(AdditionalOptions)</AdditionalOptions>
+      <AssemblerListingLocation>release\</AssemblerListingLocation>
+      <BrowseInformation>false</BrowseInformation>
+      <DebugInformationFormat>None</DebugInformationFormat>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <Optimization>MaxSpeed</Optimization>
+      <PreprocessorDefinitions>_WINDOWS;UNICODE;_UNICODE;WIN32;_UNICODE;WIN64;QT_NETWORK_LIB;QT_QUICK_LIB;QT_WEBCHANNEL_LIB;QT_WEBSOCKETS_LIB;QT_WEBENGINE_LIB;QT_WEBENGINECORE_LIB;QT_WEBENGINEWIDGETS_LIB;QT_WIDGETS_LIB;QT_CONCURRENT_LIB;QT_NO_DEBUG;QT_GUI_LIB;QT_CORE_LIB;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessToFile>false</PreprocessToFile>
+      <ProgramDataBaseFileName>$(IntDir)vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+      <WarningLevel>Level3</WarningLevel>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>D:\QT\QT5.10.0\5.10.0\MSVC2017_64\lib\\lib\qtmain.lib;shell32.lib;D:\QT\QT5.10.0\5.10.0\MSVC2017_64\lib\\lib\Qt5Gui.lib;D:\QT\QT5.10.0\5.10.0\MSVC2017_64\lib\\lib\Qt5Core.lib;\lib\Qt5Core.lib;\lib\Qt5WebChannel.lib;\lib\Qt5WebSockets.lib;\lib\Qt5WebEngine.lib;\lib\Qt5WebEngineCore.lib;\lib\Qt5WebEngineWidgets.lib;\lib\Qt5Widgets.lib;\lib\Qt5Network.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>D:\QT\QT5.10.0\5.10.0\MSVC2017_64\lib;C:\utils\my_sql\my_sql\lib;C:\utils\postgresql\pgsql\lib;\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>"/MANIFESTDEPENDENCY:type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' publicKeyToken='6595b64144ccf1df' language='*' processorArchitecture='*'" %(AdditionalOptions)</AdditionalOptions>
+      <DataExecutionPrevention>true</DataExecutionPrevention>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <IgnoreImportLibrary>true</IgnoreImportLibrary>
+      <LinkIncremental>false</LinkIncremental>
+      <OutputFile>$(OutDir)\frankdevhub-51job-client.exe</OutputFile>
+      <RandomizedBaseAddress>true</RandomizedBaseAddress>
+      <SubSystem>Windows</SubSystem>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+    </Link>
+    <Midl>
+      <DefaultCharType>Unsigned</DefaultCharType>
+      <EnableErrorChecks>None</EnableErrorChecks>
+      <WarningLevel>0</WarningLevel>
+    </Midl>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_WINDOWS;UNICODE;_UNICODE;WIN32;_UNICODE;WIN64;QT_NETWORK_LIB;QT_QUICK_LIB;QT_UITOOLS_LIB;QT_WEBCHANNEL_LIB;QT_WEBSOCKETS_LIB;QT_WEBENGINE_LIB;QT_WEBENGINECORE_LIB;QT_WEBENGINEWIDGETS_LIB;QT_WIDGETS_LIB;QT_CONCURRENT_LIB;QT_NO_DEBUG;QT_GUI_LIB;QT_CORE_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ResourceCompile>
+    <QtMoc>
+      <QTDIR>D:\QT\QT5.10.0\5.10.0\MSVC2017_64</QTDIR>
+      <InputFile>%(FullPath)</InputFile>
+      <OutputFile>GeneratedFiles\moc_%(Filename).cpp</OutputFile>
+      <IncludePath>.\GeneratedFiles\$(ConfigurationName);.\GeneratedFiles;.;GeneratedFiles;./GeneratedFiles/$(ConfigurationName);../../../../../include/QtNetwork;../../../../../include/QtQuick;../../../../../include/QtUiTools;../../../../../include/QtWebChannel;../../../../../include/QtWebSockets;../../../../../include/QtWebEngine;../../../../../include/QtWebEngineCore;../../../../../include/QtWebEngineWidgets;../../../../../include/QtWidgets;..\..\..\..\QT\QT5.10.0\5.10.0\MSVC2017_64\include;..\..\..\..\QT\QT5.10.0\5.10.0\MSVC2017_64\include\QtGui;..\..\..\..\QT\QT5.10.0\5.10.0\MSVC2017_64\include\QtANGLE;..\..\..\..\QT\QT5.10.0\5.10.0\MSVC2017_64\include\QtCore;./GeneratedFiles/$(ConfigurationName);\include;..\..\..\..\QT\QT5.10.0\5.10.0\MSVC2017_64\mkspecs\win32-msvc;\include\QtCore;\include\QtWebChannel;\include\QtWebSockets;\include\QtWebEngine;\include\QtWebEngineCore;\include\QtWebEngineWidgets;\include\QtWidgets;\include\QtNetwork;%(AdditionalIncludeDirectories)</IncludePath>
+      <Define>_WINDOWS;UNICODE;_UNICODE;WIN32;_UNICODE;WIN64;QT_NETWORK_LIB;QT_QUICK_LIB;QT_WEBCHANNEL_LIB;QT_WEBSOCKETS_LIB;QT_WEBENGINE_LIB;QT_WEBENGINECORE_LIB;QT_WEBENGINEWIDGETS_LIB;QT_WIDGETS_LIB;QT_CONCURRENT_LIB;QT_NO_DEBUG;QT_GUI_LIB;QT_CORE_LIB;NDEBUG;%(PreprocessorDefinitions)</Define>
+      <CompilerFlavor>msvc</CompilerFlavor>
+      <Include>./GeneratedFiles/$(ConfigurationName)/moc_predefs.h</Include>
+      <ExecutionDescription>Moc'ing %(Identity)...</ExecutionDescription>
+      <DynamicSource>false</DynamicSource>
+    </QtMoc>
+    <QtRcc>
+      <QTDIR>D:\QT\QT5.10.0\5.10.0\MSVC2017_64</QTDIR>
+      <InputFile>%(FullPath)</InputFile>
+      <OutputFile>GeneratedFiles\qrc_%(Filename).cpp</OutputFile>
+      <InitFuncName>frankdevhub_51job_client</InitFuncName>
+      <Compression>default</Compression>
+      <ExecutionDescription>Rcc'ing %(Identity)...</ExecutionDescription>
     </QtRcc>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <PreprocessorDefinitions>UNICODE;_UNICODE;WIN32;WIN64;QT_NO_DEBUG;NDEBUG;QT_NETWORK_LIB;QT_QUICK_LIB;QT_UITOOLS_LIB;QT_WEBCHANNEL_LIB;QT_WEBSOCKETS_LIB;QT_WEBENGINE_LIB;QT_WEBENGINECORE_LIB;QT_WEBENGINEWIDGETS_LIB;QT_WIDGETS_LIB;QT_CORE_LIB;QT_CONCURRENT_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>.\GeneratedFiles;.;D:\Qt\Qt5.10.0\5.10.0\msvc2017_64\include;.\GeneratedFiles\$(ConfigurationName);\include\QtNetwork;\include\QtQuick;\include\QtUiTools;\include\QtWebChannel;\include\QtWebSockets;\include\QtWebEngine;\include\QtWebEngineCore;\include\QtWebEngineWidgets;\include\QtWidgets;D:\Qt\Qt5.10.0\5.10.0\msvc2017_64\include\QtCore;D:\Qt\Qt5.10.0\5.10.0\msvc2017_64\include\QtWebSockets;D:\Qt\Qt5.10.0\5.10.0\msvc2017_64\include\QtWebEngine;D:\Qt\Qt5.10.0\5.10.0\msvc2017_64\include\QtWebEngineCore;D:\Qt\Qt5.10.0\5.10.0\msvc2017_64\include\QtWebEngineWidgets;D:\Qt\Qt5.10.0\5.10.0\msvc2017_64\include\QtWidgets;D:\Qt\Qt5.10.0\5.10.0\msvc2017_64\include\QtConcurrent;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <DebugInformationFormat />
-      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
-      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+      <AdditionalIncludeDirectories>.\GeneratedFiles\$(ConfigurationName);.\GeneratedFiles;.;GeneratedFiles;./GeneratedFiles/$(ConfigurationName);../../../../../include/QtNetwork;../../../../../include/QtQuick;../../../../../include/QtUiTools;../../../../../include/QtWebChannel;../../../../../include/QtWebSockets;../../../../../include/QtWebEngine;../../../../../include/QtWebEngineCore;../../../../../include/QtWebEngineWidgets;../../../../../include/QtWidgets;..\..\..\..\QT\QT5.10.0\5.10.0\MSVC2017_64\include;..\..\..\..\QT\QT5.10.0\5.10.0\MSVC2017_64\include\QtGui;..\..\..\..\QT\QT5.10.0\5.10.0\MSVC2017_64\include\QtANGLE;..\..\..\..\QT\QT5.10.0\5.10.0\MSVC2017_64\include\QtCore;./GeneratedFiles/$(ConfigurationName);\include;..\..\..\..\QT\QT5.10.0\5.10.0\MSVC2017_64\mkspecs\win32-msvc;\include\QtCore;\include\QtWebChannel;\include\QtWebSockets;\include\QtWebEngine;\include\QtWebEngineCore;\include\QtWebEngineWidgets;\include\QtWidgets;\include\QtNetwork;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>-Zc:rvalueCast -Zc:inline -Zc:strictStrings -w34100 -w34189 -w44996 %(AdditionalOptions)</AdditionalOptions>
+      <AssemblerListingLocation>release\</AssemblerListingLocation>
+      <BrowseInformation>false</BrowseInformation>
+      <DebugInformationFormat>None</DebugInformationFormat>
+      <ExceptionHandling>Sync</ExceptionHandling>
       <ObjectFileName>$(IntDir)</ObjectFileName>
+      <Optimization>MaxSpeed</Optimization>
+      <PreprocessorDefinitions>_WINDOWS;UNICODE;_UNICODE;WIN32;WIN64;QT_NETWORK_LIB;QT_QUICK_LIB;QT_WEBCHANNEL_LIB;QT_WEBSOCKETS_LIB;QT_WEBENGINE_LIB;QT_WEBENGINECORE_LIB;QT_WEBENGINEWIDGETS_LIB;QT_WIDGETS_LIB;QT_CONCURRENT_LIB;QT_NO_DEBUG;QT_GUI_LIB;QT_CORE_LIB;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessToFile>false</PreprocessToFile>
       <ProgramDataBaseFileName>$(IntDir)vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+      <WarningLevel>Level3</WarningLevel>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
-      <SubSystem>Windows</SubSystem>
-      <OutputFile>$(OutDir)\$(ProjectName).exe</OutputFile>
-      <AdditionalLibraryDirectories>D:\Qt\Qt5.10.0\5.10.0\msvc2017_64\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>D:\QT\QT5.10.0\5.10.0\MSVC2017_64\lib\\lib\qtmain.lib;shell32.lib;D:\QT\QT5.10.0\5.10.0\MSVC2017_64\lib\\lib\Qt5Gui.lib;D:\QT\QT5.10.0\5.10.0\MSVC2017_64\lib\\lib\Qt5Core.lib;\lib\Qt5Core.lib;\lib\Qt5WebChannel.lib;\lib\Qt5WebSockets.lib;\lib\Qt5WebEngine.lib;\lib\Qt5WebEngineCore.lib;\lib\Qt5WebEngineWidgets.lib;\lib\Qt5Widgets.lib;\lib\Qt5Network.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>D:\QT\QT5.10.0\5.10.0\MSVC2017_64\lib;C:\utils\my_sql\my_sql\lib;C:\utils\postgresql\pgsql\lib;\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>"/MANIFESTDEPENDENCY:type=%27win32%27 name=%27Microsoft.Windows.Common-Controls%27 version=%276.0.0.0%27 publicKeyToken=%276595b64144ccf1df%27 language=%27*%27 processorArchitecture=%27*%27"  /SUBSYSTEM:WINDOWS %(AdditionalOptions)</AdditionalOptions>
+      <DataExecutionPrevention>true</DataExecutionPrevention>
       <GenerateDebugInformation>false</GenerateDebugInformation>
-      <AdditionalDependencies>D:\\lib\D:\Qt\Qt5.10.0\5.10.0\msvc2017_64\lib\Qt\Qt5.10.0\5.10.0\msvc2017_64\lib\\lib\D:\Qt\Qt5.10.0\5.10.0\msvc2017_64\lib\qtmain.lib;\lib\D:\Qt\Qt5.10.0\5.10.0\msvc2017_64\lib\Qt5Network.lib;\lib\D:\Qt\Qt5.10.0\5.10.0\msvc2017_64\lib\Qt5Quick.lib;\lib\D:\Qt\Qt5.10.0\5.10.0\msvc2017_64\lib\Qt5UiTools.lib;\lib\D:\Qt\Qt5.10.0\5.10.0\msvc2017_64\lib\Qt5WebChannel.lib;\lib\D:\Qt\Qt5.10.0\5.10.0\msvc2017_64\lib\Qt5WebSockets.lib;\lib\D:\Qt\Qt5.10.0\5.10.0\msvc2017_64\lib\Qt5WebEngine.lib;\lib\D:\Qt\Qt5.10.0\5.10.0\msvc2017_64\lib\Qt5WebEngineCore.lib;\lib\D:\Qt\Qt5.10.0\5.10.0\msvc2017_64\lib\Qt5WebEngineWidgets.lib;\lib\D:\Qt\Qt5.10.0\5.10.0\msvc2017_64\lib\Qt5Widgets.lib;D:\Qt\Qt5.10.0\5.10.0\msvc2017_64\lib\Qt5Core.lib;D:\Qt\Qt5.10.0\5.10.0\msvc2017_64\lib\Qt5WebSockets.lib;D:\Qt\Qt5.10.0\5.10.0\msvc2017_64\lib\Qt5WebEngine.lib;D:\Qt\Qt5.10.0\5.10.0\msvc2017_64\lib\Qt5WebEngineCore.lib;D:\Qt\Qt5.10.0\5.10.0\msvc2017_64\lib\Qt5WebEngineWidgets.lib;D:\Qt\Qt5.10.0\5.10.0\msvc2017_64\lib\Qt5Widgets.lib;D:\Qt\Qt5.10.0\5.10.0\msvc2017_64\lib\Qt5Concurrent.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <IgnoreImportLibrary>true</IgnoreImportLibrary>
+      <LinkIncremental>false</LinkIncremental>
+      <OutputFile>$(OutDir)\frankdevhub-51job-client.exe</OutputFile>
+      <RandomizedBaseAddress>true</RandomizedBaseAddress>
+      <SubSystem>Windows</SubSystem>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TargetMachine>MachineX64</TargetMachine>
     </Link>
+    <Midl>
+      <DefaultCharType>Unsigned</DefaultCharType>
+      <EnableErrorChecks>None</EnableErrorChecks>
+      <WarningLevel>0</WarningLevel>
+    </Midl>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_WINDOWS;UNICODE;_UNICODE;WIN32;_UNICODE;WIN64;QT_NETWORK_LIB;QT_QUICK_LIB;QT_UITOOLS_LIB;QT_WEBCHANNEL_LIB;QT_WEBSOCKETS_LIB;QT_WEBENGINE_LIB;QT_WEBENGINECORE_LIB;QT_WEBENGINEWIDGETS_LIB;QT_WIDGETS_LIB;QT_CONCURRENT_LIB;QT_NO_DEBUG;QT_GUI_LIB;QT_CORE_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ResourceCompile>
     <QtMoc>
-      <OutputFile>.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</OutputFile>
+      <QTDIR>D:\QT\QT5.10.0\5.10.0\MSVC2017_64</QTDIR>
+      <InputFile>%(FullPath)</InputFile>
+      <OutputFile>GeneratedFiles\moc_%(Filename).cpp</OutputFile>
+      <IncludePath>.\GeneratedFiles\$(ConfigurationName);.\GeneratedFiles;.;GeneratedFiles;./GeneratedFiles/$(ConfigurationName);../../../../../include/QtNetwork;../../../../../include/QtQuick;../../../../../include/QtUiTools;../../../../../include/QtWebChannel;../../../../../include/QtWebSockets;../../../../../include/QtWebEngine;../../../../../include/QtWebEngineCore;../../../../../include/QtWebEngineWidgets;../../../../../include/QtWidgets;..\..\..\..\QT\QT5.10.0\5.10.0\MSVC2017_64\include;..\..\..\..\QT\QT5.10.0\5.10.0\MSVC2017_64\include\QtGui;..\..\..\..\QT\QT5.10.0\5.10.0\MSVC2017_64\include\QtANGLE;..\..\..\..\QT\QT5.10.0\5.10.0\MSVC2017_64\include\QtCore;./GeneratedFiles/$(ConfigurationName);\include;..\..\..\..\QT\QT5.10.0\5.10.0\MSVC2017_64\mkspecs\win32-msvc;\include\QtCore;\include\QtWebChannel;\include\QtWebSockets;\include\QtWebEngine;\include\QtWebEngineCore;\include\QtWebEngineWidgets;\include\QtWidgets;\include\QtNetwork;%(AdditionalIncludeDirectories)</IncludePath>
+      <Define>_WINDOWS;UNICODE;_UNICODE;WIN32;WIN64;QT_NETWORK_LIB;QT_QUICK_LIB;QT_WEBCHANNEL_LIB;QT_WEBSOCKETS_LIB;QT_WEBENGINE_LIB;QT_WEBENGINECORE_LIB;QT_WEBENGINEWIDGETS_LIB;QT_WIDGETS_LIB;QT_CONCURRENT_LIB;QT_NO_DEBUG;QT_GUI_LIB;QT_CORE_LIB;NDEBUG;%(PreprocessorDefinitions)</Define>
+      <CompilerFlavor>msvc</CompilerFlavor>
+      <Include>./GeneratedFiles/$(ConfigurationName)/moc_predefs.h</Include>
       <ExecutionDescription>Moc'ing %(Identity)...</ExecutionDescription>
-      <IncludePath>.\GeneratedFiles;.;D:\Qt\Qt5.10.0\5.10.0\msvc2017_64\include;.\GeneratedFiles\$(ConfigurationName);\include\QtNetwork;\include\QtQuick;\include\QtUiTools;\include\QtWebChannel;\include\QtWebSockets;\include\QtWebEngine;\include\QtWebEngineCore;\include\QtWebEngineWidgets;\include\QtWidgets;D:\Qt\Qt5.10.0\5.10.0\msvc2017_64\include\QtCore;D:\Qt\Qt5.10.0\5.10.0\msvc2017_64\include\QtWebSockets;D:\Qt\Qt5.10.0\5.10.0\msvc2017_64\include\QtWebEngine;D:\Qt\Qt5.10.0\5.10.0\msvc2017_64\include\QtWebEngineCore;D:\Qt\Qt5.10.0\5.10.0\msvc2017_64\include\QtWebEngineWidgets;D:\Qt\Qt5.10.0\5.10.0\msvc2017_64\include\QtWidgets;D:\Qt\Qt5.10.0\5.10.0\msvc2017_64\include\QtConcurrent;%(AdditionalIncludeDirectories)</IncludePath>
-      <Define>UNICODE;_UNICODE;WIN32;WIN64;QT_NO_DEBUG;NDEBUG;QT_NETWORK_LIB;QT_QUICK_LIB;QT_UITOOLS_LIB;QT_WEBCHANNEL_LIB;QT_WEBSOCKETS_LIB;QT_WEBENGINE_LIB;QT_WEBENGINECORE_LIB;QT_WEBENGINEWIDGETS_LIB;QT_WIDGETS_LIB;QT_CORE_LIB;QT_CONCURRENT_LIB;%(PreprocessorDefinitions)</Define>
-      <QTDIR>D:\Qt\Qt5.10.0\5.10.0\msvc2017_64</QTDIR>
+      <DynamicSource>false</DynamicSource>
     </QtMoc>
-    <QtUic>
-      <ExecutionDescription>Uic'ing %(Identity)...</ExecutionDescription>
-      <OutputFile>.\GeneratedFiles\ui_%(Filename).h</OutputFile>
-      <QTDIR>D:\Qt\Qt5.10.0\5.10.0\msvc2017_64</QTDIR>
-    </QtUic>
     <QtRcc>
+      <QTDIR>D:\QT\QT5.10.0\5.10.0\MSVC2017_64</QTDIR>
+      <InputFile>%(FullPath)</InputFile>
+      <OutputFile>GeneratedFiles\qrc_%(Filename).cpp</OutputFile>
+      <InitFuncName>frankdevhub_51job_client</InitFuncName>
+      <Compression>default</Compression>
       <ExecutionDescription>Rcc'ing %(Identity)...</ExecutionDescription>
-      <OutputFile>.\GeneratedFiles\qrc_%(Filename).cpp</OutputFile>
-      <QTDIR>D:\Qt\Qt5.10.0\5.10.0\msvc2017_64</QTDIR>
     </QtRcc>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -130,29 +353,57 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <QtMoc Include="frankdevhub_51job_client.h" />
+    <ClInclude Include="frankdevhub_51job_client.h" />
+    <ClInclude Include="GeneratedFiles\ui_frankdevhub_51job_client.h" />
   </ItemGroup>
   <ItemGroup>
-    <QtUic Include="frankdevhub_51job_client.ui" />
+    <CustomBuild Include="frankdevhub_51job_client.ui">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Performing Custom Build Tools</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </AdditionalInputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Performing Custom Build Tools</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </AdditionalInputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Performing Custom Build Tools</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </AdditionalInputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Performing Custom Build Tools</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </AdditionalInputs>
+    </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <QtRcc Include="frankdevhub_51job_client.qrc" />
+    <None Include="frankdevhub-51job-client.pro" />
+    <QtRcc Include="frankdevhub_51job_client.qrc">
+    </QtRcc>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="frankdevhub-51job-client.rc" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="GeneratedFiles\ui_frankdevhub_51job_client.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">
     <Import Project="$(QtMsBuild)\qt.targets" />
   </ImportGroup>
-  <ImportGroup Label="ExtensionTargets">
-  </ImportGroup>
+  <ImportGroup Label="ExtensionTargets" />
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties MocDir=".\GeneratedFiles\$(ConfigurationName)" UicDir=".\GeneratedFiles" RccDir=".\GeneratedFiles" lupdateOptions="" lupdateOnBuild="0" lreleaseOptions="" MocOptions="" />
+      <UserProperties />
     </VisualStudio>
   </ProjectExtensions>
 </Project>
