@@ -53,6 +53,9 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="cn_mobile.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GeneratedFiles\ui_frankdevhub_51job_client.h">
@@ -60,6 +63,9 @@
     </ClInclude>
     <ClInclude Include="frankdevhub_51job_client.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cn_mobile.h">
+      <Filter>Generated Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

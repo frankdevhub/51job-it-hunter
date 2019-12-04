@@ -349,10 +349,12 @@
     </QtRcc>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="cn_mobile.cpp" />
     <ClCompile Include="frankdevhub_51job_client.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="cn_mobile.h" />
     <ClInclude Include="frankdevhub_51job_client.h" />
     <ClInclude Include="GeneratedFiles\ui_frankdevhub_51job_client.h" />
   </ItemGroup>
