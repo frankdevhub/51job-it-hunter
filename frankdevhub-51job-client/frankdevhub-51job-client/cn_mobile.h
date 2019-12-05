@@ -2,8 +2,9 @@
 #define _CN_MOBILE_H_
 #include <iostream>
 #include <string>
+#include <regex>
 
-std::string GetCNLocalPhoneNum(char* phoneNum);
-
+char* GetCNLocalPhoneNum(char* phoneNum);
+char* GetLocalInfo(char *phoneNum);
 
 #endif;

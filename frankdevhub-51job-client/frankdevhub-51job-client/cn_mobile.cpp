@@ -1,9 +1,9 @@
-#ifndef _CN_MOBILE_H_
-#define _CN_MOBILE_H_
-#include <iostream>
-#include <string>
+#include "cn_mobile.h"
 
-std::string GetCNLocalPhoneNum(char* phoneNum);
-
-
-#endif;
+char* GetCNLocalPhoneNum(char* phoneNum){
+	std::regex e("^1(3\\d|47|5([0-3]|[5-9])|8(0|2|[5-9]))\\d{8}$");
+	if (std::regex_match(phoneNum, e))
+		return phoneNum;
+	else
+		return NULL;
+}
