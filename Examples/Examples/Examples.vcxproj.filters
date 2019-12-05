@@ -35,7 +35,7 @@
     <ClInclude Include="Common\cn_mobile.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="WininetHttp.h">
+    <ClInclude Include="Common\WininetHttp.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

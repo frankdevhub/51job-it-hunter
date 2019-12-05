@@ -25,7 +25,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Common\cn_mobile.h" />
-    <ClInclude Include="WininetHttp.h" />
+    <ClInclude Include="Common\WininetHttp.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
