@@ -2,7 +2,6 @@
 #include <iostream>
 #include <windows.h>
 #include <wininet.h>
-
 using namespace std;
 
 //每次读取的字节数
@@ -28,10 +27,43 @@ enum HttpInterfaceError
 	Hir_UnkownErr, //未知的其他错误
 };
 
+enum HttpRequest
+{
+	Hr_Get,
+	Hr_Post
+};
+
 class CWininetHttp
 {
 public:
 	CWininetHttp(void);
 	~CWininetHttp(void);
+
+public:
+	//通过HTTP请求：Get或Post方法获取JSON信息
+	const::std::string RequestJsonInfo(const std::string& strUrl
+		, HttpRequest type = Hr_Get
+		, std::string lpHeader = ""
+		, std::string lpPostData = "");
+
+protected:
+	//解析卡口JSON数据
+	void ParseJson(const std::string &strJsonInfo);
+	//关闭句柄
+	void Release();
+	//释放句柄
+	void ReleaseHandler(HINTERNET &hInternet);
+	//解析URL地址
+	void  ParseURLWeb(std::string &strUrl, std::string &strHostName
+		, std::string &strPageName, WORD &sPort);
+	//UTF-8转GBK2312
+	char* ConvertUTF2GBK(const char* utf8);
+
+private:
+	HINTERNET m_hSession;
+	HINTERNET m_hConnect;
+	HINTERNET m_hRequest;
+	HttpInterfaceError m_error;
+
 };
 
