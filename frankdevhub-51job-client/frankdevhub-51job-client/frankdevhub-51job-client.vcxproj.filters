@@ -56,14 +56,14 @@
     <ClCompile Include="frankdevhub_51job_client.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="cn_mobile.cpp">
       <Filter>Common</Filter>
     </ClCompile>
     <ClCompile Include="phoneRegex.cpp">
       <Filter>UnitTest</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -78,11 +78,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="frankdevhub_51job_client.ui">
-      <Filter>Form Files</Filter>
-    </CustomBuild>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="frankdevhub-51job-client.pro">
       <Filter>Resource Files</Filter>
     </None>
@@ -92,5 +87,10 @@
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="frankdevhub-51job-client.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <QtUic Include="frankdevhub_51job_client.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
   </ItemGroup>
 </Project>

@@ -350,8 +350,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="cn_mobile.cpp" />
-    <ClCompile Include="frankdevhub_51job_client.cpp" />
-    <ClCompile Include="main.cpp" />
+    <ClCompile Include="frankdevhub_51job_client.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="phoneRegex.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -362,7 +366,7 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="frankdevhub_51job_client.ui">
+    <QtUic Include="frankdevhub_51job_client.ui">
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
       </Command>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Performing Custom Build Tools</Message>
@@ -391,13 +395,16 @@
       </Outputs>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
       </AdditionalInputs>
-    </CustomBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <FileType>Document</FileType>
+    </QtUic>
   </ItemGroup>
   <ItemGroup>
     <None Include="frankdevhub-51job-client.pro">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </None>
     <QtRcc Include="frankdevhub_51job_client.qrc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </QtRcc>
   </ItemGroup>
   <ItemGroup>
