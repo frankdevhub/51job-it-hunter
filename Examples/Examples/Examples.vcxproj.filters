@@ -27,9 +27,15 @@
     <ClCompile Include="UnitTest\phoneNumRegx.cpp">
       <Filter>源文件\UnitTest</Filter>
     </ClCompile>
+    <ClCompile Include="Common\WininetHttp.cpp">
+      <Filter>源文件\Common</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Common\cn_mobile.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="WininetHttp.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

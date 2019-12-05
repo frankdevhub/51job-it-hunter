@@ -20,10 +20,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Common\cn_mobile.cpp" />
+    <ClCompile Include="Common\WininetHttp.cpp" />
     <ClCompile Include="UnitTest\phoneNumRegx.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Common\cn_mobile.h" />
+    <ClInclude Include="WininetHttp.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
