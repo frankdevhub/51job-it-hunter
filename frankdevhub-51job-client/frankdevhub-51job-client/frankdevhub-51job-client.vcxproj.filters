@@ -45,6 +45,12 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
+    <Filter Include="Common">
+      <UniqueIdentifier>{fc296acc-0a4d-4fae-af65-42035a9da9a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UnitTest">
+      <UniqueIdentifier>{94921f04-0857-488e-b9b8-343e12b7986d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="frankdevhub_51job_client.cpp">
@@ -54,18 +60,21 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="cn_mobile.cpp">
-      <Filter>Generated Files</Filter>
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="phoneRegex.cpp">
+      <Filter>UnitTest</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="GeneratedFiles\ui_frankdevhub_51job_client.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="frankdevhub_51job_client.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_frankdevhub_51job_client.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="cn_mobile.h">
-      <Filter>Generated Files</Filter>
+      <Filter>Common</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

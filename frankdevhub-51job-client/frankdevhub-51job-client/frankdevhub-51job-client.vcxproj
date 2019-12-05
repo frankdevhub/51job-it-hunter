@@ -352,11 +352,14 @@
     <ClCompile Include="cn_mobile.cpp" />
     <ClCompile Include="frankdevhub_51job_client.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="phoneRegex.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cn_mobile.h" />
     <ClInclude Include="frankdevhub_51job_client.h" />
-    <ClInclude Include="GeneratedFiles\ui_frankdevhub_51job_client.h" />
+    <ClInclude Include="GeneratedFiles\ui_frankdevhub_51job_client.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="frankdevhub_51job_client.ui">
@@ -391,12 +394,16 @@
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <None Include="frankdevhub-51job-client.pro" />
+    <None Include="frankdevhub-51job-client.pro">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </None>
     <QtRcc Include="frankdevhub_51job_client.qrc">
     </QtRcc>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="frankdevhub-51job-client.rc" />
+    <ResourceCompile Include="frankdevhub-51job-client.rc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ResourceCompile>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

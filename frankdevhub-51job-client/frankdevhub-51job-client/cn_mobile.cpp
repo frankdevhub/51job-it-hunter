@@ -7,3 +7,4 @@ char* GetCNLocalPhoneNum(char* phoneNum){
 	else
 		return NULL;
 }
+
