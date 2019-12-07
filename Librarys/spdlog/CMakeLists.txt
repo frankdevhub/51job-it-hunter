@@ -111,6 +111,7 @@ else()
 endif()
 
 add_library(spdlog::spdlog ALIAS spdlog)
+add_compile_options(-std=c++11)
 
 target_compile_definitions(spdlog PUBLIC SPDLOG_COMPILED_LIB)
 target_include_directories(spdlog PUBLIC
