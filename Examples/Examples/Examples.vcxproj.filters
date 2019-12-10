@@ -30,6 +30,9 @@
     <ClCompile Include="Common\WininetHttp.cpp">
       <Filter>源文件\Common</Filter>
     </ClCompile>
+    <ClCompile Include="spdlogExample.cpp">
+      <Filter>源文件\UnitTest</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Common\cn_mobile.h">

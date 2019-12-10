@@ -1,0 +1,2 @@
+[2019-12-10 09:18:09.003] [daily_logger] [info] End of example.
+[2019-12-10 09:18:59.093] [daily_logger] [info] End of example.

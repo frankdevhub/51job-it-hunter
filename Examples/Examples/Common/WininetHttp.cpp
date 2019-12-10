@@ -1,9 +1,11 @@
 #include "WininetHttp.h"
 #include <json.h>
 #include <fstream>
-#pragma comment(lib,"Wininet.lib")
+#include <cstdio>
 #include <tchar.h>
-using namespace std;
+#include <iostream>
+#include "spdlog/spdlog.h"
+#pragma comment(lib,"Wininet.lib")
 
 CWininetHttp::CWininetHttp(void) :m_hSession(NULL), m_hConnect(NULL), m_hRequest(NULL)
 {
@@ -11,5 +13,9 @@ CWininetHttp::CWininetHttp(void) :m_hSession(NULL), m_hConnect(NULL), m_hRequest
 
 CWininetHttp::~CWininetHttp(void)
 {
-	Release();
+}
+
+void CWininetHttp::Release()
+{
+	
 }
