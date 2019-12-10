@@ -15,7 +15,20 @@ CWininetHttp::~CWininetHttp(void)
 {
 }
 
+// ¹Ø±Õ¾ä±ú
 void CWininetHttp::Release()
 {
-	
+	ReleaseHandle(m_hConnect);
+	ReleaseHandle(m_hRequest);
+	ReleaseHandle(m_hSession);
+}
+
+// ÊÍ·Å¾ä±ú
+void CWininetHttp::ReleaseHandle(HINTERNET &hInternet)
+{
+	if (hInternet)
+	{
+		InternetCloseHandle(hInternet);
+		hInternet = NULL;
+	}
 }

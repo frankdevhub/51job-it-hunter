@@ -52,7 +52,7 @@ protected:
 	//关闭句柄
 	void Release();
 	//释放句柄
-	void ReleaseHandler(HINTERNET &hInternet);
+	void ReleaseHandle(HINTERNET &hInternet);
 	//解析URL地址
 	void  ParseURLWeb(std::string &strUrl, std::string &strHostName
 		, std::string &strPageName, WORD &sPort);
