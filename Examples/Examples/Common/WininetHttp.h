@@ -41,7 +41,7 @@ public:
 
 public:
 	//通过HTTP请求：Get或Post方法获取JSON信息
-	const::std::string RequestJsonInfo(const std::string& strUrl
+	const::std::string RequestJsonInfo(const std::string& lpUrl
 		, HttpRequest type = Hr_Get
 		, std::string lpHeader = ""
 		, std::string lpPostData = "");
@@ -54,7 +54,7 @@ protected:
 	//释放句柄
 	void ReleaseHandle(HINTERNET &hInternet);
 	//解析URL地址
-	void  ParseURLWeb(std::string &strUrl, std::string &strHostName
+	void ParseURLWeb(std::string &strUrl, std::string &strHostName
 		, std::string &strPageName, WORD &sPort);
 	//UTF-8转GBK2312
 	char* ConvertUTF2GBK(const char* utf8);
