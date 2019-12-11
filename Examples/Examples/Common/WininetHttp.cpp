@@ -66,11 +66,41 @@ const std::string CWininetHttp::RequestJsonInfo(std::string &lpUrl
 			throw Hir_InitErr;
 		}
 		DWORD dwHeaderSize = (strHeader.empty() ? 0 : strlen(strHeader.capacity.c_str()));
-
-
-
-
-
+		BOOL bRet = FALSE;
+		if (Hr_Get == type)
+		{
+			bRet = HttpSendRequestA(m_hRequest, strHeader.c_str(), dwHeaderSize, NULL, 0);
+		}
+		else
+		{
+			DWORD dwSize = (strPostData.empty()) ? 0 : strlen(strPostData.c_str());
+			bRet = HttpSendRequestA(m_hRequest, strHeader.c_str(), dwHeaderSize,
+				(LPVOID)strPostData.c_str(), dwSize);
+		}
+		if (bRet)
+		{
+			throw Hir_SendErr;
+		}
+		char szBuffer[READ_BUFFER_SIZE + 1] = { 0 };
+		DWORD dwReadSize = READ_BUFFER_SIZE;
+		if (!HttpQueryInfoA(m_hRequest, HTTP_QUERY_RAW_HEADERS, szBuffer, &dwReadSize, NULL))
+		{
+			throw Hir_QueryErr;
+		}
+		if (NULL != strstr(szBuffer, "404"))
+		{
+			throw Hir_404;
+		}
+		while (true)
+		{
+			bRet = InternetReadFile(m_hRequest, szBuffer, READ_BUFFER_SIZE, &dwReadSize);
+			if (!bRet || (0 == dwReadSize))
+			{
+				break;
+			}
+			szBuffer[dwReadSize] = '\0';
+			strRet.append(szBuffer);
+		}
 	}
 	catch (HttpInterfaceError error)
 	{
