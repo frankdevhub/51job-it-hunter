@@ -60,6 +60,16 @@ const std::string CWininetHttp::RequestJsonInfo(std::string &lpUrl
 		{
 			strRequestType = "POST";
 		}
+		m_hRequest = HttpOpenRequestA(m_hConnect, strRequestType.c_str(), strPageName.c_str(), "HTTP/1.1", NULL, NULL, INTERNET_FLAG_RELOAD, NULL);
+		if (NULL == m_hRequest)
+		{
+			throw Hir_InitErr;
+		}
+		DWORD dwHeaderSize = (strHeader.empty() ? 0 : strlen(strHeader.capacity.c_str()));
+
+
+
+
 
 	}
 	catch (HttpInterfaceError error)
