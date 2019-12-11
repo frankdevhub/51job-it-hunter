@@ -15,6 +15,66 @@ CWininetHttp::~CWininetHttp(void)
 {
 }
 
+//通过HTTP请求：Get或Post方式获取JSON信息
+const std::string CWininetHttp::RequestJsonInfo(std::string &lpUrl
+	, HttpRequest type
+	, std::string strHeader
+	, std::string strPostData)
+{
+	std::string strRet = "";
+	try
+	{
+		if (lpUrl.empty())
+		{
+			throw Hir_ParamErr;
+		}
+		Release();
+		//局部
+		m_hSession = InternetOpen(_T("Http-connect"), INTERNET_OPEN_TYPE_PRECONFIG, NULL, NULL, NULL);
+		if (NULL == m_hSession)
+		{
+			throw Hir_InitErr;
+		}
+		INTERNET_PORT port = INTERNET_DEFAULT_HTTP_PORT;
+		std::string strHostName = "";
+		std::string strPageName = "";
+
+		ParseURLWeb(lpUrl, strHostName, strPageName, port);
+		printf("lpUrl:%s,\nstrHostName:%s,\nstrPageName:%s,\nport:%d\n"
+			, lpUrl.c_str()
+			, strHostName.c_str()
+			, strPageName.c_str()
+			, (int)port);
+
+		m_hConnect = InternetConnectA(m_hSession, strHostName.c_str(), port, NULL, NULL, INTERNET_SERVICE_HTTP, NULL, NULL);
+		if (NULL == m_hConnect)
+		{
+			throw Hir_ConnectErr;
+		}
+		std::string strRequestType;
+		if (Hr_Get == type)
+		{
+			strRequestType = "GET";
+		}
+		else
+		{
+			strRequestType = "POST";
+		}
+
+	}
+	catch (HttpInterfaceError error)
+	{
+		m_error = error;
+	}
+	return std::move(strRet);
+}
+
+// 解析URL地址
+void CWininetHttp::ParseURLWeb(std::string &lpUrl, std::string &strHostName
+	, std::string &strPageName, WORD &sPort)
+{
+}
+
 // 关闭句柄
 void CWininetHttp::Release()
 {
@@ -46,5 +106,4 @@ char* CWininetHttp::ConvertUTF2GBK(const char* utf8)
 	WideCharToMultiByte(CP_ACP, 0, wstr, -1, str, len, NULL, NULL);
 	if (wstr) delete[] wstr;
 	return str;
-
 }
