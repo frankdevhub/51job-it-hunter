@@ -1,3 +1,4 @@
+//#include "stdafx.h"
 #include "../Common/cn_mobile.h"
 #include <iostream>
 #include <string.h>
@@ -19,7 +20,7 @@ int main()
 {
 	printf("start");
 	char* phoneNum = (char*)"13585844052";
-	Json::Value value = ::GetLocalInfo(phoneNum);
+	GetLocalInfo(phoneNum);
 }
 
 //校验手机号码格式

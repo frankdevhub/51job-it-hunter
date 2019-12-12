@@ -1,3 +1,4 @@
+//#include "stdafx.h"
 #include "WininetHttp.h"
 #include <json.h>
 #include <fstream>
@@ -6,6 +7,8 @@
 #include <iostream>
 #include "spdlog/spdlog.h"
 #pragma comment(lib,"Wininet.lib")
+
+using namespace std;
 
 CWininetHttp::CWininetHttp(void) :m_hSession(NULL), m_hConnect(NULL), m_hRequest(NULL)
 {
@@ -66,7 +69,7 @@ const std::string CWininetHttp::RequestJsonInfo(std::string &lpUrl
 		{
 			throw Hir_InitErr;
 		}
-		DWORD dwHeaderSize = (strHeader.empty() ? 0 : strlen(strHeader.capacity.c_str()));
+		DWORD dwHeaderSize = (strHeader.empty() ? 0 : strlen(strHeader.c_str()));
 		BOOL bRet = FALSE;
 		if (Hr_Get == type)
 		{
@@ -111,15 +114,16 @@ const std::string CWininetHttp::RequestJsonInfo(std::string &lpUrl
 }
 
 // 解析Json数据
-Json::Value ParseJsonInfo(const std::string &strJsonInfo)
+void ParseJsonInfo(const std::string &strJsonInfo)
 {
 	Json::Reader reader; //解析Json使用Json::Reader
 	Json::Value value; //可以代表任何类型
-	if (reader.parse(strJsonInfo, value))
+	if (!reader.parse(strJsonInfo, value))
 	{
 		spdlog::critical("CXLDbDataMgr::GetVideoGisData] Video Gis parse data error...");
+		return;
 	}
-	return value;
+	spdlog::info("response value:{}", value);
 }
 
 

@@ -4,16 +4,16 @@
 #include <json.h>
 #include "WininetHttp.h"
 
-char* GetCNLocalPhoneNum(char* phoneNum)
+bool GetCNLocalPhoneNum(char* phoneNum)
 {
 	std::regex e("^1(3\\d|47|5([0-3]|[5-9])|8(0|2|[5-9]))\\d{8}$");
 	if (std::regex_match(phoneNum, e))
-		return phoneNum;
+		return true;
 	else
-		return NULL;
+		return false;
 }
 
-Json::Value GetLocalInfo(char *phoneNum)
+void GetLocalInfo(char *phoneNum)
 {
 	CWininetHttp http;
 	Json::Value jsonValue;
@@ -24,5 +24,5 @@ Json::Value GetLocalInfo(char *phoneNum)
 	spdlog::info("strHostName:{}", strlpUrl.c_str());
 	jsonValue = http.RequestJsonInfo(strlpUrl, Hr_Get, NULL, NULL);
 	spdlog::info("response value:{}", jsonValue);
-	return jsonValue;
+
 }

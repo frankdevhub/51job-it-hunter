@@ -5,7 +5,7 @@
 #include <regex>
 #include <json.h>
 
-char* GetCNLocalPhoneNum(char* phoneNum);
-Json::Value GetLocalInfo(char *phoneNum);
+bool GetCNLocalPhoneNum(char* phoneNum);
+void GetLocalInfo(char *phoneNum);
 
 #endif;
