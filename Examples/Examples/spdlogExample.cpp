@@ -20,7 +20,7 @@ void syslog_example();
 
 #include "spdlog/spdlog.h"
 
-int main(int, char *[])
+int main_test(int, char *[])
 {
 	spdlog::info("Welcome to spdlog version {}.{}.{}  !", SPDLOG_VER_MAJOR, SPDLOG_VER_MINOR, SPDLOG_VER_PATCH);
 	spdlog::warn("Easy padding in numbers like {:08d}", 12);

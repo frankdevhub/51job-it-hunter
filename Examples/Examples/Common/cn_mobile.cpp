@@ -21,7 +21,8 @@ Json::Value GetLocalInfo(char *phoneNum)
 	strlpUrl.append(phoneNum);
 
 	spdlog::info("using phoneNum;{}", phoneNum);
-	spdlog::info("strHostName:{}", strlpUrl);
+	spdlog::info("strHostName:{}", strlpUrl.c_str());
 	jsonValue = http.RequestJsonInfo(strlpUrl, Hr_Get, NULL, NULL);
+	spdlog::info("response value:{}", jsonValue);
 	return jsonValue;
 }

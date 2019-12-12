@@ -14,7 +14,15 @@ void printRes(char* res)
 	printf("\n");
 	res = NULL;
 }
+//获取手机号码归属地
+int main()
+{
+	printf("start");
+	char* phoneNum = (char*)"13585844052";
+	Json::Value value = ::GetLocalInfo(phoneNum);
+}
 
+//校验手机号码格式
 //int main()
 //{
 //	printf("start");
