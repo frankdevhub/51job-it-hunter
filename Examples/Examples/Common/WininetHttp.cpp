@@ -123,7 +123,7 @@ void ParseJsonInfo(const std::string &strJsonInfo)
 		spdlog::critical("CXLDbDataMgr::GetVideoGisData] Video Gis parse data error...");
 		return;
 	}
-	spdlog::info("response value:{}", value);
+	//spdlog::info("response value:{}", value);
 }
 
 
