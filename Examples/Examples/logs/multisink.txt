@@ -1,2 +1,0 @@
-[2019-12-10 14:06:03.147] [multi_sink] [warning] this should appear in both console and file
-[2019-12-10 14:06:03.148] [multi_sink] [info] this message should not appear in the console, only in the file
