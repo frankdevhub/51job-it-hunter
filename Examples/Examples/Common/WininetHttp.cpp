@@ -13,6 +13,7 @@ CWininetHttp::CWininetHttp(void) :m_hSession(NULL), m_hConnect(NULL), m_hRequest
 
 CWininetHttp::~CWininetHttp(void)
 {
+	Release();
 }
 
 //通过HTTP请求：Get或Post方式获取JSON信息
@@ -109,10 +110,56 @@ const std::string CWininetHttp::RequestJsonInfo(std::string &lpUrl
 	return std::move(strRet);
 }
 
+// 解析Json数据
+Json::Value ParseJsonInfo(const std::string &strJsonInfo)
+{
+	Json::Reader reader; //解析Json使用Json::Reader
+	Json::Value value; //可以代表任何类型
+	if (reader.parse(strJsonInfo, value))
+	{
+		spdlog::critical("CXLDbDataMgr::GetVideoGisData] Video Gis parse data error...");
+	}
+	return value;
+}
+
+
 // 解析URL地址
 void CWininetHttp::ParseURLWeb(std::string &lpUrl, std::string &strHostName
 	, std::string &strPageName, WORD &sPort)
 {
+	sPort = 80;
+	string strTemp(lpUrl);
+	std::size_t nPos = strTemp.find("http://");
+	if (nPos != std::string::npos)
+	{
+		strTemp = strTemp.substr(nPos + 7, strTemp.size() - nPos - 7);
+	}
+
+	nPos = strTemp.find('/');
+	if (nPos == std::string::npos)
+	{
+		strHostName = strTemp;
+	}
+	else
+	{
+		strHostName = strTemp.substr(0, nPos);
+	}
+	spdlog::info("using strHostName:{}", strHostName.c_str());
+	std::size_t nPos1 = strHostName.find(':');
+	if (nPos1 != std::string::npos)
+	{
+		std::string strPort = strTemp.substr(nPos + 1, strHostName.size() - nPos - 1);
+		strHostName = strHostName.substr(0, nPos1);
+		spdlog::info("using strHostName:{}", strHostName.c_str());
+		sPort = (WORD)atoi(strPort.c_str());
+		spdlog::info("using sPort:{}", sPort);
+	}
+	if (nPos == std::string::npos)
+	{
+		return;
+	}
+	strPageName = strTemp.substr(nPos, strTemp.size() - nPos);
+	spdlog::info("using pageName:{}", strPageName.c_str());
 }
 
 // 关闭句柄

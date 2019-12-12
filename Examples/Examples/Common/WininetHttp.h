@@ -48,7 +48,7 @@ public:
 
 protected:
 	//解析卡口JSON数据
-	void ParseJson(const std::string &strJsonInfo);
+	Json::Value ParseJsonInfo(const std::string &strJsonInfo);
 	//关闭句柄
 	void Release();
 	//释放句柄
