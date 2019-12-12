@@ -3,8 +3,9 @@
 #include <iostream>
 #include <string>
 #include <regex>
+#include <json.h>
 
 char* GetCNLocalPhoneNum(char* phoneNum);
-char* GetLocalInfo(char *phoneNum);
+Json::Value GetLocalInfo(char *phoneNum);
 
 #endif;
