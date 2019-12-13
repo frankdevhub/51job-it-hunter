@@ -1,7 +1,7 @@
 package frankdevhub.job.webauto.data.logging;
 
-import nyoibo.inkstone.upload.message.logging.ConsoleSender;
-import nyoibo.inkstone.upload.message.logging.ELoggerImpl;
+import frankdevhub.job.webauto.message.logging.ConsoleSender;
+import frankdevhub.job.webauto.message.logging.ELoggerImpl;
 
 /**
  * <p>Title:Logger.java</p>  
