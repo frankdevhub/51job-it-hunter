@@ -4,23 +4,21 @@
 #include <string.h>
 #include <stdio.h>
 #include <json.h>
+#include "spdlog/spdlog.h"
 
 void printRes(char* res)
 {
 	if (NULL == res)
-		printf("ERROR FORMAT:[%s]", res);
+		spdlog::info("ERROR FORMAT:[%s]", res);
 	else
-		printf("CORRENT:[%s]", res);
-
-	printf("\n");
+		spdlog::info("CORRENT:[%s]", res);
 	res = NULL;
 }
 //获取手机号码归属地
 int main()
 {
-	printf("start");
 	char* phoneNum = (char*)"13585844052";
-	GetLocalInfo(phoneNum);
+	::GetLocalInfo(phoneNum);
 }
 
 //校验手机号码格式

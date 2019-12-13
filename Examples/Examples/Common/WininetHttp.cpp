@@ -20,7 +20,7 @@ CWininetHttp::~CWininetHttp(void)
 }
 
 //通过HTTP请求：Get或Post方式获取JSON信息
-const std::string CWininetHttp::RequestJsonInfo(std::string &lpUrl
+const std::string CWininetHttp::RequestJsonInfo(const std::string &lpUrl
 	, HttpRequest type
 	, std::string strHeader
 	, std::string strPostData)
@@ -43,7 +43,7 @@ const std::string CWininetHttp::RequestJsonInfo(std::string &lpUrl
 		std::string strHostName = "";
 		std::string strPageName = "";
 
-		ParseURLWeb(lpUrl, strHostName, strPageName, port);
+		ParseWebURL(lpUrl, strHostName, strPageName, port);
 		printf("lpUrl:%s,\nstrHostName:%s,\nstrPageName:%s,\nport:%d\n"
 			, lpUrl.c_str()
 			, strHostName.c_str()
@@ -69,7 +69,7 @@ const std::string CWininetHttp::RequestJsonInfo(std::string &lpUrl
 		{
 			throw Hir_InitErr;
 		}
-		DWORD dwHeaderSize = (strHeader.empty() ? 0 : strlen(strHeader.c_str()));
+		DWORD dwHeaderSize = (strHeader.empty()) ? 0 : strlen(strHeader.c_str());
 		BOOL bRet = FALSE;
 		if (Hr_Get == type)
 		{
@@ -128,7 +128,7 @@ void ParseJsonInfo(const std::string &strJsonInfo)
 
 
 // 解析URL地址
-void CWininetHttp::ParseURLWeb(std::string &lpUrl, std::string &strHostName
+void CWininetHttp::ParseWebURL(std::string lpUrl, std::string &strHostName
 	, std::string &strPageName, WORD &sPort)
 {
 	sPort = 80;

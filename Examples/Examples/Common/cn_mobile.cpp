@@ -20,9 +20,9 @@ void GetLocalInfo(char *phoneNum)
 	std::string strlpUrl = "http://tcc.taobao.com/cc/json/mobile_tel_segment.htm?tel=";
 	strlpUrl.append(phoneNum);
 
-	spdlog::info("using phoneNum;{}", phoneNum);
-	spdlog::info("strHostName:{}", strlpUrl.c_str());
+	//spdlog::info("using phoneNum;{}", phoneNum);
+	//spdlog::info("strHostName:{}", strlpUrl.c_str());
 	jsonValue = http.RequestJsonInfo(strlpUrl, Hr_Get, NULL, NULL);
-	spdlog::info("response value:{}", jsonValue);
+	//spdlog::info("response value:{}", jsonValue);
 
 }
