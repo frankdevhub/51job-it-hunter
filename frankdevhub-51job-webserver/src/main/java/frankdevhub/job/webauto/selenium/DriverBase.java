@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.openqa.selenium.remote.RemoteWebDriver;
-
+import org.testng.annotations.Listeners;
 import frankdevhub.job.webauto.selenium.config.DriverFactory;
 import frankdevhub.job.webauto.selenium.listeners.ScreenshotListener;
 

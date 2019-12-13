@@ -93,12 +93,11 @@
 			<artifactId>selenium-java</artifactId>
 			<version>3.141.59</version>
 		</dependency>
-		<dependency>
-			<groupId>org.openqa.selenium</groupId>
-			<artifactId>selenium</artifactId>
-			<version>0.9.1</version>
-			<type>pom</type>
-		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.openqa.selenium.webdriver/webdriver-common -->
+	<!-- <dependency> <groupId>org.openqa.selenium.webdriver</groupId> <artifactId>webdriver-common</artifactId> 
+		<version>0.6.1039</version> </dependency> -->
+		<!-- <dependency> <groupId>org.openqa.selenium</groupId> <artifactId>selenium</artifactId> 
+			<version>0.8.0</version> <type>pom</type> </dependency> -->
 		<dependency>
 			<groupId>io.appium</groupId>
 			<artifactId>java-client</artifactId>

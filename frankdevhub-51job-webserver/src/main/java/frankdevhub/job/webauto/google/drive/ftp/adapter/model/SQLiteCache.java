@@ -15,6 +15,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 import org.apache.commons.dbcp.BasicDataSource;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.jdbc.core.ArgumentPreparedStatementSetter;
@@ -53,7 +54,7 @@ public class SQLiteCache implements Cache{
 	private final Lock r = rwl.readLock();
 	private final Lock w = rwl.writeLock();
 
-	public SQLiteCache(Properties configuration) {
+	public SQLiteCache(Properties configuration) throws DataAccessException {
 
 		String account = configuration.getProperty("account", "default");
 		final String pathname = "data/cache";
