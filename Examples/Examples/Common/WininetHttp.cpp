@@ -12,6 +12,7 @@ using namespace std;
 
 CWininetHttp::CWininetHttp(void) :m_hSession(NULL), m_hConnect(NULL), m_hRequest(NULL)
 {
+	spdlog::info("new CWininetHttp()");
 }
 
 CWininetHttp::~CWininetHttp(void)
@@ -25,6 +26,7 @@ const std::string CWininetHttp::RequestJsonInfo(const std::string &lpUrl
 	, std::string strHeader
 	, std::string strPostData)
 {
+	spdlog::info("invoke RequestJsonInfo()");
 	std::string strRet = "";
 	try
 	{
@@ -114,7 +116,7 @@ const std::string CWininetHttp::RequestJsonInfo(const std::string &lpUrl
 }
 
 // 解析Json数据
-void ParseJsonInfo(const std::string &strJsonInfo)
+void CWininetHttp::ParseJsonInfo(const std::string &strJsonInfo)
 {
 	Json::Reader reader; //解析Json使用Json::Reader
 	Json::Value value; //可以代表任何类型
