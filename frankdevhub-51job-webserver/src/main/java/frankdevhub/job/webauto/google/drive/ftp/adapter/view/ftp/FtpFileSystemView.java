@@ -21,6 +21,8 @@ import org.apache.ftpserver.ftplet.User;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
 
 import frankdevhub.job.webauto.google.drive.ftp.adapter.controller.Controller;
+import frankdevhub.job.webauto.google.drive.ftp.adapter.model.Cache;
+import frankdevhub.job.webauto.google.drive.ftp.adapter.model.GFile;
 import frankdevhub.job.webauto.google.drive.ftp.adapter.service.FtpGdriveSynchService;
 
 /**

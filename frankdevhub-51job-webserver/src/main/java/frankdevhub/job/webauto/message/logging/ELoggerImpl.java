@@ -4,6 +4,8 @@ import java.util.Date;
 
 import frankdevhub.job.webauto.message.IMessageSender;
 import frankdevhub.job.webauto.message.MessageBuilder;
+import frankdevhub.job.webauto.message.MessageItem;
+import frankdevhub.job.webauto.message.MessageMethod;
 
 /**
  * <p>Title:ELoggerImpl.java</p>

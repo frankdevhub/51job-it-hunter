@@ -11,6 +11,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import com.google.api.client.auth.oauth2.AuthorizationCodeRequestUrl;
 
+import frankdevhub.job.webauto.JobWebAutoService;
 import frankdevhub.job.webauto.google.drive.ftp.adapter.model.GoogleDriveFactory;
 import frankdevhub.job.webauto.google.drive.ftp.adapter.utils.JarUtils;
 
@@ -131,7 +132,7 @@ public class GoogleDriveFtpAdapterFactory {
     static Properties loadPropertiesFromClasspath() {
         Properties properties = new Properties();
 
-        InputStream configurationStream = NyoiboApp.class.getResourceAsStream("/configuration.properties");
+        InputStream configurationStream = JobWebAutoService.class.getResourceAsStream("/configuration.properties");
         if (configurationStream == null) {
             return properties;
         }

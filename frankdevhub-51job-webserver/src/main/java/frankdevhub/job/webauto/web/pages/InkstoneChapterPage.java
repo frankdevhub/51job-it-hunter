@@ -1,4 +1,4 @@
-package frankdevhub.job.webauto.web.pages;
+/*package frankdevhub.job.webauto.web.pages;
 
 import nyoibo.inkstone.upload.data.logging.Logger;
 import nyoibo.inkstone.upload.data.logging.LoggerFactory;
@@ -358,3 +358,4 @@ public class InkstoneChapterPage implements Runnable, ConsoleTextAreaListener {
         InkstoneUploadConsole.flag = false;
     }
 }
+*/

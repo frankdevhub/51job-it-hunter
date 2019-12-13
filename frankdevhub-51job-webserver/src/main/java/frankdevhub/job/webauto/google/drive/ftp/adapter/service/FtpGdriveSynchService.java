@@ -15,10 +15,10 @@ import org.apache.commons.logging.LogFactory;
 
 import com.google.api.client.googleapis.json.GoogleJsonResponseException;
 
-import nyoibo.inkstone.upload.google.drive.ftp.adapter.model.Cache;
-import nyoibo.inkstone.upload.google.drive.ftp.adapter.model.GChange;
-import nyoibo.inkstone.upload.google.drive.ftp.adapter.model.GFile;
-import nyoibo.inkstone.upload.google.drive.ftp.adapter.model.GoogleDrive;
+import frankdevhub.job.webauto.google.drive.ftp.adapter.model.Cache;
+import frankdevhub.job.webauto.google.drive.ftp.adapter.model.GChange;
+import frankdevhub.job.webauto.google.drive.ftp.adapter.model.GFile;
+import frankdevhub.job.webauto.google.drive.ftp.adapter.model.GoogleDrive;
 
 /**
  * <p>Title:FtpGdriveSynchService.java</p>

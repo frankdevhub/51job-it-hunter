@@ -9,13 +9,15 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.ftpserver.FtpServerFactory;
 import org.apache.ftpserver.ftplet.FtpException;
 
-import nyoibo.inkstone.upload.google.drive.ftp.adapter.controller.Controller;
-import nyoibo.inkstone.upload.google.drive.ftp.adapter.model.Cache;
-import nyoibo.inkstone.upload.google.drive.ftp.adapter.model.GoogleDrive;
-import nyoibo.inkstone.upload.google.drive.ftp.adapter.model.GoogleDriveFactory;
-import nyoibo.inkstone.upload.google.drive.ftp.adapter.model.SQLiteCache;
-import nyoibo.inkstone.upload.google.drive.ftp.adapter.service.FtpGdriveSynchService;
-import nyoibo.inkstone.upload.google.drive.ftp.adapter.view.ftp.GFtpServerFactory;
+
+import frankdevhub.job.webauto.google.drive.ftp.adapter.controller.Controller;
+import frankdevhub.job.webauto.google.drive.ftp.adapter.model.Cache;
+import frankdevhub.job.webauto.google.drive.ftp.adapter.model.GoogleDrive;
+import frankdevhub.job.webauto.google.drive.ftp.adapter.model.GoogleDriveFactory;
+import frankdevhub.job.webauto.google.drive.ftp.adapter.model.SQLiteCache;
+import frankdevhub.job.webauto.google.drive.ftp.adapter.service.FtpGdriveSynchService;
+import frankdevhub.job.webauto.google.drive.ftp.adapter.view.ftp.GFtpServerFactory;
+
 
 /**
  * <p>Title:GoogleDriveFtpAdapter.java</p>  

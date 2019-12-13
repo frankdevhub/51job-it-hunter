@@ -13,9 +13,10 @@ import org.apache.ftpserver.command.CommandFactoryFactory;
 import org.apache.ftpserver.ftplet.Ftplet;
 import org.apache.ftpserver.listener.ListenerFactory;
 
-import nyoibo.inkstone.upload.google.drive.ftp.adapter.controller.Controller;
-import nyoibo.inkstone.upload.google.drive.ftp.adapter.model.Cache;
-import nyoibo.inkstone.upload.google.drive.ftp.adapter.service.FtpGdriveSynchService;
+import frankdevhub.job.webauto.google.drive.ftp.adapter.controller.Controller;
+import frankdevhub.job.webauto.google.drive.ftp.adapter.model.Cache;
+import frankdevhub.job.webauto.google.drive.ftp.adapter.service.FtpGdriveSynchService;
+
 
 /**
  * <p>Title:GFtpServerFactory.java</p>  

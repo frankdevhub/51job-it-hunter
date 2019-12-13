@@ -12,8 +12,12 @@ import java.util.concurrent.TimeUnit;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import frankdevhub.job.webauto.google.drive.ftp.adapter.model.Cache;
+import frankdevhub.job.webauto.google.drive.ftp.adapter.model.GFile;
 import frankdevhub.job.webauto.google.drive.ftp.adapter.model.GoogleDrive;
 import frankdevhub.job.webauto.google.drive.ftp.adapter.service.FtpGdriveSynchService;
+import frankdevhub.job.webauto.google.drive.ftp.adapter.utils.CallbackInputStream;
+import frankdevhub.job.webauto.google.drive.ftp.adapter.utils.CallbackOutputStream;
 
 
 /**
