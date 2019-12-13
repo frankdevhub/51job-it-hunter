@@ -19,6 +19,7 @@ int main()
 {
 	char* phoneNum = (char*)"13585844052";
 	::GetLocalInfo(phoneNum);
+	system("pause");
 }
 
 //校验手机号码格式

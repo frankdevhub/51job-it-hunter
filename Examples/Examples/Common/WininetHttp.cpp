@@ -112,6 +112,7 @@ const std::string CWininetHttp::RequestJsonInfo(const std::string &lpUrl
 	{
 		m_error = error;
 	}
+
 	return std::move(strRet);
 }
 

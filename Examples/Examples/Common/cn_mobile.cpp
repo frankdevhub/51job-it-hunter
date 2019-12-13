@@ -15,20 +15,22 @@ bool GetCNLocalPhoneNum(char* phoneNum)
 
 void GetLocalInfo(char *phoneNum)
 {
-	CWininetHttp http = CWininetHttp();
+	CWininetHttp *http = new CWininetHttp();
 	Json::Value jsonValue;
 	std::string strlpUrl = "http://tcc.taobao.com/cc/json/mobile_tel_segment.htm?tel=";
 	strlpUrl.append(phoneNum);
 
 	spdlog::info("using phoneNum;{}", phoneNum);
-	const std::string lpUrl = (const string)strlpUrl.c_str();
-	spdlog::info("strHostName:{}", lpUrl);
+	spdlog::info("strHostName:{}", strlpUrl);
 	if (NULL == &http)
 		spdlog::critical("variable {},is NULL", "http");
 	if (NULL == &jsonValue)
 		spdlog::critical("variable {},is NULL", "jsonValue");
 
-	http.RequestJsonInfo(lpUrl, Hr_Get, NULL, NULL);
-	//spdlog::info("response value:{}", jsonValue);
+	char*lpUrl = (char*)strlpUrl.data();
+	std::string jsonInfo = http->RequestJsonInfo(lpUrl, Hr_Get, "", "");
+	char *strc = new char[strlen(jsonInfo.c_str() + 1)];
+	strcpy(strc, jsonInfo.c_str());
+	spdlog::info("response:{}", strc);
 
 }
