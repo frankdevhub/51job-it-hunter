@@ -136,15 +136,9 @@ Json::Value CWininetHttp::ParseJsonInfo(const std::string &strJsonInfo)
 	Json::Reader reader; //解析Json使用Json::Reader
 	Json::Value value; //可以代表任何类型
 	if (!reader.parse(strJsonInfo, value))
-	{
 		spdlog::critical("CXLDbDataMgr::GetVideoGisData] Video Gis parse data error...");
-		return value;
-	}
 	else
-	{
-		spdlog::error("reader parse data error");
-		return NULL;
-	}
+		return value;
 }
 
 
