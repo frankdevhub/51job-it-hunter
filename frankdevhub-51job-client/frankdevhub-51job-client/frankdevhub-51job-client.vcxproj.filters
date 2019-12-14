@@ -67,11 +67,11 @@
     <ClInclude Include="frankdevhub_51job_client.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GeneratedFiles\ui_frankdevhub_51job_client.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="cn_mobile.h">
       <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="ui_frankdevhub_51job_client.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

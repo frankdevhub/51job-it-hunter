@@ -360,9 +360,7 @@
   <ItemGroup>
     <ClInclude Include="cn_mobile.h" />
     <ClInclude Include="frankdevhub_51job_client.h" />
-    <ClInclude Include="GeneratedFiles\ui_frankdevhub_51job_client.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
-    </ClInclude>
+    <ClInclude Include="ui_frankdevhub_51job_client.h" />
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="frankdevhub_51job_client.ui">
