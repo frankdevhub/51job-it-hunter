@@ -21,7 +21,10 @@
   <ItemGroup>
     <ClCompile Include="Common\cn_mobile.cpp" />
     <ClCompile Include="Common\WininetHttp.cpp" />
-    <ClCompile Include="spdlogExample.cpp" />
+    <ClCompile Include="spdlogExample.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="UnitTest\phoneNumRegx.cpp" />
   </ItemGroup>
   <ItemGroup>

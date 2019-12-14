@@ -2,7 +2,9 @@
 #include <iostream>
 #include <windows.h>
 #include <wininet.h>
+#include "value.h"
 using namespace std;
+using namespace Json;
 
 //每次读取的字节数
 #define READ_BUFFER_SIZE 4096
@@ -48,7 +50,7 @@ public:
 
 protected:
 	//解析卡口JSON数据
-	void ParseJsonInfo(const std::string &strJsonInfo);
+	Json::Value ParseJsonInfo(const std::string &strJsonInfo);
 	//关闭句柄
 	void Release();
 	//释放句柄

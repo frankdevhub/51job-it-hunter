@@ -8,8 +8,6 @@
 #include "spdlog/spdlog.h"
 #pragma comment(lib,"Wininet.lib")
 
-using namespace std;
-
 CWininetHttp::CWininetHttp(void) :m_hSession(NULL), m_hConnect(NULL), m_hRequest(NULL)
 {
 	spdlog::info("new CWininetHttp()");
@@ -32,6 +30,7 @@ const std::string CWininetHttp::RequestJsonInfo(const std::string &lpUrl
 	{
 		if (lpUrl.empty())
 		{
+			spdlog::error("throw Hir_ParamErr");
 			throw Hir_ParamErr;
 		}
 		Release();
@@ -39,6 +38,7 @@ const std::string CWininetHttp::RequestJsonInfo(const std::string &lpUrl
 		m_hSession = InternetOpen(_T("Http-connect"), INTERNET_OPEN_TYPE_PRECONFIG, NULL, NULL, NULL);
 		if (NULL == m_hSession)
 		{
+			spdlog::error("throw Hir_InitErr");
 			throw Hir_InitErr;
 		}
 		INTERNET_PORT port = INTERNET_DEFAULT_HTTP_PORT;
@@ -46,15 +46,16 @@ const std::string CWininetHttp::RequestJsonInfo(const std::string &lpUrl
 		std::string strPageName = "";
 
 		ParseWebURL(lpUrl, strHostName, strPageName, port);
-		printf("lpUrl:%s,\nstrHostName:%s,\nstrPageName:%s,\nport:%d\n"
-			, lpUrl.c_str()
-			, strHostName.c_str()
-			, strPageName.c_str()
-			, (int)port);
+
+		spdlog::info("lpUrl:{}", lpUrl.c_str());
+		spdlog::info("strHostName:{}", strHostName.c_str());
+		spdlog::info("strPageName:{}", strPageName.c_str());
+		spdlog::info("port:{}", (int)port);
 
 		m_hConnect = InternetConnectA(m_hSession, strHostName.c_str(), port, NULL, NULL, INTERNET_SERVICE_HTTP, NULL, NULL);
 		if (NULL == m_hConnect)
 		{
+			spdlog::error("throw Hir_ConnectErr");
 			throw Hir_ConnectErr;
 		}
 		std::string strRequestType;
@@ -69,10 +70,13 @@ const std::string CWininetHttp::RequestJsonInfo(const std::string &lpUrl
 		m_hRequest = HttpOpenRequestA(m_hConnect, strRequestType.c_str(), strPageName.c_str(), "HTTP/1.1", NULL, NULL, INTERNET_FLAG_RELOAD, NULL);
 		if (NULL == m_hRequest)
 		{
+			spdlog::error("throw Hir_InitErr");
 			throw Hir_InitErr;
 		}
 		DWORD dwHeaderSize = (strHeader.empty()) ? 0 : strlen(strHeader.c_str());
 		BOOL bRet = FALSE;
+		spdlog::info("strHeader:{}", strHeader.c_str());
+		spdlog::info("dwHeaderSize:{}", (int)dwHeaderSize);
 		if (Hr_Get == type)
 		{
 			bRet = HttpSendRequestA(m_hRequest, strHeader.c_str(), dwHeaderSize, NULL, 0);
@@ -80,21 +84,27 @@ const std::string CWininetHttp::RequestJsonInfo(const std::string &lpUrl
 		else
 		{
 			DWORD dwSize = (strPostData.empty()) ? 0 : strlen(strPostData.c_str());
+			spdlog::info("strPostData:{}", strPostData.c_str());
+			spdlog::info("dwSize:{}", (int)dwSize);
+
 			bRet = HttpSendRequestA(m_hRequest, strHeader.c_str(), dwHeaderSize,
 				(LPVOID)strPostData.c_str(), dwSize);
 		}
-		if (bRet)
+		if (!bRet)
 		{
+			spdlog::error("throw Hir_SendErr");
 			throw Hir_SendErr;
 		}
 		char szBuffer[READ_BUFFER_SIZE + 1] = { 0 };
 		DWORD dwReadSize = READ_BUFFER_SIZE;
 		if (!HttpQueryInfoA(m_hRequest, HTTP_QUERY_RAW_HEADERS, szBuffer, &dwReadSize, NULL))
 		{
+			spdlog::error("throw Hir_QueryErr");
 			throw Hir_QueryErr;
 		}
 		if (NULL != strstr(szBuffer, "404"))
 		{
+			spdlog::error("throw 404");
 			throw Hir_404;
 		}
 		while (true)
@@ -106,7 +116,11 @@ const std::string CWininetHttp::RequestJsonInfo(const std::string &lpUrl
 			}
 			szBuffer[dwReadSize] = '\0';
 			strRet.append(szBuffer);
+			char* res = new char[strlen(strRet.c_str()) + 1];
+			strcpy(res, strRet.c_str());
+			spdlog::info("response json:{}", res);
 		}
+
 	}
 	catch (HttpInterfaceError error)
 	{
@@ -117,16 +131,20 @@ const std::string CWininetHttp::RequestJsonInfo(const std::string &lpUrl
 }
 
 // 解析Json数据
-void CWininetHttp::ParseJsonInfo(const std::string &strJsonInfo)
+Json::Value CWininetHttp::ParseJsonInfo(const std::string &strJsonInfo)
 {
 	Json::Reader reader; //解析Json使用Json::Reader
 	Json::Value value; //可以代表任何类型
 	if (!reader.parse(strJsonInfo, value))
 	{
 		spdlog::critical("CXLDbDataMgr::GetVideoGisData] Video Gis parse data error...");
-		return;
+		return value;
 	}
-	//spdlog::info("response value:{}", value);
+	else
+	{
+		spdlog::error("reader parse data error");
+		return NULL;
+	}
 }
 
 
