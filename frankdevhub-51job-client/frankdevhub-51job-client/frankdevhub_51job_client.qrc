@@ -1,5 +1,4 @@
 <RCC>
-    <qresource prefix="/frankdevhub_51job_client">
-        <file>frankdevhub-51job-client.pro</file>
+    <qresource prefix="frankdevhub_51job_client">
     </qresource>
 </RCC>

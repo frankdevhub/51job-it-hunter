@@ -6,27 +6,10 @@ TEMPLATE = app
 TARGET = frankdevhub-51job-client
 DESTDIR = ../x64/Debug
 CONFIG += debug
-DEFINES += _WINDOWS _UNICODE WIN64
-INCLUDEPATH += ./GeneratedFiles/$(ConfigurationName) \
-    ./GeneratedFiles \
-    . \
-    ./GeneratedFiles \
-    ./GeneratedFiles/$(ConfigurationName) \
-    ./../../../../../include/QtNetwork \
-    ./../../../../../include/QtQuick \
-    ./../../../../../include/QtUiTools \
-    ./../../../../../include/QtWebChannel \
-    ./../../../../../include/QtWebSockets \
-    ./../../../../../include/QtWebEngine \
-    ./../../../../../include/QtWebEngineCore \
-    ./../../../../../include/QtWebEngineWidgets \
-    ./../../../../../include/QtWidgets \
-    ./GeneratedFiles/$(ConfigurationName) \
-    ../../../../../Qt/Qt5.10.0/5.10.0/msvc2017_64/mkspecs/win32-msvc
+LIBS += -L"."
 DEPENDPATH += .
-MOC_DIR += GeneratedFiles/$(ConfigurationName)
+MOC_DIR += .
 OBJECTS_DIR += debug
-UI_DIR += $(ProjectDir)GeneratedFiles/$(Configuration)
-RCC_DIR += ./GeneratedFiles
+UI_DIR += .
+RCC_DIR += .
 include(frankdevhub-51job-client.pri)
-win32:RC_FILE = frankdevhub-51job-client.rc

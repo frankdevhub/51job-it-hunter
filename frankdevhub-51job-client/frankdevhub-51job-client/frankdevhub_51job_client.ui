@@ -1,119 +1,29 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<ui version="4.0">
+<UI version="4.0" >
  <class>frankdevhub_51job_clientClass</class>
- <widget class="QMainWindow" name="frankdevhub_51job_clientClass">
-  <property name="geometry">
+ <widget class="QMainWindow" name="frankdevhub_51job_clientClass" >
+  <property name="objectName" >
+   <string notr="true">frankdevhub_51job_clientClass</string>
+  </property>
+  <property name="geometry" >
    <rect>
-    <x>0</x>
-    <y>0</y>
-    <width>600</width>
-    <height>400</height>
+	<x>0</x>
+	<y>0</y>
+	<width>600</width>
+	<height>400</height>
    </rect>
   </property>
-  <property name="windowTitle">
-   <string>Frankdevhub Automation</string>
+  <property name="windowTitle" >
+   <string>frankdevhub_51job_client</string>
   </property>
-  <property name="whatsThis">
-   <string/>
-  </property>
-  <property name="accessibleName">
-   <string notr="true"/>
-  </property>
-  <property name="autoFillBackground">
-   <bool>false</bool>
-  </property>
-  <widget class="QWidget" name="centralWidget"/>
-  <widget class="QToolBar" name="mainToolBar">
-   <attribute name="toolBarArea">
-    <enum>TopToolBarArea</enum>
-   </attribute>
-   <attribute name="toolBarBreak">
-    <bool>false</bool>
-   </attribute>
-  </widget>
-  <widget class="QMenuBar" name="menuBar">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>600</width>
-     <height>23</height>
-    </rect>
-   </property>
-   <widget class="QMenu" name="fileMenu">
-    <property name="whatsThis">
-     <string comment="保存和导出配置数据" extracomment="保存和导出配置数据"/>
-    </property>
-    <property name="title">
-     <string>文件(F)</string>
-    </property>
-    <addaction name="createNewDataFile"/>
-    <addaction name="openDataFile"/>
-   </widget>
-   <widget class="QMenu" name="settingsMenu">
-    <property name="title">
-     <string>设置(S)</string>
-    </property>
-    <addaction name="setServer"/>
-    <addaction name="pingTest"/>
-    <addaction name="networkTest"/>
-    <addaction name="clearHistory"/>
-   </widget>
-   <widget class="QMenu" name="helpMenu">
-    <property name="title">
-     <string>帮助(H)</string>
-    </property>
-    <addaction name="addressHelp"/>
-    <addaction name="aboutInfo"/>
-   </widget>
-   <addaction name="fileMenu"/>
-   <addaction name="settingsMenu"/>
-   <addaction name="helpMenu"/>
-  </widget>
-  <action name="createNewDataFile">
-   <property name="text">
-    <string>新建</string>
-   </property>
-  </action>
-  <action name="openDataFile">
-   <property name="text">
-    <string>打开配置文件</string>
-   </property>
-  </action>
-  <action name="setServer">
-   <property name="text">
-    <string>设置服务器</string>
-   </property>
-  </action>
-  <action name="pingTest">
-   <property name="text">
-    <string>测试服务器连接状态</string>
-   </property>
-  </action>
-  <action name="networkTest">
-   <property name="text">
-    <string>网速设置</string>
-   </property>
-  </action>
-  <action name="clearHistory">
-   <property name="text">
-    <string>清空历史数据</string>
-   </property>
-  </action>
-  <action name="addressHelp">
-   <property name="text">
-    <string>公司地址查询</string>
-   </property>
-  </action>
-  <action name="aboutInfo">
-   <property name="text">
-    <string>关于</string>
-   </property>
-  </action>
+  <widget class="QMenuBar" name="menuBar" />
+  <widget class="QToolBar" name="mainToolBar" />
+  <widget class="QWidget" name="centralWidget" />
+  <widget class="QStatusBar" name="statusBar" />
  </widget>
- <layoutdefault spacing="6" margin="11"/>
+ <layoutDefault spacing="6" margin="11" />
+ <pixmapfunction></pixmapfunction>
  <resources>
-  <include location="frankdevhub_51job_client.qrc"/>
+   <include location="frankdevhub_51job_client.qrc"/>
  </resources>
  <connections/>
-</ui>
+</UI>
