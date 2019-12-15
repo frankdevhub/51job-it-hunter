@@ -21,15 +21,19 @@
   <ItemGroup>
     <ClCompile Include="Common\cn_mobile.cpp" />
     <ClCompile Include="Common\WininetHttp.cpp" />
+    <ClCompile Include="ping.cpp" />
     <ClCompile Include="spdlogExample.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="UnitTest\phoneNumRegx.cpp" />
+    <ClCompile Include="UnitTest\phoneNumRegx.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Common\cn_mobile.h" />
     <ClInclude Include="Common\WininetHttp.h" />
+    <ClInclude Include="ping.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>

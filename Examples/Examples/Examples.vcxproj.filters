@@ -33,12 +33,18 @@
     <ClCompile Include="spdlogExample.cpp">
       <Filter>源文件\UnitTest</Filter>
     </ClCompile>
+    <ClCompile Include="ping.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Common\cn_mobile.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Common\WininetHttp.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ping.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
