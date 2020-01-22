@@ -5,17 +5,6 @@ import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.util.Enumeration;
 
-/**
- * <p>Title:HostUtils.java</p>
- * <p>Description: </p>
- * <p>Copyright: Copyright (c) 2019</p>
- * <p>Company: www.frankdevhub.site</p>
- * <p>github: https://github.com/frankdevhub</p>
- *
- * @author frankdevhub
- * @date:2019-04-20 22:51
- */
-
 public class HostUtils {
     public static String getMyIp() {
         String localip = null;
@@ -49,4 +38,5 @@ public class HostUtils {
         }
         return localip;
     }
+
 }
