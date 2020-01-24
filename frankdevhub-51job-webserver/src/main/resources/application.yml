@@ -9,7 +9,7 @@ spring:
   datasource:
     url: jdbc:mysql://39.98.246.50:3306/frankdevhub_company_db?characterEncoding=UTF-8&useSSL=false
     username: root
-    password: mysql@beilie
+    password: frankdevhub_store
     driver-class-name: com.mysql.jdbc.Driver
     type: com.alibaba.druid.pool.DruidDataSource
     filters: stat
