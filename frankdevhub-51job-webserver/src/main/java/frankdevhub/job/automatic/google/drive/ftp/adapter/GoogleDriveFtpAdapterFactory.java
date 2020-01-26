@@ -1,19 +1,18 @@
 package frankdevhub.job.automatic.google.drive.ftp.adapter;
 
+import com.google.api.client.auth.oauth2.AuthorizationCodeRequestUrl;
+import frankdevhub.job.automatic.JobWebAutoService;
+import frankdevhub.job.automatic.core.data.logging.Logger;
+import frankdevhub.job.automatic.core.data.logging.LoggerFactory;
+import frankdevhub.job.automatic.google.drive.ftp.adapter.model.GoogleDriveFactory;
+import frankdevhub.job.automatic.google.drive.ftp.adapter.utils.JarUtils;
+import org.apache.commons.io.FileUtils;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
-
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import com.google.api.client.auth.oauth2.AuthorizationCodeRequestUrl;
-
-import frankdevhub.job.automatic.JobWebAutoService;
-import frankdevhub.job.automatic.google.drive.ftp.adapter.model.GoogleDriveFactory;
-import frankdevhub.job.automatic.google.drive.ftp.adapter.utils.JarUtils;
 
 /**
  * <p>Title:GoogleDriveFtpAdapterFactory.java</p>
@@ -27,7 +26,7 @@ import frankdevhub.job.automatic.google.drive.ftp.adapter.utils.JarUtils;
  */
 
 public class GoogleDriveFtpAdapterFactory {
-    public static final Log LOGGER = LogFactory.getLog(GoogleDriveFtpAdapterFactory.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(GoogleDriveFtpAdapterFactory.class);
 
     private static GoogleDriveFtpAdapter googleDriveFtpAdapter;
 
@@ -45,8 +44,8 @@ public class GoogleDriveFtpAdapterFactory {
         return googleDriveFtpAdapter;
     }
 
-    @SuppressWarnings("static-access")
-    public static String getAuthorizationUrl() throws IOException {
+
+    public static String getAuthorizationUrl() {
         if (getInstance().isInit()) {
             GoogleDriveFactory driveFactory = getInstance().getGoogleDriveFactory();
             AuthorizationCodeRequestUrl url = driveFactory.getAuthorizationApp().getRequestUrl();
@@ -69,13 +68,13 @@ public class GoogleDriveFtpAdapterFactory {
         try {
             cleanDataFolders();
             JarUtils.printManifestAttributesToString();
-            LOGGER.info("Program info: " + JarUtils.getManifestAttributesAsMap());
-            LOGGER.info("Loading configuration...");
+            LOGGER.begin().info("Program info: " + JarUtils.getManifestAttributesAsMap());
+            LOGGER.begin().info("Loading configuration...");
 
             Properties configuration = loadPropertiesFromClasspath();
             configuration.putAll(loadProperties("configuration.properties"));
 
-            LOGGER.info("Creating application with configuration '" + configuration + "'");
+            LOGGER.begin().info("Creating application with configuration '" + configuration + "'");
             googleDriveFtpAdapter = new GoogleDriveFtpAdapter(configuration);
 
             registerShutdownHook();
@@ -83,7 +82,7 @@ public class GoogleDriveFtpAdapterFactory {
             start();
 
         } catch (Exception e) {
-            LOGGER.error("Error loading app", e);
+            LOGGER.begin().error("Error loading app");
         }
 
     }
@@ -100,9 +99,9 @@ public class GoogleDriveFtpAdapterFactory {
         Runtime.getRuntime().addShutdownHook(new Thread() {
             @Override
             public void run() {
-                LOGGER.info("Shuting down...");
+                LOGGER.begin().info("Shuting down...");
                 GoogleDriveFtpAdapterFactory.stop();
-                LOGGER.info("Good bye!");
+                LOGGER.begin().info("Good bye!");
             }
         });
     }
@@ -111,21 +110,21 @@ public class GoogleDriveFtpAdapterFactory {
         Properties properties = new Properties();
         FileInputStream inStream = null;
         try {
-            LOGGER.info("Loading properfiles file '" + propertiesFilename + "'...");
+            LOGGER.begin().info("Loading properfiles file '" + propertiesFilename + "'...");
             inStream = new FileInputStream(propertiesFilename);
             properties.load(inStream);
         } catch (Exception ex) {
-            LOGGER.warn("Exception loading file '" + propertiesFilename + "'.");
+            LOGGER.begin().warn("Exception loading file '" + propertiesFilename + "'.");
         } finally {
             if (inStream != null) {
                 try {
                     inStream.close();
                 } catch (Exception ex) {
-                    LOGGER.error(ex.getMessage(), ex);
+                    LOGGER.begin().error(ex.getMessage());
                 }
             }
         }
-        LOGGER.info("Properfiles loaded: '" + properties + "'");
+        LOGGER.begin().info("Properfiles loaded: '" + properties + "'");
         return properties;
     }
 
@@ -138,9 +137,9 @@ public class GoogleDriveFtpAdapterFactory {
         }
 
         try {
-            LOGGER.info("Loading properties from classpath...");
+            LOGGER.begin().info("Loading properties from classpath...");
             properties.load(configurationStream);
-            LOGGER.info("Properties loaded: '" + properties + "'");
+            LOGGER.begin().info("Properties loaded: '" + properties + "'");
         } catch (IOException ex) {
             ex.printStackTrace();
         } finally {
@@ -148,7 +147,7 @@ public class GoogleDriveFtpAdapterFactory {
                 try {
                     configurationStream.close();
                 } catch (Exception ex) {
-                    LOGGER.error(ex.getMessage(), ex);
+                    LOGGER.begin().error(ex.getMessage());
                 }
             }
         }

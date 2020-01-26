@@ -1,13 +1,5 @@
 package frankdevhub.job.automatic.google.drive.ftp.adapter.model;
 
-import java.io.InputStreamReader;
-import java.util.HashSet;
-import java.util.Properties;
-import java.util.Set;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.extensions.jetty.auth.oauth2.LocalServerReceiver;
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
@@ -20,96 +12,104 @@ import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.util.store.FileDataStoreFactory;
 import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.DriveScopes;
+import frankdevhub.job.automatic.core.data.logging.Logger;
+import frankdevhub.job.automatic.core.data.logging.LoggerFactory;
+
+import java.io.InputStreamReader;
+import java.util.HashSet;
+import java.util.Properties;
+import java.util.Set;
 
 /**
- * <p>Title:GoogleDriveFactory.java</p>  
- * <p>Description: </p>  
- * <p>Copyright: Copyright (c) 2019</p>  
+ * <p>Title:GoogleDriveFactory.java</p>
+ * <p>Description: </p>
+ * <p>Copyright: Copyright (c) 2019</p>
  * <p>Company: www.frankdevhub.site</p>
- * <p>github: https://github.com/frankdevhub</p>  
- * @author frankdevhub   
+ * <p>github: https://github.com/frankdevhub</p>
+ *
+ * @author frankdevhub
  * @date:2019-04-23 16:32
  */
 
 public class GoogleDriveFactory {
-	private static final Log LOGGER = LogFactory.getLog(GoogleDriveFactory.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(GoogleDriveFactory.class);
 
-	private static final String APPLICATION_NAME = "nyoibo-inkstone-google-drive";
+    private static final String APPLICATION_NAME = "nyoibo-inkstone-google-drive";
 
-	private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
+    private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
 
-	private final FileDataStoreFactory dataStoreFactory;
+    private final FileDataStoreFactory dataStoreFactory;
 
-	private final HttpTransport httpTransport;
-	
-	private AuthorizationCodeInstalledAppExtend authorizationApp;
+    private final HttpTransport httpTransport;
 
-	private Drive drive;
+    private AuthorizationCodeInstalledAppExtend authorizationApp;
 
-	public GoogleDriveFactory(Properties configuration) {
+    private Drive drive;
 
-		java.io.File DATA_STORE_DIR = new java.io.File(
-				"data/google/" + configuration.getProperty("account", "default"));
+    public GoogleDriveFactory(Properties configuration) {
 
-		try {
+        java.io.File DATA_STORE_DIR = new java.io.File(
+                "data/google/" + configuration.getProperty("account", "default"));
 
-			dataStoreFactory = new FileDataStoreFactory(DATA_STORE_DIR);
+        try {
 
-			httpTransport = GoogleNetHttpTransport.newTrustedTransport();
+            dataStoreFactory = new FileDataStoreFactory(DATA_STORE_DIR);
 
-		} catch (Exception e) {
-			throw new RuntimeException("Error intializing google drive API", e);
-		}
-	}
-	
-	public static Drive build(Credential credential) throws Exception {
-		final NetHttpTransport httpTransport = GoogleNetHttpTransport.newTrustedTransport();
-		return new Drive.Builder(httpTransport, JSON_FACTORY, credential).setApplicationName(APPLICATION_NAME).build();
-	}
+            httpTransport = GoogleNetHttpTransport.newTrustedTransport();
 
-	public void init() {
-		try {
+        } catch (Exception e) {
+            throw new RuntimeException("Error intializing google drive API", e);
+        }
+    }
 
-			Credential credential = authorize();
+    public static Drive build(Credential credential) throws Exception {
+        final NetHttpTransport httpTransport = GoogleNetHttpTransport.newTrustedTransport();
+        return new Drive.Builder(httpTransport, JSON_FACTORY, credential).setApplicationName(APPLICATION_NAME).build();
+    }
 
-			drive = new Drive.Builder(httpTransport, JSON_FACTORY, credential).setApplicationName(APPLICATION_NAME)
-					.build();
+    public void init() {
+        try {
 
-			LOGGER.info("Google drive webservice client initialized.");
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
-	}
+            Credential credential = authorize();
 
-	private Credential authorize() throws Exception {
+            drive = new Drive.Builder(httpTransport, JSON_FACTORY, credential).setApplicationName(APPLICATION_NAME)
+                    .build();
 
-		GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY,
-				new InputStreamReader(GFile.class.getResourceAsStream("/client_secrets.json")));
-		if (clientSecrets.getDetails().getClientId().startsWith("Enter")
-				|| clientSecrets.getDetails().getClientSecret().startsWith("Enter ")) {
-			System.out.println("Overwrite the src/main/resources/client_secrets.json file with the client secrets file "
-					+ "you downloaded from the Quickstart tool or manually enter your Client ID and Secret "
-					+ "from https://code.google.com/apis/console/?api=drive#project:275751503302 "
-					+ "into src/main/resources/client_secrets.json");
-			System.exit(1);
-		}
+            LOGGER.begin().info("Google drive webservice client initialized.");
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 
-		Set<String> scopes = new HashSet<>();
-		scopes.add(DriveScopes.DRIVE);
-		scopes.add(DriveScopes.DRIVE_METADATA);
+    private Credential authorize() throws Exception {
 
-		GoogleAuthorizationCodeFlow flow =  new GoogleAuthorizationCodeFlow.Builder(httpTransport, JSON_FACTORY, clientSecrets,
-				scopes).setDataStoreFactory(dataStoreFactory).build();
-		this.authorizationApp = new AuthorizationCodeInstalledAppExtend(flow, new LocalServerReceiver());
+        GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY,
+                new InputStreamReader(GFile.class.getResourceAsStream("/client_secrets.json")));
+        if (clientSecrets.getDetails().getClientId().startsWith("Enter")
+                || clientSecrets.getDetails().getClientSecret().startsWith("Enter ")) {
+            System.out.println("Overwrite the src/main/resources/client_secrets.json file with the client secrets file "
+                    + "you downloaded from the Quickstart tool or manually enter your Client ID and Secret "
+                    + "from https://code.google.com/apis/console/?api=drive#project:275751503302 "
+                    + "into src/main/resources/client_secrets.json");
+            System.exit(1);
+        }
 
-		return this.authorizationApp.authorize("user");
-	}
+        Set<String> scopes = new HashSet<>();
+        scopes.add(DriveScopes.DRIVE);
+        scopes.add(DriveScopes.DRIVE_METADATA);
 
-	public Drive getDrive() {
-		return drive;
-	}
+        GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(httpTransport, JSON_FACTORY, clientSecrets,
+                scopes).setDataStoreFactory(dataStoreFactory).build();
+        this.authorizationApp = new AuthorizationCodeInstalledAppExtend(flow, new LocalServerReceiver());
 
-	public AuthorizationCodeInstalledAppExtend getAuthorizationApp() {
-		return authorizationApp;
-	}
+        return this.authorizationApp.authorize("user");
+    }
+
+    public Drive getDrive() {
+        return drive;
+    }
+
+    public AuthorizationCodeInstalledAppExtend getAuthorizationApp() {
+        return authorizationApp;
+    }
 }

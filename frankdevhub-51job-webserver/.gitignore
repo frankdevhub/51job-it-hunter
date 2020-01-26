@@ -7,7 +7,6 @@
 /data
 /build
 /bin
-
 *.class
 *.project
 *.jar

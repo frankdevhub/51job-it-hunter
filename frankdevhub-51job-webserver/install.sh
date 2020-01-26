@@ -1,6 +1,6 @@
 
 #--------------------------------------------------------
-#-- @author frankdevhub@163.com 
+#-- @author frankdevhub@gmail.com
 #-- @Date 2019/06/5 Sunday
 #-- @description: shutdown google drive service
 #-- @host: http://localhost:4000
