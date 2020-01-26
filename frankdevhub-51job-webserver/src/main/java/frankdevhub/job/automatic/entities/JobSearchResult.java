@@ -14,7 +14,7 @@ import javax.persistence.Table;
  * @Version: 1.0
  */
 @Table(name = "")
-public class JobSearchResult extends BaseEntity<JobSearchResult> {
+public class JobSearchResult extends BaseRecord<JobSearchResult> {
 
     @Column(name = "id")
     private Long id;

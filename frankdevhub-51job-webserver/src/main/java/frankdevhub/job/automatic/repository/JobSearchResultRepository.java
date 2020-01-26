@@ -1,5 +1,8 @@
 package frankdevhub.job.automatic.repository;
 
+import frankdevhub.job.automatic.core.utils.SpringUtils;
+import frankdevhub.job.automatic.entities.JobSearchResult;
+import frankdevhub.job.automatic.mapper.JobSearchResultMapper;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -16,5 +19,19 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class JobSearchResultRepository {
 
+    private final String ID = "id";
 
+    private JobSearchResultMapper getMapper() {
+        return SpringUtils.getBean(JobSearchResultMapper.class);
+    }
+
+    public Integer insert(JobSearchResult record) {
+        record.doCreateEntity();
+        return getMapper().insert(record);
+    }
+
+    public Integer insertSelective(JobSearchResult record) {
+        record.doCreateEntity();
+        return getMapper().insertSelective(record);
+    }
 }
