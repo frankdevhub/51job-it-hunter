@@ -4,6 +4,7 @@ import frankdevhub.job.automatic.core.constants.BusinessConstants;
 import frankdevhub.job.automatic.core.data.logging.Logger;
 import frankdevhub.job.automatic.core.data.logging.LoggerFactory;
 import frankdevhub.job.automatic.core.enums.CharacterEncode;
+import frankdevhub.job.automatic.core.exception.IllegalArgumentException;
 import frankdevhub.job.automatic.entities.BusinessCharacter;
 import tk.mybatis.mapper.util.Assert;
 
@@ -32,7 +33,7 @@ public class CommonBusinessUtils {
         return character;
     }
 
-    private static Boolean isChineseOrTaiwanese(Character character) {
+    public static Boolean isChineseCharacter(Character character) {
         String regex = "[\\u4E00-\\u9FA5]+";
         Matcher matcher = Pattern.compile(regex).matcher(character.toString());
         if (matcher.find())
@@ -40,21 +41,22 @@ public class CommonBusinessUtils {
         return Boolean.FALSE;
     }
 
-    public static Boolean isChineseCharacter(Character character) throws UnsupportedEncodingException {
+    public static Boolean isSimpleChinese(Character character) throws UnsupportedEncodingException, IllegalArgumentException {
         Assert.notNull(character, BusinessConstants.CHARACTER_NULL_ARGUMENT);
-        Boolean isCNChar = isChineseOrTaiwanese(character);
+        Boolean isCNChar = isChineseCharacter(character);
         String characterEncode = CharacterEncode.GB2312.getCodeName();
         if (isCNChar) {
             if (new String(character.toString().getBytes(characterEncode), characterEncode).equals(character.toString()))
                 return Boolean.TRUE;
             return Boolean.FALSE;
         } else
-            return Boolean.FALSE;
+            throw new IllegalArgumentException(BusinessConstants.INVALID_CHINESE_CHARACTER);
     }
 
-    public static Boolean isTaiwaneseCharacter(Character character) {
+    public static Boolean isTaiwaneseCharacter(Character character) throws UnsupportedEncodingException, IllegalArgumentException {
         Assert.notNull(character, BusinessConstants.CHARACTER_NULL_ARGUMENT);
-        return null;
+        Boolean match = !isSimpleChinese(character);
+        return match;
     }
 
     public static Boolean isEnglishCharacter(Character character) {
