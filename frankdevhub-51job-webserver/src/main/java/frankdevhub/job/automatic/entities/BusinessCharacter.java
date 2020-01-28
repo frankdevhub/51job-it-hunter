@@ -16,6 +16,8 @@ public class BusinessCharacter {
     private Boolean isTW_Character;
     private Boolean isEN_Character;
     private Boolean isCapital;
+    private Boolean isNumericCharacter;
+    private Boolean isSymbolCharacter;
 
     public Character getValue() {
         return value;
@@ -59,6 +61,24 @@ public class BusinessCharacter {
 
     public BusinessCharacter setIsCapital(Boolean isCapital) {
         this.isCapital = isCapital;
+        return this;
+    }
+
+    public Boolean getIsNumericCharacter() {
+        return isNumericCharacter;
+    }
+
+    public BusinessCharacter setIsNumericCharacter(Boolean isNumericCharacter) {
+        this.isNumericCharacter = isNumericCharacter;
+        return this;
+    }
+
+    public Boolean getIsSymbolCharacter() {
+        return isSymbolCharacter;
+    }
+
+    public BusinessCharacter setSymbolCharacter(Boolean isSymbolCharacter) {
+        this.isSymbolCharacter = isSymbolCharacter;
         return this;
     }
 }
