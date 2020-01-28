@@ -26,10 +26,14 @@ public class CommonBusinessUtils {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CommonBusinessUtils.class);
 
-    public static final BusinessCharacter getBusinessCharacter(Character value) {
+    public static final BusinessCharacter getBusinessCharacter(Character value) throws UnsupportedEncodingException, IllegalArgumentException {
         LOGGER.begin().info(String.format("invoke {{getBusinessCharacter}} ,character:[%s]", value));
         BusinessCharacter character = new BusinessCharacter();
-
+        character.setIsCN_Character(isSimpleChinese(value))
+                .setIsTW_Character(isTaiwaneseCharacter(value))
+                .setIsEN_Character(isENCapitalCharacter(value))
+                .setIsENCapital(isENCapitalCharacter(value))
+                .setIsNumericCharacter(isNumeicCharacter(value));
         return character;
     }
 

@@ -55,11 +55,11 @@ public class BusinessCharacter {
         return this;
     }
 
-    public Boolean getIsCapital() {
+    public Boolean getIsENCapital() {
         return isENCapital;
     }
 
-    public BusinessCharacter setIsCapital(Boolean isENCapital) {
+    public BusinessCharacter setIsENCapital(Boolean isENCapital) {
         this.isENCapital = isENCapital;
         return this;
     }
