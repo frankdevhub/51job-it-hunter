@@ -14,6 +14,7 @@ public class BusinessConstants {
     //character unit argument
     public static final String CHARACTER_NULL_ARGUMENT = "character should not be null";
     public static final String INVALID_CHINESE_CHARACTER = "not a chinese character";
+    public static final String INVALID_ENGLISH_CHARACTER = "not an english character";
     //https://www.51job.com homepage url
     public static final String JOB_PLATFORM_HOMEPAGE = "http://www.51job.com";
     //enum constants

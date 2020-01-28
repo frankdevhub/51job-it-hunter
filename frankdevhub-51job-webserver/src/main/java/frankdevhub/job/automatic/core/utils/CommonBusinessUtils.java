@@ -34,7 +34,8 @@ public class CommonBusinessUtils {
     }
 
     public static Boolean isChineseCharacter(Character character) {
-        String regex = "[\\u4E00-\\u9FA5]+";
+        Assert.notNull(character, BusinessConstants.CHARACTER_NULL_ARGUMENT);
+        String regex = "[\\u4E00-\\u9FA5]";
         Matcher matcher = Pattern.compile(regex).matcher(character.toString());
         if (matcher.find())
             return Boolean.TRUE;
@@ -42,7 +43,6 @@ public class CommonBusinessUtils {
     }
 
     public static Boolean isSimpleChinese(Character character) throws UnsupportedEncodingException, IllegalArgumentException {
-        Assert.notNull(character, BusinessConstants.CHARACTER_NULL_ARGUMENT);
         Boolean isCNChar = isChineseCharacter(character);
         String characterEncode = CharacterEncode.GB2312.getCodeName();
         if (isCNChar) {
@@ -54,24 +54,36 @@ public class CommonBusinessUtils {
     }
 
     public static Boolean isTaiwaneseCharacter(Character character) throws UnsupportedEncodingException, IllegalArgumentException {
-        Assert.notNull(character, BusinessConstants.CHARACTER_NULL_ARGUMENT);
         Boolean match = !isSimpleChinese(character);
         return match;
     }
 
     public static Boolean isEnglishCharacter(Character character) {
         Assert.notNull(character, BusinessConstants.CHARACTER_NULL_ARGUMENT);
-        return null;
+        String regex = "[a-zA-Z]";
+        Matcher matcher = Pattern.compile(regex).matcher(character.toString());
+        Boolean match = matcher.find();
+        return match;
     }
 
-    public static Boolean isCapitalCharacter(Character character) {
-        Assert.notNull(character, BusinessConstants.CHARACTER_NULL_ARGUMENT);
-        return null;
+    public static Boolean isENCapitalCharacter(Character character) throws IllegalArgumentException {
+        Boolean isENChar = isEnglishCharacter(character);
+        if (isENChar) {
+            String regex = "[a-z]";
+            Matcher matcher = Pattern.compile(regex).matcher(character.toString());
+            if (matcher.find())
+                return Boolean.FALSE;
+            return Boolean.TRUE;
+        } else
+            throw new IllegalArgumentException(BusinessConstants.INVALID_ENGLISH_CHARACTER);
     }
 
     public static Boolean isNumeicCharacter(Character character) {
         Assert.notNull(character, BusinessConstants.CHARACTER_NULL_ARGUMENT);
-        return null;
+        String regex = "[0-9]";
+        Matcher matcher = Pattern.compile(regex).matcher(character.toString());
+        Boolean match = matcher.find();
+        return match;
     }
 
 }
