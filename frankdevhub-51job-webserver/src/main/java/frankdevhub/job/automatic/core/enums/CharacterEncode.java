@@ -11,7 +11,14 @@ package frankdevhub.job.automatic.core.enums;
  * @Version: 1.0
  */
 public enum CharacterEncode {
-    GB2312("GB2312");
+    GB2312("GB2312"),
+    ASCII("ASCII"),
+    MBCS("MBCS"),
+    GBK("GBK"),
+    Big5("Big5"),
+    Unicode("Unicode"),
+    UTF8("UTF-8"),
+    Base64("Base64");
 
     private String codeName;
 
