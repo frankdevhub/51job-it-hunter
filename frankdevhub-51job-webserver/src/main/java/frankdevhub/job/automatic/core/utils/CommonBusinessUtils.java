@@ -11,6 +11,7 @@ package frankdevhub.job.automatic.core.utils;
  * @Version: 1.0
  */
 public class CommonBusinessUtils {
-    
+
+
 
 }
