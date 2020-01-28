@@ -25,23 +25,23 @@ public class CommonBusinessUtils {
         return character;
     }
 
-    private Boolean isChinessCharacter(Character character) {
+    public static Boolean isChineseCharacter(Character character) {
         return null;
     }
 
-    private Boolean isTaiwaneseCharacter(Character character) {
+    public static Boolean isTaiwaneseCharacter(Character character) {
         return null;
     }
 
-    private Boolean isEnglishCharacter(Character character) {
+    public static Boolean isEnglishCharacter(Character character) {
         return null;
     }
 
-    private Boolean isCapitalCharacter(Character character) {
+    public static Boolean isCapitalCharacter(Character character) {
         return null;
     }
 
-    private Boolean isNumeicCharacter(Character character) {
+    public static Boolean isNumeicCharacter(Character character) {
         return null;
     }
 

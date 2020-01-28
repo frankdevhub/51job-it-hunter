@@ -96,14 +96,11 @@ public class GoogleDriveFtpAdapterFactory {
     }
 
     private static void registerShutdownHook() {
-        Runtime.getRuntime().addShutdownHook(new Thread() {
-            @Override
-            public void run() {
-                LOGGER.begin().info("Shuting down...");
-                GoogleDriveFtpAdapterFactory.stop();
-                LOGGER.begin().info("Good bye!");
-            }
-        });
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            LOGGER.begin().info("Shuting down...");
+            stop();
+            LOGGER.begin().info("Good bye!");
+        }));
     }
 
     private static Properties loadProperties(String propertiesFilename) {
