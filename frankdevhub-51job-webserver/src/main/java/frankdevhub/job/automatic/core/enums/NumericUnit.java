@@ -1,7 +1,7 @@
 package frankdevhub.job.automatic.core.enums;
 
 /**
- * <p>Title:@ClassName DateUnit.java</p>
+ * <p>Title:@ClassName NumericUnit.java</p>
  * <p>Copyright: Copyright (c) 2020</p>
  * <p>Company: www.frankdevhub.site</p>
  * <p>github: https://github.com/frankdevhub</p>
