@@ -11,4 +11,6 @@ package frankdevhub.job.automatic.core.constants;
  * @Version: 1.0
  */
 public class BusinessConstants {
+    //enum constants
+    public static final String CHARACTER_BOOLEAN_VAREIABLE_CONFLICT = "time unit variable type conflict";
 }
