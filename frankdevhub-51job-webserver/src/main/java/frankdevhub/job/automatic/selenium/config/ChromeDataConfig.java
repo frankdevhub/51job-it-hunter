@@ -1,9 +1,9 @@
 package frankdevhub.job.automatic.selenium.config;
 
+import org.apache.commons.io.FileUtils;
+
 import java.io.File;
 import java.io.IOException;
-
-import org.apache.commons.io.FileUtils;
 
 /**
  * <p>Title:ChromeDataConfig.java</p>
@@ -21,7 +21,6 @@ public class ChromeDataConfig {
     public static final String WIN_CHROME_DATA = "User Data";
 
     public static final String WIN_SOURCE = "C:/Users/Administrator/AppData/Local/Google/Chrome/User Data";
-    //public static final String WIN_TARGET = "C:/Users/Administrator/AppData/Local/Google/Automation";
     public static final String WIN_TARGET = "C:/Automation/";
 
     public synchronized static String createDataName(String thread) {
@@ -37,16 +36,19 @@ public class ChromeDataConfig {
         return WIN_SOURCE;
     }
 
-    public synchronized static String config(String root, String dataName) throws IOException, InterruptedException {
+    public synchronized static String config(String root, String dataName) throws IOException {
         String destDir = WIN_TARGET + dataName;
 
-        System.out.println("dest-name:" + destDir);
-        System.out.println("chrome cache source:" + root);
+        System.out.println(String.format("chrome cache directory location:[%s]", root));
+        System.out.println(String.format("copy chrome cache directory location:[%s]", destDir));
 
         File rootFile = new File(root);
         File destFile = new File(destDir);
-        System.out.println("copy chrome config file");
+
+        System.out.println("start to copy cache directory from source path to dest path");
         FileUtils.copyDirectory(rootFile, destFile);
+        System.out.println(String.format("copy complete, directory location:[%s]", destDir));
+
         return destDir;
     }
 
