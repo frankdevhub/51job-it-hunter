@@ -32,12 +32,12 @@ public class ChromeConfiguration implements SeleniumBroswerConfiguration {
     }
 
     @Override
-    public String getDefaultBroswerCachePath() {
+    public String getDefaultBrowserCachePath() {
         return DEAFULT_WIN_CHROME_CACHE_PATH;
     }
 
     @Override
-    public String setSeleniumBroswerCache(String broswerCachePath, String directoryName) throws IOException {
+    public String setSeleniumBrowserCache(String broswerCachePath, String directoryName) throws IOException {
         String directoryCopyName = DEFAULT_WIN_SELENIUM_CACHE_PATH + directoryName;
 
         System.out.println(String.format("chrome cache directory location:[%s]", broswerCachePath));
@@ -54,7 +54,7 @@ public class ChromeConfiguration implements SeleniumBroswerConfiguration {
     }
 
     @Override
-    public void deleteHistorySeleniumBroswerCache() throws IOException {
+    public void deleteHistorySeleniumBrowserCache() throws IOException {
         File cacheFolder = new File(DEFAULT_WIN_SELENIUM_CACHE_PATH);
         File[] files = cacheFolder.listFiles();
         for (File file : files) {
