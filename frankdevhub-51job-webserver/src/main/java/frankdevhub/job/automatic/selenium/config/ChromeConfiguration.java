@@ -18,7 +18,7 @@ import java.io.IOException;
 
 public class ChromeConfiguration implements SeleniumBroswerConfiguration {
 
-    public static final String DEAFULT_WIN_CHROME_CACHE_PATH = "C:/Users/Administrator/AppData/Local/Google/Chrome/User Data";
+    public static final String DEFAULT_WIN_CHROME_CACHE_PATH = "C:/Users/Administrator/AppData/Local/Google/Chrome/User Data";
     public static final String DEFAULT_WIN_SELENIUM_CACHE_PATH = "C:/Automation/";
 
     @Override
@@ -33,7 +33,7 @@ public class ChromeConfiguration implements SeleniumBroswerConfiguration {
 
     @Override
     public String getDefaultBrowserCachePath() {
-        return DEAFULT_WIN_CHROME_CACHE_PATH;
+        return DEFAULT_WIN_CHROME_CACHE_PATH;
     }
 
     @Override
