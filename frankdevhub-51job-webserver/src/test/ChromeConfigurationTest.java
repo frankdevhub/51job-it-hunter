@@ -3,7 +3,6 @@ import frankdevhub.job.automatic.core.data.logging.Logger;
 import frankdevhub.job.automatic.core.data.logging.LoggerFactory;
 import frankdevhub.job.automatic.selenium.DriverBase;
 import frankdevhub.job.automatic.selenium.config.ChromeConfiguration;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -66,12 +65,8 @@ public class ChromeConfigurationTest {
 
     @Before
     public void init() {
-        LOGGER.begin().info("invoke {{ChromeConfigurationTest init()}}");
+        LOGGER.begin().info("invoke {{ChromeConfigurationTest:: init()}}");
 
     }
 
-    @After
-    public void after() {
-        LOGGER.begin().info("invoke {{ChromeConfigurationTest:: after()}}");
-    }
 }

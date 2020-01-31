@@ -20,6 +20,8 @@ public class DriverFactory {
     public DriverFactory() {
 
         System.setProperty("webdriver.chrome.driver", CHROME_DRIVER_PATH);
+        System.out.println("webdriver.chrome.driver = " + CHROME_DRIVER_PATH);
+
         DriverType driverType = DriverType.CHROME;
 
         String browser = System.getProperty("browser", driverType.toString()).toUpperCase();
