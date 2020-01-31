@@ -2,6 +2,7 @@ import frankdevhub.job.automatic.core.data.logging.Logger;
 import frankdevhub.job.automatic.core.data.logging.LoggerFactory;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -21,16 +22,25 @@ public class ChromeConfigurationTest {
 
     private final Logger LOGGER = LoggerFactory.getLogger(ChromeConfigurationTest.class);
 
+    private void setSeleniumChromeCacheDirectory() {
 
+    }
+
+    @Test
+    public void testSeleniumChromeCacheConfiguration() {
+        LOGGER.begin().info("run test method{{testSeleniumChromeCacheConfiguration}} start");
+        setSeleniumChromeCacheDirectory();
+        LOGGER.begin().info("run test method{{testSeleniumChromeCacheConfiguration}} complete");
+    }
 
     @Before
     public void init() {
-        LOGGER.begin().info("junit test for ChromeConfigurationTest init");
+        LOGGER.begin().info("invoke {{ChromeConfigurationTest init()}}");
 
     }
 
     @After
     public void after() {
-
+        LOGGER.begin().info("invoke {{ChromeConfigurationTest:: after()}}");
     }
 }
