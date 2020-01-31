@@ -48,7 +48,7 @@ public class ChromeConfigurationTest {
 
 
         Long current = System.currentTimeMillis();
-        System.out.println(String.format("Chrome Driver instance initialize complete, cost:[%f]s", (current - start) / 1000));
+        System.out.println(String.format("Chrome Driver instance initialize complete, cost:[%s]s", (current - start) / 1000));
         System.out.println("navigate to test web site page");
         driver.get(BusinessConstants.JOB_PLATFORM_HOMEPAGE);
 
