@@ -22,7 +22,7 @@ public class ChromeConfiguration implements SeleniumBroswerConfiguration {
     public static final String DEFAULT_WIN_SELENIUM_CACHE_PATH = "C:/Automation/";
 
     @Override
-    public String setSeleniumCachDirectoryName(String threadName) {
+    public String setSeleniumCacheDirectoryName(String threadName) {
         StringBuilder builder = new StringBuilder();
         long time = System.currentTimeMillis();
         String timeStr = Long.toString(time);
@@ -37,13 +37,13 @@ public class ChromeConfiguration implements SeleniumBroswerConfiguration {
     }
 
     @Override
-    public String setSeleniumBrowserCache(String broswerCachePath, String directoryName) throws IOException {
+    public String setSeleniumBrowserCache(String browserCachePath, String directoryName) throws IOException {
         String directoryCopyName = DEFAULT_WIN_SELENIUM_CACHE_PATH + directoryName;
 
-        System.out.println(String.format("chrome cache directory location:[%s]", broswerCachePath));
+        System.out.println(String.format("chrome cache directory location:[%s]", browserCachePath));
         System.out.println(String.format("copy chrome cache directory location:[%s]", directoryCopyName));
 
-        File browserCacheDirectory = new File(broswerCachePath);
+        File browserCacheDirectory = new File(browserCachePath);
         File browserCacheCopyDirectory = new File(directoryCopyName);
 
         System.out.println("start to copy cache directory from source path to dest path");
