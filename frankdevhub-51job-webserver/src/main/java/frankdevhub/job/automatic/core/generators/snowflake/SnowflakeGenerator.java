@@ -17,7 +17,7 @@ public class SnowflakeGenerator implements KeyGenerator<Long> {
 
     @Override
     public Long generateKey() {
-        Assert.notNull(this.snowflakeIdWorker);
+        Assert.notNull(this.snowflakeIdWorker,"snowflakeIdWorker should not be null");
         long nextId = this.snowflakeIdWorker.nextId();
         return nextId;
     }
