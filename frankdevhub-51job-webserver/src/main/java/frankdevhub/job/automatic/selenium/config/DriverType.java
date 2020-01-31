@@ -43,7 +43,7 @@ public enum DriverType implements DriverSetup {
         public RemoteWebDriver getWebDriverObject(DesiredCapabilities capabilities, String path) {
             HashMap<String, Object> chromePreferences = new HashMap<>();
 
-            System.out.println(String.format("chrome config path:[%s]", path));
+            System.out.println(String.format("set selenium browser cache path:[%s]", path));
 
             chromePreferences.put("profile.default_content_settings.javascript", 2);
             chromePreferences.put("profile.default_content_settings.images", 2);
@@ -53,7 +53,7 @@ public enum DriverType implements DriverSetup {
             options.addArguments("disable-infobars");
             options.addArguments("user-data-dir=" + path + "");
             options.addArguments("--start-maximized");
-            System.out.println(String.format("config chrome data path:[%s]", path));
+
             options.setExperimentalOption("prefs", chromePreferences);
 
             return new ChromeDriver(options);
