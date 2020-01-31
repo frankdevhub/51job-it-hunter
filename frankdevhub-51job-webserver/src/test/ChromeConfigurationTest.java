@@ -24,12 +24,13 @@ import java.io.IOException;
 public class ChromeConfigurationTest {
 
     private final Logger LOGGER = LoggerFactory.getLogger(ChromeConfigurationTest.class);
+    private static final String SELENIUM_TEST_CACHE_DIRECTORY_NAME = "junit-selenium-test";
 
     private ChromeConfiguration configuration = new ChromeConfiguration();
 
     private void setSeleniumChromeCacheDirectory() throws IOException {
-        configuration.deleteHistorySeleniumBrowserCache();
-
+        configuration.deleteHistorySeleniumBrowserCache()
+                .setSeleniumBrowserCache(configuration.DEFAULT_WIN_CHROME_CACHE_PATH, SELENIUM_TEST_CACHE_DIRECTORY_NAME);
     }
 
     @Test
