@@ -2,7 +2,7 @@ package frankdevhub.job.automatic.selenium.config;
 
 import java.io.IOException;
 
-public interface SeleniumBroswerConfiguration {
+public interface SeleniumBrowserConfiguration {
     String setSeleniumCacheDirectoryName(String threadName);
 
     String getDefaultBrowserCachePath();
