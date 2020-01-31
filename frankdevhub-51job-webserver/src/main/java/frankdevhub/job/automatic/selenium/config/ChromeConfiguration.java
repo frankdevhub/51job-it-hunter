@@ -4,6 +4,8 @@ import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * <p>Title:ChromeConfiguration.java</p>
@@ -20,6 +22,8 @@ public class ChromeConfiguration implements SeleniumBrowserConfiguration {
 
     public static final String DEFAULT_WIN_CHROME_CACHE_PATH = "C:/Users/Administrator/AppData/Local/Google/Chrome/User Data";
     public static final String DEFAULT_WIN_SELENIUM_CACHE_PATH = "C:/Automation/";
+    private final Lock userLock = new ReentrantLock();
+    private String seleniumCachePath;
 
     @Override
     public String setSeleniumCacheDirectoryName(String threadName) {
@@ -38,6 +42,11 @@ public class ChromeConfiguration implements SeleniumBrowserConfiguration {
 
     @Override
     public String getSystemBrowserCachePath() {
+        return null;
+    }
+
+    @Override
+    public Boolean getCacheDirectoryLockedStatus() {
         return null;
     }
 

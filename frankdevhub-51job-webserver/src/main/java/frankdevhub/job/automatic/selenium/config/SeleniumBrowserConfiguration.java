@@ -9,6 +9,8 @@ public interface SeleniumBrowserConfiguration {
 
     String getSystemBrowserCachePath();
 
+    Boolean getCacheDirectoryLockedStatus();
+
     String setSeleniumBrowserCache(String broswerCachePath, String directoryName) throws IOException;
 
     ChromeConfiguration deleteHistorySeleniumBrowserCache() throws IOException;
