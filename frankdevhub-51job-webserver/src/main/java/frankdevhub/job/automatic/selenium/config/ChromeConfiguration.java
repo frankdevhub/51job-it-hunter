@@ -43,11 +43,11 @@ public class ChromeConfiguration implements SeleniumBroswerConfiguration {
         System.out.println(String.format("chrome cache directory location:[%s]", broswerCachePath));
         System.out.println(String.format("copy chrome cache directory location:[%s]", directoryCopyName));
 
-        File broswerCacheDirectory = new File(broswerCachePath);
-        File broswerCacheCopyDirectory = new File(directoryCopyName);
+        File browserCacheDirectory = new File(broswerCachePath);
+        File browserCacheCopyDirectory = new File(directoryCopyName);
 
         System.out.println("start to copy cache directory from source path to dest path");
-        FileUtils.copyDirectory(broswerCacheDirectory, broswerCacheCopyDirectory);
+        FileUtils.copyDirectory(browserCacheDirectory, browserCacheCopyDirectory);
         System.out.println(String.format("copy complete, directory location:[%s]", directoryCopyName));
 
         return directoryCopyName;
