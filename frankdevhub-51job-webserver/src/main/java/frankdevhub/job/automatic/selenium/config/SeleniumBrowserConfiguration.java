@@ -7,7 +7,9 @@ public interface SeleniumBrowserConfiguration {
 
     String getDefaultBrowserCachePath();
 
+    String getSystemBrowserCachePath();
+
     String setSeleniumBrowserCache(String broswerCachePath, String directoryName) throws IOException;
 
-    void deleteHistorySeleniumBrowserCache() throws IOException;
+    ChromeConfiguration deleteHistorySeleniumBrowserCache() throws IOException;
 }
