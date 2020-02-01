@@ -1,5 +1,8 @@
 package frankdevhub.job.automatic.selenium.config;
 
+import frankdevhub.job.automatic.core.exception.BusinessException;
+
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public interface SeleniumBrowserConfiguration {
@@ -9,9 +12,9 @@ public interface SeleniumBrowserConfiguration {
 
     String getSystemBrowserCachePath();
 
-    Boolean getCacheDirectoryLockedStatus();
+    Boolean getCacheDirectoryLockedStatus() throws BusinessException, FileNotFoundException;
 
-    String setSeleniumBrowserCache(String broswerCachePath, String directoryName) throws IOException;
+    String setSeleniumBrowserCache(String browserCachePath, String cacheFileName) throws IOException, BusinessException;
 
     ChromeConfiguration deleteHistorySeleniumBrowserCache() throws IOException;
 }

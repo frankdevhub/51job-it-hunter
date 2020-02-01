@@ -1,7 +1,6 @@
-import frankdevhub.job.automatic.core.constants.BusinessConstants;
 import frankdevhub.job.automatic.core.data.logging.Logger;
 import frankdevhub.job.automatic.core.data.logging.LoggerFactory;
-import frankdevhub.job.automatic.selenium.DriverBase;
+import frankdevhub.job.automatic.core.exception.BusinessException;
 import frankdevhub.job.automatic.selenium.config.ChromeConfiguration;
 import org.junit.Before;
 import org.junit.Test;
@@ -9,6 +8,7 @@ import org.junit.runner.RunWith;
 import org.openqa.selenium.WebDriver;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 /**
@@ -33,12 +33,27 @@ public class ChromeConfigurationTest {
 
     private ChromeConfiguration configuration = new ChromeConfiguration();
 
-    private void setSeleniumChromeCacheDirectory() throws IOException {
+    private void setSeleniumChromeCacheDirectory() throws IOException, BusinessException {
         configuration.deleteHistorySeleniumBrowserCache()
                 .setSeleniumBrowserCache(configuration.DEFAULT_WIN_CHROME_CACHE_PATH, SELENIUM_TEST_CACHE_DIRECTORY_NAME);
     }
 
+
     @Test
+    public void testGetCacheDirectoryLockedStatus() throws FileNotFoundException {
+        LOGGER.begin().info("run test method {{testGetCacheDirectoryLockedStatus}} start");
+        configuration.setSeleniumBrowserCacheDirectoryRootPath(ChromeConfiguration.DEFAULT_WIN_SELENIUM_CACHE_ROOT_PATH)
+                .setSeleniumCacheFileName(SELENIUM_TEST_CACHE_DIRECTORY_NAME);
+
+        Long start = System.currentTimeMillis();
+        Boolean lock = configuration.getCacheDirectoryLockedStatus();
+        Long end = System.currentTimeMillis();
+
+        System.out.println(String.format("cache directory lock status = %s, cost: %s sec", lock.toString(), (end - start) / 1000));
+        LOGGER.begin().info("run test method {{testGetCacheDirectoryLockedStatus}} complete");
+    }
+
+    /*@Test
     public void testChromeDriverNavigateToWebPage() throws Exception {
         Long start = System.currentTimeMillis();
 
@@ -48,12 +63,12 @@ public class ChromeConfigurationTest {
 
 
         Long current = System.currentTimeMillis();
-        System.out.println(String.format("Chrome Driver instance initialize complete, cost:[%s]s", (current - start) / 1000));
+        System.out.println(String.format("Chrome Driver instance initialize complete, cost:%s sec", (current - start) / 1000));
         System.out.println("navigate to test web site page");
         driver.get(BusinessConstants.JOB_PLATFORM_HOMEPAGE);
 
         LOGGER.begin().info("run test method {{testChromeDriverNavigateToWebPage}} complete");
-    }
+    }*/
 
 
    /* @Test

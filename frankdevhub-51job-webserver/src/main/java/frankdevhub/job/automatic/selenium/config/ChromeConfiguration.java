@@ -1,9 +1,14 @@
 package frankdevhub.job.automatic.selenium.config;
 
+import frankdevhub.job.automatic.core.constants.BusinessConstants;
+import frankdevhub.job.automatic.core.exception.BusinessException;
 import org.apache.commons.io.FileUtils;
+import tk.mybatis.mapper.util.Assert;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.RandomAccessFile;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -20,10 +25,32 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public class ChromeConfiguration implements SeleniumBrowserConfiguration {
 
-    public static final String DEFAULT_WIN_CHROME_CACHE_PATH = "C:/Users/Administrator/AppData/Local/Google/Chrome/User Data";
-    public static final String DEFAULT_WIN_SELENIUM_CACHE_PATH = "C:/Automation/";
     private final Lock userLock = new ReentrantLock();
-    private String seleniumCachePath;
+
+    public static final String DEFAULT_WIN_CHROME_CACHE_PATH = "C:/Users/Administrator/AppData/Local/Google/Chrome/User Data";
+    public static final String DEFAULT_WIN_SELENIUM_CACHE_ROOT_PATH = "C:/Automation/";
+
+    private String seleniumBrowserCacheDirectoryRootPath = null;
+    private String seleniumCacheFileName = null;
+
+    public ChromeConfiguration setSeleniumBrowserCacheDirectoryRootPath(String path) {
+        this.seleniumBrowserCacheDirectoryRootPath = path;
+        return this;
+    }
+
+    public ChromeConfiguration setSeleniumCacheFileName(String fileName) {
+        this.seleniumCacheFileName = fileName;
+        return this;
+    }
+
+    private void isSeleniumBrowserCacheDirectoryExist(File directory) throws BusinessException {
+        if (!directory.exists())
+            throw new BusinessException(BusinessConstants.SELENIUM_CACHE_DIRECTORY_ROOT_NOT_EXISTS);
+    }
+
+    private String getSeleniumCacheDirectoryPath() {
+        return this.seleniumBrowserCacheDirectoryRootPath + "/" + this.seleniumCacheFileName;
+    }
 
     @Override
     public String setSeleniumCacheDirectoryName(String threadName) {
@@ -46,19 +73,31 @@ public class ChromeConfiguration implements SeleniumBrowserConfiguration {
     }
 
     @Override
-    public Boolean getCacheDirectoryLockedStatus() {
-        return null;
+    public Boolean getCacheDirectoryLockedStatus() throws FileNotFoundException {
+
+        String path = getSeleniumCacheDirectoryPath();
+        RandomAccessFile temp = new RandomAccessFile(new File(path), "rw");
+        try {
+            temp.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return Boolean.TRUE;
+        }
+        return Boolean.FALSE;
     }
 
     @Override
-    public String setSeleniumBrowserCache(String browserCachePath, String directoryName) throws IOException {
-        String directoryCopyName = DEFAULT_WIN_SELENIUM_CACHE_PATH + directoryName;
+    public String setSeleniumBrowserCache(String browserCachePath, String cacheFileName) throws IOException, BusinessException {
+        Assert.notNull(seleniumBrowserCacheDirectoryRootPath, BusinessConstants.SELENIUM_CACHE_DIRECTORY_ROOT_PATH_NULL);
+        Assert.notNull(seleniumCacheFileName, BusinessConstants.SELENIUM_CACHE_FILE_NAME_NULL);
+        String directoryCopyName = seleniumBrowserCacheDirectoryRootPath + cacheFileName;
 
         System.out.println(String.format("chrome cache directory location:[%s]", browserCachePath));
         System.out.println(String.format("copy chrome cache directory location:[%s]", directoryCopyName));
 
         File browserCacheDirectory = new File(browserCachePath);
         File browserCacheCopyDirectory = new File(directoryCopyName);
+        isSeleniumBrowserCacheDirectoryExist(browserCacheCopyDirectory);
 
         System.out.println("start to copy cache directory from source path to dest path");
         FileUtils.copyDirectory(browserCacheDirectory, browserCacheCopyDirectory);
@@ -69,7 +108,7 @@ public class ChromeConfiguration implements SeleniumBrowserConfiguration {
 
     @Override
     public ChromeConfiguration deleteHistorySeleniumBrowserCache() throws IOException {
-        File cacheFolder = new File(DEFAULT_WIN_SELENIUM_CACHE_PATH);
+        File cacheFolder = new File(getSeleniumCacheDirectoryPath());
         File[] files = cacheFolder.listFiles();
         for (File file : files) {
             FileUtils.forceDelete(file);

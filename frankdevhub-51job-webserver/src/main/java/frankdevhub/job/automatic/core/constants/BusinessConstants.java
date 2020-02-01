@@ -11,6 +11,10 @@ package frankdevhub.job.automatic.core.constants;
  * @Version: 1.0
  */
 public class BusinessConstants {
+    //selenium configuration
+    public static final String SELENIUM_CACHE_DIRECTORY_ROOT_PATH_NULL = "selenium cache root directory path should not be null";
+    public static final String SELENIUM_CACHE_DIRECTORY_ROOT_NOT_EXISTS = "selenium cache root directory not exist";
+    public static final String SELENIUM_CACHE_FILE_NAME_NULL = "selenium cache file name should not be null";
     //character unit argument
     public static final String CHARACTER_NULL_ARGUMENT = "character should not be null";
     public static final String INVALID_CHINESE_CHARACTER = "not a chinese character";
@@ -19,4 +23,5 @@ public class BusinessConstants {
     public static final String JOB_PLATFORM_HOMEPAGE = "http://www.51job.com";
     //enum constants
     public static final String CHARACTER_BOOLEAN_VAREIABLE_CONFLICT = "time unit variable type conflict";
+
 }
