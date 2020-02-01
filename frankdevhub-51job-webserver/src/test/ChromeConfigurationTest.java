@@ -42,7 +42,7 @@ public class ChromeConfigurationTest {
     @Test
     public void testGetCacheDirectoryLockedStatus() throws FileNotFoundException {
         LOGGER.begin().info("run test method {{testGetCacheDirectoryLockedStatus}} start");
-        configuration.setSeleniumBrowserCacheDirectoryRootPath(ChromeConfiguration.DEFAULT_WIN_SELENIUM_CACHE_ROOT_PATH)
+        configuration.setSeleniumBrowserCacheRoot(ChromeConfiguration.DEFAULT_WIN_SELENIUM_CACHE_ROOT)
                 .setSeleniumCacheFileName(SELENIUM_TEST_CACHE_DIRECTORY_NAME);
 
         Long start = System.currentTimeMillis();

@@ -28,13 +28,13 @@ public class ChromeConfiguration implements SeleniumBrowserConfiguration {
     private final Lock userLock = new ReentrantLock();
 
     public static final String DEFAULT_WIN_CHROME_CACHE_PATH = "C:/Users/Administrator/AppData/Local/Google/Chrome/User Data";
-    public static final String DEFAULT_WIN_SELENIUM_CACHE_ROOT_PATH = "C:/Automation/";
+    public static final String DEFAULT_WIN_SELENIUM_CACHE_ROOT = "C:/Automation/";
 
-    private String seleniumBrowserCacheDirectoryRootPath = null;
+    private String seleniumBrowserCacheRoot = null;
     private String seleniumCacheFileName = null;
 
-    public ChromeConfiguration setSeleniumBrowserCacheDirectoryRootPath(String path) {
-        this.seleniumBrowserCacheDirectoryRootPath = path;
+    public ChromeConfiguration setSeleniumBrowserCacheRoot(String path) {
+        this.seleniumBrowserCacheRoot = path;
         return this;
     }
 
@@ -45,11 +45,11 @@ public class ChromeConfiguration implements SeleniumBrowserConfiguration {
 
     private void isSeleniumBrowserCacheDirectoryExist(File directory) throws BusinessException {
         if (!directory.exists())
-            throw new BusinessException(BusinessConstants.SELENIUM_CACHE_DIRECTORY_ROOT_NOT_EXISTS);
+            throw new BusinessException(BusinessConstants.SELENIUM_CACHE_ROOT_NOT_EXISTS);
     }
 
     private String getSeleniumCacheDirectoryPath() {
-        return this.seleniumBrowserCacheDirectoryRootPath + "/" + this.seleniumCacheFileName;
+        return this.seleniumBrowserCacheRoot + "/" + this.seleniumCacheFileName;
     }
 
     @Override
@@ -88,9 +88,9 @@ public class ChromeConfiguration implements SeleniumBrowserConfiguration {
 
     @Override
     public String setSeleniumBrowserCache(String browserCachePath, String cacheFileName) throws IOException, BusinessException {
-        Assert.notNull(seleniumBrowserCacheDirectoryRootPath, BusinessConstants.SELENIUM_CACHE_DIRECTORY_ROOT_PATH_NULL);
+        Assert.notNull(seleniumBrowserCacheRoot, BusinessConstants.SELENIUM_CACHE_ROOT_NULL);
         Assert.notNull(seleniumCacheFileName, BusinessConstants.SELENIUM_CACHE_FILE_NAME_NULL);
-        String directoryCopyName = seleniumBrowserCacheDirectoryRootPath + cacheFileName;
+        String directoryCopyName = seleniumBrowserCacheRoot + cacheFileName;
 
         System.out.println(String.format("chrome cache directory location:[%s]", browserCachePath));
         System.out.println(String.format("copy chrome cache directory location:[%s]", directoryCopyName));
