@@ -42,7 +42,7 @@ public class ChromeConfigurationTest {
     }
 
     @Test
-    public void testGetCacheDirectoryLockedStatus() throws IOException {
+    public void testGetCacheDirectoryLockedStatus() {
         LOGGER.begin().info("run test method {{testGetCacheDirectoryLockedStatus}} start");
         configuration.setSeleniumBrowserCacheRoot(ChromeConfiguration.DEFAULT_WIN_SELENIUM_CACHE_ROOT)
                 .setSeleniumCacheFileName(SELENIUM_TEST_CACHE_DIRECTORY_NAME)
@@ -56,6 +56,7 @@ public class ChromeConfigurationTest {
         LOGGER.begin().info("run test method {{testGetCacheDirectoryLockedStatus}} complete");
     }
 
+    @Test
     public void testChromeDriverNavigateToWebPage() throws Exception {
         Long start = System.currentTimeMillis();
 
@@ -73,12 +74,12 @@ public class ChromeConfigurationTest {
     }
 
 
-   /* @Test
-    public void testSeleniumChromeCacheConfiguration() throws IOException {
+    @Test
+    public void testSeleniumChromeCacheConfiguration() throws IOException, BusinessException {
         LOGGER.begin().info("run test method {{testSeleniumChromeCacheConfiguration}} start");
         setSeleniumChromeCacheDirectory();
         LOGGER.begin().info("run test method {{testSeleniumChromeCacheConfiguration}} complete");
-    }*/
+    }
 
     @Before
     public void init() {
