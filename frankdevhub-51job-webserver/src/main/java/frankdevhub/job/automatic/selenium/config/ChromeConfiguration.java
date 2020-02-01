@@ -29,10 +29,25 @@ public class ChromeConfiguration implements SeleniumBrowserConfiguration {
     public static final String DEFAULT_WIN_CHROME_CACHE_PATH = "C:\\Users\\Administrator\\AppData\\Local\\Google\\Chrome\\User Data";
     public static final String DEFAULT_WIN_SELENIUM_CACHE_ROOT = "C:\\Automation\\";
     private static final String CHROME_DRIVER_PATH = System.getProperty("user.dir") + File.separator + "chromedriver.exe";
+    private static final String DEFAULT_SELENIUM_CACHE_NAME = "selenium-test";
 
     private String seleniumBrowserCacheRoot = null;
     private String seleniumCacheFileName = null;
     private String webDriverPath = null;
+
+
+    public ChromeConfiguration() {
+    }
+
+    public ChromeConfiguration(Boolean custom) {
+        if (custom)
+            new ChromeConfiguration();
+        else {
+            new ChromeConfiguration().setSeleniumBrowserCacheRoot(DEFAULT_WIN_SELENIUM_CACHE_ROOT)
+                    .setSeleniumCacheFileName(DEFAULT_SELENIUM_CACHE_NAME)
+                    .setWebDriverPath(CHROME_DRIVER_PATH);
+        }
+    }
 
     public ChromeConfiguration setSeleniumBrowserCacheRoot(String path) {
         this.seleniumBrowserCacheRoot = path;
