@@ -2,7 +2,6 @@ package frankdevhub.job.automatic.selenium.config;
 
 import frankdevhub.job.automatic.core.exception.BusinessException;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public interface SeleniumBrowserConfiguration {

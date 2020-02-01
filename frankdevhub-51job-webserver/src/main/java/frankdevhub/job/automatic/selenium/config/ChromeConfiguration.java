@@ -79,7 +79,7 @@ public class ChromeConfiguration implements SeleniumBrowserConfiguration {
     }
 
     @Override
-    public Boolean getCacheDirectoryLockedStatus() throws IOException {
+    public Boolean getCacheDirectoryLockedStatus() {
         Assert.notNull(webDriverPath, BusinessConstants.SELENIUM_WEB_DRIVER_PATH_NULL);
         System.out.println("web driver: " + webDriverPath);
 
