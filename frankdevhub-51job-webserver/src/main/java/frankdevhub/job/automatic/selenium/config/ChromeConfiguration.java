@@ -6,7 +6,6 @@ import org.apache.commons.io.FileUtils;
 import tk.mybatis.mapper.util.Assert;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.util.concurrent.locks.Lock;
@@ -27,11 +26,13 @@ public class ChromeConfiguration implements SeleniumBrowserConfiguration {
 
     private final Lock userLock = new ReentrantLock();
 
-    public static final String DEFAULT_WIN_CHROME_CACHE_PATH = "C:/Users/Administrator/AppData/Local/Google/Chrome/User Data";
-    public static final String DEFAULT_WIN_SELENIUM_CACHE_ROOT = "C:/Automation/";
+    public static final String DEFAULT_WIN_CHROME_CACHE_PATH = "C:\\Users\\Administrator\\AppData\\Local\\Google\\Chrome\\User Data";
+    public static final String DEFAULT_WIN_SELENIUM_CACHE_ROOT = "C:\\Automation\\";
+    private static final String CHROME_DRIVER_PATH = System.getProperty("user.dir") + File.separator + "chromedriver.exe";
 
     private String seleniumBrowserCacheRoot = null;
     private String seleniumCacheFileName = null;
+    private String webDriverPath = null;
 
     public ChromeConfiguration setSeleniumBrowserCacheRoot(String path) {
         this.seleniumBrowserCacheRoot = path;
@@ -43,13 +44,18 @@ public class ChromeConfiguration implements SeleniumBrowserConfiguration {
         return this;
     }
 
+    public ChromeConfiguration setWebDriverPath(String webDriverPath) {
+        this.webDriverPath = webDriverPath;
+        return this;
+    }
+
     private void isSeleniumBrowserCacheDirectoryExist(File directory) throws BusinessException {
         if (!directory.exists())
             throw new BusinessException(BusinessConstants.SELENIUM_CACHE_ROOT_NOT_EXISTS);
     }
 
     private String getSeleniumCacheDirectoryPath() {
-        return this.seleniumBrowserCacheRoot + "/" + this.seleniumCacheFileName;
+        return this.seleniumBrowserCacheRoot + File.pathSeparator + this.seleniumCacheFileName;
     }
 
     @Override
@@ -73,11 +79,13 @@ public class ChromeConfiguration implements SeleniumBrowserConfiguration {
     }
 
     @Override
-    public Boolean getCacheDirectoryLockedStatus() throws FileNotFoundException {
+    public Boolean getCacheDirectoryLockedStatus() throws IOException {
+        Assert.notNull(webDriverPath, BusinessConstants.SELENIUM_WEB_DRIVER_PATH_NULL);
+        System.out.println("web driver: " + webDriverPath);
 
-        String path = getSeleniumCacheDirectoryPath();
-        RandomAccessFile temp = new RandomAccessFile(new File(path), "rw");
+        File driver = new File(webDriverPath);
         try {
+            RandomAccessFile temp = new RandomAccessFile(driver, "rw");
             temp.close();
         } catch (IOException e) {
             e.printStackTrace();

@@ -1,6 +1,8 @@
+import frankdevhub.job.automatic.core.constants.BusinessConstants;
 import frankdevhub.job.automatic.core.data.logging.Logger;
 import frankdevhub.job.automatic.core.data.logging.LoggerFactory;
 import frankdevhub.job.automatic.core.exception.BusinessException;
+import frankdevhub.job.automatic.selenium.DriverBase;
 import frankdevhub.job.automatic.selenium.config.ChromeConfiguration;
 import org.junit.Before;
 import org.junit.Test;
@@ -8,7 +10,7 @@ import org.junit.runner.RunWith;
 import org.openqa.selenium.WebDriver;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.io.FileNotFoundException;
+import java.io.File;
 import java.io.IOException;
 
 /**
@@ -28,6 +30,7 @@ public class ChromeConfigurationTest {
     private final Logger LOGGER = LoggerFactory.getLogger(ChromeConfigurationTest.class);
     private static final String SELENIUM_TEST_CACHE_DIRECTORY_NAME = "junit-selenium-test";
     private static final String SELENIUM_TEST_CACHE_PATH = "C:/Automation/junit-selenium-test";
+    private static final String CHROME_DRIVER_PATH = System.getProperty("user.dir") + File.separator + "chromedriver.exe";
 
     private WebDriver driver = null;
 
@@ -38,12 +41,12 @@ public class ChromeConfigurationTest {
                 .setSeleniumBrowserCache(configuration.DEFAULT_WIN_CHROME_CACHE_PATH, SELENIUM_TEST_CACHE_DIRECTORY_NAME);
     }
 
-
     @Test
-    public void testGetCacheDirectoryLockedStatus() throws FileNotFoundException {
+    public void testGetCacheDirectoryLockedStatus() throws IOException {
         LOGGER.begin().info("run test method {{testGetCacheDirectoryLockedStatus}} start");
         configuration.setSeleniumBrowserCacheRoot(ChromeConfiguration.DEFAULT_WIN_SELENIUM_CACHE_ROOT)
-                .setSeleniumCacheFileName(SELENIUM_TEST_CACHE_DIRECTORY_NAME);
+                .setSeleniumCacheFileName(SELENIUM_TEST_CACHE_DIRECTORY_NAME)
+                .setWebDriverPath(CHROME_DRIVER_PATH);
 
         Long start = System.currentTimeMillis();
         Boolean lock = configuration.getCacheDirectoryLockedStatus();
@@ -53,7 +56,6 @@ public class ChromeConfigurationTest {
         LOGGER.begin().info("run test method {{testGetCacheDirectoryLockedStatus}} complete");
     }
 
-    /*@Test
     public void testChromeDriverNavigateToWebPage() throws Exception {
         Long start = System.currentTimeMillis();
 
@@ -68,7 +70,7 @@ public class ChromeConfigurationTest {
         driver.get(BusinessConstants.JOB_PLATFORM_HOMEPAGE);
 
         LOGGER.begin().info("run test method {{testChromeDriverNavigateToWebPage}} complete");
-    }*/
+    }
 
 
    /* @Test

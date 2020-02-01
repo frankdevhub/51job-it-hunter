@@ -5,6 +5,7 @@ import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
+import java.io.File;
 import java.io.IOException;
 
 public class DriverFactory {
@@ -15,7 +16,7 @@ public class DriverFactory {
     private final String operatingSystem = System.getProperty("os.name").toUpperCase();
     private final String systemArchitecture = System.getProperty("os.arch");
     private final boolean useRemoteWebDriver = Boolean.getBoolean("remoteDriver");
-    private static final String CHROME_DRIVER_PATH = System.getProperty("user.dir") + "\\chromedriver.exe";
+    private static final String CHROME_DRIVER_PATH = System.getProperty("user.dir") + File.separator + "chromedriver.exe";
 
     public DriverFactory() {
 

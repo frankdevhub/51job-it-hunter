@@ -15,6 +15,8 @@ public class BusinessConstants {
     public static final String SELENIUM_CACHE_ROOT_NULL = "selenium cache root directory path should not be null";
     public static final String SELENIUM_CACHE_ROOT_NOT_EXISTS = "selenium cache root directory not exist";
     public static final String SELENIUM_CACHE_FILE_NAME_NULL = "selenium cache file name should not be null";
+    public static final String SELENIUM_WEB_DRIVER_PATH_NULL = "selenium web driver path should not be null";
+    public static final String SELENIUM_WEB_DRIVER_NOT_EXIST = "selenium web driver not exist";
     //character unit argument
     public static final String CHARACTER_NULL_ARGUMENT = "character should not be null";
     public static final String INVALID_CHINESE_CHARACTER = "not a chinese character";
