@@ -6,6 +6,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.lang.reflect.Method;
+
 /**
  * <p>Title:@ClassName CommonBusinessUtilsTest.java</p>
  * <p>Copyright: Copyright (c) 2020</p>
@@ -26,10 +28,15 @@ public class CommonBusinessUtilsTest {
         System.out.println("Test Character = " + c + " Test Result: " + res.toString() + "");
     }
 
+
+
     @Test
     public void getBusinessUtilsDeclaredMethods() {
         LOGGER.begin().info("run test method {{getBusinessUtilsDeclaredMethods}} start");
-
+        Class<?> clazz = CommonBusinessUtils.class;
+        Method[] methods = clazz.getDeclaredMethods();
+        for (Method m : methods)
+            System.out.println("method name: " + m.getName());
 
         LOGGER.begin().info("run test method {{getBusinessUtilsDeclaredMethods}} complete");
     }
