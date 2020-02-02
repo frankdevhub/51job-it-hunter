@@ -29,6 +29,13 @@ public class CommonBusinessUtilsTest {
     }
 
     @Test
+    public void testNumericUnitConstructor() {
+        LOGGER.begin().info("run test method {{testNumericUnitConstructor}} start");
+
+        LOGGER.begin().info("run test method {{testNumericUnitConstructor}} start");
+    }
+
+    @Test
     public void testGetRuntimeMethodName() {
         LOGGER.begin().info("run test method {{testGetRuntimeMethodName}} start");
 
@@ -63,7 +70,7 @@ public class CommonBusinessUtilsTest {
 
         Boolean value = null;
         try {
-            value = CommonBusinessUtils.isSimpleChinese(CN_CHAR);
+            value = CommonBusinessUtils.isSimpleChineseCharacter(CN_CHAR);
         } catch (Exception e) {
             e.printStackTrace();
             value = Boolean.FALSE;
@@ -71,7 +78,7 @@ public class CommonBusinessUtilsTest {
             printTestResult(value, CN_CHAR);
         }
         try {
-            value = CommonBusinessUtils.isSimpleChinese(TW_CHAR);
+            value = CommonBusinessUtils.isSimpleChineseCharacter(TW_CHAR);
         } catch (Exception e) {
             e.printStackTrace();
             value = Boolean.FALSE;
@@ -81,7 +88,7 @@ public class CommonBusinessUtilsTest {
 
 
         try {
-            value = CommonBusinessUtils.isSimpleChinese(EN_CHAR);
+            value = CommonBusinessUtils.isSimpleChineseCharacter(EN_CHAR);
         } catch (Exception e) {
             e.printStackTrace();
             value = Boolean.FALSE;
@@ -90,7 +97,7 @@ public class CommonBusinessUtilsTest {
         }
 
         try {
-            value = CommonBusinessUtils.isSimpleChinese(NUM_CHAR);
+            value = CommonBusinessUtils.isSimpleChineseCharacter(NUM_CHAR);
         } catch (Exception e) {
             e.printStackTrace();
             value = Boolean.FALSE;

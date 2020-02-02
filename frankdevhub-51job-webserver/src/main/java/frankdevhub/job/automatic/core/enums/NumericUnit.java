@@ -1,5 +1,11 @@
 package frankdevhub.job.automatic.core.enums;
 
+import frankdevhub.job.automatic.core.utils.CommonBusinessUtils;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.Map;
+
 /**
  * <p>Title:@ClassName NumericUnit.java</p>
  * <p>Copyright: Copyright (c) 2020</p>
@@ -30,6 +36,35 @@ public enum NumericUnit {
     private Boolean isTW_Character;
     private Boolean isEN_Character;
     private Boolean isCapital;
+    private Map<String, Boolean> attributes;
+
+
+    NumericUnit(Character unit) {
+        this.unit = unit;
+        this.attributes = CommonBusinessUtils.getCharacterAttributes(unit);
+        this.setAttributes();
+    }
+
+    private void setAttributes() {
+        if (null != this.attributes) {
+            Class<?> clazz = this.getClass();
+            Method[] methods = clazz.getDeclaredMethods();
+            for (Method m : methods) {
+                m.setAccessible(true);
+                String name = m.getName();
+                if (name.contains("Character".trim())) {
+                    Boolean value = this.attributes.get(name);
+                    if (null != value) {
+                        try {
+                            m.invoke(name, value);
+                        } catch (IllegalAccessException | InvocationTargetException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
+        }
+    }
 
     public Character getUnit() {
         return unit;
@@ -40,44 +75,40 @@ public enum NumericUnit {
         return this;
     }
 
-    public Boolean getIsCN_Character() {
+    public Boolean isSimpleChinese() {
         return isCN_Character;
     }
 
-    private NumericUnit setCN_Character(Boolean CN_Character) {
+    private NumericUnit isSimpleChinese(Boolean CN_Character) {
         isCN_Character = CN_Character;
         return this;
     }
 
-    public Boolean getIsTW_Character() {
+    public Boolean isTaiwaneseCharacter() {
         return isTW_Character;
     }
 
-    private NumericUnit setTW_Character(Boolean TW_Character) {
+    private NumericUnit isTaiwaneseCharacter(Boolean TW_Character) {
         isTW_Character = TW_Character;
         return this;
     }
 
-    public Boolean getIsEN_Character() {
+    public Boolean isEnglishCharacter() {
         return isEN_Character;
     }
 
-    private NumericUnit setEN_Character(Boolean EN_Character) {
+    private NumericUnit isEnglishCharacter(Boolean EN_Character) {
         isEN_Character = EN_Character;
         return this;
     }
 
-    public Boolean getIsCapital() {
+    public Boolean isENCapitalCharacter() {
         return isCapital;
     }
 
-    private NumericUnit setCapital(Boolean capital) {
+    private NumericUnit isENCapitalCharacter(Boolean capital) {
         isCapital = capital;
         return this;
-    }
-
-    NumericUnit(Character unit) {
-        this.unit = unit;
     }
 
 }

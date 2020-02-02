@@ -1,5 +1,9 @@
 package frankdevhub.job.automatic.entities;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.Map;
+
 /**
  * <p>Title:@ClassName BusinessCharacter.java</p>
  * <p>Copyright: Copyright (c) 2020</p>
@@ -18,6 +22,33 @@ public class BusinessCharacter {
     private Boolean isENCapital;
     private Boolean isNumericCharacter;
     private Boolean isSymbolCharacter;
+    private Map<String, Boolean> attributes;
+
+    public Map<String, Boolean> getAttributes() {
+        return attributes;
+    }
+
+    public BusinessCharacter setAttributes(Map<String, Boolean> attributes) throws InvocationTargetException, IllegalAccessException {
+        this.attributes = attributes;
+        setAttributes();
+        return this;
+    }
+
+    private void setAttributes() throws InvocationTargetException, IllegalAccessException {
+        if (null != this.attributes) {
+            Class<?> clazz = this.getClass();
+            Method[] methods = clazz.getDeclaredMethods();
+            for (Method m : methods) {
+                m.setAccessible(true);
+                String name = m.getName();
+                if (name.contains("Character".trim())) {
+                    Boolean value = this.attributes.get(name);
+                    if (null != value)
+                        m.invoke(name, value);
+                }
+            }
+        }
+    }
 
     public Character getValue() {
         return value;
@@ -28,56 +59,56 @@ public class BusinessCharacter {
         return this;
     }
 
-    public Boolean getIsCN_Character() {
+    public Boolean isSimpleChineseCharacter() {
         return isCN_Character;
     }
 
-    public BusinessCharacter setIsCN_Character(Boolean isCN_Character) {
+    public BusinessCharacter isSimpleChineseCharacter(Boolean isCN_Character) {
         this.isCN_Character = isCN_Character;
         return this;
     }
 
-    public Boolean getIsTW_Character() {
+    public Boolean isTaiwaneseCharacter() {
         return isTW_Character;
     }
 
-    public BusinessCharacter setIsTW_Character(Boolean isTW_Character) {
+    public BusinessCharacter isTaiwaneseCharacter(Boolean isTW_Character) {
         this.isTW_Character = isTW_Character;
         return this;
     }
 
-    public Boolean getIsEN_Character() {
+    public Boolean isEnglishCharacter() {
         return isEN_Character;
     }
 
-    public BusinessCharacter setIsEN_Character(Boolean isEN_Character) {
+    public BusinessCharacter isEnglishCharacter(Boolean isEN_Character) {
         this.isEN_Character = isEN_Character;
         return this;
     }
 
-    public Boolean getIsENCapital() {
+    public Boolean isENCapitalCharacter() {
         return isENCapital;
     }
 
-    public BusinessCharacter setIsENCapital(Boolean isENCapital) {
+    public BusinessCharacter isENCapitalCharacter(Boolean isENCapital) {
         this.isENCapital = isENCapital;
         return this;
     }
 
-    public Boolean getIsNumericCharacter() {
+    public Boolean isNumericCharacter() {
         return isNumericCharacter;
     }
 
-    public BusinessCharacter setIsNumericCharacter(Boolean isNumericCharacter) {
+    public BusinessCharacter isNumericCharacter(Boolean isNumericCharacter) {
         this.isNumericCharacter = isNumericCharacter;
         return this;
     }
 
-    public Boolean getIsSymbolCharacter() {
+    public Boolean isSymbolCharacter() {
         return isSymbolCharacter;
     }
 
-    public BusinessCharacter setSymbolCharacter(Boolean isSymbolCharacter) {
+    public BusinessCharacter isSymbolCharacter(Boolean isSymbolCharacter) {
         this.isSymbolCharacter = isSymbolCharacter;
         return this;
     }

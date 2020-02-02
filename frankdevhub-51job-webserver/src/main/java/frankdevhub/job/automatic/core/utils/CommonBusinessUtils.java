@@ -5,10 +5,13 @@ import frankdevhub.job.automatic.core.data.logging.Logger;
 import frankdevhub.job.automatic.core.data.logging.LoggerFactory;
 import frankdevhub.job.automatic.core.enums.CharacterEncode;
 import frankdevhub.job.automatic.core.exception.IllegalArgumentException;
-import frankdevhub.job.automatic.entities.BusinessCharacter;
 import tk.mybatis.mapper.util.Assert;
 
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -26,15 +29,38 @@ public class CommonBusinessUtils {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CommonBusinessUtils.class);
 
-    public static final BusinessCharacter getBusinessCharacter(Character value) throws UnsupportedEncodingException, IllegalArgumentException {
-        LOGGER.begin().info(String.format("invoke {{getBusinessCharacter}} ,character:[%s]", value));
-        BusinessCharacter character = new BusinessCharacter();
-        character.setIsCN_Character(isSimpleChinese(value))
-                .setIsTW_Character(isTaiwaneseCharacter(value))
-                .setIsEN_Character(isENCapitalCharacter(value))
-                .setIsENCapital(isENCapitalCharacter(value))
-                .setIsNumericCharacter(isNumeicCharacter(value));
-        return character;
+    public static String getRuntimeMethodName(Integer trace) {
+        StackTraceElement[] stackTrace = new Exception().getStackTrace();
+        String methodName = stackTrace[trace].getMethodName();
+        System.out.println("current method name: " + methodName);
+
+        return methodName;
+    }
+
+    public static final Map<String, Boolean> getCharacterAttributes(Character character) {
+        CommonBusinessUtils utils = new CommonBusinessUtils();
+        Class<?> clazz = CommonBusinessUtils.class;
+
+        String currentMethodName = CommonBusinessUtils.getRuntimeMethodName(1);
+        Map<String, Boolean> attributes = new HashMap<>();
+        Method[] methods = clazz.getDeclaredMethods();
+        for (Method m : methods) {
+            if (m.getName().equals(currentMethodName) || !m.getName().contains("Character".trim()))
+                continue;
+
+            m.setAccessible(true);
+            String name = m.getName();
+            Boolean value;
+            try {
+                value = (Boolean) m.invoke(utils, character);
+            } catch (IllegalAccessException | InvocationTargetException e) {
+                e.printStackTrace();
+                continue;
+            }
+            attributes.put(name, value);
+
+        }
+        return attributes;
     }
 
     public static Boolean isChineseCharacter(Character character) {
@@ -46,7 +72,7 @@ public class CommonBusinessUtils {
         return Boolean.FALSE;
     }
 
-    public static Boolean isSimpleChinese(Character character) throws UnsupportedEncodingException, IllegalArgumentException {
+    public static Boolean isSimpleChineseCharacter(Character character) throws UnsupportedEncodingException, IllegalArgumentException {
         Boolean isCNChar = isChineseCharacter(character);
         String characterEncode = CharacterEncode.GB2312.getCodeName();
         if (isCNChar) {
@@ -54,11 +80,15 @@ public class CommonBusinessUtils {
                 return Boolean.TRUE;
             return Boolean.FALSE;
         } else
-            throw new IllegalArgumentException(BusinessConstants.INVALID_CHINESE_CHARACTER);
+            return Boolean.FALSE;
     }
 
     public static Boolean isTaiwaneseCharacter(Character character) throws UnsupportedEncodingException, IllegalArgumentException {
-        Boolean match = !isSimpleChinese(character);
+        Boolean match = isChineseCharacter(character);
+        if (!match)
+            return Boolean.FALSE;
+        else
+            match = !isSimpleChineseCharacter(character);
         return match;
     }
 
@@ -70,7 +100,7 @@ public class CommonBusinessUtils {
         return match;
     }
 
-    public static Boolean isENCapitalCharacter(Character character) throws IllegalArgumentException {
+    public static Boolean isENCapitalCharacter(Character character) {
         Boolean isENChar = isEnglishCharacter(character);
         if (isENChar) {
             String regex = "[a-z]";
@@ -79,10 +109,10 @@ public class CommonBusinessUtils {
                 return Boolean.FALSE;
             return Boolean.TRUE;
         } else
-            throw new IllegalArgumentException(BusinessConstants.INVALID_ENGLISH_CHARACTER);
+            return Boolean.FALSE;
     }
 
-    public static Boolean isNumeicCharacter(Character character) {
+    public static Boolean isNumericCharacter(Character character) {
         Assert.notNull(character, BusinessConstants.CHARACTER_NULL_ARGUMENT);
         String regex = "[0-9]";
         Matcher matcher = Pattern.compile(regex).matcher(character.toString());
