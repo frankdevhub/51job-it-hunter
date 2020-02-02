@@ -28,10 +28,20 @@ public class CommonBusinessUtilsTest {
         System.out.println("Test Character = " + c + " Test Result: " + res.toString() + "");
     }
 
+    @Test
+    public void testGetRuntimeMethodName() {
+        LOGGER.begin().info("run test method {{testGetRuntimeMethodName}} start");
+
+        Integer defineTrace = 1;
+        String methodName = CommonBusinessUtils.getRuntimeMethodName(defineTrace);
+        System.out.println("test result-> current runtime method name: " + methodName);
+
+        LOGGER.begin().info("run test method {{testGetRuntimeMethodName}} complete");
+    }
 
 
     @Test
-    public void getBusinessUtilsDeclaredMethods() {
+    public void testGetBusinessUtilsDeclaredMethods() {
         LOGGER.begin().info("run test method {{getBusinessUtilsDeclaredMethods}} start");
         Class<?> clazz = CommonBusinessUtils.class;
         Method[] methods = clazz.getDeclaredMethods();
