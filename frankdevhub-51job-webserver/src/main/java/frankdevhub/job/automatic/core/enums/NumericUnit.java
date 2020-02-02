@@ -89,7 +89,7 @@ public enum NumericUnit {
     }
 
     private NumericUnit isTaiwaneseCharacter(Boolean TW_Character) {
-        isTW_Character = TW_Character;
+        this.isTW_Character = TW_Character;
         return this;
     }
 
@@ -98,7 +98,7 @@ public enum NumericUnit {
     }
 
     private NumericUnit isEnglishCharacter(Boolean EN_Character) {
-        isEN_Character = EN_Character;
+        this.isEN_Character = EN_Character;
         return this;
     }
 
