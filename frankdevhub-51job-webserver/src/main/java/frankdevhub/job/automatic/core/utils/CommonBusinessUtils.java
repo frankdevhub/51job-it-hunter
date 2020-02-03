@@ -1,8 +1,6 @@
 package frankdevhub.job.automatic.core.utils;
 
 import frankdevhub.job.automatic.core.constants.BusinessConstants;
-import frankdevhub.job.automatic.core.data.logging.Logger;
-import frankdevhub.job.automatic.core.data.logging.LoggerFactory;
 import frankdevhub.job.automatic.core.enums.CharacterEncode;
 import frankdevhub.job.automatic.core.exception.IllegalArgumentException;
 import tk.mybatis.mapper.util.Assert;
@@ -26,8 +24,6 @@ import java.util.regex.Pattern;
  * @Version: 1.0
  */
 public class CommonBusinessUtils {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(CommonBusinessUtils.class);
 
     public static String getRuntimeMethodName(Integer trace) {
         StackTraceElement[] stackTrace = new Exception().getStackTrace();
@@ -53,8 +49,13 @@ public class CommonBusinessUtils {
             Boolean value;
             try {
                 value = (Boolean) m.invoke(utils, character);
+                System.out.println("invoke->getCharacterAttributes::" + name + " , "
+                        + "value = " + value);
+
             } catch (IllegalAccessException | InvocationTargetException e) {
                 e.printStackTrace();
+                System.err.println("!!!!ERROR!!!::invoke->getCharacterAttributes::" + name + "");
+
                 continue;
             }
             attributes.put(name, value);

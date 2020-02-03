@@ -5,9 +5,12 @@ import frankdevhub.job.automatic.entities.BusinessCharacter;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import tk.mybatis.mapper.util.Assert;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * <p>Title:@ClassName BusinessCharacterTest.java</p>
@@ -30,6 +33,16 @@ public class BusinessCharacterTest {
     private static final Character EN_CHAR = 'h';
     private static final Character NUM_CHAR = '3';
 
+    private void printAttributeMap(Map<String, Boolean> attributes) {
+        Assert.notNull(attributes, "attribute Map should not be null");
+        Set<Map.Entry<String, Boolean>> entrySet = attributes.entrySet();
+        Iterator<Map.Entry<String, Boolean>> it = entrySet.iterator();
+
+        System.out.println("print attribute map");
+        while (it.hasNext())
+            System.out.println("key = " + it.next().getKey() + "; value = " + it.next().getValue());
+    }
+
     @Test
     public void testSetAttributes() throws InvocationTargetException, IllegalAccessException {
         Map<String, Boolean> attributes;
@@ -38,6 +51,7 @@ public class BusinessCharacterTest {
 
         System.out.println("using example CN_CHAR: " + CN_CHAR);
         attributes = CommonBusinessUtils.getCharacterAttributes(CN_CHAR);
+        printAttributeMap(attributes);
         businessCharacter.setValue(CN_CHAR).setAttributes(attributes).toString();
 
 

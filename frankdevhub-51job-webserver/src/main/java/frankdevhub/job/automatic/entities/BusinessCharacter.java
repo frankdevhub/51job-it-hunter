@@ -58,17 +58,23 @@ public class BusinessCharacter {
         return this;
     }
 
+    //TODO
     private void setAttributes() throws InvocationTargetException, IllegalAccessException {
+        System.out.println("BusinessCharacter::setAttributes");
+
         if (null != this.attributes) {
             Class<?> clazz = this.getClass();
             Method[] methods = clazz.getDeclaredMethods();
             for (Method m : methods) {
                 m.setAccessible(true);
                 String name = m.getName();
-                if (name.contains("Character".trim())) {
+                Integer args = m.getParameterCount();
+                if (name.contains("Character".trim()) && args == 1) {
                     Boolean value = this.attributes.get(name);
+                    System.out.println("method name: " + name + " value: " + value);
+
                     if (null != value)
-                        m.invoke(name, value);
+                        m.invoke(this, value);
                 }
             }
         }
