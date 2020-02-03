@@ -24,6 +24,30 @@ public class BusinessCharacter {
     private Boolean isSymbolCharacter;
     private Map<String, Boolean> attributes;
 
+    @Override
+    public String toString() {
+
+        System.out.println("print attributes:");
+        System.out.println("value = " + value);
+        System.out.println("isCN_Character = " + isCN_Character);
+        System.out.println("isTW_Character = " + isTW_Character);
+        System.out.println("isEN_Character = " + isEN_Character);
+        System.out.println("isENCapital = " + isENCapital);
+        System.out.println("isNumericCharacter = " + isNumericCharacter);
+        System.out.println("isSymbolCharacter = " + isSymbolCharacter);
+
+        return "BusinessCharacter{" +
+                "value=" + value +
+                ", isCN_Character=" + isCN_Character +
+                ", isTW_Character=" + isTW_Character +
+                ", isEN_Character=" + isEN_Character +
+                ", isENCapital=" + isENCapital +
+                ", isNumericCharacter=" + isNumericCharacter +
+                ", isSymbolCharacter=" + isSymbolCharacter +
+                ", attributes=" + attributes +
+                '}';
+    }
+
     public Map<String, Boolean> getAttributes() {
         return attributes;
     }
