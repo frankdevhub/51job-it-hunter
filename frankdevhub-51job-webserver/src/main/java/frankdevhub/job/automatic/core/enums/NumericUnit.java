@@ -38,6 +38,25 @@ public enum NumericUnit {
     private Boolean isCapital;
     private Map<String, Boolean> attributes;
 
+    @Override
+    public String toString() {
+
+        System.out.println("print attributes:");
+        System.out.println("unit = " + unit);
+        System.out.println("isCN_Character = " + isCN_Character);
+        System.out.println("isTW_Character = " + isTW_Character);
+        System.out.println("isEN_Character = " + isEN_Character);
+        System.out.println("isCapital = " + isCapital);
+
+        return "NumericUnit{" +
+                "unit=" + unit +
+                ", isCN_Character=" + isCN_Character +
+                ", isTW_Character=" + isTW_Character +
+                ", isEN_Character=" + isEN_Character +
+                ", isCapital=" + isCapital +
+                ", attributes=" + attributes +
+                '}';
+    }
 
     NumericUnit(Character unit) {
         this.unit = unit;
