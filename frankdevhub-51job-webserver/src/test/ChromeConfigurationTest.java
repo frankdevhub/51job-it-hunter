@@ -4,7 +4,6 @@ import frankdevhub.job.automatic.core.data.logging.LoggerFactory;
 import frankdevhub.job.automatic.core.exception.BusinessException;
 import frankdevhub.job.automatic.selenium.DriverBase;
 import frankdevhub.job.automatic.selenium.config.ChromeConfiguration;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.WebDriver;
@@ -34,14 +33,14 @@ public class ChromeConfigurationTest {
 
     private WebDriver driver = null;
 
-    private ChromeConfiguration configuration = new ChromeConfiguration();
+    private ChromeConfiguration configuration = ChromeConfiguration.newInstance(false);
 
     private void setSeleniumChromeCacheDirectory() throws IOException, BusinessException {
         configuration.deleteHistorySeleniumBrowserCache()
                 .setSeleniumBrowserCache(configuration.DEFAULT_WIN_CHROME_CACHE_PATH, SELENIUM_TEST_CACHE_DIRECTORY_NAME);
     }
 
-    @Test
+    //@Test
     public void testGetCacheDirectoryLockedStatus() {
         LOGGER.begin().info("run test method {{testGetCacheDirectoryLockedStatus}} start");
         configuration.setSeleniumBrowserCacheRoot(ChromeConfiguration.DEFAULT_WIN_SELENIUM_CACHE_ROOT)
@@ -64,7 +63,6 @@ public class ChromeConfigurationTest {
         DriverBase.instantiateDriverObject();
         driver = DriverBase.getDriver(SELENIUM_TEST_CACHE_PATH);
 
-
         Long current = System.currentTimeMillis();
         System.out.println(String.format("Chrome Driver instance initialize complete, cost:%s sec", (current - start) / 1000));
         System.out.println("navigate to test web site page");
@@ -74,17 +72,11 @@ public class ChromeConfigurationTest {
     }
 
 
-    @Test
+    //@Test
     public void testSeleniumChromeCacheConfiguration() throws IOException, BusinessException {
         LOGGER.begin().info("run test method {{testSeleniumChromeCacheConfiguration}} start");
         setSeleniumChromeCacheDirectory();
         LOGGER.begin().info("run test method {{testSeleniumChromeCacheConfiguration}} complete");
-    }
-
-    @Before
-    public void init() {
-        LOGGER.begin().info("invoke {{ChromeConfigurationTest:: init()}}");
-
     }
 
 }

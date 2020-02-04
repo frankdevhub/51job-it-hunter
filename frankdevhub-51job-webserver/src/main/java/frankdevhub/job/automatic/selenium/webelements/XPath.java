@@ -1,4 +1,4 @@
-package frankdevhub.job.automatic.selenium;
+package frankdevhub.job.automatic.selenium.webelements;
 
 /**
  * <p>Title:@ClassName XPath.java</p>

@@ -1,7 +1,6 @@
 import frankdevhub.job.automatic.core.data.logging.Logger;
 import frankdevhub.job.automatic.core.data.logging.LoggerFactory;
 import frankdevhub.job.automatic.core.utils.CommonBusinessUtils;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -58,7 +57,6 @@ public class CommonBusinessUtilsTest {
         LOGGER.begin().info("run test method {{getBusinessUtilsDeclaredMethods}} complete");
     }
 
-
     @Test
     public void testIsSimpleChinese() {
         LOGGER.begin().info("run test method {{testIsSimpleChinese}} start");
@@ -109,9 +107,16 @@ public class CommonBusinessUtilsTest {
         LOGGER.begin().info("run test method {{testIsSimpleChinese}} complete");
     }
 
-    @Before
-    public void init() {
-        LOGGER.begin().info("invoke {{CommonBusinessUtilsTest:: init()}}");
+    @Test
+    public void testIsSymbolCharacter() {
+        LOGGER.begin().info("run test method {{testIsSymbolCharacter}} start");
+        Character[] characters = new Character[]{'=', '-', '.', '{', '【', '、', '~', '`', '·', '2', 'o', '个'};
+        for (Character c : characters) {
+            Boolean value = CommonBusinessUtils.isSymbolCharacter(c);
+            System.out.println("char = " + c + " value = " + value);
+        }
+
+        LOGGER.begin().info("run test method {{testIsSymbolCharacter}} complete");
 
     }
 

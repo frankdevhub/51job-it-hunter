@@ -48,6 +48,8 @@ public enum NumericUnit {
         System.out.println("isEN_Character = " + isEN_Character);
         System.out.println("isCapital = " + isCapital);
 
+        System.out.println("\n\n");
+
         return "NumericUnit{" +
                 "unit=" + unit +
                 ", isCN_Character=" + isCN_Character +

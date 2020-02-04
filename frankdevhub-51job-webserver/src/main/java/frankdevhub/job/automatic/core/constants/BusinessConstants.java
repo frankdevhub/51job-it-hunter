@@ -25,5 +25,6 @@ public class BusinessConstants {
     public static final String JOB_PLATFORM_HOMEPAGE = "http://www.51job.com";
     //enum constants
     public static final String CHARACTER_BOOLEAN_VAREIABLE_CONFLICT = "time unit variable type conflict";
-
+    //web page keywords and properties
+    public static final String JOB_PLATFORM_HOMEPAGE_TITLE_KEY = "招聘网_人才网";
 }

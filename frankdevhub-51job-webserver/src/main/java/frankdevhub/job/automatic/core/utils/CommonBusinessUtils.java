@@ -121,4 +121,11 @@ public class CommonBusinessUtils {
         return match;
     }
 
+    public static Boolean isSymbolCharacter(Character character) {
+        Assert.notNull(character, BusinessConstants.CHARACTER_NULL_ARGUMENT);
+        String regex = "[a-zA-Z0-9\\u4E00-\\u9FA5]";
+        Matcher matcher = Pattern.compile(regex).matcher(character.toString());
+        Boolean match = !matcher.find();
+        return match;
+    }
 }

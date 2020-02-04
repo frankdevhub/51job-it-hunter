@@ -1,8 +1,8 @@
 package frankdevhub.job.automatic.selenium;
 
-import java.lang.reflect.Field;
-
 import org.openqa.selenium.remote.RemoteWebDriver;
+
+import java.lang.reflect.Field;
 
 /**
  * <p>Title:AssignDriver.java</p>

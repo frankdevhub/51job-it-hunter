@@ -27,26 +27,34 @@ public class ChromeConfiguration implements SeleniumBrowserConfiguration {
     private final Lock userLock = new ReentrantLock();
 
     public static final String DEFAULT_WIN_CHROME_CACHE_PATH = "C:\\Users\\Administrator\\AppData\\Local\\Google\\Chrome\\User Data";
-    public static final String DEFAULT_WIN_SELENIUM_CACHE_ROOT = "C:\\Automation\\";
+    public static final String DEFAULT_WIN_SELENIUM_CACHE_ROOT = "C:\\Automation";
     private static final String CHROME_DRIVER_PATH = System.getProperty("user.dir") + File.separator + "chromedriver.exe";
-    private static final String DEFAULT_SELENIUM_CACHE_NAME = "selenium-test";
+    private static final String DEFAULT_SELENIUM_CACHE_NAME = "junit-selenium-test";
 
     private String seleniumBrowserCacheRoot = null;
     private String seleniumCacheFileName = null;
     private String webDriverPath = null;
+    private String systemBrowserCachePath = null;
 
 
-    public ChromeConfiguration() {
+    private ChromeConfiguration(String seleniumBrowserCacheRoot, String seleniumCacheFileName,
+                                String webDriverPath) {
+
+        this.seleniumBrowserCacheRoot = seleniumBrowserCacheRoot;
+        this.seleniumCacheFileName = seleniumCacheFileName;
+        this.webDriverPath = webDriverPath;
+
+        System.out.println("web browser cache configuration properties:");
+        System.out.println("seleniumBrowserCacheRoot = " + seleniumBrowserCacheRoot);
+        System.out.println("seleniumCacheFileName = " + seleniumCacheFileName);
+        System.out.println("\n\n");
     }
 
-    public ChromeConfiguration(Boolean custom) {
-        if (custom)
-            new ChromeConfiguration();
-        else {
-            new ChromeConfiguration().setSeleniumBrowserCacheRoot(DEFAULT_WIN_SELENIUM_CACHE_ROOT)
-                    .setSeleniumCacheFileName(DEFAULT_SELENIUM_CACHE_NAME)
-                    .setWebDriverPath(CHROME_DRIVER_PATH);
-        }
+    public static ChromeConfiguration newInstance(Boolean isAutoConfig) {
+        if (isAutoConfig)
+            return null;
+        else
+            return new ChromeConfiguration(DEFAULT_WIN_SELENIUM_CACHE_ROOT, DEFAULT_SELENIUM_CACHE_NAME, CHROME_DRIVER_PATH);
     }
 
     public ChromeConfiguration setSeleniumBrowserCacheRoot(String path) {
@@ -64,13 +72,17 @@ public class ChromeConfiguration implements SeleniumBrowserConfiguration {
         return this;
     }
 
+    public String getSystemBrowserCachePath() {
+        return systemBrowserCachePath;
+    }
+
     private void isSeleniumBrowserCacheDirectoryExist(File directory) throws BusinessException {
         if (!directory.exists())
             throw new BusinessException(BusinessConstants.SELENIUM_CACHE_ROOT_NOT_EXISTS);
     }
 
-    private String getSeleniumCacheDirectoryPath() {
-        return this.seleniumBrowserCacheRoot + File.pathSeparator + this.seleniumCacheFileName;
+    public String getSeleniumCacheDirectoryPath() {
+        return this.seleniumBrowserCacheRoot + File.separator + this.seleniumCacheFileName;
     }
 
     @Override
@@ -89,7 +101,9 @@ public class ChromeConfiguration implements SeleniumBrowserConfiguration {
     }
 
     @Override
-    public String getSystemBrowserCachePath() {
+    public String searchSystemBrowserCachePath() {
+        String path = null;
+        this.systemBrowserCachePath = path;
         return null;
     }
 

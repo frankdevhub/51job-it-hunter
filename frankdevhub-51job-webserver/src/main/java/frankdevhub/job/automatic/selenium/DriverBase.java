@@ -1,13 +1,13 @@
 package frankdevhub.job.automatic.selenium;
 
+import frankdevhub.job.automatic.selenium.config.DriverFactory;
+import frankdevhub.job.automatic.selenium.listeners.ScreenshotListener;
+import org.openqa.selenium.remote.RemoteWebDriver;
+import org.testng.annotations.Listeners;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
-import org.openqa.selenium.remote.RemoteWebDriver;
-import org.testng.annotations.Listeners;
-import frankdevhub.job.automatic.selenium.config.DriverFactory;
-import frankdevhub.job.automatic.selenium.listeners.ScreenshotListener;
 
 
 /**

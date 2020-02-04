@@ -9,7 +9,7 @@ public interface SeleniumBrowserConfiguration {
 
     String getDefaultBrowserCachePath();
 
-    String getSystemBrowserCachePath();
+    String searchSystemBrowserCachePath();
 
     Boolean getCacheDirectoryLockedStatus() throws BusinessException, IOException;
 

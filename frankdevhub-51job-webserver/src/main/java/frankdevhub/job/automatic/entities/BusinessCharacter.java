@@ -78,6 +78,7 @@ public class BusinessCharacter {
                 }
             }
         }
+        System.out.println("\n\n");
     }
 
     public Character getValue() {
