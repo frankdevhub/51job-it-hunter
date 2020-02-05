@@ -27,4 +27,5 @@ public class BusinessConstants {
     public static final String CHARACTER_BOOLEAN_VAREIABLE_CONFLICT = "time unit variable type conflict";
     //web page keywords and properties
     public static final String JOB_PLATFORM_HOMEPAGE_TITLE_KEY = "招聘网_人才网";
+    public static final String JOB_SEARCH_KEYWORD_NULL = "job search key word search should not be null";
 }

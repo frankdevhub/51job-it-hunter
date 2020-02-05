@@ -7,6 +7,7 @@ import frankdevhub.job.automatic.core.utils.WebDriverUtils;
 import frankdevhub.job.automatic.selenium.AssignDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import tk.mybatis.mapper.util.Assert;
 
 /**
  * <p>Title:@ClassName JobPlatformSearchPage.java</p>
@@ -20,10 +21,14 @@ import org.openqa.selenium.support.ui.WebDriverWait;
  */
 public class JobPlatformSearchPage extends BaseWebPage {
 
+    private final String jobKeyword;
+
     private final Logger LOGGER = LoggerFactory.getLogger(JobPlatformSearchPage.class);
 
-    public JobPlatformSearchPage(Boolean isAutoConfig) {
+    public JobPlatformSearchPage(Boolean isAutoConfig, String jobKeyword) {
         super(isAutoConfig);
+        Assert.notNull(jobKeyword, BusinessConstants.JOB_SEARCH_KEYWORD_NULL);
+        this.jobKeyword = jobKeyword;
     }
 
     private void initSearchPage() {
@@ -38,6 +43,10 @@ public class JobPlatformSearchPage extends BaseWebPage {
         WebDriverUtils.doWaitTitle(BusinessConstants.JOB_PLATFORM_HOMEPAGE_TITLE_KEY, wait);
 
         LOGGER.begin().info("navigate to www.51job.com success");
+    }
+
+    private void inputSearchQuery() {
+
     }
 
     public void startSearchResultPatrol() {
