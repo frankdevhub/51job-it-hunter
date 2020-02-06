@@ -6,6 +6,7 @@ import frankdevhub.job.automatic.core.data.logging.Logger;
 import frankdevhub.job.automatic.core.data.logging.LoggerFactory;
 import frankdevhub.job.automatic.core.utils.SpringUtils;
 import frankdevhub.job.automatic.core.utils.WebDriverUtils;
+import frankdevhub.job.automatic.entities.JobSearchResult;
 import frankdevhub.job.automatic.repository.JobSearchResultRepository;
 import frankdevhub.job.automatic.selenium.AssignDriver;
 import frankdevhub.job.automatic.selenium.Query;
@@ -16,6 +17,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import tk.mybatis.mapper.util.Assert;
 
 import java.util.List;
+import java.util.concurrent.ExecutorService;
 
 /**
  * <p>Title:@ClassName JobPlatformSearchPage.java</p>
@@ -30,10 +32,14 @@ import java.util.List;
 public class JobPlatformSearchPage extends BaseWebPage {
 
     private String location;
+    private Integer pageNum;
+    private Integer pageSize;
     private final String jobKeyword;
     private final Query searchBox;
     private final Query submitBtn;
     private final Query searchResultList;
+
+    private ExecutorService threadPool;
 
     private final Logger LOGGER = LoggerFactory.getLogger(JobPlatformSearchPage.class);
 
@@ -43,6 +49,9 @@ public class JobPlatformSearchPage extends BaseWebPage {
 
     public JobPlatformSearchPage(Boolean isAutoConfig, String jobKeyword) {
         super(isAutoConfig);
+
+        this.pageNum = 0;
+        this.pageSize = 0;
 
         Assert.notNull(jobKeyword, BusinessConstants.JOB_SEARCH_KEYWORD_NULL);
         this.jobKeyword = jobKeyword;
@@ -98,12 +107,79 @@ public class JobPlatformSearchPage extends BaseWebPage {
         LOGGER.begin().info("navigate to search result list page success");
     }
 
-    private void parseSearchResult(WebElement element) {
-        parseSearchResult(element);
+    private class ParseSearchResultRow extends Thread {
+
+        private WebElement row;
+        private String linkUrl;
+        private String jobDescription;
+        private String companyName;
+        private String jobLocation;
+        private String salaryRange;
+        private String publishDate;
+
+
+        public ParseSearchResultRow(WebElement row) {
+            this.row = row;
+            WebElement col_1 = row.findElement(By.xpath(SeleniumConstants.RESULT_JD_NAME_XPATH));
+            WebElement col_2 = row.findElement(By.xpath(SeleniumConstants.RESULT_COMPANY_NAME_XPATH));
+            WebElement col_3 = row.findElement(By.xpath(SeleniumConstants.RESULT_JD_LOCATION_XPATH));
+            WebElement col_4 = row.findElement(By.xpath(SeleniumConstants.RESULT_SALARY_RANGE_XPATH));
+            WebElement col_5 = row.findElement(By.xpath(SeleniumConstants.RESULT_JD_PUBLISH_DATE_XPATH));
+
+            if (null != col_1) {
+                this.linkUrl = col_1.getAttribute(SeleniumConstants.ATTRIBUTE_HREF);
+                this.jobDescription = col_1.getAttribute(SeleniumConstants.ATTRIBUTE_TITLE);
+            }
+            if (null != col_2)
+                this.companyName = col_2.getAttribute(SeleniumConstants.ATTRIBUTE_TITLE);
+
+            if (null != col_3)
+                this.jobLocation = col_3.getText();
+
+            if (null != col_4)
+                this.salaryRange = col_4.getText();
+
+            if (null != col_5)
+                this.publishDate = col_5.getText();
+        }
+
+        private void parseAndRestore() {
+            JobSearchResult entity = new JobSearchResult();
+            entity.doCreateEntity();
+        }
+
+        public WebElement getRow() {
+            return row;
+        }
+
+        public ParseSearchResultRow setRow(WebElement row) {
+            this.row = row;
+            return this;
+        }
+
+        @Override
+        public void run() {
+
+        }
     }
 
-    private void parseSearchResults(List<WebElement> elements) {
+    private void parseSearchResult(WebElement row) {
+        LOGGER.begin().info("invoke {{JobPlatformSearchPage::parseSearchResult()}}");
+        ParseSearchResultRow rowThread = new ParseSearchResultRow(row);
+    }
 
+    private void parseSearchResults(List<WebElement> rows) {
+        LOGGER.begin().info("invoke {{JobPlatformSearchPage::parseSearchResults()}}");
+        int rowNum = 0;
+        for (WebElement row : rows) {
+            System.out.println(String.format("parsing, rowNum = %s, pageNum = %s, pageSize = %s",
+                    ++rowNum, ++pageNum, pageSize));
+
+            parseSearchResult(row);
+
+            System.out.println("parsing rowNum = " + rowNum + " complete");
+        }
+        pageNum++;
     }
 
     private void parseSearchResultPage() {
@@ -111,8 +187,8 @@ public class JobPlatformSearchPage extends BaseWebPage {
         LOGGER.begin().info("locate search result list");
 
         List<WebElement> resultList = WebDriverUtils.findWebElements(searchResultList);
-        for (WebElement element : resultList)
-            parseSearchResult(element);
+        this.pageSize = resultList.size();
+        parseSearchResults(resultList);
 
         LOGGER.begin().info("parse current page list complete");
     }
