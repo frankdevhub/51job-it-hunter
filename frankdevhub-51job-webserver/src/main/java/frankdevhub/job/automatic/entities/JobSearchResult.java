@@ -29,6 +29,9 @@ public class JobSearchResult extends BaseRecord<JobSearchResult> {
     @Column(name = "job_title")
     private String jobTitle;
 
+    @Column(name = "company_name")
+    private String companyName;
+
     @Column(name = "location")
     private String location;
 
@@ -110,6 +113,15 @@ public class JobSearchResult extends BaseRecord<JobSearchResult> {
 
     public JobSearchResult setJobTitle(String jobTitle) {
         this.jobTitle = jobTitle;
+        return this;
+    }
+
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public JobSearchResult setCompanyName(String companyName) {
+        this.companyName = companyName;
         return this;
     }
 
@@ -264,6 +276,7 @@ public class JobSearchResult extends BaseRecord<JobSearchResult> {
         JobSearchResult that = (JobSearchResult) o;
         return
                 Objects.equals(getJobTitle(), that.getJobTitle()) &&
+                        Objects.equals(getCompanyName(), that.getCompanyName()) &&
                         Objects.equals(getLocation(), that.getLocation()) &&
                         Objects.equals(getSalaryRange(), that.getSalaryRange()) &&
                         Objects.equals(getSalaryMinNumeric(), that.getSalaryMinNumeric()) &&
@@ -283,7 +296,7 @@ public class JobSearchResult extends BaseRecord<JobSearchResult> {
 
     @Override
     public int hashCode() {
-        return Objects.hash(getJobTitle(), getLocation(), getSalaryRange(), getSalaryMinNumeric(), getSalaryMaxNumeric(), getSalaryTimeUnit(), getSalaryNumericUnit(), getIsUnitByTenThousand(), getIsUnitByThousand(), getIsUnitByDay(), getIsInternshipPosition(), getIsCampusOnly(), getIsSalaryNeedNegotiation(), getPublishDate(), getPublishMonth(), getPublishDayOfMonth());
+        return Objects.hash(getJobTitle(), getCompanyName(), getLocation(), getSalaryRange(), getSalaryMinNumeric(), getSalaryMaxNumeric(), getSalaryTimeUnit(), getSalaryNumericUnit(), getIsUnitByTenThousand(), getIsUnitByThousand(), getIsUnitByDay(), getIsInternshipPosition(), getIsCampusOnly(), getIsSalaryNeedNegotiation(), getPublishDate(), getPublishMonth(), getPublishDayOfMonth());
     }
 
     @Override
@@ -292,6 +305,7 @@ public class JobSearchResult extends BaseRecord<JobSearchResult> {
                 "id=" + id + '\n' +
                 ", keyId=" + keyId + '\n' +
                 ", searchKeyword='" + searchKeyword + '\'' + '\n' +
+                ", companyName='" + companyName + '\'' + '\n' +
                 ", jobTitle='" + jobTitle + '\'' + '\n' +
                 ", location='" + location + '\'' + '\n' +
                 ", salaryRange='" + salaryRange + '\'' + '\n' +
