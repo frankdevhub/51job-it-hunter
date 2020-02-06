@@ -262,29 +262,28 @@ public class JobSearchResult extends BaseRecord<JobSearchResult> {
         if (this == o) return true;
         if (!(o instanceof JobSearchResult)) return false;
         JobSearchResult that = (JobSearchResult) o;
-        return Objects.equals(getId(), that.getId()) &&
-                Objects.equals(getKeyId(), that.getKeyId()) &&
+        return
                 Objects.equals(getJobTitle(), that.getJobTitle()) &&
-                Objects.equals(getLocation(), that.getLocation()) &&
-                Objects.equals(getSalaryRange(), that.getSalaryRange()) &&
-                Objects.equals(getSalaryMinNumeric(), that.getSalaryMinNumeric()) &&
-                Objects.equals(getSalaryMaxNumeric(), that.getSalaryMaxNumeric()) &&
-                Objects.equals(getSalaryTimeUnit(), that.getSalaryTimeUnit()) &&
-                Objects.equals(getSalaryNumericUnit(), that.getSalaryNumericUnit()) &&
-                Objects.equals(getIsUnitByTenThousand(), that.getIsUnitByTenThousand()) &&
-                Objects.equals(getIsUnitByThousand(), that.getIsUnitByThousand()) &&
-                Objects.equals(getIsUnitByDay(), that.getIsUnitByDay()) &&
-                Objects.equals(getIsInternshipPosition(), that.getIsInternshipPosition()) &&
-                Objects.equals(getIsCampusOnly(), that.getIsCampusOnly()) &&
-                Objects.equals(getIsSalaryNeedNegotiation(), that.getIsSalaryNeedNegotiation()) &&
-                Objects.equals(getPublishDate(), that.getPublishDate()) &&
-                Objects.equals(getPublishMonth(), that.getPublishMonth()) &&
-                Objects.equals(getPublishDayOfMonth(), that.getPublishDayOfMonth());
+                        Objects.equals(getLocation(), that.getLocation()) &&
+                        Objects.equals(getSalaryRange(), that.getSalaryRange()) &&
+                        Objects.equals(getSalaryMinNumeric(), that.getSalaryMinNumeric()) &&
+                        Objects.equals(getSalaryMaxNumeric(), that.getSalaryMaxNumeric()) &&
+                        Objects.equals(getSalaryTimeUnit(), that.getSalaryTimeUnit()) &&
+                        Objects.equals(getSalaryNumericUnit(), that.getSalaryNumericUnit()) &&
+                        Objects.equals(getIsUnitByTenThousand(), that.getIsUnitByTenThousand()) &&
+                        Objects.equals(getIsUnitByThousand(), that.getIsUnitByThousand()) &&
+                        Objects.equals(getIsUnitByDay(), that.getIsUnitByDay()) &&
+                        Objects.equals(getIsInternshipPosition(), that.getIsInternshipPosition()) &&
+                        Objects.equals(getIsCampusOnly(), that.getIsCampusOnly()) &&
+                        Objects.equals(getIsSalaryNeedNegotiation(), that.getIsSalaryNeedNegotiation()) &&
+                        Objects.equals(getPublishDate(), that.getPublishDate()) &&
+                        Objects.equals(getPublishMonth(), that.getPublishMonth()) &&
+                        Objects.equals(getPublishDayOfMonth(), that.getPublishDayOfMonth());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getKeyId(), getJobTitle(), getLocation(), getSalaryRange(), getSalaryMinNumeric(), getSalaryMaxNumeric(), getSalaryTimeUnit(), getSalaryNumericUnit(), getIsUnitByTenThousand(), getIsUnitByThousand(), getIsUnitByDay(), getIsInternshipPosition(), getIsCampusOnly(), getIsSalaryNeedNegotiation(), getPublishDate(), getPublishMonth(), getPublishDayOfMonth());
+        return Objects.hash(getJobTitle(), getLocation(), getSalaryRange(), getSalaryMinNumeric(), getSalaryMaxNumeric(), getSalaryTimeUnit(), getSalaryNumericUnit(), getIsUnitByTenThousand(), getIsUnitByThousand(), getIsUnitByDay(), getIsInternshipPosition(), getIsCampusOnly(), getIsSalaryNeedNegotiation(), getPublishDate(), getPublishMonth(), getPublishDayOfMonth());
     }
 
     @Override

@@ -1,9 +1,11 @@
 package frankdevhub.job.automatic.repository;
 
+import frankdevhub.job.automatic.core.repository.MyBatisRepository;
 import frankdevhub.job.automatic.core.utils.SpringUtils;
 import frankdevhub.job.automatic.entities.JobSearchResult;
 import frankdevhub.job.automatic.mapper.JobSearchResultMapper;
 import org.springframework.stereotype.Repository;
+import tk.mybatis.mapper.entity.Example;
 
 /**
  * <p>Title:@ClassName JobSearchResultRepository.java</p>
@@ -17,9 +19,11 @@ import org.springframework.stereotype.Repository;
  */
 
 @Repository
-public class JobSearchResultRepository {
+public class JobSearchResultRepository extends MyBatisRepository {
 
     private final String ID = "id";
+    private final String MARK_ID = "markId";
+    private final String CREATE_TIME = "createTime";
 
     private JobSearchResultMapper getMapper() {
         return SpringUtils.getBean(JobSearchResultMapper.class);
@@ -33,5 +37,11 @@ public class JobSearchResultRepository {
     public Integer insertSelective(JobSearchResult record) {
         record.doCreateEntity();
         return getMapper().insertSelective(record);
+    }
+
+    public Integer selectCountByMarkId(JobSearchResult record) {
+        Example example = new Example(JobSearchResult.class);
+        example.createCriteria().andEqualTo(MARK_ID, record.getMarkId());
+        return getMapper().selectCountByExample(example);
     }
 }

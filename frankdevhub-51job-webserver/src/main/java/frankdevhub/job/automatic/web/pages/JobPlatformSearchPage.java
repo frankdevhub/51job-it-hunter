@@ -146,6 +146,11 @@ public class JobPlatformSearchPage extends BaseWebPage {
         private void parseAndRestore() {
             JobSearchResult entity = new JobSearchResult();
             entity.doCreateEntity();
+            //TODO
+            JobSearchResultRepository repository = getSearchResultRepository();
+            int count = repository.selectCountByMarkId(entity);
+            if (count <= 0)
+                repository.insertSelective(entity);
         }
 
         public WebElement getRow() {
