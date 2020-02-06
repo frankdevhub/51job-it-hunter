@@ -2,6 +2,7 @@ package frankdevhub.job.automatic.entities;
 
 import javax.persistence.Column;
 import javax.persistence.Table;
+import java.util.Objects;
 
 /**
  * <p>Title:@ClassName JobSearchResult.java</p>
@@ -13,7 +14,7 @@ import javax.persistence.Table;
  * @CreateDate: 2020/1/26 22:24
  * @Version: 1.0
  */
-@Table(name = "")
+@Table(name = "platform_search_result")
 public class JobSearchResult extends BaseRecord<JobSearchResult> {
 
     @Column(name = "id")
@@ -21,6 +22,9 @@ public class JobSearchResult extends BaseRecord<JobSearchResult> {
 
     @Column(name = "search_key_id")
     private Long keyId;
+
+    @Column(name = "search_keyword_text")
+    private String searchKeyword;
 
     @Column(name = "job_title")
     private String jobTitle;
@@ -70,6 +74,9 @@ public class JobSearchResult extends BaseRecord<JobSearchResult> {
     @Column(name = "publish_date_day_numeric")
     private Integer publishDayOfMonth;
 
+    @Column(name = "mark_id")
+    private Integer markId;
+
     public Long getId() {
         return id;
     }
@@ -85,6 +92,15 @@ public class JobSearchResult extends BaseRecord<JobSearchResult> {
 
     public JobSearchResult setKeyId(Long keyId) {
         this.keyId = keyId;
+        return this;
+    }
+
+    public String getSearchKeyword() {
+        return searchKeyword;
+    }
+
+    public JobSearchResult setSearchKeyword(String searchKeyword) {
+        this.searchKeyword = searchKeyword;
         return this;
     }
 
@@ -230,5 +246,70 @@ public class JobSearchResult extends BaseRecord<JobSearchResult> {
     public JobSearchResult setPublishDayOfMonth(Integer publishDayOfMonth) {
         this.publishDayOfMonth = publishDayOfMonth;
         return this;
+    }
+
+    public Integer getMarkId() {
+        return markId;
+    }
+
+    public JobSearchResult setMarkId(Integer markId) {
+        this.markId = markId;
+        return this;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof JobSearchResult)) return false;
+        JobSearchResult that = (JobSearchResult) o;
+        return Objects.equals(getId(), that.getId()) &&
+                Objects.equals(getKeyId(), that.getKeyId()) &&
+                Objects.equals(getJobTitle(), that.getJobTitle()) &&
+                Objects.equals(getLocation(), that.getLocation()) &&
+                Objects.equals(getSalaryRange(), that.getSalaryRange()) &&
+                Objects.equals(getSalaryMinNumeric(), that.getSalaryMinNumeric()) &&
+                Objects.equals(getSalaryMaxNumeric(), that.getSalaryMaxNumeric()) &&
+                Objects.equals(getSalaryTimeUnit(), that.getSalaryTimeUnit()) &&
+                Objects.equals(getSalaryNumericUnit(), that.getSalaryNumericUnit()) &&
+                Objects.equals(getIsUnitByTenThousand(), that.getIsUnitByTenThousand()) &&
+                Objects.equals(getIsUnitByThousand(), that.getIsUnitByThousand()) &&
+                Objects.equals(getIsUnitByDay(), that.getIsUnitByDay()) &&
+                Objects.equals(getIsInternshipPosition(), that.getIsInternshipPosition()) &&
+                Objects.equals(getIsCampusOnly(), that.getIsCampusOnly()) &&
+                Objects.equals(getIsSalaryNeedNegotiation(), that.getIsSalaryNeedNegotiation()) &&
+                Objects.equals(getPublishDate(), that.getPublishDate()) &&
+                Objects.equals(getPublishMonth(), that.getPublishMonth()) &&
+                Objects.equals(getPublishDayOfMonth(), that.getPublishDayOfMonth());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getKeyId(), getJobTitle(), getLocation(), getSalaryRange(), getSalaryMinNumeric(), getSalaryMaxNumeric(), getSalaryTimeUnit(), getSalaryNumericUnit(), getIsUnitByTenThousand(), getIsUnitByThousand(), getIsUnitByDay(), getIsInternshipPosition(), getIsCampusOnly(), getIsSalaryNeedNegotiation(), getPublishDate(), getPublishMonth(), getPublishDayOfMonth());
+    }
+
+    @Override
+    public String toString() {
+        return "JobSearchResult{" + '\n' +
+                "id=" + id + '\n' +
+                ", keyId=" + keyId + '\n' +
+                ", searchKeyword='" + searchKeyword + '\'' + '\n' +
+                ", jobTitle='" + jobTitle + '\'' + '\n' +
+                ", location='" + location + '\'' + '\n' +
+                ", salaryRange='" + salaryRange + '\'' + '\n' +
+                ", salaryMinNumeric=" + salaryMinNumeric + '\n' +
+                ", salaryMaxNumeric=" + salaryMaxNumeric + '\n' +
+                ", salaryTimeUnit='" + salaryTimeUnit + '\'' + '\n' +
+                ", salaryNumericUnit='" + salaryNumericUnit + '\'' + '\n' +
+                ", isUnitByTenThousand=" + isUnitByTenThousand + '\n' +
+                ", isUnitByThousand=" + isUnitByThousand + '\n' +
+                ", isUnitByDay=" + isUnitByDay + '\n' +
+                ", isInternshipPosition=" + isInternshipPosition + '\n' +
+                ", isCampusOnly=" + isCampusOnly + '\n' +
+                ", isSalaryNeedNegotiation=" + isSalaryNeedNegotiation + '\n' +
+                ", publishDate='" + publishDate + '\'' + '\n' +
+                ", publishMonth=" + publishMonth + '\n' +
+                ", publishDayOfMonth=" + publishDayOfMonth + '\n' +
+                ", markId=" + markId + '\n' +
+                '}';
     }
 }

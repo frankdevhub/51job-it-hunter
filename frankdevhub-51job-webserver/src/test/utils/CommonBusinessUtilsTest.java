@@ -1,3 +1,5 @@
+package utils;
+
 import frankdevhub.job.automatic.core.data.logging.Logger;
 import frankdevhub.job.automatic.core.data.logging.LoggerFactory;
 import frankdevhub.job.automatic.core.utils.CommonBusinessUtils;
@@ -8,7 +10,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import java.lang.reflect.Method;
 
 /**
- * <p>Title:@ClassName CommonBusinessUtilsTest.java</p>
+ * <p>Title:@ClassName utils.CommonBusinessUtilsTest.java</p>
  * <p>Copyright: Copyright (c) 2020</p>
  * <p>Company: www.frankdevhub.site</p>
  * <p>github: https://github.com/frankdevhub</p>

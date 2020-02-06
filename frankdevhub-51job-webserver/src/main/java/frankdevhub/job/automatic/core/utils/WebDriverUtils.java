@@ -1,12 +1,13 @@
 package frankdevhub.job.automatic.core.utils;
 
+import frankdevhub.job.automatic.selenium.Query;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import frankdevhub.job.automatic.selenium.Query;
+import java.util.List;
 
 public class WebDriverUtils {
 
@@ -24,6 +25,12 @@ public class WebDriverUtils {
         WebElement element = query.findWebElement();
         System.out.println(String.format("Find Query:[%s]", query.toString()));
         return element;
+    }
+
+    public static synchronized List<WebElement> findWebElements(Query query) {
+        List<WebElement> list = query.findWebElements();
+        System.out.println(String.format("Find Query:[%s]", query.toString()));
+        return list;
     }
 
     public static synchronized void doWaitTitle(String header, WebDriverWait wait) {

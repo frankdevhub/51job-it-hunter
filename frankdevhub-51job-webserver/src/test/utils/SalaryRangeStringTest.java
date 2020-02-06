@@ -1,8 +1,10 @@
+package utils;
+
 import org.junit.runner.RunWith;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
- * <p>Title:@ClassName SalaryRangeStringTest.java</p>
+ * <p>Title:@ClassName utils.SalaryRangeStringTest.java</p>
  * <p>Copyright: Copyright (c) 2020</p>
  * <p>Company: www.frankdevhub.site</p>
  * <p>github: https://github.com/frankdevhub</p>

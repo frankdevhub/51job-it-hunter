@@ -1,3 +1,5 @@
+package utils;
+
 import frankdevhub.job.automatic.core.data.logging.Logger;
 import frankdevhub.job.automatic.core.data.logging.LoggerFactory;
 import frankdevhub.job.automatic.core.utils.CommonBusinessUtils;
@@ -13,7 +15,7 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * <p>Title:@ClassName BusinessCharacterTest.java</p>
+ * <p>Title:@ClassName utils.BusinessCharacterTest.java</p>
  * <p>Copyright: Copyright (c) 2020</p>
  * <p>Company: www.frankdevhub.site</p>
  * <p>github: https://github.com/frankdevhub</p>

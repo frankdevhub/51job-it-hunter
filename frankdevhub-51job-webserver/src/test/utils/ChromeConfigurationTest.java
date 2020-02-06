@@ -1,3 +1,5 @@
+package utils;
+
 import frankdevhub.job.automatic.core.constants.BusinessConstants;
 import frankdevhub.job.automatic.core.data.logging.Logger;
 import frankdevhub.job.automatic.core.data.logging.LoggerFactory;
@@ -13,7 +15,7 @@ import java.io.File;
 import java.io.IOException;
 
 /**
- * <p>Title:@ClassName ChromeConfigurationTest.java</p>
+ * <p>Title:@ClassName utils.ChromeConfigurationTest.java</p>
  * <p>Copyright: Copyright (c) 2020</p>
  * <p>Company: www.frankdevhub.site</p>
  * <p>github: https://github.com/frankdevhub</p>
@@ -40,7 +42,7 @@ public class ChromeConfigurationTest {
                 .setSeleniumBrowserCache(configuration.DEFAULT_WIN_CHROME_CACHE_PATH, SELENIUM_TEST_CACHE_DIRECTORY_NAME);
     }
 
-    //@Test
+    @Test
     public void testGetCacheDirectoryLockedStatus() {
         LOGGER.begin().info("run test method {{testGetCacheDirectoryLockedStatus}} start");
         configuration.setSeleniumBrowserCacheRoot(ChromeConfiguration.DEFAULT_WIN_SELENIUM_CACHE_ROOT)
@@ -72,7 +74,7 @@ public class ChromeConfigurationTest {
     }
 
 
-    //@Test
+    @Test
     public void testSeleniumChromeCacheConfiguration() throws IOException, BusinessException {
         LOGGER.begin().info("run test method {{testSeleniumChromeCacheConfiguration}} start");
         setSeleniumChromeCacheDirectory();
