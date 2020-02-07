@@ -3,7 +3,10 @@ package pages;
 import frankdevhub.job.automatic.core.constants.SeleniumConstants;
 import frankdevhub.job.automatic.core.data.logging.Logger;
 import frankdevhub.job.automatic.core.data.logging.LoggerFactory;
+import frankdevhub.job.automatic.core.exception.BusinessException;
+import frankdevhub.job.automatic.core.utils.SalaryRangeTextUtils;
 import frankdevhub.job.automatic.core.utils.WebDriverUtils;
+import frankdevhub.job.automatic.entities.JobSearchResult;
 import frankdevhub.job.automatic.selenium.AssignDriver;
 import frankdevhub.job.automatic.selenium.DriverBase;
 import frankdevhub.job.automatic.selenium.Query;
@@ -15,6 +18,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import tk.mybatis.mapper.util.Assert;
 
 import java.util.List;
 
@@ -40,21 +44,44 @@ public class JobPlatformSearchPageTest {
 
     private final Logger LOGGER = LoggerFactory.getLogger(JobPlatformSearchPageTest.class);
 
-    private void parseSearchResult(WebElement element) {
-        parseSearchResult(element);
+    private void parseSearchResult(WebElement row) throws BusinessException, IllegalAccessException {
+        WebElement jobDescriptionElement = row.findElement(By.xpath(SeleniumConstants.RESULT_JD_NAME_XPATH));
+        WebElement companyNameElement = row.findElement(By.xpath(SeleniumConstants.RESULT_COMPANY_NAME_XPATH));
+        WebElement salaryRangeElement = row.findElement(By.xpath(SeleniumConstants.RESULT_SALARY_RANGE_XPATH));
+        WebElement publishDateElement = row.findElement(By.xpath(SeleniumConstants.RESULT_JD_PUBLISH_DATE_XPATH));
+
+        Assert.notNull(jobDescriptionElement, "job description element cannot be found on this row");
+        Assert.notNull(companyNameElement, "company name element cannot be found on this row");
+        Assert.notNull(publishDateElement, "publish date element cannot be found on this row");
+
+        JobSearchResult result = new JobSearchResult();
+        SalaryRangeTextUtils utils = new SalaryRangeTextUtils(salaryRangeElement.getText());
+        utils.parse();
+
+        //set salary range referred properties
+        //set job description campus only, salary negotiable property
+        //set company name property
+        //set job location property
+        //set job publish date property
+
+        //set hashcode as mark id
+        int markId = result.hashCode();
+        result.setMarkId(markId);
+        //print result properties to console
+        System.out.print(result.toString());
     }
 
-    private void parseSearchResults(List<WebElement> elements) {
-
+    private void parseSearchResults(List<WebElement> rows) throws IllegalAccessException, BusinessException {
+        for (WebElement row : rows)
+            parseSearchResult(row);
     }
 
-    private void parseSearchResultPage() {
+    private void parseSearchResultPage() throws BusinessException, IllegalAccessException {
         LOGGER.begin().info("invoke {{JobPlatformSearchPage::parseSearchResult()}}");
         LOGGER.begin().info("locate search result list");
 
         List<WebElement> resultList = WebDriverUtils.findWebElements(searchResultList);
-        for (WebElement element : resultList)
-            parseSearchResult(element);
+        parseSearchResults(resultList);
 
         LOGGER.begin().info("parse current page list complete");
     }
@@ -80,9 +107,9 @@ public class JobPlatformSearchPageTest {
 
 
     @Test
-    public void testParseResultPage() {
+    public void testParseResultPage() throws IllegalAccessException, BusinessException {
         LOGGER.begin().info("run test method {{testParseResultPage}} start");
-
+        parseSearchResultPage();
 
         LOGGER.begin().info("run test method {{testParseResultPage}} complete");
     }

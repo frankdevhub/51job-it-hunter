@@ -42,7 +42,7 @@ public class SalaryRangeTextUtils {
     }
 
     public SalaryRangeTextUtils(String text) {
-        this.text = text;
+        this.text = text.trim();
     }
 
     private void clear() throws IllegalAccessException {
