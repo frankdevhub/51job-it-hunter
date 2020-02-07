@@ -11,7 +11,10 @@ public class MyBatisRepository {
     }
 
     public Long[] getTimeStampRange(Long timeStamp) {
-        Long[] range = null;
+        if (timeStamp < 1000000000000L)
+            throw new RuntimeException("please use timestamp format in millisecond");
+
+        Long[] range = new Long[2];
         long zeroT = timeStamp / (24 * 3600 * 1000) * (24 * 3600 * 1000) - TimeZone.getDefault().getRawOffset();
         long endT = zeroT + (24 * 3600 * 1000) - 1;
 
