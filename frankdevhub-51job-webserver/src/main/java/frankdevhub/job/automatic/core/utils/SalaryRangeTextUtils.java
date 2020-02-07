@@ -1,10 +1,14 @@
 package frankdevhub.job.automatic.core.utils;
 
+import frankdevhub.job.automatic.core.constants.BusinessConstants;
 import frankdevhub.job.automatic.core.data.logging.Logger;
 import frankdevhub.job.automatic.core.data.logging.LoggerFactory;
+import frankdevhub.job.automatic.core.exception.BusinessException;
 import tk.mybatis.mapper.util.Assert;
 
 import java.lang.reflect.Field;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * <p>Title:@ClassName SalaryRangeTextUtils.java</p>
@@ -68,13 +72,23 @@ public class SalaryRangeTextUtils {
                 '}';
     }
 
-    public void parse() throws IllegalAccessException {
+    public void parse() throws IllegalAccessException, BusinessException {
         LOGGER.begin().info("invoke {{SalaryRangeTextUtils::parse()}}");
 
         Assert.notNull(text.trim(), "text should not be null");
         clear();
 
+        Matcher matcher = Pattern.compile(rangeRegex).matcher(text);
+        if (matcher.find()) {
+            this.minimize = matcher.group("min");
+            this.maximum = matcher.group("max");
+            this.numericUnit = matcher.group("numeric");
+            this.timeUnit = matcher.group("date");
 
+        } else
+            throw new BusinessException(BusinessConstants.SALARY_RANGE_REGEX_MATCH_ERROR);
+
+        System.out.println("salary range text parse complete");
     }
 
     public String getText() {
