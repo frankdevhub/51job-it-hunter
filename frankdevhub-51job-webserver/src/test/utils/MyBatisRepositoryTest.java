@@ -23,6 +23,7 @@ import java.text.SimpleDateFormat;
 public class MyBatisRepositoryTest {
 
     private final Logger LOGGER = LoggerFactory.getLogger(MyBatisRepositoryTest.class);
+
     private final MyBatisRepository myBatisRepository = new MyBatisRepository();
 
     @Test
