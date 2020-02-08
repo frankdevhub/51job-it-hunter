@@ -26,6 +26,48 @@ public class MyBatisRepositoryTest {
 
     private final MyBatisRepository myBatisRepository = new MyBatisRepository();
 
+
+    @Test
+    public void testGetTimeStampRange_1() {
+        LOGGER.begin().info("run test method {{testGetTimeStampRange_1}} start");
+        int year = 2019;
+        int month = 12;
+        int day = 15;
+
+        Long[] range = myBatisRepository.getTimeStampRange(year, month, day);
+        Long zeroT = range[0];
+        Long endT = range[1];
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String zeroTString = dateFormat.format(zeroT);
+        String endTString = dateFormat.format(endT);
+
+        System.out.println("zeroTString = " + zeroTString + "");
+        System.out.println("endTString = " + endTString + "");
+
+        LOGGER.begin().info("run test method {{testGetTimeStampRange_1}} complete");
+    }
+
+
+    @Test
+    public void testGetTodayTimeStampRange() {
+        LOGGER.begin().info("run test method {{testGetTodayTimeStampRange}} start");
+        Long[] range = myBatisRepository.getTodayTimeStampRange();
+
+        Long zeroT = range[0];
+        Long endT = range[1];
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String zeroTString = dateFormat.format(zeroT);
+        String endTString = dateFormat.format(endT);
+
+        System.out.println("zeroTString = " + zeroTString + "");
+        System.out.println("endTString = " + endTString + "");
+
+
+        LOGGER.begin().info("run test method {{testGetTodayTimeStampRange}} complete");
+    }
+
     @Test
     public void testGetTimeStampRange() {
         LOGGER.begin().info("run test method {{testGetTimeStampRange}} start");
@@ -35,7 +77,7 @@ public class MyBatisRepositoryTest {
         Long zeroT = range[0];
         Long endT = range[1];
 
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH::mm:ss");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String zeroTString = dateFormat.format(zeroT);
         String endTString = dateFormat.format(endT);
 
