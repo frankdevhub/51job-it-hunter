@@ -151,14 +151,14 @@ public class SalaryRangeTextUtils {
     }
 
     public Boolean isUnitByDay() {
-
+        DateUnit unit = getTimeUnitType();
     }
 
     public Boolean isUnitByMonth() {
-
+        DateUnit unit = getTimeUnitType();
     }
 
     public Boolean isUnitByYear() {
-
+        DateUnit unit = getTimeUnitType();
     }
 }
