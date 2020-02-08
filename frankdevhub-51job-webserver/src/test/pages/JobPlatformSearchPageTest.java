@@ -65,6 +65,7 @@ public class JobPlatformSearchPageTest {
                 .setSalaryMinNumeric(utils.getMinimizeValue())
                 .setSalaryMaxNumeric(utils.getMaximumValue())
                 .setSalaryTimeUnit(utils.getTimeUnit());
+
         //set job description campus only, salary negotiable ,internship only referred property
         WebElement campusElement = row.findElement(By.xpath(SeleniumConstants.RESULT_JD_CAMPUS_ONLY_XPATH));
         Thread.sleep(500L);
@@ -83,13 +84,23 @@ public class JobPlatformSearchPageTest {
 
         //set company name referred property
         result.setCompanyName(companyNameElement.getAttribute(SeleniumConstants.ATTRIBUTE_TITLE).trim());
+
         //set job location referred property
         result.setLocation(jobLocationElement.getText().trim());
+
         //set job publish date referred property
-        result.setPublishDate(publishDateElement.getText().trim());
+        String publishDate = publishDateElement.getText().trim();
+        int month = Integer.parseInt(publishDate.split("-")[0]);
+        int day = Integer.parseInt(publishDate.split("-")[1]);
+
+        result.setPublishDate(publishDate);
+        result.setPublishDayOfMonth(day)
+                .setPublishMonth(month);
+
         //set hashcode as mark id
         int markId = result.hashCode();
         result.setMarkId(markId);
+
         //print result referred properties to console
         System.out.print(result.toString());
     }
