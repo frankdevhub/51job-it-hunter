@@ -149,4 +149,16 @@ public class SalaryRangeTextUtils {
             return null;
         return NumericUnit.getUnitType(array[0]);
     }
+
+    public Boolean isUnitByDay() {
+
+    }
+
+    public Boolean isUnitByMonth() {
+
+    }
+
+    public Boolean isUnitByYear() {
+
+    }
 }

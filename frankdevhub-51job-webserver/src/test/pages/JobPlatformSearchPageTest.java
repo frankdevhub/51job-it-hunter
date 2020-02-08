@@ -59,10 +59,10 @@ public class JobPlatformSearchPageTest {
         utils.parse();
 
         //set salary range referred properties
-       /* result.setSalaryNumericUnit()
+        result.setSalaryNumericUnit()
                 .setSalaryMinNumeric()
                 .setSalaryMaxNumeric()
-                .setSalaryTimeUnit();*/
+                .setSalaryTimeUnit();
         //set job description campus only, salary negotiable property
         //set company name property
         //set job location property

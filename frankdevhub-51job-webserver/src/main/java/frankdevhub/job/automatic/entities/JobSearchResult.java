@@ -59,6 +59,12 @@ public class JobSearchResult extends BaseRecord<JobSearchResult> {
     @Column(name = "is_define_by_day")
     private Boolean isUnitByDay;
 
+    @Column(name = "is_define_by_month")
+    private Boolean isUnitByMonth;
+
+    @Column(name = "is_define_by_year")
+    private Boolean isUnitByYear;
+
     @Column(name = "is_internship_pos")
     private Boolean isInternshipPosition;
 
@@ -170,6 +176,33 @@ public class JobSearchResult extends BaseRecord<JobSearchResult> {
         return this;
     }
 
+    public Boolean getIsUnitByDay() {
+        return isUnitByDay;
+    }
+
+    public JobSearchResult setIsUnitByDay(Boolean isUnitByDay) {
+        this.isUnitByDay = isUnitByDay;
+        return this;
+    }
+
+    public Boolean getIsUnitByMonth() {
+        return isUnitByMonth;
+    }
+
+    public JobSearchResult setIsUnitByMonth(Boolean isUnitByMonth) {
+        this.isUnitByMonth = isUnitByMonth;
+        return this;
+    }
+
+    public Boolean getIsUnitByYear() {
+        return isUnitByYear;
+    }
+
+    public JobSearchResult setIsUnitByYear(Boolean isUnitByYear) {
+        this.isUnitByYear = isUnitByYear;
+        return this;
+    }
+
     public String getSalaryNumericUnit() {
         return salaryNumericUnit;
     }
@@ -183,8 +216,8 @@ public class JobSearchResult extends BaseRecord<JobSearchResult> {
         return isUnitByTenThousand;
     }
 
-    public JobSearchResult setUnitByTenThousand(Boolean unitByTenThousand) {
-        isUnitByTenThousand = unitByTenThousand;
+    public JobSearchResult setIsUnitByTenThousand(Boolean isUnitByTenThousand) {
+        this.isUnitByTenThousand = isUnitByTenThousand;
         return this;
     }
 
@@ -192,17 +225,8 @@ public class JobSearchResult extends BaseRecord<JobSearchResult> {
         return isUnitByThousand;
     }
 
-    public JobSearchResult setUnitByThousand(Boolean unitByThousand) {
-        isUnitByThousand = unitByThousand;
-        return this;
-    }
-
-    public Boolean getIsUnitByDay() {
-        return isUnitByDay;
-    }
-
-    public JobSearchResult setUnitByDay(Boolean unitByDay) {
-        isUnitByDay = unitByDay;
+    public JobSearchResult setIsUnitByThousand(Boolean isUnitByThousand) {
+        this.isUnitByThousand = isUnitByThousand;
         return this;
     }
 
@@ -210,8 +234,8 @@ public class JobSearchResult extends BaseRecord<JobSearchResult> {
         return isInternshipPosition;
     }
 
-    public JobSearchResult setInternshipPosition(Boolean internshipPosition) {
-        isInternshipPosition = internshipPosition;
+    public JobSearchResult setIsInternshipPosition(Boolean isInternshipPosition) {
+        this.isInternshipPosition = isInternshipPosition;
         return this;
     }
 
@@ -219,8 +243,8 @@ public class JobSearchResult extends BaseRecord<JobSearchResult> {
         return isCampusOnly;
     }
 
-    public JobSearchResult setCampusOnly(Boolean campusOnly) {
-        isCampusOnly = campusOnly;
+    public JobSearchResult setIsCampusOnly(Boolean isCampusOnly) {
+        this.isCampusOnly = isCampusOnly;
         return this;
     }
 
@@ -228,8 +252,8 @@ public class JobSearchResult extends BaseRecord<JobSearchResult> {
         return isSalaryNeedNegotiation;
     }
 
-    public JobSearchResult setSalaryNeedNegotiation(Boolean salaryNeedNegotiation) {
-        isSalaryNeedNegotiation = salaryNeedNegotiation;
+    public JobSearchResult setSalaryNeedNegotiation(Boolean isSalaryNeedNegotiation) {
+        this.isSalaryNeedNegotiation = isSalaryNeedNegotiation;
         return this;
     }
 
@@ -286,6 +310,8 @@ public class JobSearchResult extends BaseRecord<JobSearchResult> {
                         Objects.equals(getIsUnitByTenThousand(), that.getIsUnitByTenThousand()) &&
                         Objects.equals(getIsUnitByThousand(), that.getIsUnitByThousand()) &&
                         Objects.equals(getIsUnitByDay(), that.getIsUnitByDay()) &&
+                        Objects.equals(getIsUnitByMonth(), that.getIsUnitByMonth()) &&
+                        Objects.equals(getIsUnitByYear(), that.getIsUnitByYear()) &&
                         Objects.equals(getIsInternshipPosition(), that.getIsInternshipPosition()) &&
                         Objects.equals(getIsCampusOnly(), that.getIsCampusOnly()) &&
                         Objects.equals(getIsSalaryNeedNegotiation(), that.getIsSalaryNeedNegotiation()) &&
@@ -296,7 +322,7 @@ public class JobSearchResult extends BaseRecord<JobSearchResult> {
 
     @Override
     public int hashCode() {
-        return Objects.hash(getJobTitle(), getCompanyName(), getLocation(), getSalaryRange(), getSalaryMinNumeric(), getSalaryMaxNumeric(), getSalaryTimeUnit(), getSalaryNumericUnit(), getIsUnitByTenThousand(), getIsUnitByThousand(), getIsUnitByDay(), getIsInternshipPosition(), getIsCampusOnly(), getIsSalaryNeedNegotiation(), getPublishDate(), getPublishMonth(), getPublishDayOfMonth());
+        return Objects.hash(getJobTitle(), getCompanyName(), getLocation(), getSalaryRange(), getSalaryMinNumeric(), getSalaryMaxNumeric(), getSalaryTimeUnit(), getSalaryNumericUnit(), getIsUnitByTenThousand(), getIsUnitByThousand(), getIsUnitByDay(), getIsUnitByMonth(), getIsUnitByYear(), getIsInternshipPosition(), getIsCampusOnly(), getIsSalaryNeedNegotiation(), getPublishDate(), getPublishMonth(), getPublishDayOfMonth());
     }
 
     @Override
@@ -316,6 +342,8 @@ public class JobSearchResult extends BaseRecord<JobSearchResult> {
                 ", isUnitByTenThousand=" + isUnitByTenThousand + '\n' +
                 ", isUnitByThousand=" + isUnitByThousand + '\n' +
                 ", isUnitByDay=" + isUnitByDay + '\n' +
+                ", isUnitByMonth=" + isUnitByMonth + '\n' +
+                ", isUnitByYear=" + isUnitByYear + '\n' +
                 ", isInternshipPosition=" + isInternshipPosition + '\n' +
                 ", isCampusOnly=" + isCampusOnly + '\n' +
                 ", isSalaryNeedNegotiation=" + isSalaryNeedNegotiation + '\n' +
