@@ -20,12 +20,10 @@ public enum NumericUnit {
 
     Digitis_CN('个'),
     Digitis_TW('個'),
-    Ten_Digitis_CN('十'),
-    Ten_Digitis_TW('十'),
+    Ten_Digitis_CN_TW('十'),
     Hundred_CN('百'),
     Hundred_TW('百'),
-    Thousand_CN('千'),
-    Thousand_TW('千'),
+    Thousand_CN_TW('千'),
     Thousand_EN('K'),
     Ten_Thousand_CN('万'),
     Ten_Thousand_TW('萬'),
@@ -37,6 +35,14 @@ public enum NumericUnit {
     private Boolean isEN_Character;
     private Boolean isCapital;
     private Map<String, Boolean> attributes;
+
+    public static NumericUnit getUnitType(Character unit) {
+        for (NumericUnit u : NumericUnit.values()) {
+            if (u.getUnit().equals(unit))
+                return u;
+        }
+        return null;
+    }
 
     @Override
     public String toString() {

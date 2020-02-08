@@ -3,6 +3,8 @@ package frankdevhub.job.automatic.core.utils;
 import frankdevhub.job.automatic.core.constants.BusinessConstants;
 import frankdevhub.job.automatic.core.data.logging.Logger;
 import frankdevhub.job.automatic.core.data.logging.LoggerFactory;
+import frankdevhub.job.automatic.core.enums.DateUnit;
+import frankdevhub.job.automatic.core.enums.NumericUnit;
 import frankdevhub.job.automatic.core.exception.BusinessException;
 import tk.mybatis.mapper.util.Assert;
 
@@ -104,15 +106,47 @@ public class SalaryRangeTextUtils {
         return minimize;
     }
 
+    public Double getMinimizeValue() {
+        if (null != minimize)
+            return Double.parseDouble(minimize.trim());
+        else
+            return 0.0;
+    }
+
     public String getMaximum() {
         return maximum;
+    }
+
+    public Double getMaximumValue() {
+        if (null != maximum)
+            return Double.parseDouble(maximum);
+        else
+            return 0.0;
     }
 
     public String getTimeUnit() {
         return timeUnit;
     }
 
+    public DateUnit getTimeUnitType() {
+        char[] array = this.timeUnit.trim().toCharArray();
+        if (array.length > 1)
+            throw new RuntimeException("invalid time unit format, length out of size");
+        if (array.length == 0)
+            return null;
+        return DateUnit.getUnitType(array[0]);
+    }
+
     public String getNumericUnit() {
         return numericUnit;
+    }
+
+    public NumericUnit getNumericUnitType() {
+        char[] array = this.numericUnit.trim().toCharArray();
+        if (array.length > 1)
+            throw new RuntimeException("invalid numeric unit format, length out of size");
+        if (array.length == 0)
+            return null;
+        return NumericUnit.getUnitType(array[0]);
     }
 }

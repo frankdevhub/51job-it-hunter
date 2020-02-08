@@ -11,4 +11,28 @@ package frankdevhub.job.automatic.core.enums;
  * @Version: 1.0
  */
 public enum DateUnit {
+    DAY_1('天'), DAY_2('日'), MONTH('月'), YEAR('年');
+
+    private Character unit;
+
+    DateUnit(Character unit) {
+        this.unit = unit;
+    }
+
+    public static DateUnit getUnitType(Character unit) {
+        for (DateUnit u : DateUnit.values()) {
+            if (u.getUnit().equals(unit))
+                return u;
+        }
+        return null;
+    }
+
+    public Character getUnit() {
+        return unit;
+    }
+
+    private DateUnit setUnit(Character unit) {
+        this.unit = unit;
+        return this;
+    }
 }

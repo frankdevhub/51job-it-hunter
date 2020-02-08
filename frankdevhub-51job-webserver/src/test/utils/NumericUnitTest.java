@@ -37,10 +37,10 @@ public class NumericUnitTest {
         example = NumericUnit.Digitis_TW;
         example.toString();
 
-        example = NumericUnit.Ten_Digitis_CN;
+        example = NumericUnit.Ten_Digitis_CN_TW;
         example.toString();
 
-        example = NumericUnit.Ten_Digitis_TW;
+        example = NumericUnit.Ten_Digitis_CN_TW;
         example.toString();
 
         example = NumericUnit.Hundred_CN;
@@ -49,10 +49,10 @@ public class NumericUnitTest {
         example = NumericUnit.Hundred_TW;
         example.toString();
 
-        example = NumericUnit.Thousand_CN;
+        example = NumericUnit.Thousand_CN_TW;
         example.toString();
 
-        example = NumericUnit.Thousand_TW;
+        example = NumericUnit.Thousand_CN_TW;
         example.toString();
 
         example = NumericUnit.Thousand_EN;
