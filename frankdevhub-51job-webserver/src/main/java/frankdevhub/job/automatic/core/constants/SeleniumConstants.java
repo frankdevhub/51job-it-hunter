@@ -37,10 +37,13 @@ public class SeleniumConstants {
     public static final String RESULT_SALARY_RANGE_CLASS = "t4";
     public static final String RESULT_JD_PUBLISH_DATE_CLASS = "t5";
 
-    //job search result xpath
+    //job search result xpath (based on the row header element on each row)
     public static final String RESULT_JD_NAME_XPATH = "//p[@class='t1']/span/a";
     public static final String RESULT_COMPANY_NAME_XPATH = "//span[@class='t2']/a";
     public static final String RESULT_JD_LOCATION_XPATH = "//span[@class='t3']";
     public static final String RESULT_SALARY_RANGE_XPATH = "//span[@class='t4']";
     public static final String RESULT_JD_PUBLISH_DATE_XPATH = "//span[@class='t5']";
+    public static final String RESULT_JD_CAMPUS_ONLY_XPATH = "//p[@class='t1']/img[@alt='校招']";
+    public static final String RESULT_JD_INTERNSHIP_ONLY_XPATH = "//p[@class='t1']/img[@alt='实习']";
+
 }

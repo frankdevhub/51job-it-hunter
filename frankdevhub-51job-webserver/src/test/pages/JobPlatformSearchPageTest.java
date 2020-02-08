@@ -44,43 +44,62 @@ public class JobPlatformSearchPageTest {
 
     private final Logger LOGGER = LoggerFactory.getLogger(JobPlatformSearchPageTest.class);
 
-    private void parseSearchResult(WebElement row) throws BusinessException, IllegalAccessException {
+    private void parseSearchResult(WebElement row) throws BusinessException, IllegalAccessException, InterruptedException {
         WebElement jobDescriptionElement = row.findElement(By.xpath(SeleniumConstants.RESULT_JD_NAME_XPATH));
         WebElement companyNameElement = row.findElement(By.xpath(SeleniumConstants.RESULT_COMPANY_NAME_XPATH));
         WebElement salaryRangeElement = row.findElement(By.xpath(SeleniumConstants.RESULT_SALARY_RANGE_XPATH));
         WebElement publishDateElement = row.findElement(By.xpath(SeleniumConstants.RESULT_JD_PUBLISH_DATE_XPATH));
+        WebElement jobLocationElement = row.findElement(By.xpath(SeleniumConstants.RESULT_JD_LOCATION_XPATH));
 
         Assert.notNull(jobDescriptionElement, "job description element cannot be found on this row");
         Assert.notNull(companyNameElement, "company name element cannot be found on this row");
         Assert.notNull(publishDateElement, "publish date element cannot be found on this row");
+        Assert.notNull(jobLocationElement, "job location element cannot be found on this row");
 
         JobSearchResult result = new JobSearchResult();
         SalaryRangeTextUtils utils = new SalaryRangeTextUtils(salaryRangeElement.getText());
         utils.parse();
 
         //set salary range referred properties
-        result.setSalaryNumericUnit()
-                .setSalaryMinNumeric()
-                .setSalaryMaxNumeric()
-                .setSalaryTimeUnit();
-        //set job description campus only, salary negotiable property
-        //set company name property
-        //set job location property
-        //set job publish date property
+        result.setSalaryNumericUnit(utils.getNumericUnit())
+                .setSalaryMinNumeric(utils.getMinimizeValue())
+                .setSalaryMaxNumeric(utils.getMaximumValue())
+                .setSalaryTimeUnit(utils.getTimeUnit());
+        //set job description campus only, salary negotiable ,internship only referred property
+        WebElement campusElement = row.findElement(By.xpath(SeleniumConstants.RESULT_JD_CAMPUS_ONLY_XPATH));
+        Thread.sleep(500L);
+        if (null != campusElement)
+            result.setIsCampusOnly(true);
+        else
+            result.setIsCampusOnly(false);
+        WebElement internshipElement = row.findElement(By.xpath(SeleniumConstants.RESULT_JD_INTERNSHIP_ONLY_XPATH));
+        Thread.sleep(500L);
+        if (null != internshipElement)
+            result.setIsInternshipPosition(true);
+        else
+            result.setIsInternshipPosition(false);
+        //TODO
+        result.setSalaryNeedNegotiation(false);
 
+        //set company name referred property
+        result.setCompanyName(companyNameElement.getAttribute(SeleniumConstants.ATTRIBUTE_TITLE).trim());
+        //set job location referred property
+        result.setLocation(jobLocationElement.getText().trim());
+        //set job publish date referred property
+        result.setPublishDate(publishDateElement.getText().trim());
         //set hashcode as mark id
         int markId = result.hashCode();
         result.setMarkId(markId);
-        //print result properties to console
+        //print result referred properties to console
         System.out.print(result.toString());
     }
 
-    private void parseSearchResults(List<WebElement> rows) throws IllegalAccessException, BusinessException {
+    private void parseSearchResults(List<WebElement> rows) throws IllegalAccessException, BusinessException, InterruptedException {
         for (WebElement row : rows)
             parseSearchResult(row);
     }
 
-    private void parseSearchResultPage() throws BusinessException, IllegalAccessException {
+    private void parseSearchResultPage() throws BusinessException, IllegalAccessException, InterruptedException {
         LOGGER.begin().info("invoke {{JobPlatformSearchPage::parseSearchResult()}}");
         LOGGER.begin().info("locate search result list");
 
@@ -111,7 +130,7 @@ public class JobPlatformSearchPageTest {
 
 
     @Test
-    public void testParseResultPage() throws IllegalAccessException, BusinessException {
+    public void testParseResultPage() throws IllegalAccessException, BusinessException, InterruptedException {
         LOGGER.begin().info("run test method {{testParseResultPage}} start");
         parseSearchResultPage();
 

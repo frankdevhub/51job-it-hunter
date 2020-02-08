@@ -152,13 +152,32 @@ public class SalaryRangeTextUtils {
 
     public Boolean isUnitByDay() {
         DateUnit unit = getTimeUnitType();
+        if (null == unit)
+            return Boolean.FALSE;
+        else if (unit.equals(DateUnit.DAY_1) || unit.equals(DateUnit.DAY_2))
+            return Boolean.TRUE;
+        else
+            return Boolean.FALSE;
     }
 
     public Boolean isUnitByMonth() {
         DateUnit unit = getTimeUnitType();
+        if (null == unit)
+            return Boolean.FALSE;
+        else if (unit.equals(DateUnit.MONTH))
+            return Boolean.TRUE;
+        else
+            return Boolean.FALSE;
+
     }
 
     public Boolean isUnitByYear() {
         DateUnit unit = getTimeUnitType();
+        if (null == unit)
+            return Boolean.FALSE;
+        else if (unit.equals(DateUnit.YEAR))
+            return Boolean.TRUE;
+        else
+            return Boolean.FALSE;
     }
 }
