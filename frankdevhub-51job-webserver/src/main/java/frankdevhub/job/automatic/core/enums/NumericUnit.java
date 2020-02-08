@@ -68,7 +68,7 @@ public enum NumericUnit {
 
     //TODO
     private void setAttributes() {
-        System.out.println("NumericUnit::setAttributes");
+        System.out.println("NumericUnit::setAttributes, UnitValue = " + unit + "");
 
         if (null != this.attributes) {
             Class<?> clazz = this.getClass();
@@ -92,6 +92,7 @@ public enum NumericUnit {
                 }
             }
         }
+        System.out.println("\n");
     }
 
     public Character getUnit() {
@@ -103,11 +104,11 @@ public enum NumericUnit {
         return this;
     }
 
-    public Boolean isSimpleChinese() {
+    public Boolean isSimpleChineseCharacter() {
         return isCN_Character;
     }
 
-    private NumericUnit isSimpleChinese(Boolean CN_Character) {
+    private NumericUnit isSimpleChineseCharacter(Boolean CN_Character) {
         isCN_Character = CN_Character;
         return this;
     }

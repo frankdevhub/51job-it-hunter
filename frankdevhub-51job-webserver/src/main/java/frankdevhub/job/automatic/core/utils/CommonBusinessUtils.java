@@ -2,7 +2,6 @@ package frankdevhub.job.automatic.core.utils;
 
 import frankdevhub.job.automatic.core.constants.BusinessConstants;
 import frankdevhub.job.automatic.core.enums.CharacterEncode;
-import frankdevhub.job.automatic.core.exception.IllegalArgumentException;
 import tk.mybatis.mapper.util.Assert;
 
 import java.io.UnsupportedEncodingException;
@@ -61,6 +60,8 @@ public class CommonBusinessUtils {
             attributes.put(name, value);
 
         }
+        System.out.println("\n");
+
         return attributes;
     }
 
@@ -73,7 +74,7 @@ public class CommonBusinessUtils {
         return Boolean.FALSE;
     }
 
-    public static Boolean isSimpleChineseCharacter(Character character) throws UnsupportedEncodingException, IllegalArgumentException {
+    public static Boolean isSimpleChineseCharacter(Character character) throws UnsupportedEncodingException {
         Boolean isCNChar = isChineseCharacter(character);
         String characterEncode = CharacterEncode.GB2312.getCodeName();
         if (isCNChar) {
@@ -84,13 +85,15 @@ public class CommonBusinessUtils {
             return Boolean.FALSE;
     }
 
-    public static Boolean isTaiwaneseCharacter(Character character) throws UnsupportedEncodingException, IllegalArgumentException {
-        Boolean match = isChineseCharacter(character);
-        if (!match)
+    public static Boolean isTaiwaneseCharacter(Character character) throws UnsupportedEncodingException {
+        Boolean isCNChar = isChineseCharacter(character);
+        String characterEncode = CharacterEncode.Big5.getCodeName();
+        if (isCNChar) {
+            if (new String(character.toString().getBytes(characterEncode), characterEncode).equals(character.toString()))
+                return Boolean.TRUE;
             return Boolean.FALSE;
-        else
-            match = !isSimpleChineseCharacter(character);
-        return match;
+        } else
+            return Boolean.FALSE;
     }
 
     public static Boolean isEnglishCharacter(Character character) {
@@ -128,4 +131,5 @@ public class CommonBusinessUtils {
         Boolean match = !matcher.find();
         return match;
     }
+
 }

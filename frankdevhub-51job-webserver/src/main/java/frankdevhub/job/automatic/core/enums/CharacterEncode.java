@@ -15,7 +15,7 @@ public enum CharacterEncode {
     ASCII("ASCII"),
     MBCS("MBCS"),
     GBK("GBK"),
-    Big5("Big5"),
+    Big5("BIG5"),
     Unicode("Unicode"),
     UTF8("UTF-8"),
     Base64("Base64");
