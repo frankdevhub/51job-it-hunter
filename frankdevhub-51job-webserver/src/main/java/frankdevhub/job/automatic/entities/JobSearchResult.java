@@ -19,6 +19,7 @@ import java.util.Objects;
 public class JobSearchResult extends BaseRecord<JobSearchResult> {
 
     @Id
+    @Column(name = "id")
     private Long id;
 
     @Column(name = "search_key_id")

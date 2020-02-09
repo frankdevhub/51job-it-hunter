@@ -67,9 +67,15 @@ public class JobPlatformSearchPageTest {
             result.setSalaryNumericUnit(utils.getNumericUnit())
                     .setSalaryMinNumeric(utils.getMinimizeValue())
                     .setSalaryMaxNumeric(utils.getMaximumValue())
-                    .setSalaryTimeUnit(utils.getTimeUnit());
-        }
+                    .setSalaryTimeUnit(utils.getTimeUnit())
+                    .setIsUnitByDay(utils.isUnitByDay())
+                    .setIsUnitByMonth(utils.isUnitByMonth())
+                    .setIsUnitByYear(utils.isUnitByYear())
+                    .setIsUnitByThousand(utils.isUnitByThousand())
+                    .setIsUnitByTenThousand(utils.isUnitByTenThousand());
 
+        }
+        result.setSalaryRange(salaryRangeText);
 
         //set job description campus only, salary negotiable ,internship only referred property
         try {

@@ -152,6 +152,29 @@ public class SalaryRangeTextUtils {
         return NumericUnit.getUnitType(array[0]);
     }
 
+    public Boolean isUnitByThousand() {
+        NumericUnit unit = getNumericUnitType();
+        if (null == unit)
+            return Boolean.FALSE;
+        else if (unit.equals(NumericUnit.Thousand_CN_TW) || unit.equals(NumericUnit.Thousand_EN))
+            return Boolean.TRUE;
+        else
+            return Boolean.FALSE;
+    }
+
+    public Boolean isUnitByTenThousand() {
+        NumericUnit unit = getNumericUnitType();
+        if (null == unit)
+            return Boolean.FALSE;
+        else if (unit.equals(NumericUnit.Ten_Thousand_CN)
+                || unit.equals(NumericUnit.Ten_Thousand_TW)
+                || unit.equals(NumericUnit.Ten_Thousand_EN))
+
+            return Boolean.TRUE;
+        else
+            return Boolean.FALSE;
+    }
+
     public Boolean isUnitByDay() {
         DateUnit unit = getTimeUnitType();
         if (null == unit)

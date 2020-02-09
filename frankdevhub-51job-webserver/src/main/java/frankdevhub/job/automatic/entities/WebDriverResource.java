@@ -27,6 +27,7 @@ public class WebDriverResource extends BaseRecord<WebDriverResource> {
     private static final String TYPE_WIN_64 = "win64";
 
     @Id
+    @Column(name = "id")
     private Long id;
 
     @Column(name = "resource_id")
