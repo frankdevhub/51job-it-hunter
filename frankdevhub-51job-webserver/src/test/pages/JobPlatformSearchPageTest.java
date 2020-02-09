@@ -58,6 +58,7 @@ public class JobPlatformSearchPageTest {
         Assert.notNull(jobLocationElement, "job location element cannot be found on this row");
 
         JobSearchResult result = new JobSearchResult();
+        result.setJobTitle(jobDescriptionElement.getText());
         String salaryRangeText = null == salaryRangeElement.getText() ? "" : salaryRangeElement.getText();
         if (StringUtils.isNotEmpty(salaryRangeText.trim())) {
             SalaryRangeTextUtils utils = new SalaryRangeTextUtils(salaryRangeElement.getText());
