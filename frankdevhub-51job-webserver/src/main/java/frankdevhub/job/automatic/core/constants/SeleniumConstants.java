@@ -28,7 +28,7 @@ public class SeleniumConstants {
     public static final String SUBMIT_SEARCH_XPATH = "//div[@class='ush top_wrap']/button";
 
     //job search result list
-    public static final String SEARCH_RESULT_LIST_XPATH = "//div[@class='el']";
+    public static final String SEARCH_RESULT_LIST_XPATH = "//div[@class='dw_table']/div[@class='el']";
 
     //job search result class names
     public static final String RESULT_JD_NAME_CLASS = "t1";
@@ -38,12 +38,12 @@ public class SeleniumConstants {
     public static final String RESULT_JD_PUBLISH_DATE_CLASS = "t5";
 
     //job search result xpath (based on the row header element on each row)
-    public static final String RESULT_JD_NAME_XPATH = "//p[@class='t1']/span/a";
-    public static final String RESULT_COMPANY_NAME_XPATH = "//span[@class='t2']/a";
-    public static final String RESULT_JD_LOCATION_XPATH = "//span[@class='t3']";
-    public static final String RESULT_SALARY_RANGE_XPATH = "//span[@class='t4']";
-    public static final String RESULT_JD_PUBLISH_DATE_XPATH = "//span[@class='t5']";
-    public static final String RESULT_JD_CAMPUS_ONLY_XPATH = "//p[@class='t1']/img[@alt='校招']";
-    public static final String RESULT_JD_INTERNSHIP_ONLY_XPATH = "//p[@class='t1']/img[@alt='实习']";
+    public static final String RESULT_JD_NAME_XPATH = "p/span/a";
+    public static final String RESULT_COMPANY_NAME_XPATH = "span[@class='t2']/a";
+    public static final String RESULT_JD_LOCATION_XPATH = "span[@class='t3']";
+    public static final String RESULT_SALARY_RANGE_XPATH = "span[@class='t4']";
+    public static final String RESULT_JD_PUBLISH_DATE_XPATH = "span[@class='t5']";
+    public static final String RESULT_JD_CAMPUS_ONLY_XPATH = "p[@class='t1 ']/img[@alt='校招']";
+    public static final String RESULT_JD_INTERNSHIP_ONLY_XPATH = "p[@class='t1 ']/img[@alt='实习']";
 
 }

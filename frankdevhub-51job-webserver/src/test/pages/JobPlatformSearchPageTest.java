@@ -10,6 +10,7 @@ import frankdevhub.job.automatic.entities.JobSearchResult;
 import frankdevhub.job.automatic.selenium.AssignDriver;
 import frankdevhub.job.automatic.selenium.DriverBase;
 import frankdevhub.job.automatic.selenium.Query;
+import org.apache.commons.lang.StringUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -57,28 +58,35 @@ public class JobPlatformSearchPageTest {
         Assert.notNull(jobLocationElement, "job location element cannot be found on this row");
 
         JobSearchResult result = new JobSearchResult();
-        SalaryRangeTextUtils utils = new SalaryRangeTextUtils(salaryRangeElement.getText());
-        utils.parse();
+        String salaryRangeText = null == salaryRangeElement.getText() ? "" : salaryRangeElement.getText();
+        if (StringUtils.isNotEmpty(salaryRangeText.trim())) {
+            SalaryRangeTextUtils utils = new SalaryRangeTextUtils(salaryRangeElement.getText());
+            utils.parse();
+            //set salary range referred properties
+            result.setSalaryNumericUnit(utils.getNumericUnit())
+                    .setSalaryMinNumeric(utils.getMinimizeValue())
+                    .setSalaryMaxNumeric(utils.getMaximumValue())
+                    .setSalaryTimeUnit(utils.getTimeUnit());
+        }
 
-        //set salary range referred properties
-        result.setSalaryNumericUnit(utils.getNumericUnit())
-                .setSalaryMinNumeric(utils.getMinimizeValue())
-                .setSalaryMaxNumeric(utils.getMaximumValue())
-                .setSalaryTimeUnit(utils.getTimeUnit());
 
         //set job description campus only, salary negotiable ,internship only referred property
-        WebElement campusElement = row.findElement(By.xpath(SeleniumConstants.RESULT_JD_CAMPUS_ONLY_XPATH));
-        Thread.sleep(500L);
-        if (null != campusElement)
+        try {
+            row.findElement(By.xpath(SeleniumConstants.RESULT_JD_CAMPUS_ONLY_XPATH));
+            Thread.sleep(500L);
             result.setIsCampusOnly(true);
-        else
+        } catch (Exception e) {
             result.setIsCampusOnly(false);
-        WebElement internshipElement = row.findElement(By.xpath(SeleniumConstants.RESULT_JD_INTERNSHIP_ONLY_XPATH));
-        Thread.sleep(500L);
-        if (null != internshipElement)
+        }
+
+        try {
+            row.findElement(By.xpath(SeleniumConstants.RESULT_JD_INTERNSHIP_ONLY_XPATH));
+            Thread.sleep(500L);
             result.setIsInternshipPosition(true);
-        else
+        } catch (Exception e) {
             result.setIsInternshipPosition(false);
+        }
+
         //TODO
         result.setSalaryNeedNegotiation(false);
 

@@ -80,6 +80,8 @@ public class SalaryRangeTextUtils {
         Assert.notNull(text.trim(), "text should not be null");
         clear();
 
+        System.out.println("parsing test: " + this.getText());
+
         Matcher matcher = Pattern.compile(rangeRegex).matcher(text);
         if (matcher.find()) {
             this.minimize = matcher.group("min");

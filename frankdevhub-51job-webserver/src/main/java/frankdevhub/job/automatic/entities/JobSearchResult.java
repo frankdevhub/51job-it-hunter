@@ -1,6 +1,7 @@
 package frankdevhub.job.automatic.entities;
 
 import javax.persistence.Column;
+import javax.persistence.Id;
 import javax.persistence.Table;
 import java.util.Objects;
 
@@ -17,7 +18,7 @@ import java.util.Objects;
 @Table(name = "platform_search_result")
 public class JobSearchResult extends BaseRecord<JobSearchResult> {
 
-    @Column(name = "id")
+    @Id
     private Long id;
 
     @Column(name = "search_key_id")

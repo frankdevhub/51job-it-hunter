@@ -1,16 +1,15 @@
 package frankdevhub.job.automatic.selenium;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Objects;
-
+import io.appium.java_client.MobileElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.Select;
 
-import io.appium.java_client.MobileElement;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * <p>Title:Query.java</p>
@@ -131,4 +130,5 @@ public class Query {
         return Objects.hash(new Object[]{this.driver, this.currentType, this.defaultLocator, this.customLocators,
                 Boolean.valueOf(this.isAppiumDriver)});
     }
+
 }
