@@ -227,7 +227,7 @@ public final class FtpGdriveSynchService {
                 throw new IllegalArgumentException("Can't sync folder '" + folderId + "' because it is a regular file");
             }
 
-            // Log action
+            // Log actions
             if (cache.getFile(folderId) == null) {
                 LOGGER.info("Adding folder '" + remoteFile.getId() + "'");
             } else {

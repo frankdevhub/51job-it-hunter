@@ -1,4 +1,4 @@
-package frankdevhub.job.automatic.web.action;
+package frankdevhub.job.automatic.web.actions;
 
 /**
  * <p>Title:@ClassName JobPlatformDataPatrolService.java</p>

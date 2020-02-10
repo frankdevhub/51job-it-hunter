@@ -260,6 +260,7 @@ public class JobPlatformSearchPage extends BaseWebPage {
         LOGGER.begin().info("locate search result list");
 
         List<WebElement> resultList = WebDriverUtils.findWebElements(searchResultList);
+        this.pageSize = resultList.size();
         parseSearchResults(resultList);
 
         LOGGER.begin().info("parse current page list complete");
