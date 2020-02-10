@@ -161,7 +161,7 @@ public class JobPlatformSearchPage extends BaseWebPage {
         }
     }
 
-    private JobSearchResult parseSearchResult(WebElement row) throws BusinessException, IllegalAccessException, InterruptedException {
+    private JobSearchResult parseSearchResult(WebElement row) throws BusinessException, IllegalAccessException {
         WebElement jobDescriptionElement = row.findElement(By.xpath(SeleniumConstants.RESULT_JD_NAME_XPATH));
         WebElement companyNameElement = row.findElement(By.xpath(SeleniumConstants.RESULT_COMPANY_NAME_XPATH));
         WebElement salaryRangeElement = row.findElement(By.xpath(SeleniumConstants.RESULT_SALARY_RANGE_XPATH));
@@ -241,17 +241,21 @@ public class JobPlatformSearchPage extends BaseWebPage {
         return result;
     }
 
-    private void parseSearchResults(List<WebElement> rows) throws IllegalAccessException, BusinessException, InterruptedException {
+    private void parseSearchResults(List<WebElement> rows) {
         for (WebElement row : rows) {
-            JobSearchResult result = parseSearchResult(row);
-            Thread t = new ParseSearchResultRow(result);
-            //TODO
-            threadPool.execute(t);
-            LOGGER.begin().info("restore result thread submit success");
+            try {
+                JobSearchResult result = parseSearchResult(row);
+                Thread t = new ParseSearchResultRow(result);
+                //TODO
+                threadPool.execute(t);
+                LOGGER.begin().info("restore result thread submit success");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
-    private void parseSearchResultPage() throws BusinessException, IllegalAccessException, InterruptedException {
+    private void parseSearchResultPage() {
         LOGGER.begin().info("invoke {{JobPlatformSearchPage::parseSearchResult()}}");
         LOGGER.begin().info("locate search result list");
 
@@ -265,7 +269,7 @@ public class JobPlatformSearchPage extends BaseWebPage {
         LOGGER.begin().info("invoke {{JobPlatformSearchPage::nextPage()}}");
     }
 
-    public void startSearchResultPatrol() throws InterruptedException, IllegalAccessException, BusinessException {
+    public void startSearchResultPatrol() throws InterruptedException {
         LOGGER.begin().info("invoke {{JobPlatformSearchPage::startSearchResultPatrol()}}");
 
         initSearchPage();
