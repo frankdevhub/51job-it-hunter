@@ -22,7 +22,7 @@ public class SeleniumConstants {
 
     //job search text box
     public static final String INPUT_SEARCH_CLASS = "ipt";
-    public static final String INPUT_SEARCH_XPATH = "//p[@class='ipt']/input";
+    public static final String INPUT_SEARCH_XPATH = "//p[@class='ipt']/input[@id='kwdselectid']";
 
     //job search submit button
     public static final String SUBMIT_SEARCH_XPATH = "//div[@class='ush top_wrap']/button";

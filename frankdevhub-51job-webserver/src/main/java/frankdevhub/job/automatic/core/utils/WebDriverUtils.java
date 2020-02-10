@@ -15,6 +15,10 @@ public class WebDriverUtils {
         return driver -> driver.getTitle().toLowerCase().startsWith(header.toLowerCase());
     }
 
+    private static ExpectedCondition<Boolean> pageTitleContains(final String header) {
+        return driver -> driver.getTitle().toLowerCase().contains(header.toLowerCase());
+    }
+
     public static ExpectedCondition<Boolean> waitPageLoadComplete() {
         String function = "return document.readyState";
         return driver -> ((String) ((JavascriptExecutor) driver)
@@ -33,8 +37,11 @@ public class WebDriverUtils {
         return list;
     }
 
-    public static synchronized void doWaitTitle(String header, WebDriverWait wait) {
+    public static synchronized void doWaitTitleContains(String header, WebDriverWait wait) {
+        wait.until(pageTitleContains(header));
+    }
 
+    public static synchronized void doWaitTitleStartsWith(String header, WebDriverWait wait) {
         wait.until(pageTitleStartsWith(header));
     }
 

@@ -44,6 +44,11 @@ public class JobSearchResultRepository extends MyBatisRepository {
         return getMapper().insertSelective(record);
     }
 
+    public Integer updateByPrimaryKeySelective(JobSearchResult record) {
+        record.doUpdateEntity();
+        return getMapper().updateByPrimaryKeySelective(record);
+    }
+
     public Integer selectCountByMarkId(JobSearchResult record) {
         Example example = new Example(JobSearchResult.class);
         example.createCriteria().andEqualTo(MARK_ID, record.getMarkId());
