@@ -336,7 +336,25 @@ public class JobSearchResult extends BaseRecord<JobSearchResult> {
 
     @Override
     public int hashCode() {
-        return Objects.hash(getJobTitle(), getCompanyName(), getLocation(), getSalaryRange(), getSalaryMinNumeric(), getSalaryMaxNumeric(), getSalaryTimeUnit(), getSalaryNumericUnit(), getIsUnitByTenThousand(), getIsUnitByThousand(), getIsUnitByDay(), getIsUnitByMonth(), getIsUnitByYear(), getIsInternshipPosition(), getIsCampusOnly(), getIsSalaryNeedNegotiation(), getPublishDate(), getPublishMonth(), getPublishDayOfMonth());
+        return Objects.hash(getJobTitle()
+                , getCompanyName()
+                , getLocation()
+                , getSalaryRange()
+                , getSalaryMinNumeric()
+                , getSalaryMaxNumeric()
+                , getSalaryTimeUnit()
+                , getSalaryNumericUnit()
+                , getIsUnitByTenThousand()
+                , getIsUnitByThousand()
+                , getIsUnitByDay()
+                , getIsUnitByMonth()
+                , getIsUnitByYear()
+                , getIsInternshipPosition()
+                , getIsCampusOnly()
+                , getIsSalaryNeedNegotiation()
+                , getPublishDate()
+                , getPublishMonth()
+                , getPublishDayOfMonth());
     }
 
     @Override
