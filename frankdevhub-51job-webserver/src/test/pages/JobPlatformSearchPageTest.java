@@ -58,7 +58,9 @@ public class JobPlatformSearchPageTest {
         Assert.notNull(jobLocationElement, "job location element cannot be found on this row");
 
         JobSearchResult result = new JobSearchResult();
-        result.setJobTitle(jobDescriptionElement.getText());
+        result.setJobTitle(jobDescriptionElement.getText())
+                .setResourceUrl(jobDescriptionElement.getAttribute(SeleniumConstants.ATTRIBUTE_HREF));
+
         String salaryRangeText = null == salaryRangeElement.getText() ? "" : salaryRangeElement.getText();
         if (StringUtils.isNotEmpty(salaryRangeText.trim())) {
             SalaryRangeTextUtils utils = new SalaryRangeTextUtils(salaryRangeElement.getText());
@@ -153,7 +155,6 @@ public class JobPlatformSearchPageTest {
         AssignDriver.initQueryObjects(this, (RemoteWebDriver) driver);
         System.out.println("init query elements complete");
     }
-
 
     @Test
     public void testParseResultPage() throws IllegalAccessException, BusinessException, InterruptedException {

@@ -85,6 +85,9 @@ public class JobSearchResult extends BaseRecord<JobSearchResult> {
     @Column(name = "publish_date_day_numeric")
     private Integer publishDayOfMonth;
 
+    @Column(name = "link_url")
+    private String resourceUrl;
+
     @Column(name = "mark_id")
     private Integer markId;
 
@@ -286,6 +289,15 @@ public class JobSearchResult extends BaseRecord<JobSearchResult> {
         return this;
     }
 
+    public String getResourceUrl() {
+        return resourceUrl;
+    }
+
+    public JobSearchResult setResourceUrl(String resourceUrl) {
+        this.resourceUrl = resourceUrl;
+        return this;
+    }
+
     public Integer getMarkId() {
         return markId;
     }
@@ -335,6 +347,7 @@ public class JobSearchResult extends BaseRecord<JobSearchResult> {
                 ", searchKeyword='" + searchKeyword + '\'' + '\n' +
                 ", companyName='" + companyName + '\'' + '\n' +
                 ", jobTitle='" + jobTitle + '\'' + '\n' +
+                ", resourceUrl='" + resourceUrl + '\'' + '\n' +
                 ", location='" + location + '\'' + '\n' +
                 ", salaryRange='" + salaryRange + '\'' + '\n' +
                 ", salaryMinNumeric=" + salaryMinNumeric + '\n' +
@@ -352,6 +365,7 @@ public class JobSearchResult extends BaseRecord<JobSearchResult> {
                 ", publishDate='" + publishDate + '\'' + '\n' +
                 ", publishMonth=" + publishMonth + '\n' +
                 ", publishDayOfMonth=" + publishDayOfMonth + '\n' +
+                ", resourceUrl=" + resourceUrl + '\n' +
                 ", markId=" + markId + '\n' +
                 '}';
     }
