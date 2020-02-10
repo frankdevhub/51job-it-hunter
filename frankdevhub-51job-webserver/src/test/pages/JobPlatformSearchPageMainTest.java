@@ -3,7 +3,6 @@ package pages;
 import frankdevhub.job.automatic.JobWebAutoService;
 import frankdevhub.job.automatic.core.data.logging.Logger;
 import frankdevhub.job.automatic.core.data.logging.LoggerFactory;
-import frankdevhub.job.automatic.core.exception.BusinessException;
 import frankdevhub.job.automatic.web.pages.JobPlatformSearchPage;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -30,7 +29,7 @@ public class JobPlatformSearchPageMainTest {
     private final String TEST_SEARCH_KEY = "java";
 
     @Test
-    public void doPatrolTestOnePageOnly() throws InterruptedException, IllegalAccessException, BusinessException {
+    public void doPatrolTestOnePageOnly() throws InterruptedException {
         LOGGER.begin().info("run test method {{doPatrolTestOnePageOnly}} start");
 
         JobPlatformSearchPage patrolService = new JobPlatformSearchPage(Boolean.FALSE, TEST_SEARCH_KEY);
