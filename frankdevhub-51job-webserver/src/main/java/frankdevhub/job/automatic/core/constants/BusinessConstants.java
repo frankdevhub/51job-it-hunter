@@ -11,6 +11,8 @@ package frankdevhub.job.automatic.core.constants;
  * @Version: 1.0
  */
 public class BusinessConstants {
+    //restful service
+    public static final String SUCCESS = "success";
     //selenium configuration
     public static final String SELENIUM_CACHE_ROOT_NULL = "selenium cache root directory path should not be null";
     public static final String SELENIUM_CACHE_ROOT_NOT_EXISTS = "selenium cache root directory not exist";
