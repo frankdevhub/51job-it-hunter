@@ -7,6 +7,8 @@ import frankdevhub.job.automatic.mapper.JobSearchResultMapper;
 import org.springframework.stereotype.Repository;
 import tk.mybatis.mapper.entity.Example;
 
+import java.util.List;
+
 /**
  * <p>Title:@ClassName JobSearchResultRepository.java</p>
  * <p>Copyright: Copyright (c) 2020</p>
@@ -24,6 +26,9 @@ public class JobSearchResultRepository extends MyBatisRepository {
     private final String ID = "id";
     private final String MARK_ID = "markId";
     private final String CREATE_TIME = "createTime";
+    private final String UPDATE_TIME = "updateTime";
+    private final String PUBLISH_DAY_OF_MONTH = "publishDayOfMonth";
+    private final String PUBLISH_MONTH = "publishMonth";
 
     private JobSearchResultMapper getMapper() {
         return SpringUtils.getBean(JobSearchResultMapper.class);
@@ -43,5 +48,13 @@ public class JobSearchResultRepository extends MyBatisRepository {
         Example example = new Example(JobSearchResult.class);
         example.createCriteria().andEqualTo(MARK_ID, record.getMarkId());
         return getMapper().selectCountByExample(example);
+    }
+
+    public List<JobSearchResult> selectByPublishDate(Integer month, Integer day, Integer pageNum, Integer pageSize) {
+        Example example = new Example(JobSearchResult.class);
+        example.createCriteria().andEqualTo(PUBLISH_MONTH, month)
+                .andEqualTo(PUBLISH_DAY_OF_MONTH, day);
+        setPage(pageNum, pageSize);
+        return getMapper().selectByExample(example);
     }
 }

@@ -162,4 +162,11 @@ public class JobPlatformSearchPageTest {
 
         LOGGER.begin().info("run test method {{testParseResultPage}} complete");
     }
+
+    @Test
+    public void testNavigateToNextPage() {
+        LOGGER.begin().info("run test method {{testNavigateToNextPage}} start");
+
+        LOGGER.begin().info("run test method {{testNavigateToNextPage}} complete");
+    }
 }
