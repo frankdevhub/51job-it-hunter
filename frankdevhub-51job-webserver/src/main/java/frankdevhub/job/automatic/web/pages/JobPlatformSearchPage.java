@@ -296,7 +296,7 @@ public class JobPlatformSearchPage extends BaseWebPage {
         parseSearchResultPage();
         try {
             turnToNextPage();
-            parseSearchResultPage();
+            parseCurrentSearchResultPage();
         } catch (Exception e) {
             e.printStackTrace();
             return;

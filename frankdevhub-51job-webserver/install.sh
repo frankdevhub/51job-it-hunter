@@ -14,4 +14,4 @@ mvn clean
 
 mvn compile
 
-mvn package
+mvn install -Dmaven.test.skip=true
