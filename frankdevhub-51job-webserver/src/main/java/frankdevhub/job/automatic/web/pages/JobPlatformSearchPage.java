@@ -43,6 +43,7 @@ public class JobPlatformSearchPage extends BaseWebPage {
     private final Query searchBox;
     private final Query submitBtn;
     private final Query searchResultList;
+    private final Query pageNavigator;
 
     private final SnowflakeGenerator snowflakeGenerator;
 
@@ -65,6 +66,7 @@ public class JobPlatformSearchPage extends BaseWebPage {
         this.searchBox = new Query().defaultLocator(By.xpath(SeleniumConstants.INPUT_SEARCH_XPATH));
         this.submitBtn = new Query().defaultLocator(By.xpath(SeleniumConstants.SUBMIT_SEARCH_XPATH));
         this.searchResultList = new Query().defaultLocator(By.xpath(SeleniumConstants.SEARCH_RESULT_LIST_XPATH));
+        this.pageNavigator = new Query().defaultLocator(By.xpath(SeleniumConstants.RESULT_PAGE_NAVIGATOR));
 
         this.snowflakeGenerator = new SnowflakeGenerator();
 
@@ -113,7 +115,7 @@ public class JobPlatformSearchPage extends BaseWebPage {
 
         LOGGER.begin().info("wait and navigate to search result list page");
         WebDriverWait wait = new WebDriverWait(getDriver(), 5, 100);
-        WebDriverUtils.doWaitTitleContains(jobKeyword, wait);
+        WebDriverUtils.doWaitTitleContains(this.jobKeyword, wait);
 
         LOGGER.begin().info("navigate to search result list page success");
     }
@@ -266,8 +268,39 @@ public class JobPlatformSearchPage extends BaseWebPage {
         LOGGER.begin().info("parse current page list complete");
     }
 
-    private void nextPage() {
+    private void turnToNextPage() throws BusinessException {
         LOGGER.begin().info("invoke {{JobPlatformSearchPage::nextPage()}}");
+        LOGGER.begin().info("locate search result page navigator");
+
+        List<WebElement> navigators = pageNavigator.findWebElements();
+        if (null == navigators || navigators.size() <= 1)
+            throw new RuntimeException("invalid element may be located as search result page navigator");
+
+        WebElement nextPageButton = navigators.get(1);
+        String nextPageUrl = nextPageButton.getAttribute(SeleniumConstants.ATTRIBUTE_HREF);
+        if (null == nextPageUrl)
+            throw new BusinessException(BusinessConstants.NEXT_PAGE_NOT_AVAILABLE);
+
+        Assert.notEmpty(nextPageUrl, "next page url should not be null");
+        this.getDriver().get(nextPageUrl);
+        LOGGER.begin().info("navigate to next search result page");
+
+        WebDriverWait wait = new WebDriverWait(getDriver(), 5, 100);
+        WebDriverUtils.doWaitTitleContains(this.jobKeyword, wait);
+
+        LOGGER.begin().info("navigate to next search result page success");
+        this.pageNum++;
+    }
+
+    private void parseCurrentSearchResultPage() {
+        parseSearchResultPage();
+        try {
+            turnToNextPage();
+            parseSearchResultPage();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return;
+        }
     }
 
     public void startSearchResultPatrol() throws InterruptedException {
@@ -277,8 +310,8 @@ public class JobPlatformSearchPage extends BaseWebPage {
         navigateToPlatformHomePage();
         inputSearchQuery();
         submitSearchKeyword();
+        parseCurrentSearchResultPage();
 
-        parseSearchResultPage();
     }
 
 }

@@ -34,4 +34,6 @@ public class BusinessConstants {
     public static final String JOB_SEARCH_KEYWORD_NULL = "job search key word search should not be null";
     //salary range regex match failure
     public static final String SALARY_RANGE_REGEX_MATCH_ERROR = "salary range regex match failure";
+    //next page not available
+    public static final String NEXT_PAGE_NOT_AVAILABLE = "next page not available, this may be the last page";
 }
