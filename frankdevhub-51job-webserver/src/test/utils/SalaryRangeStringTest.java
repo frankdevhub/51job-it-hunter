@@ -24,9 +24,9 @@ import java.util.regex.Pattern;
 public class SalaryRangeStringTest {
 
     private final String rangeRegex =
-            "(?<min>([1-9]\\d*\\.?\\d+)|(0\\.\\d*[1-9])|(\\d+))" +
-                    "(?<hyphen>(—|-)+)" +
-                    "(?<max>([1-9]\\d*\\.?\\d+)|(0\\.\\d*[1-9])|(\\d+))" +
+            "(?<min>(([1-9]\\d*\\.?\\d+)|(0\\.\\d*[1-9])|(\\d+))?)" +
+                    "(?<hyphen>((—|-)+)?)" +
+                    "(?<max>(([1-9]\\d*\\.?\\d+)|(0\\.\\d*[1-9])|(\\d+))?)" +
                     "(?<numeric>[\\u4e00-\\u9fa5]?)(/?)(?<date>[\\u4e00-\\u9fa5]?)";
 
     private final Logger LOGGER = LoggerFactory.getLogger(SalaryRangeStringTest.class);
@@ -54,6 +54,21 @@ public class SalaryRangeStringTest {
         } else
             System.out.println("no matched element found !!!");
         System.out.println("\n");
+    }
+
+    @Test
+    public void testExamplesUsingRegex_1() {
+        LOGGER.begin().info("runt test method {{testExamplesUsingRegex_1}} start");
+
+        String[] examples = new String[]{"150元/天", "2.0元/天", "250 元/天", "56.78 元/天"};
+        try {
+            for (String example : examples)
+                testExample(example);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        LOGGER.begin().info("runt test method {{testExamplesUsingRegex_1}} start");
     }
 
 

@@ -32,9 +32,9 @@ public class SalaryRangeTextUtils {
     private String numericUnit;
 
     private final String rangeRegex =
-            "(?<min>([1-9]\\d*\\.?\\d+)|(0\\.\\d*[1-9])|(\\d+))" +
-                    "(?<hyphen>(—|-)+)" +
-                    "(?<max>([1-9]\\d*\\.?\\d+)|(0\\.\\d*[1-9])|(\\d+))" +
+            "(?<min>(([1-9]\\d*\\.?\\d+)|(0\\.\\d*[1-9])|(\\d+))?)" +
+                    "(?<hyphen>((—|-)+)?)" +
+                    "(?<max>(([1-9]\\d*\\.?\\d+)|(0\\.\\d*[1-9])|(\\d+))?)" +
                     "(?<numeric>[\\u4e00-\\u9fa5]?)(/?)(?<date>[\\u4e00-\\u9fa5]?)";
 
     private final Logger LOGGER = LoggerFactory.getLogger(SalaryRangeTextUtils.class);
@@ -77,8 +77,10 @@ public class SalaryRangeTextUtils {
     public void parse() throws IllegalAccessException, BusinessException {
         LOGGER.begin().info("invoke {{SalaryRangeTextUtils::parse()}}");
 
-        Assert.notNull(text.trim(), "text should not be null");
+        Assert.notNull(this.getText(), "text should not be null");
         clear();
+
+        this.text = getText().trim();
 
         System.out.println("parsing test: " + this.getText());
 
