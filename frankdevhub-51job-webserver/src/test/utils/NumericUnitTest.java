@@ -21,7 +21,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @RunWith(SpringJUnit4ClassRunner.class)
 public class NumericUnitTest {
 
-    private Logger LOGGER = LoggerFactory.getLogger(NumericUnitTest.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(NumericUnitTest.class);
 
     @Test
     public void testGetNumericUnit() {
