@@ -1,5 +1,8 @@
 package frankdevhub.job.automatic.selenium.config;
 
+import frankdevhub.job.automatic.core.data.logging.Logger;
+import frankdevhub.job.automatic.core.data.logging.LoggerFactory;
+
 import java.util.List;
 
 /**
@@ -14,15 +17,17 @@ import java.util.List;
  */
 public class WebDriverInstaller {
 
+    private final Logger LOGGER = LoggerFactory.getLogger(WebDriverInstaller.class);
+
     public String getOperatingSystem() {
+        return System.getProperty("os.name").toUpperCase();
+    }
+
+    public List[] getInstalledWebBrowsers() {
         return null;
     }
 
-    public List[] getInstalledWebBroswers() {
-        return null;
-    }
-
-    public String getInstalledWebBroswerVersion() {
+    public String getInstalledWebBrowserVersion() {
         return null;
     }
 }
