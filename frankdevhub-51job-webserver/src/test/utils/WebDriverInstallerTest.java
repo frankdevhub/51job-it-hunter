@@ -25,8 +25,18 @@ public class WebDriverInstallerTest {
     @Test
     public void testGetOperatingSystem() {
         LOGGER.begin().info("runt test method {{testGetOperatingSystem}} start");
+        String info = System.getProperty("os.name").toUpperCase();
+        System.out.println("System.getProperty(\"os.name\") = " + info);
 
         LOGGER.begin().info("runt test method {{testGetOperatingSystem}} complete");
     }
 
+    @Test
+    public void testGetSystemArchitecture() {
+        LOGGER.begin().info("runt test method {{testGetSystemArchitecture}} start");
+        String info = System.getProperty("os.arch").toUpperCase();
+        System.out.println("System.getProperty(\"os.arch\") = " + info);
+
+        LOGGER.begin().info("runt test method {{testGetSystemArchitecture}} complete");
+    }
 }
