@@ -273,10 +273,10 @@ public class JobPlatformSearchPage extends BaseWebPage {
         LOGGER.begin().info("locate search result page navigator");
 
         List<WebElement> navigators = pageNavigator.findWebElements();
-        if (null == navigators || navigators.size() <= 1)
+        if (null == navigators || navigators.size() == 0)
             throw new RuntimeException("invalid element may be located as search result page navigator");
 
-        WebElement nextPageButton = navigators.get(1);
+        WebElement nextPageButton = navigators.size() == 1 ? navigators.get(0) : navigators.get(1);
         String nextPageUrl = nextPageButton.getAttribute(SeleniumConstants.ATTRIBUTE_HREF);
         if (null == nextPageUrl)
             throw new BusinessException(BusinessConstants.NEXT_PAGE_NOT_AVAILABLE);
