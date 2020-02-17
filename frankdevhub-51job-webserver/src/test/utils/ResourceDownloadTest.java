@@ -28,13 +28,14 @@ public class ResourceDownloadTest {
     private final Logger LOGGER = LoggerFactory.getLogger(ResourceDownloadTest.class);
 
     private static final String MIRROR_INDEX = "http://npm.taobao.org/mirrors/chromedriver/";
+    private static final String RESOURCE_INDEX = "http://npm.taobao.org/mirrors/chromedriver/2.0/chromedriver_win32.zip";
 
     @Test
     public void testDownloadByDataInputStream() throws IOException, BusinessException {
         LOGGER.begin().info("runt test method {{testDownloadByDataInputStream}} start");
 
-        String fileUrl = MIRROR_INDEX;
-        String savePath = "D:\\download_test";
+        String fileUrl = RESOURCE_INDEX;
+        String savePath = "D:\\download_test\\chromeDriver.zip";
 
         File downloadFile = new File(savePath);
         if (!downloadFile.exists())
@@ -42,10 +43,12 @@ public class ResourceDownloadTest {
         URL url = new URL(fileUrl);
         HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
         int code = urlConnection.getResponseCode();
+
+        System.out.println("code = " + code);
         if (code != HttpURLConnection.HTTP_OK)
             throw new BusinessException("cannot read remote file");
 
-        System.out.print("start to download");
+        System.out.println("start to download");
         Long start = System.currentTimeMillis();
 
         DataInputStream in = new DataInputStream(urlConnection.getInputStream());
@@ -65,7 +68,7 @@ public class ResourceDownloadTest {
             e.printStackTrace();
         } finally {
             Long end = System.currentTimeMillis();
-            System.out.print("download complete, time cost = " + (end - start) / 1000 + "sec");
+            System.out.println("download complete, time cost = " + (end - start) / 1000 + "sec");
         }
 
 
