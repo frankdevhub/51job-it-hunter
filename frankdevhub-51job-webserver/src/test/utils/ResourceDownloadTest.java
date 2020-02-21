@@ -29,18 +29,30 @@ public class ResourceDownloadTest {
 
     private static final String MIRROR_INDEX = "http://npm.taobao.org/mirrors/chromedriver/";
     private static final String RESOURCE_INDEX = "http://npm.taobao.org/mirrors/chromedriver/2.0/chromedriver_win32.zip";
+    private static final String RESOURCE_INDEX_1 = "http://www.frankdevhub.site/robots.txt";
+
 
     @Test
-    public void testDownloadByDataInputStream() throws IOException, BusinessException {
-        LOGGER.begin().info("runt test method {{testDownloadByDataInputStream}} start");
+    public void testGetFileName() {
 
-        String fileUrl = RESOURCE_INDEX;
-        String savePath = "D:\\download_test\\chromeDriver.zip";
+        LOGGER.begin().info("runt test method {{testGetFileName}} start");
+        String url = RESOURCE_INDEX;
+        System.out.println("url = " + RESOURCE_INDEX);
+
+        String fileName = url.substring(url.lastIndexOf("/") + 1);
+        System.out.println("fileName = " + fileName);
+
+        LOGGER.begin().info("runt test method {{testGetFileName}} complete");
+    }
+
+    private void downloadByDataInputStream(String path) throws IOException, BusinessException {
+        String fileName = path.substring(path.lastIndexOf("/") + 1);
+        String savePath = "D:\\download_test\\" + fileName;
 
         File downloadFile = new File(savePath);
         if (!downloadFile.exists())
             downloadFile.createNewFile();
-        URL url = new URL(fileUrl);
+        URL url = new URL(path);
         HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
         int code = urlConnection.getResponseCode();
 
@@ -70,8 +82,22 @@ public class ResourceDownloadTest {
             Long end = System.currentTimeMillis();
             System.out.println("download complete, time cost = " + (end - start) / 1000 + "sec");
         }
+    }
 
 
+    @Test
+    public void testDownloadByDataInputStream() {
         LOGGER.begin().info("runt test method {{testDownloadByDataInputStream}} start");
+
+        String[] examples = new String[]{RESOURCE_INDEX, RESOURCE_INDEX_1};
+        for (String ex : examples) {
+            try {
+                downloadByDataInputStream(ex);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        LOGGER.begin().info("runt test method {{testDownloadByDataInputStream}} complete");
     }
 }
