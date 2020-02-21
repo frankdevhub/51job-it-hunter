@@ -39,4 +39,13 @@ public class WebDriverInstallerTest {
 
         LOGGER.begin().info("runt test method {{testGetSystemArchitecture}} complete");
     }
+
+
+    @Test
+    public void testGetAllChromeDriverResources() {
+        LOGGER.begin().info("runt test method {{testGetAllChromeDriverResources}} start");
+
+
+        LOGGER.begin().info("runt test method {{testGetAllChromeDriverResources}} complete");
+    }
 }
