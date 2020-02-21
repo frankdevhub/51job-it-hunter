@@ -1,19 +1,23 @@
 package pages;
 
+import cn.wanghaomiao.xpath.exception.XpathSyntaxErrorException;
+import cn.wanghaomiao.xpath.model.JXDocument;
+import cn.wanghaomiao.xpath.model.JXNode;
 import frankdevhub.job.automatic.core.data.logging.Logger;
 import frankdevhub.job.automatic.core.data.logging.LoggerFactory;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
-import org.jdom2.Document;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.xml.sax.SAXException;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -21,6 +25,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 /**
  * <p>Title:@ClassName JobPlatformSearchPageMainTest_1.java</p>
@@ -37,7 +42,9 @@ import java.io.InputStream;
 public class JobPlatformSearchPageMainTest_1 {
 
     private static final String TEST_RESULT_PAGE = "https://search.51job.com/list/020000,000000,0000,00,9,99,java,2,1.html?lang=c&stype=&postchannel=0000&workyear=99&cotype=99&degreefrom=99&jobterm=99&companysize=99&providesalary=99&lonlat=0%2C0&radius=-1&ord_field=0&confirmdate=9&fromType=&dibiaoid=0&address=&line=&specialarea=00&from=&welfare=";
+
     private final Logger LOGGER = LoggerFactory.getLogger(JobPlatformSearchPageMainTest_1.class);
+
     private String pageContext = "";
 
     @Before
@@ -45,13 +52,24 @@ public class JobPlatformSearchPageMainTest_1 {
         LOGGER.begin().info("invoke {{JobPlatformSearchPageMainTest_1::init()}}");
 
         Long start = System.currentTimeMillis();
-        CloseableHttpClient httpClient = HttpClientBuilder.create().build();
-        HttpGet httpGet = new HttpGet(TEST_RESULT_PAGE);
-        httpGet.setHeader("Content-Type", "text/html; charset=GBK");
+        String responseText = null;
+        CloseableHttpClient httpClient = null;
+        try {
+            // httpClient = HttpClientBuilder.create().build();
+            httpClient = HttpClients.createDefault();
 
-        CloseableHttpResponse response = httpClient.execute(httpGet);
-        HttpEntity responseEntity = response.getEntity();
-        String responseText = EntityUtils.toString(responseEntity, "GBK");
+            HttpGet httpGet = new HttpGet(TEST_RESULT_PAGE);
+            httpGet.setHeader("Content-Type", "text/html; charset=GBK");
+
+            CloseableHttpResponse response = httpClient.execute(httpGet);
+            HttpEntity responseEntity = response.getEntity();
+            responseText = EntityUtils.toString(responseEntity, "GBK");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            httpClient.close();
+        }
 
         Long end = System.currentTimeMillis();
         System.out.println(String.format("time cost: %s sec", (end - start) / 1000));
@@ -59,10 +77,12 @@ public class JobPlatformSearchPageMainTest_1 {
         System.out.println(responseText);
 
         this.pageContext = responseText;
+
     }
 
+    @Deprecated
     @Test
-    public void testParseByUsingJDomSupport() throws ParserConfigurationException, IOException, SAXException {
+    public void testParseByUsingJDomSupport() throws ParserConfigurationException {
         LOGGER.begin().info("run test method {{testParseByUsingJDomSupport}} start");
 
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
@@ -73,9 +93,37 @@ public class JobPlatformSearchPageMainTest_1 {
 
         //TODO
         //[Fatal Error] :10:119: The reference to entity "keyword" must end with the ';' delimiter.
-        Document document = (Document) db.parse(inputStream);
+        //Document document = (Document) db.parse(inputStream);
 
         LOGGER.begin().info("run test method {{testParseByUsingJDomSupport}} complete");
     }
 
+
+    @Test
+    public void testParseByUsingJSoupSupport() {
+        LOGGER.begin().info("run test method {{testParseByUsingJSoupSupport}} start");
+
+        Document document = Jsoup.parse(this.pageContext);
+        String title = document.getElementsByTag("title").html();
+        System.out.println("test :[getElementsByTag]");
+        System.out.println("title = " + title);
+
+        System.out.println("test :[get element by JSoup xpath]");
+        JXDocument jxDocument = new JXDocument(document);
+        try {
+            List<JXNode> jxNodes = jxDocument.selN("//div[@class=el]/p/span/a");
+            System.out.println("get jxNodes count = " + jxNodes.size());
+
+            for (JXNode jn : jxNodes) {
+                Element el = jn.getElement();
+                System.out.println("title =  " + el.attr("title"));
+            }
+
+        } catch (XpathSyntaxErrorException e) {
+            e.printStackTrace();
+        }
+
+
+        LOGGER.begin().info("run test method {{testParseByUsingJSoupSupport}} complete");
+    }
 }
