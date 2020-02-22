@@ -1,5 +1,7 @@
 package frankdevhub.job.automatic.repository;
 
+import frankdevhub.job.automatic.core.constants.BusinessConstants;
+import frankdevhub.job.automatic.core.exception.BusinessException;
 import frankdevhub.job.automatic.core.repository.MyBatisRepository;
 import frankdevhub.job.automatic.core.utils.SpringUtils;
 import frankdevhub.job.automatic.entities.JobSearchResult;
@@ -53,6 +55,18 @@ public class JobSearchResultRepository extends MyBatisRepository {
         Example example = new Example(JobSearchResult.class);
         example.createCriteria().andEqualTo(MARK_ID, record.getMarkId());
         return getMapper().selectCountByExample(example);
+    }
+
+    public JobSearchResult selectByMarkId(Integer markId) throws BusinessException {
+        Example example = new Example(JobSearchResult.class);
+        example.createCriteria().andEqualTo(MARK_ID, markId);
+        List<JobSearchResult> records = getMapper().selectByExample(example);
+        if (records.size() > 1)
+            throw new BusinessException(BusinessConstants.DUPLICATE_DB_RECORDS_WITH_MARKID);
+        if (records.size() == 1)
+            return records.get(0);
+        else
+            return null;
     }
 
     public List<JobSearchResult> selectByPublishDate(Integer month, Integer day, Integer pageNum, Integer pageSize) {

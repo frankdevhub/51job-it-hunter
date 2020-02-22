@@ -36,4 +36,7 @@ public class BusinessConstants {
     public static final String SALARY_RANGE_REGEX_MATCH_ERROR = "salary range regex match failure";
     //next page not available
     public static final String NEXT_PAGE_NOT_AVAILABLE = "next page not available, this may be the last page";
+    //DB error
+    public static final String DUPLICATE_DB_RECORDS_WITH_MARKID = "duplicate records found with markId";
+
 }

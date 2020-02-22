@@ -3,6 +3,7 @@ package frankdevhub.job.automatic.web.clients;
 import cn.wanghaomiao.xpath.model.JXDocument;
 import frankdevhub.job.automatic.core.data.logging.Logger;
 import frankdevhub.job.automatic.core.data.logging.LoggerFactory;
+import frankdevhub.job.automatic.core.generators.snowflake.SnowflakeGenerator;
 import frankdevhub.job.automatic.core.utils.SpringUtils;
 import frankdevhub.job.automatic.entities.JobSearchResult;
 import frankdevhub.job.automatic.repository.JobSearchResultRepository;
@@ -33,6 +34,8 @@ import java.util.List;
 public class JobPlatformClient {
 
     private final Logger LOGGER = LoggerFactory.getLogger(JobPlatformClient.class);
+
+    private final SnowflakeGenerator snowflakeGenerator = new SnowflakeGenerator();
 
     private JobSearchResultRepository getSearchResultRepository() {
         return SpringUtils.getBean(JobSearchResultRepository.class);
@@ -110,6 +113,24 @@ public class JobPlatformClient {
 
         private void restoreJobSearchResults(List<JobSearchResult> results) {
 
+            for (JobSearchResult result : results) {
+                try {
+                    if (null == result.getMarkId())
+                        continue;
+                    int count = repository.selectCountByMarkId(result);
+                    if (count == 0) {
+                        //TODO if duplicate id ?
+                        Long id = snowflakeGenerator.generateKey();
+                        result.setId(id).setKeyId(id);
+                        repository.insertSelective(result);
+                    } else {
+                        JobSearchResult res = repository.selectByMarkId(result.getMarkId());
+                        repository.updateByPrimaryKeySelective(res);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
         }
 
         @Override
