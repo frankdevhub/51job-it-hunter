@@ -3,7 +3,10 @@ package frankdevhub.job.automatic.web.clients;
 import cn.wanghaomiao.xpath.model.JXDocument;
 import frankdevhub.job.automatic.core.data.logging.Logger;
 import frankdevhub.job.automatic.core.data.logging.LoggerFactory;
+import frankdevhub.job.automatic.core.utils.SpringUtils;
 import frankdevhub.job.automatic.entities.JobSearchResult;
+import frankdevhub.job.automatic.repository.JobSearchResultRepository;
+import org.apache.commons.lang.StringUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -31,6 +34,9 @@ public class JobPlatformClient {
 
     private final Logger LOGGER = LoggerFactory.getLogger(JobPlatformClient.class);
 
+    private JobSearchResultRepository getSearchResultRepository() {
+        return SpringUtils.getBean(JobSearchResultRepository.class);
+    }
 
     private String getPageHtmlText(String url) throws IOException {
         LOGGER.begin().info("invoke {{JobPlatformClient::getPageHtmlText()}}");
@@ -63,6 +69,63 @@ public class JobPlatformClient {
 
 
         return pageContext;
+    }
+
+    private String getPreviousPage(String url) {
+        String previousPage = null;
+        return previousPage;
+    }
+
+    private String getNextPage(String url) {
+        String nextPage = null;
+        return nextPage;
+    }
+
+    private class JobSearchResultRestoreThread extends Thread {
+
+        private String pageUrl;
+        private List<JobSearchResult> results;
+        private JobSearchResultRepository repository;
+
+        public JobSearchResultRestoreThread setResults(List<JobSearchResult> results) {
+            this.results = results;
+            return this;
+        }
+
+        public JobSearchResultRestoreThread setRepository(JobSearchResultRepository repository) {
+            this.repository = repository;
+            return this;
+        }
+
+        protected JobSearchResultRestoreThread(List<JobSearchResult> results, JobSearchResultRepository repository) {
+            this.results = results;
+            this.repository = repository;
+        }
+
+        protected JobSearchResultRestoreThread(List<JobSearchResult> results, JobSearchResultRepository repository, String pageUrl) {
+            this.results = results;
+            this.repository = repository;
+            this.pageUrl = pageUrl;
+        }
+
+        private void restoreJobSearchResults(List<JobSearchResult> results) {
+
+        }
+
+        @Override
+        public void run() {
+            System.out.println("job search result restore thread start");
+            if (StringUtils.isNotEmpty(this.pageUrl))
+                System.out.println("page url = " + pageUrl);
+            if (null == results)
+                return;
+            restoreJobSearchResults(results);
+        }
+
+    }
+
+    private void restoreJobSearchResult(List<JobSearchResult> results) {
+
     }
 
     public List<JobSearchResult> getJobSearchResult(String url) throws IOException {
