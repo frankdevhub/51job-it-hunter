@@ -171,7 +171,7 @@ public class JobPlatformClient {
         Assert.notNull(jobLocationNode, "job location node cannot be found on this row");
 
         JobSearchResult result = new JobSearchResult();
-        result.setJobTitle(jobDescriptionNode.getTextVal())
+        result.setJobTitle(jobDescriptionNode.getElement().attr(SeleniumConstants.ATTRIBUTE_TITLE))
                 .setResourceUrl(jobDescriptionNode.getElement().attr(SeleniumConstants.ATTRIBUTE_HREF))
                 .setSearchKeyword(jobKeyword);
 
@@ -196,7 +196,6 @@ public class JobPlatformClient {
         //set job description campus only, salary negotiable ,internship only referred property
         try {
             row.sel(SeleniumConstants.RESULT_JD_CAMPUS_ONLY_XPATH).get(0);
-            Thread.sleep(500L);
             result.setIsCampusOnly(true);
         } catch (Exception e) {
             result.setIsCampusOnly(false);
@@ -204,7 +203,6 @@ public class JobPlatformClient {
 
         try {
             row.sel(SeleniumConstants.RESULT_JD_INTERNSHIP_ONLY_XPATH).get(0);
-            Thread.sleep(500L);
             result.setIsInternshipPosition(true);
         } catch (Exception e) {
             result.setIsInternshipPosition(false);
@@ -217,10 +215,10 @@ public class JobPlatformClient {
         result.setCompanyName(companyNameNode.getElement().attr(SeleniumConstants.ATTRIBUTE_TITLE).trim());
 
         //set job location referred property
-        result.setLocation(jobLocationNode.getTextVal().trim());
+        result.setLocation(jobLocationNode.getElement().childNodes().get(0).outerHtml().trim());
 
         //set job publish date referred property
-        String publishDate = publishDateNode.getTextVal().trim();
+        String publishDate = publishDateNode.getElement().childNodes().get(0).outerHtml().trim();
         int month = Integer.parseInt(publishDate.split("-")[0]);
         int day = Integer.parseInt(publishDate.split("-")[1]);
 
