@@ -1,9 +1,14 @@
 package frankdevhub.job.automatic.web.clients;
 
+import cn.wanghaomiao.xpath.exception.XpathSyntaxErrorException;
 import cn.wanghaomiao.xpath.model.JXDocument;
+import cn.wanghaomiao.xpath.model.JXNode;
+import frankdevhub.job.automatic.core.constants.SeleniumConstants;
 import frankdevhub.job.automatic.core.data.logging.Logger;
 import frankdevhub.job.automatic.core.data.logging.LoggerFactory;
+import frankdevhub.job.automatic.core.exception.BusinessException;
 import frankdevhub.job.automatic.core.generators.snowflake.SnowflakeGenerator;
+import frankdevhub.job.automatic.core.utils.SalaryRangeTextUtils;
 import frankdevhub.job.automatic.core.utils.SpringUtils;
 import frankdevhub.job.automatic.entities.JobSearchResult;
 import frankdevhub.job.automatic.repository.JobSearchResultRepository;
@@ -16,6 +21,7 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import tk.mybatis.mapper.util.Assert;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -112,6 +118,8 @@ public class JobPlatformClient {
         }
 
         private void restoreJobSearchResults(List<JobSearchResult> results) {
+            if (null == this.repository)
+                throw new RuntimeException("repository should not be null");
 
             for (JobSearchResult result : results) {
                 try {
@@ -149,7 +157,89 @@ public class JobPlatformClient {
 
     }
 
-    public List<JobSearchResult> getJobSearchResult(String url) throws IOException {
+    private JobSearchResult parseSearchResult(JXNode row, String jobKeyword) throws XpathSyntaxErrorException, BusinessException, IllegalAccessException {
+
+        JXNode jobDescriptionNode = row.sel(SeleniumConstants.RESULT_JD_NAME_XPATH).get(0);
+        JXNode companyNameNode = row.sel(SeleniumConstants.RESULT_COMPANY_NAME_XPATH).get(0);
+        JXNode salaryRangeNode = row.sel(SeleniumConstants.RESULT_SALARY_RANGE_XPATH).get(0);
+        JXNode publishDateNode = row.sel(SeleniumConstants.RESULT_JD_PUBLISH_DATE_XPATH).get(0);
+        JXNode jobLocationNode = row.sel(SeleniumConstants.RESULT_JD_LOCATION_XPATH).get(0);
+
+        Assert.notNull(jobDescriptionNode, "job description node cannot be found on this row");
+        Assert.notNull(companyNameNode, "company name node cannot be found on this row");
+        Assert.notNull(publishDateNode, "publish date node cannot be found on this row");
+        Assert.notNull(jobLocationNode, "job location node cannot be found on this row");
+
+        JobSearchResult result = new JobSearchResult();
+        result.setJobTitle(jobDescriptionNode.getTextVal())
+                .setResourceUrl(jobDescriptionNode.getElement().attr(SeleniumConstants.ATTRIBUTE_HREF))
+                .setSearchKeyword(jobKeyword);
+
+        String salaryRangeText = null == salaryRangeNode.getTextVal() ? "" : salaryRangeNode.getTextVal();
+        if (StringUtils.isNotEmpty(salaryRangeText.trim())) {
+            SalaryRangeTextUtils utils = new SalaryRangeTextUtils(salaryRangeNode.getTextVal());
+            utils.parse();
+            //set salary range referred properties
+            result.setSalaryNumericUnit(utils.getNumericUnit())
+                    .setSalaryMinNumeric(utils.getMinimizeValue())
+                    .setSalaryMaxNumeric(utils.getMaximumValue())
+                    .setSalaryTimeUnit(utils.getTimeUnit())
+                    .setIsUnitByDay(utils.isUnitByDay())
+                    .setIsUnitByMonth(utils.isUnitByMonth())
+                    .setIsUnitByYear(utils.isUnitByYear())
+                    .setIsUnitByThousand(utils.isUnitByThousand())
+                    .setIsUnitByTenThousand(utils.isUnitByTenThousand());
+
+        }
+        result.setSalaryRange(salaryRangeText);
+
+        //set job description campus only, salary negotiable ,internship only referred property
+        try {
+            row.sel(SeleniumConstants.RESULT_JD_CAMPUS_ONLY_XPATH).get(0);
+            Thread.sleep(500L);
+            result.setIsCampusOnly(true);
+        } catch (Exception e) {
+            result.setIsCampusOnly(false);
+        }
+
+        try {
+            row.sel(SeleniumConstants.RESULT_JD_INTERNSHIP_ONLY_XPATH).get(0);
+            Thread.sleep(500L);
+            result.setIsInternshipPosition(true);
+        } catch (Exception e) {
+            result.setIsInternshipPosition(false);
+        }
+
+        //TODO
+        result.setSalaryNeedNegotiation(false);
+
+        //set company name referred property
+        result.setCompanyName(companyNameNode.getElement().attr(SeleniumConstants.ATTRIBUTE_TITLE).trim());
+
+        //set job location referred property
+        result.setLocation(jobLocationNode.getTextVal().trim());
+
+        //set job publish date referred property
+        String publishDate = publishDateNode.getTextVal().trim();
+        int month = Integer.parseInt(publishDate.split("-")[0]);
+        int day = Integer.parseInt(publishDate.split("-")[1]);
+
+        result.setPublishDate(publishDate);
+        result.setPublishDayOfMonth(day)
+                .setPublishMonth(month);
+
+        //set hashcode as mark id
+        int markId = result.hashCode();
+        result.setMarkId(markId);
+
+        //print result referred properties to console
+        System.out.print(result.toString());
+
+        return result;
+    }
+
+
+    public List<JobSearchResult> getJobSearchResult(String url, String jobKeyword) throws IOException, XpathSyntaxErrorException {
         LOGGER.begin().info("invoke {{JobPlatformClient::getJobSearchResult()}}");
 
         String pageContext = getPageHtmlText(url);
@@ -159,6 +249,18 @@ public class JobPlatformClient {
         Document document = Jsoup.parse(pageContext);
         JXDocument jxDocument = new JXDocument(document);
 
+        List<JXNode> rows = jxDocument.selN(SeleniumConstants.SEARCH_RESULT_LIST_XPATH);
+        for (JXNode row : rows) {
+            try {
+                JobSearchResult result = parseSearchResult(row, jobKeyword);
+                results.add(result);
+            } catch (BusinessException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        }
+        System.out.println("get search result entity list complete");
         return results;
     }
 
