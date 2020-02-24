@@ -61,7 +61,7 @@ public class JobPlatformClientTest {
     }
 
     @Test
-    public void testGetPreviousPageUrl() {
+    public void testPageUrlRegex() {
         LOGGER.begin().info("run test method {{testGetPreviousPageUrl}} start");
         String url = TEST_RESULT_PAGE;
         Matcher matcher = Pattern.compile(SEARCH_RESULT_REGEX).matcher(url);
@@ -77,5 +77,36 @@ public class JobPlatformClientTest {
             throw new RuntimeException("search result page url can not match regex example");
 
         LOGGER.begin().info("run test method {{testGetPreviousPageUrl}} complete");
+    }
+
+    @Test
+    public void testGetPreviousAndNextPageUrl() {
+        LOGGER.begin().info("run test method {{testGetPreviousAndNextPageUrl}} start");
+
+        String url = TEST_RESULT_PAGE;
+        StringBuffer previousIndexUrl = new StringBuffer(url);
+        StringBuffer nextIndexUrl = new StringBuffer(url);
+        Matcher matcher = Pattern.compile(SEARCH_RESULT_REGEX).matcher(url);
+
+        if (matcher.find()) {
+
+            String currentIndex = matcher.group(1);
+            String previousIndex = new Integer(Integer.parseInt(currentIndex) - 1).toString();
+            String nextIndex = new Integer(Integer.parseInt(currentIndex) + 1).toString();
+
+            String previousIndexUrlStr, nextIndexUrlStr;
+            previousIndexUrlStr = previousIndexUrl.replace(matcher.start(1), matcher.end(1), previousIndex).toString();
+            nextIndexUrlStr = previousIndexUrl.replace(matcher.start(1), matcher.end(1), nextIndex).toString();
+
+            System.out.println("previous url: ");
+            System.out.println(previousIndexUrlStr);
+
+            System.out.println("next url: ");
+            System.out.println(nextIndexUrlStr);
+
+        } else
+            throw new RuntimeException("search result page url can not match regex example");
+
+        LOGGER.begin().info("run test method {{testGetPreviousAndNextPageUrl}} complete");
     }
 }
