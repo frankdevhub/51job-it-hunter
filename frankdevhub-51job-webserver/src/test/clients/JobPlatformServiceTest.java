@@ -29,7 +29,9 @@ public class JobPlatformServiceTest {
 
     @Test
     public void testDefaultDataPatrolService() {
+        System.out.println("thread name = " + Thread.currentThread().getName());
         LOGGER.begin().info("run test method {{testGetJobSearchResult}} start");
+
         JobPlatformService service = new JobPlatformService();
         service.defaultDataPatrolService(TEST_RESULT_PAGE);
 

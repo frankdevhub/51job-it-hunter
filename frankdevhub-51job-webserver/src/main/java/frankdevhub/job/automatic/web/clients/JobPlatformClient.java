@@ -200,6 +200,7 @@ public class JobPlatformClient {
 
     private void restoreJobSearchResult(List<JobSearchResult> results, ExecutorService service) {
         Runnable task = new JobSearchResultRestoreThread(results, getSearchResultRepository());
+        System.out.println("submit task to executor service pool");
         service.submit(task);
     }
 
@@ -311,6 +312,7 @@ public class JobPlatformClient {
 
     public void restorePageJobSearchResult(String url, ExecutorService service) throws IOException, XpathSyntaxErrorException {
         List<JobSearchResult> results = getJobSearchResult(url);
+        System.out.println("results size = " + results.size());
         restoreJobSearchResult(results, service);
     }
 

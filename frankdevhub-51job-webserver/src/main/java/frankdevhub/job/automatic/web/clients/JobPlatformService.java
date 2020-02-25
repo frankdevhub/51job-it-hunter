@@ -35,11 +35,15 @@ public class JobPlatformService {
 
         @Override
         public void run() {
+            System.out.println("thread name = " + Thread.currentThread().getName());
+            System.out.println("default data patrol thread start");
             while (true) {
                 try {
+                    System.out.println("@current url = " + url);
                     client.restorePageJobSearchResult(url, cachedThreadPool);
                     //TODO if next page ?
                     url = client.getNextResultPage(url);
+                    System.out.println("@next url = " + url);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -47,9 +51,18 @@ public class JobPlatformService {
         }
     }
 
+    //TODO
     public void defaultDataPatrolService(String url) {
+        System.out.println("thread name = " + Thread.currentThread().getName());
+
         LOGGER.begin().info("invoke default data patrol service");
-        Thread t = new DefaultDataPatrolThread(url);
+        Runnable task = () -> {
+            Thread t = new DefaultDataPatrolThread(url);
+            t.setDaemon(true);
+            t.start();
+        };
+        Thread t = new Thread(task);
+        t.setDaemon(true);
         t.start();
     }
 }
