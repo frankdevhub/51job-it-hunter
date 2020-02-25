@@ -35,7 +35,8 @@ public class JobPlatformService {
 
         @Override
         public void run() {
-            System.out.println("thread name = " + Thread.currentThread().getName());
+            System.out.println("[defaultDataPatrolService --> task::thread]thread name = "
+                    + Thread.currentThread().getName());
             System.out.println("default data patrol thread start");
             while (true) {
                 try {
@@ -52,17 +53,22 @@ public class JobPlatformService {
     }
 
     //TODO
-    public void defaultDataPatrolService(String url) {
-        System.out.println("thread name = " + Thread.currentThread().getName());
+    public void defaultDataPatrolService(String url) throws InterruptedException {
 
         LOGGER.begin().info("invoke default data patrol service");
         Runnable task = () -> {
+            System.out.println("[defaultDataPatrolService --> task]thread name = "
+                    + Thread.currentThread().getName());
             Thread t = new DefaultDataPatrolThread(url);
             t.setDaemon(true);
             t.start();
         };
+
         Thread t = new Thread(task);
+        System.out.println("thread t->name =" + t.getName());
         t.setDaemon(true);
+
+        Thread.sleep(200L);
         t.start();
     }
 }

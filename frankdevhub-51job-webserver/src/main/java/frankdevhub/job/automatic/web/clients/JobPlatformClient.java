@@ -316,5 +316,4 @@ public class JobPlatformClient {
         restoreJobSearchResult(results, service);
     }
 
-
 }
