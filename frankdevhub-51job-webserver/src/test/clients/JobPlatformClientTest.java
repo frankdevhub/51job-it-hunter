@@ -79,6 +79,19 @@ public class JobPlatformClientTest {
         LOGGER.begin().info("run test method {{testGetPreviousPageUrl}} complete");
     }
 
+
+    @Test
+    public void testPageUrlRegex_1() {
+        LOGGER.begin().info("run test method {{testPageUrlRegex_1}} start");
+        String url = TEST_RESULT_PAGE;
+
+        JobPlatformClient client = new JobPlatformClient();
+        /*client.getPreviousResultPage(url);
+        client.getNextResultPage(url);*/
+
+        LOGGER.begin().info("run test method {{testPageUrlRegex_1}} complete");
+    }
+
     @Test
     public void testGetPreviousAndNextPageUrl() {
         LOGGER.begin().info("run test method {{testGetPreviousAndNextPageUrl}} start");

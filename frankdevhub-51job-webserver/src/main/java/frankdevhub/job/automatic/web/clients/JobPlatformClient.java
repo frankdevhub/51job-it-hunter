@@ -26,6 +26,9 @@ import tk.mybatis.mapper.util.Assert;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * <p>Title:@ClassName JobPlatformClient.java</p>
@@ -80,14 +83,56 @@ public class JobPlatformClient {
         return pageContext;
     }
 
-    private String getPreviousPage(String url) {
-        String previousPage = null;
+    private String getPreviousResultPage(String url) {
+        String regex = "([0-9]+)(.html?)";
+        Matcher matcher = Pattern.compile(regex).matcher(url);
+        String index;
+        String previous;
+        if (matcher.find()) {
+            index = matcher.group(1);
+            previous = new Integer(Integer.parseInt(index) - 1).toString();
+        } else {
+            throw new RuntimeException("url regex cannot match page url");
+        }
+
+        StringBuffer buffer = new StringBuffer(url);
+        buffer.replace(matcher.start(1), matcher.end(1), previous);
+        String previousPage = buffer.toString();
+
+        System.out.println("previous page url = " + previousPage);
+
         return previousPage;
     }
 
-    private String getNextPage(String url) {
-        String nextPage = null;
+    private String getNextResultPage(String url) {
+        String regex = "([0-9]+)(.html?)";
+        Matcher matcher = Pattern.compile(regex).matcher(url);
+        String index;
+        String next;
+
+        if (matcher.find()) {
+            index = matcher.group(1);
+            next = new Integer(Integer.parseInt(index) + 1).toString();
+        } else {
+            throw new RuntimeException("url regex cannot match page url");
+        }
+
+        StringBuffer buffer = new StringBuffer(url);
+        buffer.replace(matcher.start(1), matcher.end(1), next);
+        String nextPage = buffer.toString();
+
+        System.out.println("next page url = " + nextPage);
+
         return nextPage;
+    }
+
+    private String getSearchKeyword(String url) {
+        String regex = "(.*),([0-9]+),([0-9]+)(.html?)";
+        Matcher matcher = Pattern.compile(regex).matcher(url);
+        if (matcher.find()) {
+            return matcher.group(1);
+        } else
+            throw new RuntimeException();
     }
 
     private class JobSearchResultRestoreThread extends Thread {
@@ -153,8 +198,9 @@ public class JobPlatformClient {
 
     }
 
-    private void restoreJobSearchResult(List<JobSearchResult> results) {
-
+    private void restoreJobSearchResult(List<JobSearchResult> results, ExecutorService service) {
+        Runnable task = new JobSearchResultRestoreThread(results, getSearchResultRepository());
+        service.submit(task);
     }
 
     private JobSearchResult parseSearchResult(JXNode row, String jobKeyword) throws XpathSyntaxErrorException, BusinessException, IllegalAccessException {
@@ -237,10 +283,11 @@ public class JobPlatformClient {
     }
 
 
-    public List<JobSearchResult> getJobSearchResult(String url, String jobKeyword) throws IOException, XpathSyntaxErrorException {
+    public List<JobSearchResult> getJobSearchResult(String url) throws IOException, XpathSyntaxErrorException {
         LOGGER.begin().info("invoke {{JobPlatformClient::getJobSearchResult()}}");
 
         String pageContext = getPageHtmlText(url);
+        String jobKeyword = getSearchKeyword(url);
 
         System.out.println("get search result page context complete");
         List<JobSearchResult> results = new ArrayList<>();
@@ -261,6 +308,12 @@ public class JobPlatformClient {
         System.out.println("get search result entity list complete");
         return results;
     }
+
+    public void restorePageJobSearchResult(String url, ExecutorService service) throws IOException, XpathSyntaxErrorException {
+        List<JobSearchResult> results = getJobSearchResult(url);
+        restoreJobSearchResult(results, service);
+    }
+
 
 
 }
