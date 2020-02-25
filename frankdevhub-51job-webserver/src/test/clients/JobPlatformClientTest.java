@@ -37,7 +37,7 @@ public class JobPlatformClientTest {
     public void testGetJobSearchResult() throws IOException, XpathSyntaxErrorException {
         LOGGER.begin().info("run test method {{testGetJobSearchResult}} start");
         JobPlatformClient client = new JobPlatformClient();
-        client.getJobSearchResult(TEST_RESULT_PAGE, TEST_SEARCH_KEY);
+        client.getJobSearchResult(TEST_RESULT_PAGE);
 
         LOGGER.begin().info("run test method {{testGetJobSearchResult}} complete");
     }
@@ -86,7 +86,7 @@ public class JobPlatformClientTest {
         String url = TEST_RESULT_PAGE;
 
         JobPlatformClient client = new JobPlatformClient();
-        /*client.getPreviousResultPage(url);
+       /* client.getPreviousResultPage(url);
         client.getNextResultPage(url);*/
 
         LOGGER.begin().info("run test method {{testPageUrlRegex_1}} complete");

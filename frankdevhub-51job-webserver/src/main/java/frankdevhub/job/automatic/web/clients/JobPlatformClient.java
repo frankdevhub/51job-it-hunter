@@ -83,7 +83,7 @@ public class JobPlatformClient {
         return pageContext;
     }
 
-    private String getPreviousResultPage(String url) {
+    protected String getPreviousResultPage(String url) {
         String regex = "([0-9]+)(.html?)";
         Matcher matcher = Pattern.compile(regex).matcher(url);
         String index;
@@ -104,7 +104,7 @@ public class JobPlatformClient {
         return previousPage;
     }
 
-    private String getNextResultPage(String url) {
+    protected String getNextResultPage(String url) {
         String regex = "([0-9]+)(.html?)";
         Matcher matcher = Pattern.compile(regex).matcher(url);
         String index;
@@ -313,7 +313,6 @@ public class JobPlatformClient {
         List<JobSearchResult> results = getJobSearchResult(url);
         restoreJobSearchResult(results, service);
     }
-
 
 
 }
