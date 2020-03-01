@@ -1,14 +1,22 @@
 package clients;
 
 import cn.wanghaomiao.xpath.exception.XpathSyntaxErrorException;
+import frankdevhub.job.automatic.core.constants.BusinessConstants;
 import frankdevhub.job.automatic.core.data.logging.Logger;
 import frankdevhub.job.automatic.core.data.logging.LoggerFactory;
+import frankdevhub.job.automatic.core.utils.WebDriverUtils;
+import frankdevhub.job.automatic.selenium.DriverBase;
+import frankdevhub.job.automatic.selenium.config.ChromeConfiguration;
 import frankdevhub.job.automatic.web.clients.JobPlatformClient;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.openqa.selenium.Cookie;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.io.IOException;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -32,6 +40,40 @@ public class JobPlatformClientTest {
     private final String TEST_SEARCH_KEY = "java";
     private final String TEST_CONTENT = "<img http://sss src=\"http://www.foo.com/a.png\">http://sss/";
     private final String SEARCH_RESULT_REGEX = "([0-9]+)(.html?)";
+
+    @Test
+    public void testGetPlatformCookie() throws Exception {
+        LOGGER.begin().info("run test method {{testGetPlatformCookie}} start");
+        ChromeConfiguration configuration = ChromeConfiguration.newInstance(false);
+        configuration.setWebDriverPath(ChromeConfiguration.CHROME_DRIVER_PATH)
+                .setSeleniumCacheFileName(ChromeConfiguration.DEFAULT_SELENIUM_CACHE_NAME)
+                .setSeleniumBrowserCacheRoot(ChromeConfiguration.DEFAULT_WIN_SELENIUM_CACHE_ROOT);
+
+        DriverBase.instantiateDriverObject();
+
+        System.out.println("using cache path: " + configuration.getSeleniumCacheDirectoryPath());
+        WebDriver driver = DriverBase.getDriver(configuration.getSeleniumCacheDirectoryPath());
+        driver.get(BusinessConstants.JOB_PLATFORM_HOMEPAGE);
+        WebDriverUtils.doWaitTitleContains("招聘", new WebDriverWait(driver, 3));
+
+        System.out.println("navigate to platform homepage complete");
+        System.out.println("start to get web cookie");
+        Long start = System.currentTimeMillis();
+        Set<Cookie> cookies = driver.manage().getCookies();
+        Long end = System.currentTimeMillis();
+
+        System.out.println("time cost: " + (end - start) + " ms");
+        System.out.println("cookie properties:");
+        for (Cookie c : cookies) {
+            System.out.println("name = " + c.getName());
+            System.out.println("path = " + c.getPath());
+            System.out.println("value = " + c.getValue());
+
+            System.out.println("\n");
+        }
+
+        LOGGER.begin().info("run test method {{testGetPlatformCookie}} complete");
+    }
 
     @Test
     public void testGetJobSearchResult() throws IOException, XpathSyntaxErrorException {

@@ -60,15 +60,16 @@ public class JobPlatformService {
             System.out.println("[defaultDataPatrolService --> task]thread name = "
                     + Thread.currentThread().getName());
             Thread t = new DefaultDataPatrolThread(url);
-            t.setDaemon(true);
+            // t.setDaemon(true);
             t.start();
         };
 
         Thread t = new Thread(task);
         System.out.println("thread t->name =" + t.getName());
-        t.setDaemon(true);
+        // t.setDaemon(true);
+        t.start();
 
         Thread.sleep(200L);
-        t.start();
+
     }
 }

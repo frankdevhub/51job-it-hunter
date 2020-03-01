@@ -3,6 +3,7 @@ package frankdevhub.job.automatic.web.clients;
 import cn.wanghaomiao.xpath.exception.XpathSyntaxErrorException;
 import cn.wanghaomiao.xpath.model.JXDocument;
 import cn.wanghaomiao.xpath.model.JXNode;
+import frankdevhub.job.automatic.core.constants.BusinessConstants;
 import frankdevhub.job.automatic.core.constants.SeleniumConstants;
 import frankdevhub.job.automatic.core.data.logging.Logger;
 import frankdevhub.job.automatic.core.data.logging.LoggerFactory;
@@ -10,8 +11,11 @@ import frankdevhub.job.automatic.core.exception.BusinessException;
 import frankdevhub.job.automatic.core.generators.snowflake.SnowflakeGenerator;
 import frankdevhub.job.automatic.core.utils.SalaryRangeTextUtils;
 import frankdevhub.job.automatic.core.utils.SpringUtils;
+import frankdevhub.job.automatic.core.utils.WebDriverUtils;
 import frankdevhub.job.automatic.entities.JobSearchResult;
 import frankdevhub.job.automatic.repository.JobSearchResultRepository;
+import frankdevhub.job.automatic.selenium.DriverBase;
+import frankdevhub.job.automatic.selenium.config.ChromeConfiguration;
 import org.apache.commons.lang.StringUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -21,11 +25,15 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.openqa.selenium.Cookie;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import tk.mybatis.mapper.util.Assert;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -48,6 +56,31 @@ public class JobPlatformClient {
 
     private JobSearchResultRepository getSearchResultRepository() {
         return SpringUtils.getBean(JobSearchResultRepository.class);
+    }
+
+    public Set<Cookie> getPlatformCookie(ChromeConfiguration configuration) throws Exception {
+        DriverBase.instantiateDriverObject();
+
+        System.out.println("using cache path: " + configuration.getSeleniumCacheDirectoryPath());
+        WebDriver driver = DriverBase.getDriver(configuration.getSeleniumCacheDirectoryPath());
+        driver.get(BusinessConstants.JOB_PLATFORM_HOMEPAGE);
+        WebDriverUtils.doWaitTitleContains("招聘", new WebDriverWait(driver, 3));
+
+        System.out.println("navigate to platform homepage complete");
+        System.out.println("start to get web cookie");
+        Long start = System.currentTimeMillis();
+        Set<Cookie> cookies = driver.manage().getCookies();
+        Long end = System.currentTimeMillis();
+
+        System.out.println("time cost: " + (end - start) + " ms");
+        System.out.println("cookie properties:");
+        for (Cookie c : cookies) {
+            System.out.println("name = " + c.getName());
+            System.out.println("path = " + c.getPath());
+            System.out.println("value = " + c.getValue());
+            System.out.println("\n");
+        }
+        return cookies;
     }
 
     private String getPageHtmlText(String url) throws IOException {
