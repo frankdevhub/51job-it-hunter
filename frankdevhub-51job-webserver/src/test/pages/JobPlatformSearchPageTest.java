@@ -45,7 +45,7 @@ public class JobPlatformSearchPageTest {
 
     private final Logger LOGGER = LoggerFactory.getLogger(JobPlatformSearchPageTest.class);
 
-    private void parseSearchResult(WebElement row) throws BusinessException, IllegalAccessException, InterruptedException {
+    private void parseSearchResult(WebElement row) throws BusinessException, IllegalAccessException {
         WebElement jobDescriptionElement = row.findElement(By.xpath(SeleniumConstants.RESULT_JD_NAME_XPATH));
         WebElement companyNameElement = row.findElement(By.xpath(SeleniumConstants.RESULT_COMPANY_NAME_XPATH));
         WebElement salaryRangeElement = row.findElement(By.xpath(SeleniumConstants.RESULT_SALARY_RANGE_XPATH));

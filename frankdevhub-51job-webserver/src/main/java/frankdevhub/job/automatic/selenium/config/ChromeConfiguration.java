@@ -24,7 +24,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public class ChromeConfiguration implements SeleniumBrowserConfiguration {
 
-    private final Lock userLock = new ReentrantLock();
+    private final Lock configLock = new ReentrantLock();
 
     public static final String DEFAULT_WIN_CHROME_CACHE_PATH = "C:\\Users\\Administrator\\AppData\\Local\\Google\\Chrome\\User Data";
     public static final String DEFAULT_WIN_SELENIUM_CACHE_ROOT = "C:\\Automation";
@@ -67,6 +67,8 @@ public class ChromeConfiguration implements SeleniumBrowserConfiguration {
     }
 
     private void isSeleniumBrowserCacheDirectoryExist(File directory) throws BusinessException {
+        System.out.println("use selenium browser cache as:");
+        System.out.println(directory.getAbsolutePath());
         if (!directory.exists())
             throw new BusinessException(BusinessConstants.SELENIUM_CACHE_ROOT_NOT_EXISTS);
     }
@@ -117,7 +119,7 @@ public class ChromeConfiguration implements SeleniumBrowserConfiguration {
     public String setSeleniumBrowserCache(String browserCachePath, String cacheFileName) throws IOException, BusinessException {
         Assert.notNull(seleniumBrowserCacheRoot, BusinessConstants.SELENIUM_CACHE_ROOT_NULL);
         Assert.notNull(seleniumCacheFileName, BusinessConstants.SELENIUM_CACHE_FILE_NAME_NULL);
-        String directoryCopyName = seleniumBrowserCacheRoot + cacheFileName;
+        String directoryCopyName = seleniumBrowserCacheRoot + File.separator + cacheFileName;
 
         System.out.println(String.format("chrome cache directory location:[%s]", browserCachePath));
         System.out.println(String.format("copy chrome cache directory location:[%s]", directoryCopyName));
@@ -141,6 +143,23 @@ public class ChromeConfiguration implements SeleniumBrowserConfiguration {
             FileUtils.forceDelete(file);
         }
         return this;
+    }
+
+    @Override
+    public void synchronizeSeleniumBrowserCache() {
+        try {
+            configLock.lock();
+            Long start = System.currentTimeMillis();
+            setSeleniumBrowserCache(this.seleniumBrowserCacheRoot, this.seleniumCacheFileName);
+            Long end = System.currentTimeMillis();
+
+            System.out.println("synchronized browser cache complete, cost: "
+                    + (end - start) / 1000 + "sec");
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            configLock.unlock();
+        }
     }
 
     public ChromeConfiguration setSeleniumBrowserCacheRoot(String path) {

@@ -47,6 +47,8 @@ public class SeleniumConstants {
     public static final String RESULT_JD_INTERNSHIP_ONLY_XPATH = "p[@class='t1 ']/img[@alt='实习']";
 
     //page navigator element xpath
-    public static final String RESULT_PAGE_NAVIGATOR = "//li[@class='bk']/a";
+    public static final String RESULT_PAGE_NAVIGATOR_XPATH = "//li[@class='bk']/a";
 
+    //homepage user login button element
+    public static final String HOMEPAGE_USER_LOGIN_BTN_XPATH = "//p[@class='op']/a";
 }

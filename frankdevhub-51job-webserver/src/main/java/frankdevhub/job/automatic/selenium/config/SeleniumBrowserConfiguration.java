@@ -16,4 +16,6 @@ public interface SeleniumBrowserConfiguration {
     String setSeleniumBrowserCache(String browserCachePath, String cacheFileName) throws IOException, BusinessException;
 
     ChromeConfiguration deleteHistorySeleniumBrowserCache() throws IOException;
+
+    void synchronizeSeleniumBrowserCache();
 }

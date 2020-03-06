@@ -13,9 +13,12 @@ import org.junit.runner.RunWith;
 import org.openqa.selenium.Cookie;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import tk.mybatis.mapper.util.Assert;
 
-import java.io.IOException;
+import java.io.*;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -41,21 +44,84 @@ public class JobPlatformClientTest {
     private final String SEARCH_RESULT_REGEX = "([0-9]+)(.html?)";
 
     @Test
+    public void testAccessCacheDirectory() throws IOException {
+        LOGGER.begin().info("run test method {{testAccessCacheDirectory}} start");
+        Resource res = new ClassPathResource("src/resources/cache/temp_cookie.dat");
+        InputStream in = res.getInputStream();
+        Assert.notNull(in, "resource document may not exist");
+
+        LOGGER.begin().info("run test method {{testAccessCacheDirectory}} end");
+    }
+
+    @Test
+    public void testReadTempCookieDocument() throws IOException, ClassNotFoundException {
+        LOGGER.begin().info("run test method {{testReadTempCookieDocument}} start");
+        File temp = new File(new ClassPathResource("src/main/resources/cache/temp_cookie.dat").getPath());
+
+        FileInputStream fis = new FileInputStream(temp);
+        Assert.notNull(fis, "resource document may not exist");
+        ObjectInputStream ois = new ObjectInputStream(fis);
+        Set<Cookie> cookies = (Set<Cookie>) ois.readObject();
+        ois.close();
+        fis.close();
+
+        for (Cookie c : cookies) {
+            System.out.println("name = " + c.getName());
+            System.out.println("path = " + c.getPath());
+            System.out.println("value = " + c.getValue());
+
+            System.out.println("\n");
+        }
+
+        LOGGER.begin().info("run test method {{testReadTempCookieDocument}} end");
+    }
+
+    //cookies when not login
+    //***************************************************************************************************************************************
+    // navigate to platform homepage complete
+    //start to get web cookie
+    //time cost: 103 ms
+    //cookie properties:
+    //name = nsearch
+    //path = /
+    //value = jobarea%3D%26%7C%26ord_field%3D%26%7C%26recentSearch0%3D%26%7C%26recentSearch1%3D%26%7C%26recentSearch2%3D%26%7C%26recentSearch3%3D%26%7C%26recentSearch4%3D%26%7C%26collapse_expansion%3D
+    //
+    //name = search
+    //path = /
+    //value = jobarea%7E%60020000%7C%21ord_field%7E%600%7C%21recentSearch0%7E%60020000%A1%FB%A1%FA000000%A1%FB%A1%FA0000%A1%FB%A1%FA00%A1%FB%A1%FA99%A1%FB%A1%FA%A1%FB%A1%FA99%A1%FB%A1%FA99%A1%FB%A1%FA99%A1%FB%A1%FA99%A1%FB%A1%FA9%A1%FB%A1%FA99%A1%FB%A1%FA%A1%FB%A1%FA0%A1%FB%A1%FAjava%A1%FB%A1%FA2%A1%FB%A1%FA1%7C%21recentSearch1%7E%60020000%A1%FB%A1%FA000000%A1%FB%A1%FA0000%A1%FB%A1%FA00%A1%FB%A1%FA99%A1%FB%A1%FA%A1%FB%A1%FA99%A1%FB%A1%FA99%A1%FB%A1%FA99%A1%FB%A1%FA99%A1%FB%A1%FA9%A1%FB%A1%FA99%A1%FB%A1%FA%A1%FB%A1%FA0%A1%FB%A1%FA%A1%FB%A1%FA2%A1%FB%A1%FA1%7C%21recentSearch2%7E%60020000%A1%FB%A1%FA000000%A1%FB%A1%FA0000%A1%FB%A1%FA00%A1%FB%A1%FA99%A1%FB%A1%FA%A1%FB%A1%FA99%A1%FB%A1%FA99%A1%FB%A1%FA99%A1%FB%A1%FA99%A1%FB%A1%FA9%A1%FB%A1%FA99%A1%FB%A1%FA%A1%FB%A1%FA0%A1%FB%A1%FA%C9%CF%BA%A3%BD%DD%C0%FB%BB%F5%D4%CB%D3%D0%CF%DE%B9%AB%CB%BE%A1%FB%A1%FA2%A1%FB%A1%FA1%7C%21recentSearch3%7E%60360000%A1%FB%A1%FA000000%A1%FB%A1%FA0000%A1%FB%A1%FA00%A1%FB%A1%FA99%A1%FB%A1%FA%A1%FB%A1%FA99%A1%FB%A1%FA99%A1%FB%A1%FA99%A1%FB%A1%FA99%A1%FB%A1%FA9%A1%FB%A1%FA99%A1%FB%A1%FA%A1%FB%A1%FA0%A1%FB%A1%FA%C9%CF%BA%A3%BD%DD%C0%FB%BB%F5%D4%CB%D3%D0%CF%DE%B9%AB%CB%BE%A1%FB%A1%FA2%A1%FB%A1%FA1%7C%21
+    //
+    //name = 51job
+    //path = /
+    //value = cenglish%3D0%26%7C%26
+    //
+    //name = guid
+    //path = /
+    //value = 5006ef6ea365e3268bd6afde0846a758
+    //
+    //**********************************************************************************************************************//
+
+    @Test
     public void testGetPlatformCookie() throws Exception {
         LOGGER.begin().info("run test method {{testGetPlatformCookie}} start");
         ChromeConfiguration configuration = ChromeConfiguration.newInstance(false);
         configuration.setWebDriverPath(ChromeConfiguration.CHROME_DRIVER_PATH)
                 .setSeleniumCacheFileName(ChromeConfiguration.DEFAULT_SELENIUM_CACHE_NAME)
                 .setSeleniumBrowserCacheRoot(ChromeConfiguration.DEFAULT_WIN_SELENIUM_CACHE_ROOT);
-
+        //configuration.synchronizeSeleniumBrowserCache();
         DriverBase.instantiateDriverObject();
 
         System.out.println("using cache path: " + configuration.getSeleniumCacheDirectoryPath());
         WebDriver driver = DriverBase.getDriver(configuration.getSeleniumCacheDirectoryPath());
+       /* //clear default history cookies
+        System.out.println("clear all restored cookies");
+        driver.manage().deleteAllCookies();*/
+
         driver.get(BusinessConstants.JOB_PLATFORM_HOMEPAGE);
         WebDriverUtils.doWaitTitleContains("招聘", new WebDriverWait(driver, 3));
 
         System.out.println("navigate to platform homepage complete");
+        System.out.println("login with user credential");
+
         System.out.println("start to get web cookie");
         Long start = System.currentTimeMillis();
         Set<Cookie> cookies = driver.manage().getCookies();
@@ -70,6 +136,19 @@ public class JobPlatformClientTest {
 
             System.out.println("\n");
         }
+
+        //restore cookie to cache directory
+        File temp = new File(new ClassPathResource("/src/main/resources/cache/temp_cookie.dat").getPath());
+        if (!temp.exists())
+            temp.createNewFile();
+        FileOutputStream fos = new FileOutputStream(temp);
+        ObjectOutputStream oos = new ObjectOutputStream(fos);
+        Assert.notNull(cookies, "cookies object should not be null");
+        oos.writeObject(cookies);
+        oos.flush();
+        fos.flush();
+        oos.close();
+        fos.close();
 
         LOGGER.begin().info("run test method {{testGetPlatformCookie}} complete");
     }

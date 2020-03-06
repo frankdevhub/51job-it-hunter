@@ -38,5 +38,6 @@ public class BusinessConstants {
     public static final String NEXT_PAGE_NOT_AVAILABLE = "next page not available, this may be the last page";
     //DB error
     public static final String DUPLICATE_DB_RECORDS_WITH_MARKID = "duplicate records found with markId";
-
+    //default temp cache file name
+    public static final String DEFAULT_TEMP_COOKIE_FILE = "temp_cookie.dat";
 }
