@@ -57,6 +57,7 @@ public class JobPlatformClientTest {
     public void testReadTempCookieDocument() throws IOException, ClassNotFoundException {
         LOGGER.begin().info("run test method {{testReadTempCookieDocument}} start");
         File temp = new File(new ClassPathResource("src/main/resources/cache/temp_cookie.dat").getPath());
+        Assert.notNull(temp, "temp file not found");
 
         FileInputStream fis = new FileInputStream(temp);
         Assert.notNull(fis, "resource document may not exist");
@@ -112,6 +113,7 @@ public class JobPlatformClientTest {
 
         System.out.println("using cache path: " + configuration.getSeleniumCacheDirectoryPath());
         WebDriver driver = DriverBase.getDriver(configuration.getSeleniumCacheDirectoryPath());
+        Assert.notNull(driver, "web driver not found");
        /* //clear default history cookies
         System.out.println("clear all restored cookies");
         driver.manage().deleteAllCookies();*/
