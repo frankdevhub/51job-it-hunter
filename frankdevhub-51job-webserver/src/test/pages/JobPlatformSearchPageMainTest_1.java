@@ -19,12 +19,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.List;
 
 /**
@@ -79,25 +74,6 @@ public class JobPlatformSearchPageMainTest_1 {
         this.pageContext = responseText;
 
     }
-
-    @Deprecated
-    @Test
-    public void testParseByUsingJDomSupport() throws ParserConfigurationException {
-        LOGGER.begin().info("run test method {{testParseByUsingJDomSupport}} start");
-
-        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-        dbf.setValidating(false);
-        DocumentBuilder db = dbf.newDocumentBuilder();
-        String context = this.pageContext;
-        InputStream inputStream = new ByteArrayInputStream(context.getBytes());
-
-        //TODO
-        //[Fatal Error] :10:119: The reference to entity "keyword" must end with the ';' delimiter.
-        //Document document = (Document) db.parse(inputStream);
-
-        LOGGER.begin().info("run test method {{testParseByUsingJDomSupport}} complete");
-    }
-
 
     @Test
     public void testParseByUsingJSoupSupport() {

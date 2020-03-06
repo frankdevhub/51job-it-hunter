@@ -37,7 +37,6 @@ public class JobPlatformClientTest {
     private final Logger LOGGER = LoggerFactory.getLogger(JobPlatformClientTest.class);
 
     private final String TEST_RESULT_PAGE = "https://search.51job.com/list/020000,000000,0000,00,9,99,java,2,1.html?lang=c&stype=&postchannel=0000&workyear=99&cotype=99&degreefrom=99&jobterm=99&companysize=99&providesalary=99&lonlat=0%2C0&radius=-1&ord_field=0&confirmdate=9&fromType=&dibiaoid=0&address=&line=&specialarea=00&from=&welfare=";
-    private final String TEST_SEARCH_KEY = "java";
     private final String TEST_CONTENT = "<img http://sss src=\"http://www.foo.com/a.png\">http://sss/";
     private final String SEARCH_RESULT_REGEX = "([0-9]+)(.html?)";
 
@@ -121,26 +120,12 @@ public class JobPlatformClientTest {
         LOGGER.begin().info("run test method {{testGetPreviousPageUrl}} complete");
     }
 
-
-    @Test
-    public void testPageUrlRegex_1() {
-        LOGGER.begin().info("run test method {{testPageUrlRegex_1}} start");
-        String url = TEST_RESULT_PAGE;
-
-        JobPlatformClient client = new JobPlatformClient();
-       /* client.getPreviousResultPage(url);
-        client.getNextResultPage(url);*/
-
-        LOGGER.begin().info("run test method {{testPageUrlRegex_1}} complete");
-    }
-
     @Test
     public void testGetPreviousAndNextPageUrl() {
         LOGGER.begin().info("run test method {{testGetPreviousAndNextPageUrl}} start");
 
         String url = TEST_RESULT_PAGE;
         StringBuffer previousIndexUrl = new StringBuffer(url);
-        StringBuffer nextIndexUrl = new StringBuffer(url);
         Matcher matcher = Pattern.compile(SEARCH_RESULT_REGEX).matcher(url);
 
         if (matcher.find()) {
