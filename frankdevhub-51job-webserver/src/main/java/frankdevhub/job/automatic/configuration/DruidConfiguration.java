@@ -23,7 +23,7 @@ import org.springframework.context.annotation.Configuration;
 public class DruidConfiguration {
 
     @ConditionalOnClass(DruidDataSource.class)
-    @ConditionalOnProperty(name = "spring.datasource.type", havingValue = "com.alibaba.druid.pool.DruidDataSource", matchIfMissing = true)
+	@ConditionalOnProperty(name = "spring.datasource.type", havingValue = "com.alibaba.druid.pool.DruidDataSource", matchIfMissing = true)
     static class Druid extends DruidConfiguration {
         @Bean
         @ConfigurationProperties("spring.datasource.druid")

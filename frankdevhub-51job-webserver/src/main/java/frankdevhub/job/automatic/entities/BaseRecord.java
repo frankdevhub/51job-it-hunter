@@ -25,7 +25,7 @@ public class BaseRecord<T> {
         return createTime;
     }
 
-    private BaseRecord setCreateTime(Long createTime) {
+    private BaseRecord<T> setCreateTime(Long createTime) {
         this.createTime = createTime;
         return this;
     }
@@ -34,19 +34,21 @@ public class BaseRecord<T> {
         return updateTime;
     }
 
-    private BaseRecord setUpdateTime(Long updateTime) {
+    private BaseRecord<T> setUpdateTime(Long updateTime) {
         this.updateTime = updateTime;
-        return this;
-    }
+		return this;
+	}
 
-    public T doCreateEntity() {
-        Long timeStamp = new Date().getTime();
-        this.setCreateTime(timeStamp).setUpdateTime(timeStamp);
-        return (T) this;
-    }
+	@SuppressWarnings("unchecked")
+	public T doCreateEntity() {
+		Long timeStamp = new Date().getTime();
+		this.setCreateTime(timeStamp).setUpdateTime(timeStamp);
+		return (T) this;
+	}
 
-    public T doUpdateEntity() {
-        this.setUpdateTime(new Date().getTime());
-        return (T) this;
-    }
+	@SuppressWarnings("unchecked")
+	public T doUpdateEntity() {
+		this.setUpdateTime(new Date().getTime());
+		return (T) this;
+	}
 }
