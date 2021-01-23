@@ -1,50 +1,52 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : 39.98.246.50
-Source Server Version : 50645
-Source Host           : 39.98.246.50:3306
-Source Database       : frankdevhub_company_db
+Source Server         : localhost
+Source Server Version : 80022
+Source Host           : localhost:3306
+Source Database       : 51job_data_center
 
 Target Server Type    : MYSQL
-Target Server Version : 50645
+Target Server Version : 80022
 File Encoding         : 65001
 
-Date: 2020-02-11 03:12:00
+Date: 2021-01-23 22:42:31
 */
 
 SET FOREIGN_KEY_CHECKS=0;
 
 -- ----------------------------
--- Table structure for platform_search_result
+-- Table structure for `platform_search_result`
 -- ----------------------------
 DROP TABLE IF EXISTS `platform_search_result`;
 CREATE TABLE `platform_search_result` (
-  `id` bigint(20) NOT NULL,
-  `search_key_id` bigint(20) DEFAULT NULL,
-  `search_keyword_text` varchar(50) DEFAULT NULL,
-  `job_title` varchar(50) DEFAULT NULL,
-  `company_name` varchar(50) DEFAULT NULL,
-  `location` varchar(50) DEFAULT NULL,
-  `salary_range_chars` varchar(50) DEFAULT NULL,
-  `salary_range_min` double(10,2) DEFAULT NULL,
-  `salary_range_max` double(10,2) DEFAULT NULL,
-  `salary_time_unit` varchar(5) DEFAULT NULL,
-  `salary_numeric_unit` varchar(5) DEFAULT NULL,
-  `is_define_by_w` tinyint(4) DEFAULT NULL,
-  `is_define_by_k` tinyint(4) DEFAULT NULL,
-  `is_define_by_day` tinyint(4) DEFAULT NULL,
-  `is_define_by_month` tinyint(4) DEFAULT NULL,
-  `is_define_by_year` tinyint(4) DEFAULT NULL,
-  `is_internship_pos` tinyint(4) DEFAULT NULL,
-  `is_campus_only` tinyint(4) DEFAULT NULL,
-  `is_salary_negotiable` tinyint(4) DEFAULT NULL,
-  `publish_date_char` varchar(50) DEFAULT NULL,
-  `publish_date_month_numeric` int(5) DEFAULT NULL,
-  `publish_date_day_numeric` int(5) DEFAULT NULL,
-  `link_url` varchar(255) DEFAULT NULL,
-  `mark_id` int(20) DEFAULT NULL,
-  `create_time` bigint(20) DEFAULT NULL,
-  `update_time` bigint(20) DEFAULT NULL,
+  `id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '主键id',
+  `job_title` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '职位名称',
+  `company_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '公司名称',
+  `location` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '职位地点',
+  `salary_range_chars` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '薪资描述原文字符串',
+  `salary_range_min` double(10,2) DEFAULT NULL COMMENT '薪资最小值',
+  `salary_range_max` double(10,2) DEFAULT NULL COMMENT '薪资最大值',
+  `salary_time_unit` varchar(5) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '薪资时间计量单位',
+  `salary_numeric_unit` varchar(5) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '薪资计量单位',
+  `is_define_by_w` tinyint DEFAULT NULL COMMENT '是否以万计量',
+  `is_define_by_k` tinyint DEFAULT NULL COMMENT '是否以千计量',
+  `is_define_by_day` tinyint DEFAULT NULL COMMENT '是否按日计量',
+  `is_define_by_month` tinyint DEFAULT NULL COMMENT '是否月薪计量',
+  `is_define_by_year` tinyint DEFAULT NULL COMMENT '是否年薪计量',
+  `is_internship_pos` tinyint DEFAULT NULL COMMENT '是否内推职位',
+  `is_campus_only` tinyint DEFAULT NULL COMMENT '是否校招职位',
+  `is_salary_negotiable` tinyint DEFAULT NULL COMMENT '薪资是否可商议',
+  `publish_date_char` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '发布日期',
+  `publish_date_month_numeric` int DEFAULT NULL COMMENT '发布月份（月）',
+  `publish_date_day_numeric` int DEFAULT NULL COMMENT '发布日期（天）',
+  `link_url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '职位链接地址',
+  `mark_id` int DEFAULT NULL,
+  `create_time` bigint DEFAULT NULL COMMENT '创建时间(时间戳)',
+  `update_time` bigint DEFAULT NULL COMMENT '更新时间(时间戳)',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- ----------------------------
+-- Records of platform_search_result
+-- ----------------------------
