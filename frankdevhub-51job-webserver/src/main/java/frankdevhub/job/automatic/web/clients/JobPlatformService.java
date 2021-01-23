@@ -1,7 +1,6 @@
 package frankdevhub.job.automatic.web.clients;
 
-import frankdevhub.job.automatic.core.data.logging.Logger;
-import frankdevhub.job.automatic.core.data.logging.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -17,12 +16,11 @@ import java.util.concurrent.Executors;
  * @Version: 1.0
  */
 
+@Slf4j
+@SuppressWarnings("all")
 public class JobPlatformService {
 
-    private final Logger LOGGER = LoggerFactory.getLogger(JobPlatformService.class);
-
     private class DefaultDataPatrolThread extends Thread {
-
         private final ExecutorService cachedThreadPool = Executors.newCachedThreadPool();
 
         private final JobPlatformClient client = new JobPlatformClient();
@@ -35,16 +33,16 @@ public class JobPlatformService {
 
         @Override
         public void run() {
-            System.out.println("[defaultDataPatrolService --> task::thread]thread name = "
+            log.info("[defaultDataPatrolService --> task::thread]thread name = "
                     + Thread.currentThread().getName());
-            System.out.println("default data patrol thread start");
+            log.info("default data patrol thread start");
             while (true) {
                 try {
-                    System.out.println("@current url = " + url);
+                    log.info("@current url = " + url);
                     client.restorePageJobSearchResult(url, cachedThreadPool);
                     //TODO if next page ?
                     url = client.getNextResultPage(url);
-                    System.out.println("@next url = " + url);
+                    log.info("@next url = " + url);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -54,10 +52,9 @@ public class JobPlatformService {
 
     //TODO
     public void defaultDataPatrolService(String url) throws InterruptedException {
-
-        LOGGER.begin().info("invoke default data patrol service");
+        log.info("invoke default data patrol service");
         Runnable task = () -> {
-            System.out.println("[defaultDataPatrolService --> task]thread name = "
+            log.info("[defaultDataPatrolService --> task]thread name = "
                     + Thread.currentThread().getName());
             Thread t = new DefaultDataPatrolThread(url);
             // t.setDaemon(true);
@@ -65,10 +62,9 @@ public class JobPlatformService {
         };
 
         Thread t = new Thread(task);
-        System.out.println("thread t->name =" + t.getName());
+        log.info("thread t->name =" + t.getName());
         // t.setDaemon(true);
         t.start();
-
         Thread.sleep(200L);
 
     }

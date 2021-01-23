@@ -1,0 +1,402 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="frankdevhub.job.automatic.mapper.JobSearchResultMapper">
+
+    <resultMap id="BaseResultMap" type="frankdevhub.job.automatic.entities.JobSearchResult">
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="job_title" jdbcType="VARCHAR" property="jobTitle"/>
+        <result column="company_name" jdbcType="VARCHAR" property="companyName"/>
+        <result column="location" jdbcType="VARCHAR" property="location"/>
+        <result column="salary_range_chars" jdbcType="VARCHAR" property="salaryRangeChars"/>
+        <result column="salary_range_min" jdbcType="DOUBLE" property="salaryRangeMin"/>
+        <result column="salary_range_max" jdbcType="DOUBLE" property="salaryRangeMax"/>
+        <result column="salary_time_unit" jdbcType="VARCHAR" property="salaryTimeUnit"/>
+        <result column="salary_numeric_unit" jdbcType="VARCHAR" property="salaryNumericUnit"/>
+        <result column="is_define_by_w" jdbcType="INTEGER" property="isDefineByW"/>
+        <result column="is_define_by_k" jdbcType="INTEGER" property="isDefineByK"/>
+        <result column="is_define_by_day" jdbcType="INTEGER" property="isDefineByDay"/>
+        <result column="is_define_by_month" jdbcType="INTEGER" property="isDefineByMonth"/>
+        <result column="is_define_by_year" jdbcType="INTEGER" property="isDefineByYear"/>
+        <result column="is_internship_pos" jdbcType="INTEGER" property="isInternshipPos"/>
+        <result column="is_campus_only" jdbcType="INTEGER" property="isCampusOnly"/>
+        <result column="is_salary_negotiable" jdbcType="INTEGER" property="isSalaryNegotiable"/>
+        <result column="publish_date_char" jdbcType="VARCHAR" property="publishDateChar"/>
+        <result column="publish_date_month_numeric" jdbcType="INTEGER" property="publishDateMonthNumeric"/>
+        <result column="publish_date_day_numeric" jdbcType="INTEGER" property="publishDateDayNumeric"/>
+        <result column="link_url" jdbcType="VARCHAR" property="linkUrl"/>
+        <result column="mark_id" jdbcType="INTEGER" property="markId"/>
+    </resultMap>
+
+
+    <sql id="Base_Column_List">
+        id, job_title, company_name, location, salary_range_chars, salary_range_min, salary_range_max,
+        salary_time_unit, salary_numeric_unit, is_define_by_w, is_define_by_k, is_define_by_day,
+        is_define_by_month, is_define_by_year, is_internship_pos, is_campus_only, is_salary_negotiable,
+        publish_date_char, publish_date_month_numeric, publish_date_day_numeric, link_url,
+        mark_id
+    </sql>
+
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+        delete from platform_search_result
+        where id = #{id,jdbcType=VARCHAR}
+    </delete>
+
+
+    <insert id="insert" parameterType="frankdevhub.job.automatic.entities.entity.JobSearchResult">
+        insert into platform_search_result (id, job_title, company_name,
+        location, salary_range_chars, salary_range_min,
+        salary_range_max, salary_time_unit, salary_numeric_unit,
+        is_define_by_w, is_define_by_k, is_define_by_day,
+        is_define_by_month, is_define_by_year, is_internship_pos,
+        is_campus_only, is_salary_negotiable, publish_date_char,
+        publish_date_month_numeric, publish_date_day_numeric,
+        link_url, mark_id)
+        values (#{id,jdbcType=VARCHAR}, #{jobTitle,jdbcType=VARCHAR}, #{companyName,jdbcType=VARCHAR},
+        #{location,jdbcType=VARCHAR}, #{salaryRangeChars,jdbcType=VARCHAR}, #{salaryRangeMin,jdbcType=DOUBLE},
+        #{salaryRangeMax,jdbcType=DOUBLE}, #{salaryTimeUnit,jdbcType=VARCHAR}, #{salaryNumericUnit,jdbcType=VARCHAR},
+        #{isDefineByW,jdbcType=INTEGER}, #{isDefineByK,jdbcType=INTEGER}, #{isDefineByDay,jdbcType=INTEGER},
+        #{isDefineByMonth,jdbcType=INTEGER}, #{isDefineByYear,jdbcType=INTEGER}, #{isInternshipPos,jdbcType=INTEGER},
+        #{isCampusOnly,jdbcType=INTEGER}, #{isSalaryNegotiable,jdbcType=INTEGER}, #{publishDateChar,jdbcType=VARCHAR},
+        #{publishDateMonthNumeric,jdbcType=INTEGER}, #{publishDateDayNumeric,jdbcType=INTEGER},
+        #{linkUrl,jdbcType=VARCHAR}, #{markId,jdbcType=INTEGER})
+    </insert>
+
+
+    <insert id="insertSelective" parameterType="frankdevhub.job.automatic.entities.entity.JobSearchResult">
+        insert into platform_search_result
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="jobTitle != null">
+                job_title,
+            </if>
+            <if test="companyName != null">
+                company_name,
+            </if>
+            <if test="location != null">
+                location,
+            </if>
+            <if test="salaryRangeChars != null">
+                salary_range_chars,
+            </if>
+            <if test="salaryRangeMin != null">
+                salary_range_min,
+            </if>
+            <if test="salaryRangeMax != null">
+                salary_range_max,
+            </if>
+            <if test="salaryTimeUnit != null">
+                salary_time_unit,
+            </if>
+            <if test="salaryNumericUnit != null">
+                salary_numeric_unit,
+            </if>
+            <if test="isDefineByW != null">
+                is_define_by_w,
+            </if>
+            <if test="isDefineByK != null">
+                is_define_by_k,
+            </if>
+            <if test="isDefineByDay != null">
+                is_define_by_day,
+            </if>
+            <if test="isDefineByMonth != null">
+                is_define_by_month,
+            </if>
+            <if test="isDefineByYear != null">
+                is_define_by_year,
+            </if>
+            <if test="isInternshipPos != null">
+                is_internship_pos,
+            </if>
+            <if test="isCampusOnly != null">
+                is_campus_only,
+            </if>
+            <if test="isSalaryNegotiable != null">
+                is_salary_negotiable,
+            </if>
+            <if test="publishDateChar != null">
+                publish_date_char,
+            </if>
+            <if test="publishDateMonthNumeric != null">
+                publish_date_month_numeric,
+            </if>
+            <if test="publishDateDayNumeric != null">
+                publish_date_day_numeric,
+            </if>
+            <if test="linkUrl != null">
+                link_url,
+            </if>
+            <if test="markId != null">
+                mark_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="jobTitle != null">
+                #{jobTitle,jdbcType=VARCHAR},
+            </if>
+            <if test="companyName != null">
+                #{companyName,jdbcType=VARCHAR},
+            </if>
+            <if test="location != null">
+                #{location,jdbcType=VARCHAR},
+            </if>
+            <if test="salaryRangeChars != null">
+                #{salaryRangeChars,jdbcType=VARCHAR},
+            </if>
+            <if test="salaryRangeMin != null">
+                #{salaryRangeMin,jdbcType=DOUBLE},
+            </if>
+            <if test="salaryRangeMax != null">
+                #{salaryRangeMax,jdbcType=DOUBLE},
+            </if>
+            <if test="salaryTimeUnit != null">
+                #{salaryTimeUnit,jdbcType=VARCHAR},
+            </if>
+            <if test="salaryNumericUnit != null">
+                #{salaryNumericUnit,jdbcType=VARCHAR},
+            </if>
+            <if test="isDefineByW != null">
+                #{isDefineByW,jdbcType=INTEGER},
+            </if>
+            <if test="isDefineByK != null">
+                #{isDefineByK,jdbcType=INTEGER},
+            </if>
+            <if test="isDefineByDay != null">
+                #{isDefineByDay,jdbcType=INTEGER},
+            </if>
+            <if test="isDefineByMonth != null">
+                #{isDefineByMonth,jdbcType=INTEGER},
+            </if>
+            <if test="isDefineByYear != null">
+                #{isDefineByYear,jdbcType=INTEGER},
+            </if>
+            <if test="isInternshipPos != null">
+                #{isInternshipPos,jdbcType=INTEGER},
+            </if>
+            <if test="isCampusOnly != null">
+                #{isCampusOnly,jdbcType=INTEGER},
+            </if>
+            <if test="isSalaryNegotiable != null">
+                #{isSalaryNegotiable,jdbcType=INTEGER},
+            </if>
+            <if test="publishDateChar != null">
+                #{publishDateChar,jdbcType=VARCHAR},
+            </if>
+            <if test="publishDateMonthNumeric != null">
+                #{publishDateMonthNumeric,jdbcType=INTEGER},
+            </if>
+            <if test="publishDateDayNumeric != null">
+                #{publishDateDayNumeric,jdbcType=INTEGER},
+            </if>
+            <if test="linkUrl != null">
+                #{linkUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="markId != null">
+                #{markId,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+
+
+    <update id="updateByPrimaryKeySelective" parameterType="frankdevhub.job.automatic.entities.entity.JobSearchResult">
+        update platform_search_result
+        <set>
+            <if test="jobTitle != null">
+                job_title = #{jobTitle,jdbcType=VARCHAR},
+            </if>
+            <if test="companyName != null">
+                company_name = #{companyName,jdbcType=VARCHAR},
+            </if>
+            <if test="location != null">
+                location = #{location,jdbcType=VARCHAR},
+            </if>
+            <if test="salaryRangeChars != null">
+                salary_range_chars = #{salaryRangeChars,jdbcType=VARCHAR},
+            </if>
+            <if test="salaryRangeMin != null">
+                salary_range_min = #{salaryRangeMin,jdbcType=DOUBLE},
+            </if>
+            <if test="salaryRangeMax != null">
+                salary_range_max = #{salaryRangeMax,jdbcType=DOUBLE},
+            </if>
+            <if test="salaryTimeUnit != null">
+                salary_time_unit = #{salaryTimeUnit,jdbcType=VARCHAR},
+            </if>
+            <if test="salaryNumericUnit != null">
+                salary_numeric_unit = #{salaryNumericUnit,jdbcType=VARCHAR},
+            </if>
+            <if test="isDefineByW != null">
+                is_define_by_w = #{isDefineByW,jdbcType=INTEGER},
+            </if>
+            <if test="isDefineByK != null">
+                is_define_by_k = #{isDefineByK,jdbcType=INTEGER},
+            </if>
+            <if test="isDefineByDay != null">
+                is_define_by_day = #{isDefineByDay,jdbcType=INTEGER},
+            </if>
+            <if test="isDefineByMonth != null">
+                is_define_by_month = #{isDefineByMonth,jdbcType=INTEGER},
+            </if>
+            <if test="isDefineByYear != null">
+                is_define_by_year = #{isDefineByYear,jdbcType=INTEGER},
+            </if>
+            <if test="isInternshipPos != null">
+                is_internship_pos = #{isInternshipPos,jdbcType=INTEGER},
+            </if>
+            <if test="isCampusOnly != null">
+                is_campus_only = #{isCampusOnly,jdbcType=INTEGER},
+            </if>
+            <if test="isSalaryNegotiable != null">
+                is_salary_negotiable = #{isSalaryNegotiable,jdbcType=INTEGER},
+            </if>
+            <if test="publishDateChar != null">
+                publish_date_char = #{publishDateChar,jdbcType=VARCHAR},
+            </if>
+            <if test="publishDateMonthNumeric != null">
+                publish_date_month_numeric = #{publishDateMonthNumeric,jdbcType=INTEGER},
+            </if>
+            <if test="publishDateDayNumeric != null">
+                publish_date_day_numeric = #{publishDateDayNumeric,jdbcType=INTEGER},
+            </if>
+            <if test="linkUrl != null">
+                link_url = #{linkUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="markId != null">
+                mark_id = #{markId,jdbcType=INTEGER},
+            </if>
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+
+
+    <update id="updateByPrimaryKey" parameterType="frankdevhub.job.automatic.entities.entity.JobSearchResult">
+        update platform_search_result
+        set job_title = #{jobTitle,jdbcType=VARCHAR},
+        company_name = #{companyName,jdbcType=VARCHAR},
+        location = #{location,jdbcType=VARCHAR},
+        salary_range_chars = #{salaryRangeChars,jdbcType=VARCHAR},
+        salary_range_min = #{salaryRangeMin,jdbcType=DOUBLE},
+        salary_range_max = #{salaryRangeMax,jdbcType=DOUBLE},
+        salary_time_unit = #{salaryTimeUnit,jdbcType=VARCHAR},
+        salary_numeric_unit = #{salaryNumericUnit,jdbcType=VARCHAR},
+        is_define_by_w = #{isDefineByW,jdbcType=INTEGER},
+        is_define_by_k = #{isDefineByK,jdbcType=INTEGER},
+        is_define_by_day = #{isDefineByDay,jdbcType=INTEGER},
+        is_define_by_month = #{isDefineByMonth,jdbcType=INTEGER},
+        is_define_by_year = #{isDefineByYear,jdbcType=INTEGER},
+        is_internship_pos = #{isInternshipPos,jdbcType=INTEGER},
+        is_campus_only = #{isCampusOnly,jdbcType=INTEGER},
+        is_salary_negotiable = #{isSalaryNegotiable,jdbcType=INTEGER},
+        publish_date_char = #{publishDateChar,jdbcType=VARCHAR},
+        publish_date_month_numeric = #{publishDateMonthNumeric,jdbcType=INTEGER},
+        publish_date_day_numeric = #{publishDateDayNumeric,jdbcType=INTEGER},
+        link_url = #{linkUrl,jdbcType=VARCHAR},
+        mark_id = #{markId,jdbcType=INTEGER}
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+
+
+    <select id="selectById" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from platform_search_result
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+
+
+    <sql id="findPageWithWhere">
+        <where>1=1
+            <if test="id != null and id != ''">
+                and id = #{id,jdbcType=VARCHAR}
+            </if>
+            <if test="jobTitle != null and jobTitle != ''">
+                and job_title = #{jobTitle,jdbcType=VARCHAR}
+            </if>
+            <if test="companyName != null and companyName != ''">
+                and company_name = #{companyName,jdbcType=VARCHAR}
+            </if>
+            <if test="location != null and location != ''">
+                and location = #{location,jdbcType=VARCHAR}
+            </if>
+            <if test="salaryRangeChars != null and salaryRangeChars != ''">
+                and salary_range_chars = #{salaryRangeChars,jdbcType=VARCHAR}
+            </if>
+            <if test="salaryRangeMin != null">
+                and salary_range_min = #{salaryRangeMin,jdbcType=DOUBLE}
+            </if>
+            <if test="salaryRangeMax != null">
+                and salary_range_max = #{salaryRangeMax,jdbcType=DOUBLE}
+            </if>
+            <if test="salaryTimeUnit != null and salaryTimeUnit != ''">
+                and salary_time_unit = #{salaryTimeUnit,jdbcType=VARCHAR}
+            </if>
+            <if test="salaryNumericUnit != null and salaryNumericUnit != ''">
+                and salary_numeric_unit = #{salaryNumericUnit,jdbcType=VARCHAR}
+            </if>
+            <if test="isDefineByW != null">
+                and is_define_by_w = #{isDefineByW,jdbcType=INTEGER}
+            </if>
+            <if test="isDefineByK != null">
+                and is_define_by_k = #{isDefineByK,jdbcType=INTEGER}
+            </if>
+            <if test="isDefineByDay != null">
+                and is_define_by_day = #{isDefineByDay,jdbcType=INTEGER}
+            </if>
+            <if test="isDefineByMonth != null">
+                and is_define_by_month = #{isDefineByMonth,jdbcType=INTEGER}
+            </if>
+            <if test="isDefineByYear != null">
+                and is_define_by_year = #{isDefineByYear,jdbcType=INTEGER}
+            </if>
+            <if test="isInternshipPos != null">
+                and is_internship_pos = #{isInternshipPos,jdbcType=INTEGER}
+            </if>
+            <if test="isCampusOnly != null">
+                and is_campus_only = #{isCampusOnly,jdbcType=INTEGER}
+            </if>
+            <if test="isSalaryNegotiable != null">
+                and is_salary_negotiable = #{isSalaryNegotiable,jdbcType=INTEGER}
+            </if>
+            <if test="publishDateChar != null and publishDateChar != ''">
+                and publish_date_char = #{publishDateChar,jdbcType=VARCHAR}
+            </if>
+            <if test="publishDateMonthNumeric != null">
+                and publish_date_month_numeric = #{publishDateMonthNumeric,jdbcType=INTEGER}
+            </if>
+            <if test="publishDateDayNumeric != null">
+                and publish_date_day_numeric = #{publishDateDayNumeric,jdbcType=INTEGER}
+            </if>
+            <if test="linkUrl != null and linkUrl != ''">
+                and link_url = #{linkUrl,jdbcType=VARCHAR}
+            </if>
+            <if test="markId != null">
+                and mark_id = #{markId,jdbcType=INTEGER}
+            </if>
+        </where>
+    </sql>
+
+
+    <select id="findPageWithResult" parameterType="frankdevhub.job.automatic.entities.dto.JobSearchResultDTO"
+            resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from platform_search_result
+        <include refid="findPageWithWhere"/>
+        limit #{start},#{pageSize}
+    </select>
+
+
+    <select id="findPageWithCount" parameterType="frankdevhub.job.automatic.entities.dto.JobSearchResultDTO"
+            resultType="Integer">
+        select count(1)
+        from platform_search_result
+        <include refid="findPageWithWhere"/>
+    </select>
+
+</mapper>

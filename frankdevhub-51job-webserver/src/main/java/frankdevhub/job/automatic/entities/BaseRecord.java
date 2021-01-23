@@ -1,6 +1,7 @@
 package frankdevhub.job.automatic.entities;
 
-import javax.persistence.Column;
+import lombok.Data;
+
 import java.util.Date;
 
 /**
@@ -13,42 +14,53 @@ import java.util.Date;
  * @CreateDate: 2020/1/26 22:43
  * @Version: 1.0
  */
+
+@Data
+@SuppressWarnings("all")
 public class BaseRecord<T> {
 
-    @Column(name = "create_time")
+    /**
+     * 主键id编号
+     */
+    private String id;
+
+    /**
+     * 创建时间
+     */
     private Long createTime;
 
-    @Column(name = "update_time")
+    /**
+     * 更新时间
+     */
     private Long updateTime;
 
-    public Long getCreateTime() {
-        return createTime;
-    }
 
+    /**
+     * @param createTime 创建时间(时间戳毫秒)
+     */
     private BaseRecord<T> setCreateTime(Long createTime) {
         this.createTime = createTime;
         return this;
     }
 
-    public Long getUpdateTime() {
-        return updateTime;
-    }
-
+    /**
+     * @param updateTime 更新时间(时间戳毫秒)
+     */
     private BaseRecord<T> setUpdateTime(Long updateTime) {
         this.updateTime = updateTime;
-		return this;
-	}
+        return this;
+    }
 
-	@SuppressWarnings("unchecked")
-	public T doCreateEntity() {
-		Long timeStamp = new Date().getTime();
-		this.setCreateTime(timeStamp).setUpdateTime(timeStamp);
-		return (T) this;
-	}
+    @SuppressWarnings("unchecked")
+    public T doCreateEntity() {
+        Long timeStamp = new Date().getTime();
+        this.setCreateTime(timeStamp).setUpdateTime(timeStamp);
+        return (T) this;
+    }
 
-	@SuppressWarnings("unchecked")
-	public T doUpdateEntity() {
-		this.setUpdateTime(new Date().getTime());
-		return (T) this;
-	}
+    @SuppressWarnings("unchecked")
+    public T doUpdateEntity() {
+        this.setUpdateTime(new Date().getTime());
+        return (T) this;
+    }
 }

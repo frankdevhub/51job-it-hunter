@@ -2,6 +2,7 @@ package frankdevhub.job.automatic.web.pages;
 
 import frankdevhub.job.automatic.selenium.DriverBase;
 import frankdevhub.job.automatic.selenium.config.ChromeConfiguration;
+import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.WebDriver;
 
 /**
@@ -14,6 +15,9 @@ import org.openqa.selenium.WebDriver;
  * @CreateDate: 2020/2/4 22:04
  * @Version: 1.0
  */
+
+@Slf4j
+@SuppressWarnings("all")
 public class BaseWebPage {
     private WebDriver driver;
     private ChromeConfiguration configuration;
@@ -57,7 +61,7 @@ public class BaseWebPage {
             String seleniumCacheDirectoryPath = configuration.getSeleniumCacheDirectoryPath();
 
             DriverBase.instantiateDriverObject();
-            System.out.println("configuration path set as: " + seleniumCacheDirectoryPath);
+            log.info("configuration path set as: " + seleniumCacheDirectoryPath);
 
             this.driver = DriverBase.getDriver(seleniumCacheDirectoryPath);
 

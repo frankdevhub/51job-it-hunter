@@ -5,17 +5,17 @@ import cn.wanghaomiao.xpath.model.JXDocument;
 import cn.wanghaomiao.xpath.model.JXNode;
 import frankdevhub.job.automatic.core.constants.BusinessConstants;
 import frankdevhub.job.automatic.core.constants.SeleniumConstants;
-import frankdevhub.job.automatic.core.data.logging.Logger;
-import frankdevhub.job.automatic.core.data.logging.LoggerFactory;
 import frankdevhub.job.automatic.core.exception.BusinessException;
 import frankdevhub.job.automatic.core.generators.snowflake.SnowflakeGenerator;
 import frankdevhub.job.automatic.core.utils.SalaryRangeTextUtils;
 import frankdevhub.job.automatic.core.utils.SpringUtils;
 import frankdevhub.job.automatic.core.utils.WebDriverUtils;
 import frankdevhub.job.automatic.entities.JobSearchResult;
-import frankdevhub.job.automatic.repository.JobSearchResultRepository;
 import frankdevhub.job.automatic.selenium.DriverBase;
 import frankdevhub.job.automatic.selenium.config.ChromeConfiguration;
+import frankdevhub.job.automatic.service.JobSearchResultService;
+import frankdevhub.job.automatic.service.impl.JobSearchResultServiceImpl;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -28,12 +28,11 @@ import org.jsoup.nodes.Document;
 import org.openqa.selenium.Cookie;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.springframework.beans.factory.annotation.Autowired;
 import tk.mybatis.mapper.util.Assert;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -48,43 +47,40 @@ import java.util.regex.Pattern;
  * @CreateDate: 2020/2/23 3:32
  * @Version: 1.0
  */
+
+@Slf4j
+@SuppressWarnings("all")
 public class JobPlatformClient {
 
-    private final Logger LOGGER = LoggerFactory.getLogger(JobPlatformClient.class);
-
-    private final SnowflakeGenerator snowflakeGenerator = new SnowflakeGenerator();
-
-    private JobSearchResultRepository getSearchResultRepository() {
-        return SpringUtils.getBean(JobSearchResultRepository.class);
-    }
+    @Autowired
+    private JobSearchResultService jobSearchResultService;
 
     public Set<Cookie> getPlatformCookie(ChromeConfiguration configuration) throws Exception {
         DriverBase.instantiateDriverObject();
 
-        System.out.println("using cache path: " + configuration.getSeleniumCacheDirectoryPath());
+        log.info("using cache path: " + configuration.getSeleniumCacheDirectoryPath());
         WebDriver driver = DriverBase.getDriver(configuration.getSeleniumCacheDirectoryPath());
         driver.get(BusinessConstants.JOB_PLATFORM_HOMEPAGE);
         WebDriverUtils.doWaitTitleContains("招聘", new WebDriverWait(driver, 3));
 
-        System.out.println("navigate to platform homepage complete");
-        System.out.println("start to get web cookie");
+        log.info("navigate to platform homepage complete");
+        log.info("start to get web cookie");
         Long start = System.currentTimeMillis();
         Set<Cookie> cookies = driver.manage().getCookies();
         Long end = System.currentTimeMillis();
 
-        System.out.println("time cost: " + (end - start) + " ms");
-        System.out.println("cookie properties:");
+        log.info("time cost: " + (end - start) + " ms");
+        log.info("cookie properties:");
         for (Cookie c : cookies) {
-            System.out.println("name = " + c.getName());
-            System.out.println("path = " + c.getPath());
-            System.out.println("value = " + c.getValue());
-            System.out.println("\n");
+            log.info("name = " + c.getName());
+            log.info("path = " + c.getPath());
+            log.info("value = " + c.getValue());
+            log.info("\n");
         }
         return cookies;
     }
 
     private String getPageHtmlText(String url) throws IOException {
-        LOGGER.begin().info("invoke {{JobPlatformClient::getPageHtmlText()}}");
 
         String pageContext = null;
         CloseableHttpClient httpClient = null;
@@ -93,10 +89,8 @@ public class JobPlatformClient {
         try {
             // httpClient = HttpClientBuilder.create().build();
             httpClient = HttpClients.createDefault();
-
             HttpGet httpGet = new HttpGet(url);
             httpGet.setHeader("Content-Type", "text/html; charset=GBK");
-
             CloseableHttpResponse response = httpClient.execute(httpGet);
             HttpEntity responseEntity = response.getEntity();
             pageContext = EntityUtils.toString(responseEntity, "GBK");
@@ -106,13 +100,9 @@ public class JobPlatformClient {
         } finally {
             httpClient.close();
         }
-
         Long end = System.currentTimeMillis();
-        System.out.println(String.format("time cost: %s sec", (end - start) / 1000));
-
-        System.out.println(pageContext);
-
-
+        log.info(String.format("time cost: %s sec", (end - start) / 1000));
+        log.info(pageContext);
         return pageContext;
     }
 
@@ -132,7 +122,7 @@ public class JobPlatformClient {
         buffer.replace(matcher.start(1), matcher.end(1), previous);
         String previousPage = buffer.toString();
 
-        System.out.println("previous page url = " + previousPage);
+        log.info("previous page url = " + previousPage);
 
         return previousPage;
     }
@@ -154,7 +144,7 @@ public class JobPlatformClient {
         buffer.replace(matcher.start(1), matcher.end(1), next);
         String nextPage = buffer.toString();
 
-        System.out.println("next page url = " + nextPage);
+        log.info("next page url = " + nextPage);
 
         return nextPage;
     }
@@ -172,46 +162,47 @@ public class JobPlatformClient {
 
         private String pageUrl;
         private List<JobSearchResult> results;
-        private JobSearchResultRepository repository;
+        private JobSearchResultService service;
 
         public JobSearchResultRestoreThread setResults(List<JobSearchResult> results) {
             this.results = results;
             return this;
         }
 
-        public JobSearchResultRestoreThread setRepository(JobSearchResultRepository repository) {
-            this.repository = repository;
+        public JobSearchResultRestoreThread setRepository(JobSearchResultService service) {
+            this.service = service;
             return this;
         }
 
-        protected JobSearchResultRestoreThread(List<JobSearchResult> results, JobSearchResultRepository repository) {
+        protected JobSearchResultRestoreThread(List<JobSearchResult> results, JobSearchResultService service) {
             this.results = results;
-            this.repository = repository;
+            this.service = service;
         }
 
-        protected JobSearchResultRestoreThread(List<JobSearchResult> results, JobSearchResultRepository repository, String pageUrl) {
+        protected JobSearchResultRestoreThread(List<JobSearchResult> results, JobSearchResultService service, String pageUrl) {
             this.results = results;
-            this.repository = repository;
+            this.service = service;
             this.pageUrl = pageUrl;
         }
 
         private void restoreJobSearchResults(List<JobSearchResult> results) {
-            if (null == this.repository)
+            if (null == this.service)
                 throw new RuntimeException("repository should not be null");
 
             for (JobSearchResult result : results) {
                 try {
-                    if (null == result.getMarkId())
+                    if (null == result.getMarkId()) {
                         continue;
-                    int count = repository.selectCountByMarkId(result);
+                    }
+                    int markId = result.getMarkId();
+                    int count = service.selectCountByMarkId(markId);
                     if (count == 0) {
-                        //TODO if duplicate id ?
-                        Long id = snowflakeGenerator.generateKey();
-                        result.setId(id).setKeyId(id);
-                        repository.insertSelective(result);
+                        String id = UUID.randomUUID().toString();
+                        result.setId(id);
+                        service.insertSelective(result);
                     } else {
-                        JobSearchResult res = repository.selectByMarkId(result.getMarkId());
-                        repository.updateByPrimaryKeySelective(res);
+                        JobSearchResult res = service.selectByMarkId(markId);
+                        service.updateByPrimaryKeySelective(res);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -221,19 +212,21 @@ public class JobPlatformClient {
 
         @Override
         public void run() {
-            System.out.println("job search result restore thread start");
-            if (StringUtils.isNotEmpty(this.pageUrl))
-                System.out.println("page url = " + pageUrl);
-            if (null == results)
+            log.info("job search result restore thread start");
+            if (StringUtils.isNotEmpty(this.pageUrl)) {
+                log.info("page url = " + pageUrl);
+            }
+            if (null == results) {
                 return;
+            }
             restoreJobSearchResults(results);
         }
 
     }
 
     private void restoreJobSearchResult(List<JobSearchResult> results, ExecutorService service) {
-        Runnable task = new JobSearchResultRestoreThread(results, getSearchResultRepository());
-        System.out.println("submit task to executor service pool");
+        Runnable task = new JobSearchResultRestoreThread(results, jobSearchResultService);
+        log.info("submit task to executor service pool");
         service.submit(task);
     }
 
@@ -252,82 +245,64 @@ public class JobPlatformClient {
 
         JobSearchResult result = new JobSearchResult();
         result.setJobTitle(jobDescriptionNode.getElement().attr(SeleniumConstants.ATTRIBUTE_TITLE))
-                .setResourceUrl(jobDescriptionNode.getElement().attr(SeleniumConstants.ATTRIBUTE_HREF))
-                .setSearchKeyword(jobKeyword);
+                .setLinkUrl(jobDescriptionNode.getElement().attr(SeleniumConstants.ATTRIBUTE_HREF));
 
         String salaryRangeText = null == salaryRangeNode.getTextVal() ? "" : salaryRangeNode.getTextVal();
         if (StringUtils.isNotEmpty(salaryRangeText.trim())) {
             SalaryRangeTextUtils utils = new SalaryRangeTextUtils(salaryRangeNode.getTextVal());
             utils.parse();
-            //set salary range referred properties
+            //职位薪资属性
             result.setSalaryNumericUnit(utils.getNumericUnit())
-                    .setSalaryMinNumeric(utils.getMinimizeValue())
-                    .setSalaryMaxNumeric(utils.getMaximumValue())
+                    .setSalaryRangeMin(utils.getMinimizeValue())
+                    .setSalaryRangeMax(utils.getMaximumValue())
                     .setSalaryTimeUnit(utils.getTimeUnit())
-                    .setIsUnitByDay(utils.isUnitByDay())
-                    .setIsUnitByMonth(utils.isUnitByMonth())
-                    .setIsUnitByYear(utils.isUnitByYear())
-                    .setIsUnitByThousand(utils.isUnitByThousand())
-                    .setIsUnitByTenThousand(utils.isUnitByTenThousand());
+                    .setIsDefineByDay(utils.isUnitByDay())
+                    .setIsDefineByMonth(utils.isUnitByMonth())
+                    .setIsDefineByYear(utils.isUnitByYear())
+                    .setIsDefineByK(utils.isUnitByThousand())
+                    .setIsDefineByW(utils.isUnitByTenThousand());
 
         }
-        result.setSalaryRange(salaryRangeText);
-
-        //set job description campus only, salary negotiable ,internship only referred property
+        result.setSalaryRangeChars(salaryRangeText);
+        //判断是否是校招职位
         try {
             row.sel(SeleniumConstants.RESULT_JD_CAMPUS_ONLY_XPATH).get(0);
             result.setIsCampusOnly(true);
         } catch (Exception e) {
             result.setIsCampusOnly(false);
         }
-
+        //判断是内部推荐岗位
         try {
             row.sel(SeleniumConstants.RESULT_JD_INTERNSHIP_ONLY_XPATH).get(0);
-            result.setIsInternshipPosition(true);
+            result.setIsInternshipPos(true);
         } catch (Exception e) {
-            result.setIsInternshipPosition(false);
+            result.setIsInternshipPos(false);
         }
-
-        //TODO
-        result.setSalaryNeedNegotiation(false);
-
-        //set company name referred property
+        result.setIsSalaryNegotiable(false);
         result.setCompanyName(companyNameNode.getElement().attr(SeleniumConstants.ATTRIBUTE_TITLE).trim());
-
-        //set job location referred property
         result.setLocation(jobLocationNode.getElement().childNodes().get(0).outerHtml().trim());
-
-        //set job publish date referred property
+        //职位发布日期以及其他属性
         String publishDate = publishDateNode.getElement().childNodes().get(0).outerHtml().trim();
         int month = Integer.parseInt(publishDate.split("-")[0]);
         int day = Integer.parseInt(publishDate.split("-")[1]);
-
-        result.setPublishDate(publishDate);
-        result.setPublishDayOfMonth(day)
-                .setPublishMonth(month);
-
-        //set hashcode as mark id
+        result.setPublishDateChar(publishDate)
+                .setPublishDateDayNumeric(day)
+                .setPublishDateMonthNumeric(month);
+        //生成hashCode和唯一标识
         int markId = result.hashCode();
         result.setMarkId(markId);
-
-        //print result referred properties to console
-        System.out.print(result.toString());
-
         return result;
     }
 
 
     public List<JobSearchResult> getJobSearchResult(String url) throws IOException, XpathSyntaxErrorException {
-        LOGGER.begin().info("invoke {{JobPlatformClient::getJobSearchResult()}}");
 
         String pageContext = getPageHtmlText(url);
         String jobKeyword = getSearchKeyword(url);
 
-        System.out.println("get search result page context complete");
         List<JobSearchResult> results = new ArrayList<>();
         Document document = Jsoup.parse(pageContext);
         JXDocument jxDocument = new JXDocument(document);
-
         List<JXNode> rows = jxDocument.selN(SeleniumConstants.SEARCH_RESULT_LIST_XPATH);
         for (JXNode row : rows) {
             try {
@@ -339,13 +314,13 @@ public class JobPlatformClient {
                 e.printStackTrace();
             }
         }
-        System.out.println("get search result entity list complete");
+        log.info("get search result entity list complete");
         return results;
     }
 
     public void restorePageJobSearchResult(String url, ExecutorService service) throws IOException, XpathSyntaxErrorException {
         List<JobSearchResult> results = getJobSearchResult(url);
-        System.out.println("results size = " + results.size());
+        log.info("results size = " + results.size());
         restoreJobSearchResult(results, service);
     }
 

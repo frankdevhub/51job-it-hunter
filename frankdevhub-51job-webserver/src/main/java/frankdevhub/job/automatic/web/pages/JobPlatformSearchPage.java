@@ -2,25 +2,25 @@ package frankdevhub.job.automatic.web.pages;
 
 import frankdevhub.job.automatic.core.constants.BusinessConstants;
 import frankdevhub.job.automatic.core.constants.SeleniumConstants;
-import frankdevhub.job.automatic.core.data.logging.Logger;
-import frankdevhub.job.automatic.core.data.logging.LoggerFactory;
 import frankdevhub.job.automatic.core.exception.BusinessException;
 import frankdevhub.job.automatic.core.generators.snowflake.SnowflakeGenerator;
 import frankdevhub.job.automatic.core.utils.SalaryRangeTextUtils;
-import frankdevhub.job.automatic.core.utils.SpringUtils;
 import frankdevhub.job.automatic.core.utils.WebDriverUtils;
 import frankdevhub.job.automatic.entities.JobSearchResult;
-import frankdevhub.job.automatic.repository.JobSearchResultRepository;
 import frankdevhub.job.automatic.selenium.AssignDriver;
 import frankdevhub.job.automatic.selenium.Query;
+import frankdevhub.job.automatic.service.JobSearchResultService;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.springframework.beans.factory.annotation.Autowired;
 import tk.mybatis.mapper.util.Assert;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -34,90 +34,80 @@ import java.util.concurrent.Executors;
  * @CreateDate: 2020/2/4 21:46
  * @Version: 1.0
  */
+
+@Slf4j
+@SuppressWarnings("all")
 public class JobPlatformSearchPage extends BaseWebPage {
 
-    private String location;
-    private Integer pageNum;
-    private Integer pageSize;
-    private final String jobKeyword;
-    private final Query searchBox;
-    private final Query submitBtn;
-    private final Query searchResultList;
-    private final Query pageNavigator;
-
-    private final SnowflakeGenerator snowflakeGenerator;
-
+    private String location; // 职位地点
+    private Integer pageNum; // 第几页
+    private Integer pageSize; //每页的大小
+    private final String jobKeyword; // 搜索关键字
+    private final Query searchBox; // 搜索框控件对象
+    private final Query submitBtn; // 查询提交按钮
+    private final Query searchResultList; //查询返回结果集列表页面
+    private final Query pageNavigator; // 页面分页控件栏
     private ExecutorService threadPool;
 
-    private final Logger LOGGER = LoggerFactory.getLogger(JobPlatformSearchPage.class);
 
-    private JobSearchResultRepository getSearchResultRepository() {
-        return SpringUtils.getBean(JobSearchResultRepository.class);
-    }
+    @Autowired
+    private JobSearchResultService jobSearchResultService;
+
 
     public JobPlatformSearchPage(Boolean isAutoConfig, String jobKeyword) {
         super(isAutoConfig);
-
+        Assert.notNull(jobKeyword, BusinessConstants.JOB_SEARCH_KEYWORD_NULL); // 搜索关键字不能为空
         this.pageNum = 0;
         this.pageSize = 0;
-
-        Assert.notNull(jobKeyword, BusinessConstants.JOB_SEARCH_KEYWORD_NULL);
         this.jobKeyword = jobKeyword;
         this.searchBox = new Query().defaultLocator(By.xpath(SeleniumConstants.INPUT_SEARCH_XPATH));
         this.submitBtn = new Query().defaultLocator(By.xpath(SeleniumConstants.SUBMIT_SEARCH_XPATH));
         this.searchResultList = new Query().defaultLocator(By.xpath(SeleniumConstants.SEARCH_RESULT_LIST_XPATH));
         this.pageNavigator = new Query().defaultLocator(By.xpath(SeleniumConstants.RESULT_PAGE_NAVIGATOR_XPATH));
-
-        this.snowflakeGenerator = new SnowflakeGenerator();
-
         this.threadPool = Executors.newSingleThreadExecutor();
     }
 
     private void initSearchPage() {
-        LOGGER.begin().info("invoke {{JobPlatformSearchPage::initSearchPage()}}");
         AssignDriver.initQueryObjects(this, (RemoteWebDriver) getDriver());
     }
 
+    /**
+     * 输入设置搜索的职位地点
+     */
     private void setJobResourceLocation() {
-        LOGGER.begin().info("invoke {{JobPlatformSearchPage::setJobResourceLocation()}}");
     }
 
+    /**
+     * 跳转至首页
+     */
     private void navigateToPlatformHomePage() {
-        LOGGER.begin().info("invoke {{JobPlatformSearchPage::navigateToPlatformHomePage()}}");
-
         getDriver().get(BusinessConstants.JOB_PLATFORM_HOMEPAGE);
         WebDriverWait wait = new WebDriverWait(getDriver(), 5, 100);
-
         WebDriverUtils.doWaitTitleContains(BusinessConstants.JOB_PLATFORM_HOMEPAGE_TITLE_KEY, wait);
-
-        LOGGER.begin().info("navigate to www.51job.com success");
+        log.info("navigate to www.51job.com success");
     }
 
     private void inputSearchQuery() throws InterruptedException {
-
-        LOGGER.begin().info("locate search box element");
+        log.info("locate search box element");
         WebElement searchBoxElement = WebDriverUtils.findWebElement(searchBox);
         Thread.sleep(500);
 
-        LOGGER.begin().info(String.format("input search keyWord [" + this.jobKeyword + "]"));
+        log.info(String.format("input search keyWord [" + this.jobKeyword + "]"));
         searchBoxElement.sendKeys(this.jobKeyword);
-        LOGGER.begin().info("input search keyWord complete");
+        log.info("input search keyWord complete");
     }
 
     private void submitSearchKeyword() throws InterruptedException {
-
-        LOGGER.begin().info("invoke {{JobPlatformSearchPage::submitSearchKeyword()}}");
-        LOGGER.begin().info("submit search keyword");
+        log.info("submit search keyword");
 
         WebElement submitBtnElement = WebDriverUtils.findWebElement(submitBtn);
         Thread.sleep(500);
         submitBtnElement.click();
 
-        LOGGER.begin().info("wait and navigate to search result list page");
+        log.info("wait and navigate to search result list page");
         WebDriverWait wait = new WebDriverWait(getDriver(), 5, 100);
         WebDriverUtils.doWaitTitleContains(this.jobKeyword, wait);
-
-        LOGGER.begin().info("navigate to search result list page success");
+        log.info("navigate to search result list page success");
     }
 
     private class ParseSearchResultRow extends Thread {
@@ -132,17 +122,15 @@ public class JobPlatformSearchPage extends BaseWebPage {
             if (null == result)
                 return;
 
-            JobSearchResultRepository repository = getSearchResultRepository();
-            int count = repository.selectCountByMarkId(result);
+            int count = jobSearchResultService.selectCountByMarkId(result.getMarkId());
             if (count <= 0) {
                 System.out.println("do insert result record");
-
-                Long id = snowflakeGenerator.generateKey();
-                result.setId(id).setKeyId(id);
-                repository.insertSelective(result);
+                String id = UUID.randomUUID().toString();
+                result.setId(id);
+                jobSearchResultService.insertSelective(result);
             } else {
                 System.out.println("do update result record");
-                repository.updateByPrimaryKeySelective(result);
+                jobSearchResultService.updateByPrimaryKeySelective(result);
             }
         }
 
@@ -163,6 +151,14 @@ public class JobPlatformSearchPage extends BaseWebPage {
         }
     }
 
+    /**
+     * 逐行解析搜索返回的岗位信息
+     *
+     * @param row 页面列表行对象
+     * @return 职位搜索返回的结果集
+     * @throws BusinessException
+     * @throws IllegalAccessException
+     */
     private JobSearchResult parseSearchResult(WebElement row) throws BusinessException, IllegalAccessException {
         WebElement jobDescriptionElement = row.findElement(By.xpath(SeleniumConstants.RESULT_JD_NAME_XPATH));
         WebElement companyNameElement = row.findElement(By.xpath(SeleniumConstants.RESULT_COMPANY_NAME_XPATH));
@@ -177,28 +173,25 @@ public class JobPlatformSearchPage extends BaseWebPage {
 
         JobSearchResult result = new JobSearchResult();
         result.setJobTitle(jobDescriptionElement.getText())
-                .setResourceUrl(jobDescriptionElement.getAttribute(SeleniumConstants.ATTRIBUTE_HREF))
-                .setSearchKeyword(this.jobKeyword);
-
+                .setLinkUrl(jobDescriptionElement.getAttribute(SeleniumConstants.ATTRIBUTE_HREF));
         String salaryRangeText = null == salaryRangeElement.getText() ? "" : salaryRangeElement.getText();
+
         if (StringUtils.isNotEmpty(salaryRangeText.trim())) {
             SalaryRangeTextUtils utils = new SalaryRangeTextUtils(salaryRangeElement.getText());
             utils.parse();
-            //set salary range referred properties
             result.setSalaryNumericUnit(utils.getNumericUnit())
-                    .setSalaryMinNumeric(utils.getMinimizeValue())
-                    .setSalaryMaxNumeric(utils.getMaximumValue())
+                    .setSalaryRangeMin(utils.getMinimizeValue())
+                    .setSalaryRangeMax(utils.getMaximumValue())
                     .setSalaryTimeUnit(utils.getTimeUnit())
-                    .setIsUnitByDay(utils.isUnitByDay())
-                    .setIsUnitByMonth(utils.isUnitByMonth())
-                    .setIsUnitByYear(utils.isUnitByYear())
-                    .setIsUnitByThousand(utils.isUnitByThousand())
-                    .setIsUnitByTenThousand(utils.isUnitByTenThousand());
+                    .setIsDefineByDay(utils.isUnitByDay())
+                    .setIsDefineByMonth(utils.isUnitByMonth())
+                    .setIsDefineByYear(utils.isUnitByYear())
+                    .setIsDefineByK(utils.isUnitByThousand())
+                    .setIsDefineByW(utils.isUnitByTenThousand());
 
         }
-        result.setSalaryRange(salaryRangeText);
-
-        //set job description campus only, salary negotiable ,internship only referred property
+        result.setSalaryRangeChars(salaryRangeText);
+        //判断是否是校招职位
         try {
             row.findElement(By.xpath(SeleniumConstants.RESULT_JD_CAMPUS_ONLY_XPATH));
             Thread.sleep(500L);
@@ -206,38 +199,29 @@ public class JobPlatformSearchPage extends BaseWebPage {
         } catch (Exception e) {
             result.setIsCampusOnly(false);
         }
-
+        //判断是内部推荐岗位
         try {
             row.findElement(By.xpath(SeleniumConstants.RESULT_JD_INTERNSHIP_ONLY_XPATH));
             Thread.sleep(500L);
-            result.setIsInternshipPosition(true);
+            result.setIsInternshipPos(true);
         } catch (Exception e) {
-            result.setIsInternshipPosition(false);
+            result.setIsInternshipPos(false);
         }
 
         //TODO
-        result.setSalaryNeedNegotiation(false);
-
-        //set company name referred property
+        result.setIsSalaryNegotiable(false);
         result.setCompanyName(companyNameElement.getAttribute(SeleniumConstants.ATTRIBUTE_TITLE).trim());
-
-        //set job location referred property
         result.setLocation(jobLocationElement.getText().trim());
-
-        //set job publish date referred property
         String publishDate = publishDateElement.getText().trim();
         int month = Integer.parseInt(publishDate.split("-")[0]);
         int day = Integer.parseInt(publishDate.split("-")[1]);
+        result.setPublishDateChar(publishDate)
+                .setPublishDateDayNumeric(day)
+                .setPublishDateMonthNumeric(month);
 
-        result.setPublishDate(publishDate);
-        result.setPublishDayOfMonth(day)
-                .setPublishMonth(month);
-
-        //set hashcode as mark id
         int markId = result.hashCode();
         result.setMarkId(markId);
 
-        //print result referred properties to console
         System.out.print(result.toString());
 
         return result;
@@ -248,9 +232,8 @@ public class JobPlatformSearchPage extends BaseWebPage {
             try {
                 JobSearchResult result = parseSearchResult(row);
                 Thread t = new ParseSearchResultRow(result);
-                //TODO
                 threadPool.execute(t);
-                LOGGER.begin().info("restore result thread submit success");
+                log.info("restore result thread submit success");
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -258,19 +241,16 @@ public class JobPlatformSearchPage extends BaseWebPage {
     }
 
     private void parseSearchResultPage() {
-        LOGGER.begin().info("invoke {{JobPlatformSearchPage::parseSearchResult()}}");
-        LOGGER.begin().info("locate search result list");
-
+        log.info("locate search result list");
         List<WebElement> resultList = WebDriverUtils.findWebElements(searchResultList);
         this.pageSize = resultList.size();
         parseSearchResults(resultList);
-
-        LOGGER.begin().info("parse current page list complete");
+        log.info("parse current page list complete");
     }
 
     private void turnToNextPage() throws BusinessException {
-        LOGGER.begin().info("invoke {{JobPlatformSearchPage::nextPage()}}");
-        LOGGER.begin().info("locate search result page navigator");
+        log.info("invoke {{JobPlatformSearchPage::nextPage()}}");
+        log.info("locate search result page navigator");
 
         List<WebElement> navigators = pageNavigator.findWebElements();
         if (null == navigators || navigators.size() == 0)
@@ -283,12 +263,11 @@ public class JobPlatformSearchPage extends BaseWebPage {
 
         Assert.notEmpty(nextPageUrl, "next page url should not be null");
         this.getDriver().get(nextPageUrl);
-        LOGGER.begin().info("navigate to next search result page");
-
+        log.info("navigate to next search result page");
         WebDriverWait wait = new WebDriverWait(getDriver(), 5, 100);
         WebDriverUtils.doWaitTitleContains(this.jobKeyword, wait);
 
-        LOGGER.begin().info("navigate to next search result page success");
+        log.info("navigate to next search result page success");
         this.pageNum++;
     }
 
@@ -304,8 +283,6 @@ public class JobPlatformSearchPage extends BaseWebPage {
     }
 
     public void startSearchResultPatrol() throws InterruptedException {
-        LOGGER.begin().info("invoke {{JobPlatformSearchPage::startSearchResultPatrol()}}");
-
         initSearchPage();
         navigateToPlatformHomePage();
         inputSearchQuery();

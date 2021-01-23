@@ -1,12 +1,8 @@
 package frankdevhub.job.automatic.entities;
 
-import javax.persistence.Column;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import java.util.Objects;
-
 /**
  * <p>Title:@ClassName JobSearchResult.java</p>
+ * <p>Description: 职位列表信息对象</p>
  * <p>Copyright: Copyright (c) 2020</p>
  * <p>Company: www.frankdevhub.site</p>
  * <p>github: https://github.com/frankdevhub</p>
@@ -15,108 +11,109 @@ import java.util.Objects;
  * @CreateDate: 2020/1/26 22:24
  * @Version: 1.0
  */
-@Table(name = "platform_search_result")
+@SuppressWarnings("all")
 public class JobSearchResult extends BaseRecord<JobSearchResult> {
-
-    @Id
-    @Column(name = "id")
-    private Long id;
-
-    @Column(name = "search_key_id")
-    private Long keyId;
-
-    @Column(name = "search_keyword_text")
-    private String searchKeyword;
-
-    @Column(name = "job_title")
+    /**
+     * 职位名称
+     */
     private String jobTitle;
 
-    @Column(name = "company_name")
+    /**
+     * 公司名称
+     */
     private String companyName;
 
-    @Column(name = "location")
+    /**
+     * 职位地点
+     */
     private String location;
 
-    @Column(name = "salary_range_chars")
-    private String salaryRange;
+    /**
+     * 薪资描述原文字符串
+     */
+    private String salaryRangeChars;
 
-    @Column(name = "salary_range_min")
-    private Double salaryMinNumeric;
+    /**
+     * 薪资最小值
+     */
+    private Double salaryRangeMin;
 
-    @Column(name = "salary_range_max")
-    private Double salaryMaxNumeric;
+    /**
+     * 薪资最大值
+     */
+    private Double salaryRangeMax;
 
-    @Column(name = "salary_time_unit")
+    /**
+     * 薪资时间计量单位
+     */
     private String salaryTimeUnit;
 
-    @Column(name = "salary_numeric_unit")
+    /**
+     * 薪资计量单位
+     */
     private String salaryNumericUnit;
 
-    @Column(name = "is_define_by_w")
-    private Boolean isUnitByTenThousand;
+    /**
+     * 是否以万计量
+     */
+    private Boolean isDefineByW;
 
-    @Column(name = "is_define_by_k")
-    private Boolean isUnitByThousand;
+    /**
+     * 是否以千计量
+     */
+    private Boolean isDefineByK;
 
-    @Column(name = "is_define_by_day")
-    private Boolean isUnitByDay;
+    /**
+     * 是否按日计量
+     */
+    private Boolean isDefineByDay;
 
-    @Column(name = "is_define_by_month")
-    private Boolean isUnitByMonth;
+    /**
+     * 是否月薪计量
+     */
+    private Boolean isDefineByMonth;
 
-    @Column(name = "is_define_by_year")
-    private Boolean isUnitByYear;
+    /**
+     * 是否年薪计量
+     */
+    private Boolean isDefineByYear;
 
-    @Column(name = "is_internship_pos")
-    private Boolean isInternshipPosition;
+    /**
+     * 是否内推职位
+     */
+    private Boolean isInternshipPos;
 
-    @Column(name = "is_campus_only")
+    /**
+     * 是否校招职位
+     */
     private Boolean isCampusOnly;
 
-    @Column(name = "is_salary_negotiable")
-    private Boolean isSalaryNeedNegotiation;
+    /**
+     * 薪资是否可商议
+     */
+    private Boolean isSalaryNegotiable;
 
-    @Column(name = "publish_date_char")
-    private String publishDate;
+    /**
+     * 发布日期
+     */
+    private String publishDateChar;
 
-    @Column(name = "publish_date_month_numeric")
-    private Integer publishMonth;
+    /**
+     * 发布月份（月）
+     */
+    private Integer publishDateMonthNumeric;
 
-    @Column(name = "publish_date_day_numeric")
-    private Integer publishDayOfMonth;
+    /**
+     * 发布日期（天）
+     */
+    private Integer publishDateDayNumeric;
 
-    @Column(name = "link_url")
-    private String resourceUrl;
+    /**
+     * 职位链接地址
+     */
+    private String linkUrl;
 
-    @Column(name = "mark_id")
     private Integer markId;
-
-    public Long getId() {
-        return id;
-    }
-
-    public JobSearchResult setId(Long id) {
-        this.id = id;
-        return this;
-    }
-
-    public Long getKeyId() {
-        return keyId;
-    }
-
-    public JobSearchResult setKeyId(Long keyId) {
-        this.keyId = keyId;
-        return this;
-    }
-
-    public String getSearchKeyword() {
-        return searchKeyword;
-    }
-
-    public JobSearchResult setSearchKeyword(String searchKeyword) {
-        this.searchKeyword = searchKeyword;
-        return this;
-    }
 
     public String getJobTitle() {
         return jobTitle;
@@ -145,30 +142,30 @@ public class JobSearchResult extends BaseRecord<JobSearchResult> {
         return this;
     }
 
-    public String getSalaryRange() {
-        return salaryRange;
+    public String getSalaryRangeChars() {
+        return salaryRangeChars;
     }
 
-    public JobSearchResult setSalaryRange(String salaryRange) {
-        this.salaryRange = salaryRange;
+    public JobSearchResult setSalaryRangeChars(String salaryRangeChars) {
+        this.salaryRangeChars = salaryRangeChars;
         return this;
     }
 
-    public Double getSalaryMinNumeric() {
-        return salaryMinNumeric;
+    public Double getSalaryRangeMin() {
+        return salaryRangeMin;
     }
 
-    public JobSearchResult setSalaryMinNumeric(Double salaryMinNumeric) {
-        this.salaryMinNumeric = salaryMinNumeric;
+    public JobSearchResult setSalaryRangeMin(Double salaryRangeMin) {
+        this.salaryRangeMin = salaryRangeMin;
         return this;
     }
 
-    public Double getSalaryMaxNumeric() {
-        return salaryMaxNumeric;
+    public Double getSalaryRangeMax() {
+        return salaryRangeMax;
     }
 
-    public JobSearchResult setSalaryMaxNumeric(Double salaryMaxNumeric) {
-        this.salaryMaxNumeric = salaryMaxNumeric;
+    public JobSearchResult setSalaryRangeMax(Double salaryRangeMax) {
+        this.salaryRangeMax = salaryRangeMax;
         return this;
     }
 
@@ -181,33 +178,6 @@ public class JobSearchResult extends BaseRecord<JobSearchResult> {
         return this;
     }
 
-    public Boolean getIsUnitByDay() {
-        return isUnitByDay;
-    }
-
-    public JobSearchResult setIsUnitByDay(Boolean isUnitByDay) {
-        this.isUnitByDay = isUnitByDay;
-        return this;
-    }
-
-    public Boolean getIsUnitByMonth() {
-        return isUnitByMonth;
-    }
-
-    public JobSearchResult setIsUnitByMonth(Boolean isUnitByMonth) {
-        this.isUnitByMonth = isUnitByMonth;
-        return this;
-    }
-
-    public Boolean getIsUnitByYear() {
-        return isUnitByYear;
-    }
-
-    public JobSearchResult setIsUnitByYear(Boolean isUnitByYear) {
-        this.isUnitByYear = isUnitByYear;
-        return this;
-    }
-
     public String getSalaryNumericUnit() {
         return salaryNumericUnit;
     }
@@ -217,30 +187,57 @@ public class JobSearchResult extends BaseRecord<JobSearchResult> {
         return this;
     }
 
-    public Boolean getIsUnitByTenThousand() {
-        return isUnitByTenThousand;
+    public Boolean getIsDefineByW() {
+        return isDefineByW;
     }
 
-    public JobSearchResult setIsUnitByTenThousand(Boolean isUnitByTenThousand) {
-        this.isUnitByTenThousand = isUnitByTenThousand;
+    public JobSearchResult setIsDefineByW(Boolean isDefineByW) {
+        this.isDefineByW = isDefineByW;
         return this;
     }
 
-    public Boolean getIsUnitByThousand() {
-        return isUnitByThousand;
+    public Boolean getIsDefineByK() {
+        return isDefineByK;
     }
 
-    public JobSearchResult setIsUnitByThousand(Boolean isUnitByThousand) {
-        this.isUnitByThousand = isUnitByThousand;
+    public JobSearchResult setIsDefineByK(Boolean isDefineByK) {
+        this.isDefineByK = isDefineByK;
         return this;
     }
 
-    public Boolean getIsInternshipPosition() {
-        return isInternshipPosition;
+    public Boolean getIsDefineByDay() {
+        return isDefineByDay;
     }
 
-    public JobSearchResult setIsInternshipPosition(Boolean isInternshipPosition) {
-        this.isInternshipPosition = isInternshipPosition;
+    public JobSearchResult setIsDefineByDay(Boolean isDefineByDay) {
+        this.isDefineByDay = isDefineByDay;
+        return this;
+    }
+
+    public Boolean getIsDefineByMonth() {
+        return isDefineByMonth;
+    }
+
+    public JobSearchResult setIsDefineByMonth(Boolean isDefineByMonth) {
+        this.isDefineByMonth = isDefineByMonth;
+        return this;
+    }
+
+    public Boolean getIsDefineByYear() {
+        return isDefineByYear;
+    }
+
+    public JobSearchResult setIsDefineByYear(Boolean isDefineByYear) {
+        this.isDefineByYear = isDefineByYear;
+        return this;
+    }
+
+    public Boolean getIsInternshipPos() {
+        return isInternshipPos;
+    }
+
+    public JobSearchResult setIsInternshipPos(Boolean isInternshipPos) {
+        this.isInternshipPos = isInternshipPos;
         return this;
     }
 
@@ -253,48 +250,48 @@ public class JobSearchResult extends BaseRecord<JobSearchResult> {
         return this;
     }
 
-    public Boolean getIsSalaryNeedNegotiation() {
-        return isSalaryNeedNegotiation;
+    public Boolean getIsSalaryNegotiable() {
+        return isSalaryNegotiable;
     }
 
-    public JobSearchResult setSalaryNeedNegotiation(Boolean isSalaryNeedNegotiation) {
-        this.isSalaryNeedNegotiation = isSalaryNeedNegotiation;
+    public JobSearchResult setIsSalaryNegotiable(Boolean isSalaryNegotiable) {
+        this.isSalaryNegotiable = isSalaryNegotiable;
         return this;
     }
 
-    public String getPublishDate() {
-        return publishDate;
+    public String getPublishDateChar() {
+        return publishDateChar;
     }
 
-    public JobSearchResult setPublishDate(String publishDate) {
-        this.publishDate = publishDate;
+    public JobSearchResult setPublishDateChar(String publishDateChar) {
+        this.publishDateChar = publishDateChar;
         return this;
     }
 
-    public Integer getPublishMonth() {
-        return publishMonth;
+    public Integer getPublishDateMonthNumeric() {
+        return publishDateMonthNumeric;
     }
 
-    public JobSearchResult setPublishMonth(Integer publishMonth) {
-        this.publishMonth = publishMonth;
+    public JobSearchResult setPublishDateMonthNumeric(Integer publishDateMonthNumeric) {
+        this.publishDateMonthNumeric = publishDateMonthNumeric;
         return this;
     }
 
-    public Integer getPublishDayOfMonth() {
-        return publishDayOfMonth;
+    public Integer getPublishDateDayNumeric() {
+        return publishDateDayNumeric;
     }
 
-    public JobSearchResult setPublishDayOfMonth(Integer publishDayOfMonth) {
-        this.publishDayOfMonth = publishDayOfMonth;
+    public JobSearchResult setPublishDateDayNumeric(Integer publishDateDayNumeric) {
+        this.publishDateDayNumeric = publishDateDayNumeric;
         return this;
     }
 
-    public String getResourceUrl() {
-        return resourceUrl;
+    public String getLinkUrl() {
+        return linkUrl;
     }
 
-    public JobSearchResult setResourceUrl(String resourceUrl) {
-        this.resourceUrl = resourceUrl;
+    public JobSearchResult setLinkUrl(String linkUrl) {
+        this.linkUrl = linkUrl;
         return this;
     }
 
@@ -305,86 +302,5 @@ public class JobSearchResult extends BaseRecord<JobSearchResult> {
     public JobSearchResult setMarkId(Integer markId) {
         this.markId = markId;
         return this;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof JobSearchResult)) return false;
-        JobSearchResult that = (JobSearchResult) o;
-        return
-                Objects.equals(getJobTitle(), that.getJobTitle()) &&
-                        Objects.equals(getCompanyName(), that.getCompanyName()) &&
-                        Objects.equals(getLocation(), that.getLocation()) &&
-                        Objects.equals(getSalaryRange(), that.getSalaryRange()) &&
-                        Objects.equals(getSalaryMinNumeric(), that.getSalaryMinNumeric()) &&
-                        Objects.equals(getSalaryMaxNumeric(), that.getSalaryMaxNumeric()) &&
-                        Objects.equals(getSalaryTimeUnit(), that.getSalaryTimeUnit()) &&
-                        Objects.equals(getSalaryNumericUnit(), that.getSalaryNumericUnit()) &&
-                        Objects.equals(getIsUnitByTenThousand(), that.getIsUnitByTenThousand()) &&
-                        Objects.equals(getIsUnitByThousand(), that.getIsUnitByThousand()) &&
-                        Objects.equals(getIsUnitByDay(), that.getIsUnitByDay()) &&
-                        Objects.equals(getIsUnitByMonth(), that.getIsUnitByMonth()) &&
-                        Objects.equals(getIsUnitByYear(), that.getIsUnitByYear()) &&
-                        Objects.equals(getIsInternshipPosition(), that.getIsInternshipPosition()) &&
-                        Objects.equals(getIsCampusOnly(), that.getIsCampusOnly()) &&
-                        Objects.equals(getIsSalaryNeedNegotiation(), that.getIsSalaryNeedNegotiation()) &&
-                        Objects.equals(getPublishDate(), that.getPublishDate()) &&
-                        Objects.equals(getPublishMonth(), that.getPublishMonth()) &&
-                        Objects.equals(getPublishDayOfMonth(), that.getPublishDayOfMonth());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getJobTitle()
-                , getCompanyName()
-                , getLocation()
-                , getSalaryRange()
-                , getSalaryMinNumeric()
-                , getSalaryMaxNumeric()
-                , getSalaryTimeUnit()
-                , getSalaryNumericUnit()
-                , getIsUnitByTenThousand()
-                , getIsUnitByThousand()
-                , getIsUnitByDay()
-                , getIsUnitByMonth()
-                , getIsUnitByYear()
-                , getIsInternshipPosition()
-                , getIsCampusOnly()
-                , getIsSalaryNeedNegotiation()
-                , getPublishDate()
-                , getPublishMonth()
-                , getPublishDayOfMonth());
-    }
-
-    @Override
-    public String toString() {
-        return "JobSearchResult{" + '\n' +
-                "id=" + id + '\n' +
-                ", keyId=" + keyId + '\n' +
-                ", searchKeyword='" + searchKeyword + '\'' + '\n' +
-                ", companyName='" + companyName + '\'' + '\n' +
-                ", jobTitle='" + jobTitle + '\'' + '\n' +
-                ", resourceUrl='" + resourceUrl + '\'' + '\n' +
-                ", location='" + location + '\'' + '\n' +
-                ", salaryRange='" + salaryRange + '\'' + '\n' +
-                ", salaryMinNumeric=" + salaryMinNumeric + '\n' +
-                ", salaryMaxNumeric=" + salaryMaxNumeric + '\n' +
-                ", salaryTimeUnit='" + salaryTimeUnit + '\'' + '\n' +
-                ", salaryNumericUnit='" + salaryNumericUnit + '\'' + '\n' +
-                ", isUnitByTenThousand=" + isUnitByTenThousand + '\n' +
-                ", isUnitByThousand=" + isUnitByThousand + '\n' +
-                ", isUnitByDay=" + isUnitByDay + '\n' +
-                ", isUnitByMonth=" + isUnitByMonth + '\n' +
-                ", isUnitByYear=" + isUnitByYear + '\n' +
-                ", isInternshipPosition=" + isInternshipPosition + '\n' +
-                ", isCampusOnly=" + isCampusOnly + '\n' +
-                ", isSalaryNeedNegotiation=" + isSalaryNeedNegotiation + '\n' +
-                ", publishDate='" + publishDate + '\'' + '\n' +
-                ", publishMonth=" + publishMonth + '\n' +
-                ", publishDayOfMonth=" + publishDayOfMonth + '\n' +
-                ", resourceUrl=" + resourceUrl + '\n' +
-                ", markId=" + markId + '\n' +
-                '}';
     }
 }
