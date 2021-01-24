@@ -40,27 +40,25 @@ import java.util.concurrent.Executors;
 @SuppressWarnings("all")
 public class JobPlatformSearchPage extends BaseWebPage {
 
-    private String location; // 职位地点
-    private Integer pageNum; // 第几页
+    private String location; //职位地点
+    private Integer pageNum; //第几页
     private Integer pageSize; //每页的大小
-    private final String jobKeyword; // 搜索关键字
-    private final Query searchBox; // 搜索框控件对象
-    private final Query submitBtn; // 查询提交按钮
+    private final String keyword; //搜索关键字
+    private final Query searchBox; //搜索框控件对象
+    private final Query submitBtn; //查询提交按钮
     private final Query searchResultList; //查询返回结果集列表页面
-    private final Query pageNavigator; // 页面分页控件栏
-    private ExecutorService threadPool;
-
+    private final Query pageNavigator; //页面分页控件栏
+    private ExecutorService threadPool; //扫描解析的线程池对象
 
     @Autowired
     private JobSearchResultService jobSearchResultService;
 
-
-    public JobPlatformSearchPage(Boolean isAutoConfig, String jobKeyword) {
+    public JobPlatformSearchPage(Boolean isAutoConfig, String keyword) {
         super(isAutoConfig);
-        Assert.notNull(jobKeyword, BusinessConstants.JOB_SEARCH_KEYWORD_NULL); // 搜索关键字不能为空
+        Assert.notNull(keyword, BusinessConstants.JOB_SEARCH_KEYWORD_NULL); // 搜索关键字不能为空
         this.pageNum = 0;
         this.pageSize = 0;
-        this.jobKeyword = jobKeyword;
+        this.keyword = keyword;
         this.searchBox = new Query().defaultLocator(By.xpath(SeleniumConstants.INPUT_SEARCH_XPATH));
         this.submitBtn = new Query().defaultLocator(By.xpath(SeleniumConstants.SUBMIT_SEARCH_XPATH));
         this.searchResultList = new Query().defaultLocator(By.xpath(SeleniumConstants.SEARCH_RESULT_LIST_XPATH));
@@ -93,8 +91,8 @@ public class JobPlatformSearchPage extends BaseWebPage {
         WebElement searchBoxElement = WebDriverUtils.findWebElement(searchBox);
         Thread.sleep(500);
 
-        log.info(String.format("input search keyWord [" + this.jobKeyword + "]"));
-        searchBoxElement.sendKeys(this.jobKeyword);
+        log.info(String.format("input search keyWord [" + this.keyword + "]"));
+        searchBoxElement.sendKeys(this.keyword);
         log.info("input search keyWord complete");
     }
 
@@ -107,7 +105,7 @@ public class JobPlatformSearchPage extends BaseWebPage {
 
         log.info("wait and navigate to search result list page");
         WebDriverWait wait = new WebDriverWait(getDriver(), 5, 100);
-        WebDriverUtils.doWaitTitleContains(this.jobKeyword, wait);
+        WebDriverUtils.doWaitTitleContains(this.keyword, wait);
         log.info("navigate to search result list page success");
     }
 
@@ -122,7 +120,6 @@ public class JobPlatformSearchPage extends BaseWebPage {
         private void parseAndRestore() {
             if (null == result)
                 return;
-
             int count = jobSearchResultService.selectCountByMarkId(result.getMarkId());
             if (count <= 0) {
                 System.out.println("do insert result record");
@@ -266,7 +263,7 @@ public class JobPlatformSearchPage extends BaseWebPage {
         this.getDriver().get(nextPageUrl);
         log.info("navigate to next search result page");
         WebDriverWait wait = new WebDriverWait(getDriver(), 5, 100);
-        WebDriverUtils.doWaitTitleContains(this.jobKeyword, wait);
+        WebDriverUtils.doWaitTitleContains(this.keyword, wait);
 
         log.info("navigate to next search result page success");
         this.pageNum++;
@@ -289,7 +286,6 @@ public class JobPlatformSearchPage extends BaseWebPage {
         inputSearchQuery();
         submitSearchKeyword();
         parseCurrentSearchResultPage();
-
     }
 
 }

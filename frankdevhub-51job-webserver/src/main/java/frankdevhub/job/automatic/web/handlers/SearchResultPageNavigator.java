@@ -1,8 +1,7 @@
 package frankdevhub.job.automatic.web.handlers;
 
-import frankdevhub.job.automatic.core.data.logging.Logger;
-import frankdevhub.job.automatic.core.data.logging.LoggerFactory;
 import frankdevhub.job.automatic.entities.BusinessCharacter;
+import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.WebElement;
 
 import java.util.List;
@@ -17,75 +16,146 @@ import java.util.List;
  * @CreateDate: 2020/2/11 6:04
  * @Version: 1.0
  */
+
+@Slf4j
+@SuppressWarnings("all")
 public class SearchResultPageNavigator implements PageNavigatorHandler {
 
-    private final Logger LOGGER = LoggerFactory.getLogger(SearchResultPageNavigator.class);
-
+    /**
+     * 获取页面分页导航对象
+     *
+     * @return 页面分页导航对象
+     */
     @Override
     public WebElement findPageNavigator() {
         return null;
     }
 
+    /**
+     * 获取上一页的页数
+     *
+     * @return 上一页的页数
+     */
     @Override
     public String getPreviousPageButtonText() {
         return null;
     }
 
+    /**
+     * 获取下一页的页数
+     *
+     * @return 下一页的页数
+     */
     @Override
     public String getNextPageButtonText() {
         return null;
     }
 
+    /**
+     * 是否有上一页
+     *
+     * @return 是否有上一页
+     */
     @Override
-    public Boolean hasPreviousPage() {
-        return null;
+    public boolean hasPreviousPage() {
+        return false;
     }
 
+    /**
+     * 是否有下一页
+     *
+     * @return 是否有下一页
+     */
     @Override
-    public Boolean hasNextPage() {
-        return null;
+    public boolean hasNextPage() {
+        return false;
     }
 
+    /**
+     * 获取当前页数
+     *
+     * @return 获取当前页数
+     */
     @Override
-    public Integer getCurrentPageIndex() {
-        return null;
+    public int getCurrentPageIndex() {
+        return 0;
     }
 
+    /**
+     * 获取当前页面导航对象上所有的控件集合
+     *
+     * @return 当前页面导航对象上所有的控件集合
+     */
     @Override
     public List<WebElement> getDisplayedButtons() {
         return null;
     }
 
+    /**
+     * 是否有最后一页
+     *
+     * @return 是否有最后一页
+     */
     @Override
-    public Boolean hasLastPageNum() {
-        return null;
+    public boolean hasLastPageNum() {
+        return false;
     }
 
+    /**
+     * 获取最后一页
+     *
+     * @return 获取最后一页
+     */
     @Override
-    public Integer getLastPageNum() {
-        return null;
+    public int getLastPageNum() {
+        return 0;
     }
 
+    /**
+     * 是否页面含有自定义的分页控件
+     *
+     * @return 是否页面含有自定义的分页控件
+     */
     @Override
-    public Boolean hasDefineCustomPageTextBox() {
-        return null;
+    public boolean hasDefineCustomPageTextBox() {
+        return false;
     }
 
+    /**
+     * 是否页面含有总页数
+     *
+     * @return 是否页面含有总页数
+     */
     @Override
-    public Boolean hasTotalPageNum() {
-        return null;
+    public boolean hasTotalPageNum() {
+        return false;
     }
 
+    /**
+     * 是否页面含有提交控件
+     *
+     * @return 是否页面含有提交控件
+     */
     @Override
-    public Boolean hasSubmitButton() {
-        return null;
+    public boolean hasSubmitButton() {
+        return false;
     }
 
+    /**
+     * 是否页面索引数详情描述的控件
+     *
+     * @return 是否页面索引数详情描述的控件
+     */
     @Override
-    public Boolean hasTextInfoDescription() {
-        return null;
+    public boolean hasTextInfoDescription() {
+        return false;
     }
 
+    /**
+     * 获取页面索引数详情描述的控件
+     *
+     * @return 页面索引数详情描述的控件
+     */
     @Override
     public BusinessCharacter getTextInfoDescriptionCharacter() {
         return null;

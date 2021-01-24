@@ -1,20 +1,15 @@
 package base;
 
-import frankdevhub.job.automatic.core.utils.WebDriverUtils;
-import frankdevhub.job.automatic.selenium.AssignDriver;
 import frankdevhub.job.automatic.selenium.DriverBase;
 import frankdevhub.job.automatic.selenium.Query;
+import frankdevhub.job.automatic.web.pages.JobPlatformSearchPage;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.remote.RemoteWebDriver;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
-import java.util.List;
 
 /**
  * <p>Title:@ClassName SeleniumBaseTest.java</p>
@@ -34,8 +29,15 @@ public class SeleniumBaseTest {
     private WebDriver driver;
     private Query elementsList;
     private static final String SELENIUM_TEST_CACHE_PATH = "C:/Automation/junit-selenium-test";
-    private static final String TEST_PAGE_URL = "file:///C:/Users/Administrator/Desktop/WebMail%20_%20Powered%20by%20Winmail%20Server.html";
 
+    @Autowired
+    private static JobPlatformSearchPage jobPlatformSearchPage;
+
+    /**
+     * 初始化测试驱动对象的配置
+     *
+     * @throws Exception
+     */
     @Before
     public void init() throws Exception {
         Long start = System.currentTimeMillis();
@@ -43,32 +45,16 @@ public class SeleniumBaseTest {
         driver = DriverBase.getDriver(SELENIUM_TEST_CACHE_PATH);
         Long current = System.currentTimeMillis();
         log.info(String.format("Chrome Driver instance initialize complete, cost:%s sec", (current - start) / 1000));
-        log.info("navigate to test web site page");
-        driver.get(TEST_PAGE_URL);
-
-        log.info("init query elements start");
-        this.elementsList = new Query().defaultLocator(By.xpath("//div[@class='bbit-tree-node-el bbit-tree-node-leaf']"));
-        AssignDriver.initQueryObjects(this, (RemoteWebDriver) driver);
-        log.info("init query elements complete");
     }
 
+    /**
+     * 测试环境下进行页面解析
+     *
+     * @throws InterruptedException
+     */
     @Test
-    public void testGetElement() throws InterruptedException {
-        log.info("run test method {{testGetElement}} start");
-        Thread.sleep(2000L);
-        driver.switchTo().frame("expressaddress_iframe");
-        Thread.sleep(500L);
-        List<WebElement> elements = WebDriverUtils.findWebElements(this.elementsList);
-        log.info("value :" + elements.size());
-        for (WebElement el : elements)
-            log.info(el.getAttribute("title"));
-
-        log.info("run test method {{testGetElement}} complete");
-    }
-
-    @Test
-    public void testSpringBootEnv() {
-
+    public void testSpringBootEnv() throws InterruptedException {
+        jobPlatformSearchPage.startSearchResultPatrol();
     }
 
 }
