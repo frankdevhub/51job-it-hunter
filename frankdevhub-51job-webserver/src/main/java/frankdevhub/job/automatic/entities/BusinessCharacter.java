@@ -84,7 +84,6 @@ public class BusinessCharacter {
     public Character getValue() {
         return value;
     }
-
     public BusinessCharacter setValue(Character value) {
         this.value = value;
         return this;
@@ -93,7 +92,6 @@ public class BusinessCharacter {
     public Boolean isSimpleChineseCharacter() {
         return isCN_Character;
     }
-
     public BusinessCharacter isSimpleChineseCharacter(Boolean isCN_Character) {
         this.isCN_Character = isCN_Character;
         return this;

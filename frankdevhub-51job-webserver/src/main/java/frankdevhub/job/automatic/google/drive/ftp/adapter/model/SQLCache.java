@@ -115,7 +115,7 @@ public class SQLCache implements Cache {
             r.unlock();
         }
     }
-
+    @Override
     public int addOrUpdateFile(GFile file) {
         List<String> queries = new ArrayList<>();
         List<Object[]> args = new ArrayList<>();
@@ -140,6 +140,7 @@ public class SQLCache implements Cache {
         return executeInTransaction(queries, args);
     }
 
+    @Override
     public void updateChilds(GFile file, List<GFile> childs) {
         List<String> queries = new ArrayList<>();
         List<Object[]> args = new ArrayList<>();
@@ -234,6 +235,7 @@ public class SQLCache implements Cache {
         }
     }
 
+    @Override
     public List<String> getAllFoldersWithoutRevision() {
         r.lock();
         try {
@@ -258,6 +260,7 @@ public class SQLCache implements Cache {
         }
     }
 
+    @Override
     public int deleteFile(String id) {
         List<String> queries = new ArrayList<>();
         List<Object[]> args = new ArrayList<>();
@@ -270,6 +273,7 @@ public class SQLCache implements Cache {
         return executeInTransaction(queries, args);
     }
 
+    @Override
     public String getRevision() {
         r.lock();
         try {
@@ -280,10 +284,12 @@ public class SQLCache implements Cache {
         }
     }
 
+    @Override
     public void updateRevision(String revision) {
         jdbcTemplate.update("update " + TABLE_PARAMETERS + " set value=? where id='revision'", revision);
     }
 
+    @Override
     public Set<String> getParents(String fileId) {
         r.lock();
         try {
