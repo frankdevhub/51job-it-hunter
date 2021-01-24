@@ -41,35 +41,34 @@ public class SeleniumBaseTest {
         Long start = System.currentTimeMillis();
         DriverBase.instantiateDriverObject();
         driver = DriverBase.getDriver(SELENIUM_TEST_CACHE_PATH);
-
         Long current = System.currentTimeMillis();
-        System.out.println(String.format("Chrome Driver instance initialize complete, cost:%s sec", (current - start) / 1000));
-        System.out.println("navigate to test web site page");
+        log.info(String.format("Chrome Driver instance initialize complete, cost:%s sec", (current - start) / 1000));
+        log.info("navigate to test web site page");
         driver.get(TEST_PAGE_URL);
 
-        System.out.println("init query elements start");
+        log.info("init query elements start");
         this.elementsList = new Query().defaultLocator(By.xpath("//div[@class='bbit-tree-node-el bbit-tree-node-leaf']"));
-
         AssignDriver.initQueryObjects(this, (RemoteWebDriver) driver);
-        System.out.println("init query elements complete");
+        log.info("init query elements complete");
     }
 
     @Test
     public void testGetElement() throws InterruptedException {
         log.info("run test method {{testGetElement}} start");
         Thread.sleep(2000L);
-        //focus on iframe
         driver.switchTo().frame("expressaddress_iframe");
         Thread.sleep(500L);
-
         List<WebElement> elements = WebDriverUtils.findWebElements(this.elementsList);
-
-        System.out.println("value :" + elements.size());
+        log.info("value :" + elements.size());
         for (WebElement el : elements)
-            System.out.println(el.getAttribute("title"));
+            log.info(el.getAttribute("title"));
 
         log.info("run test method {{testGetElement}} complete");
     }
 
+    @Test
+    public void testSpringBootEnv() {
+
+    }
 
 }

@@ -3,7 +3,6 @@ package frankdevhub.job.automatic.web.pages;
 import frankdevhub.job.automatic.core.constants.BusinessConstants;
 import frankdevhub.job.automatic.core.constants.SeleniumConstants;
 import frankdevhub.job.automatic.core.exception.BusinessException;
-import frankdevhub.job.automatic.core.generators.snowflake.SnowflakeGenerator;
 import frankdevhub.job.automatic.core.utils.SalaryRangeTextUtils;
 import frankdevhub.job.automatic.core.utils.WebDriverUtils;
 import frankdevhub.job.automatic.entities.JobSearchResult;
@@ -17,6 +16,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import tk.mybatis.mapper.util.Assert;
 
 import java.util.List;
@@ -36,6 +36,7 @@ import java.util.concurrent.Executors;
  */
 
 @Slf4j
+@Component
 @SuppressWarnings("all")
 public class JobPlatformSearchPage extends BaseWebPage {
 

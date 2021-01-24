@@ -2,6 +2,7 @@ package frankdevhub.job.automatic.web.pages;
 
 import frankdevhub.job.automatic.selenium.DriverBase;
 import frankdevhub.job.automatic.selenium.config.ChromeConfiguration;
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.WebDriver;
 
@@ -17,18 +18,15 @@ import org.openqa.selenium.WebDriver;
  */
 
 @Slf4j
+@Data
 @SuppressWarnings("all")
 public class BaseWebPage {
-    private WebDriver driver;
-    private ChromeConfiguration configuration;
-    private Boolean isAutoConfig;
+    private WebDriver driver; //浏览器驱动对象
+    private ChromeConfiguration configuration; //Chrome浏览器驱动配置
+    private Boolean isAutoConfig; //是否自动装配
 
     public BaseWebPage(Boolean isAutoConfig) {
         initDriver(isAutoConfig);
-    }
-
-    public WebDriver getDriver() {
-        return driver;
     }
 
     public BaseWebPage setDriver(WebDriver driver) {
@@ -36,33 +34,18 @@ public class BaseWebPage {
         return this;
     }
 
-    public ChromeConfiguration getConfiguration() {
-        return configuration;
-    }
-
-    public BaseWebPage setConfiguration(ChromeConfiguration configuration) {
-        this.configuration = configuration;
-        return this;
-    }
-
-    public Boolean getIsAutoConfig() {
-        return isAutoConfig;
-    }
-
-    public BaseWebPage setIsAutoConfig(Boolean isAutoConfig) {
-        this.isAutoConfig = isAutoConfig;
-        return this;
-    }
-
+    /**
+     * 初始化浏览器驱动对象
+     *
+     * @param isAutoConfig 是否自动配置
+     */
     public void initDriver(Boolean isAutoConfig) {
         try {
             this.configuration = ChromeConfiguration.newInstance(isAutoConfig);
             this.isAutoConfig = isAutoConfig;
             String seleniumCacheDirectoryPath = configuration.getSeleniumCacheDirectoryPath();
-
             DriverBase.instantiateDriverObject();
             log.info("configuration path set as: " + seleniumCacheDirectoryPath);
-
             this.driver = DriverBase.getDriver(seleniumCacheDirectoryPath);
 
         } catch (Exception e) {

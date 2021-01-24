@@ -32,19 +32,13 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 public class SQLCache implements Cache {
     private static final Logger LOGGER = LoggerFactory.getLogger(SQLCache.class);
-
     private static final String TABLE_FILES = "files";
-
     private static final String TABLE_CHILDS = "childs";
-
     private static final String TABLE_PARAMETERS = "parameters";
 
     private final RowMapper<GFile> rowMapper;
-
     private final RowMapper<String> parentIdMapper = (rs, rowNum) -> rs.getString("parentId");
-
     private final JdbcTemplate jdbcTemplate;
-
     private final ReentrantReadWriteLock rwl = new ReentrantReadWriteLock();
     private final Lock r = rwl.readLock();
     private final Lock w = rwl.writeLock();

@@ -27,7 +27,6 @@
         <result column="mark_id" jdbcType="INTEGER" property="markId"/>
     </resultMap>
 
-
     <sql id="Base_Column_List">
         id, job_title, company_name, location, salary_range_chars, salary_range_min, salary_range_max,
         salary_time_unit, salary_numeric_unit, is_define_by_w, is_define_by_k, is_define_by_day,
@@ -36,14 +35,13 @@
         mark_id
     </sql>
 
-
     <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
         delete from platform_search_result
         where id = #{id,jdbcType=VARCHAR}
     </delete>
 
 
-    <insert id="insert" parameterType="frankdevhub.job.automatic.entities.entity.JobSearchResult">
+    <insert id="insert" parameterType="frankdevhub.job.automatic.entities.JobSearchResult">
         insert into platform_search_result (id, job_title, company_name,
         location, salary_range_chars, salary_range_min,
         salary_range_max, salary_time_unit, salary_numeric_unit,
@@ -63,7 +61,7 @@
     </insert>
 
 
-    <insert id="insertSelective" parameterType="frankdevhub.job.automatic.entities.entity.JobSearchResult">
+    <insert id="insertSelective" parameterType="frankdevhub.job.automatic.entities.JobSearchResult">
         insert into platform_search_result
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null">
@@ -204,7 +202,7 @@
     </insert>
 
 
-    <update id="updateByPrimaryKeySelective" parameterType="frankdevhub.job.automatic.entities.entity.JobSearchResult">
+    <update id="updateByPrimaryKeySelective" parameterType="frankdevhub.job.automatic.entities.JobSearchResult">
         update platform_search_result
         <set>
             <if test="jobTitle != null">
@@ -275,7 +273,7 @@
     </update>
 
 
-    <update id="updateByPrimaryKey" parameterType="frankdevhub.job.automatic.entities.entity.JobSearchResult">
+    <update id="updateByPrimaryKey" parameterType="frankdevhub.job.automatic.entities.JobSearchResult">
         update platform_search_result
         set job_title = #{jobTitle,jdbcType=VARCHAR},
         company_name = #{companyName,jdbcType=VARCHAR},
@@ -382,7 +380,7 @@
     </sql>
 
 
-    <select id="findPageWithResult" parameterType="frankdevhub.job.automatic.entities.dto.JobSearchResultDTO"
+    <select id="findPageWithResult" parameterType="frankdevhub.job.automatic.dto.JobSearchResultQuery"
             resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
@@ -392,7 +390,7 @@
     </select>
 
 
-    <select id="findPageWithCount" parameterType="frankdevhub.job.automatic.entities.dto.JobSearchResultDTO"
+    <select id="findPageWithCount" parameterType="frankdevhub.job.automatic.dto.JobSearchResultQuery"
             resultType="Integer">
         select count(1)
         from platform_search_result

@@ -21,11 +21,9 @@ import java.util.concurrent.Executors;
 public class JobPlatformService {
 
     private class DefaultDataPatrolThread extends Thread {
-        private final ExecutorService cachedThreadPool = Executors.newCachedThreadPool();
-
-        private final JobPlatformClient client = new JobPlatformClient();
-
-        private String url;
+        private final ExecutorService cachedThreadPool = Executors.newCachedThreadPool(); //扫描网页的线程池
+        private final JobPlatformClient client = new JobPlatformClient(); //客户端业务逻辑对象
+        private String url; //页面链接
 
         public DefaultDataPatrolThread(String url) {
             this.url = url;
@@ -40,7 +38,6 @@ public class JobPlatformService {
                 try {
                     log.info("@current url = " + url);
                     client.restorePageJobSearchResult(url, cachedThreadPool);
-                    //TODO if next page ?
                     url = client.getNextResultPage(url);
                     log.info("@next url = " + url);
                 } catch (Exception e) {
@@ -50,20 +47,24 @@ public class JobPlatformService {
         }
     }
 
-    //TODO
+    /**
+     * 默认的扫描业务逻辑
+     *
+     * @param url 页面链接
+     * @throws InterruptedException
+     */
     public void defaultDataPatrolService(String url) throws InterruptedException {
         log.info("invoke default data patrol service");
         Runnable task = () -> {
             log.info("[defaultDataPatrolService --> task]thread name = "
                     + Thread.currentThread().getName());
             Thread t = new DefaultDataPatrolThread(url);
-            // t.setDaemon(true);
+            t.setDaemon(true);
             t.start();
         };
-
         Thread t = new Thread(task);
         log.info("thread t->name =" + t.getName());
-        // t.setDaemon(true);
+        t.setDaemon(true);
         t.start();
         Thread.sleep(200L);
 
