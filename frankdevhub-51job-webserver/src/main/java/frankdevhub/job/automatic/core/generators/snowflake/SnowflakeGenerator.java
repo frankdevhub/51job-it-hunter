@@ -3,6 +3,7 @@ package frankdevhub.job.automatic.core.generators.snowflake;
 import frankdevhub.job.automatic.core.generators.KeyGenerator;
 import org.springframework.util.Assert;
 
+@SuppressWarnings("all")
 public class SnowflakeGenerator implements KeyGenerator<Long> {
 
     private SnowflakeIdWorker snowflakeIdWorker;
@@ -17,7 +18,7 @@ public class SnowflakeGenerator implements KeyGenerator<Long> {
 
     @Override
     public Long generateKey() {
-        Assert.notNull(this.snowflakeIdWorker,"snowflakeIdWorker should not be null");
+        Assert.notNull(this.snowflakeIdWorker, "snowflakeIdWorker should not be null");
         long nextId = this.snowflakeIdWorker.nextId();
         return nextId;
     }

@@ -1,5 +1,6 @@
 package frankdevhub.job.automatic.core.utils;
 
+@SuppressWarnings("all")
 public class ParseSystemUtils {
 
     public static String parseByte2HexStr(byte buf[]) {

@@ -14,6 +14,7 @@ import frankdevhub.job.automatic.core.message.MessageItem;
  * @date:2019-04-20 22:46
  */
 
+@SuppressWarnings("all")
 public class ConsoleSender implements IMessageSender {
 
     @Override

@@ -1,9 +1,8 @@
 package utils;
 
-import frankdevhub.job.automatic.core.data.logging.Logger;
-import frankdevhub.job.automatic.core.data.logging.LoggerFactory;
 import frankdevhub.job.automatic.core.utils.CommonBusinessUtils;
 import frankdevhub.job.automatic.entities.BusinessCharacter;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -24,11 +23,9 @@ import java.util.Set;
  * @CreateDate: 2020/2/4 0:17
  * @Version: 1.0
  */
-
+@Slf4j
 @RunWith(SpringJUnit4ClassRunner.class)
 public class BusinessCharacterTest {
-
-    private final Logger LOGGER = LoggerFactory.getLogger(BusinessCharacterTest.class);
 
     private static final Character CN_CHAR = '个';
     private static final Character TW_CHAR = '個';
@@ -49,15 +46,13 @@ public class BusinessCharacterTest {
     public void testSetAttributes() throws InvocationTargetException, IllegalAccessException {
         Map<String, Boolean> attributes;
         BusinessCharacter businessCharacter = new BusinessCharacter();
-        LOGGER.begin().info("run test method {{testSetAttributes}} start");
+        log.info("run test method {{testSetAttributes}} start");
 
         System.out.println("using example CN_CHAR: " + CN_CHAR);
         attributes = CommonBusinessUtils.getCharacterAttributes(CN_CHAR);
         printAttributeMap(attributes);
         businessCharacter.setValue(CN_CHAR).setAttributes(attributes).toString();
-
-
-        LOGGER.begin().info("run test method {{testSetAttributes}} complete");
+        log.info("run test method {{testSetAttributes}} complete");
     }
 
 }

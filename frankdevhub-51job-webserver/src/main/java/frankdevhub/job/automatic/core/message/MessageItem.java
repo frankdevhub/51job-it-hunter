@@ -17,6 +17,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * @date:2019-04-20 22:47
  */
 
+@SuppressWarnings("all")
 public class MessageItem extends HashMap<String, Object> {
 
     private static final long serialVersionUID = -1360411786257624744L;

@@ -2,7 +2,7 @@ package frankdevhub.job.automatic.core.utils;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
-
+@SuppressWarnings("all")
 public class HMACSHA256Encrypt {
 
     private static final String ENCODE = "UTF-8";

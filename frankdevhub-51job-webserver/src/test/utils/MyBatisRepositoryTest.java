@@ -1,8 +1,7 @@
 package utils;
 
-import frankdevhub.job.automatic.core.data.logging.Logger;
-import frankdevhub.job.automatic.core.data.logging.LoggerFactory;
 import frankdevhub.job.automatic.core.repository.MyBatisRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -19,17 +18,14 @@ import java.text.SimpleDateFormat;
  * @CreateDate: 2020/2/8 6:13
  * @Version: 1.0
  */
+@Slf4j
 @RunWith(SpringJUnit4ClassRunner.class)
 public class MyBatisRepositoryTest {
-
-    private final Logger LOGGER = LoggerFactory.getLogger(MyBatisRepositoryTest.class);
-
     private final MyBatisRepository myBatisRepository = new MyBatisRepository();
-
 
     @Test
     public void testGetTimeStampRange_1() {
-        LOGGER.begin().info("run test method {{testGetTimeStampRange_1}} start");
+        log.info("run test method {{testGetTimeStampRange_1}} start");
         int year = 2019;
         int month = 12;
         int day = 15;
@@ -45,13 +41,13 @@ public class MyBatisRepositoryTest {
         System.out.println("zeroTString = " + zeroTString + "");
         System.out.println("endTString = " + endTString + "");
 
-        LOGGER.begin().info("run test method {{testGetTimeStampRange_1}} complete");
+        log.info("run test method {{testGetTimeStampRange_1}} complete");
     }
 
 
     @Test
     public void testGetTodayTimeStampRange() {
-        LOGGER.begin().info("run test method {{testGetTodayTimeStampRange}} start");
+        log.info("run test method {{testGetTodayTimeStampRange}} start");
         Long[] range = myBatisRepository.getTodayTimeStampRange();
 
         Long zeroT = range[0];
@@ -65,12 +61,12 @@ public class MyBatisRepositoryTest {
         System.out.println("endTString = " + endTString + "");
 
 
-        LOGGER.begin().info("run test method {{testGetTodayTimeStampRange}} complete");
+        log.info("run test method {{testGetTodayTimeStampRange}} complete");
     }
 
     @Test
     public void testGetTimeStampRange() {
-        LOGGER.begin().info("run test method {{testGetTimeStampRange}} start");
+        log.info("run test method {{testGetTimeStampRange}} start");
         Long current = System.currentTimeMillis();
         Long[] range = myBatisRepository.getTimeStampRange(current);
 
@@ -84,6 +80,6 @@ public class MyBatisRepositoryTest {
         System.out.println("zeroTString = " + zeroTString + "");
         System.out.println("endTString = " + endTString + "");
 
-        LOGGER.begin().info("run test method {{testGetTimeStampRange}} complete");
+        log.info("run test method {{testGetTimeStampRange}} complete");
     }
 }

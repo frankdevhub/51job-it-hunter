@@ -3,6 +3,7 @@ package frankdevhub.job.automatic.core.utils;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+@SuppressWarnings("all")
 public class MD5Encrypt {
     private static MessageDigest _mdInst = null;
     private static char hexDigits[] = {'8', '9', '7', '4', '5', '0', '2', '6', '3', '1', 'C', 'D', 'A', 'B', 'E', 'F'};

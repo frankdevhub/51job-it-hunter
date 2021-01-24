@@ -1,8 +1,7 @@
 package utils;
 
-import frankdevhub.job.automatic.core.data.logging.Logger;
-import frankdevhub.job.automatic.core.data.logging.LoggerFactory;
 import frankdevhub.job.automatic.core.exception.BusinessException;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -22,10 +21,9 @@ import java.net.URL;
  * @Version: 1.0
  */
 
+@Slf4j
 @RunWith(SpringJUnit4ClassRunner.class)
 public class ResourceDownloadTest {
-
-    private final Logger LOGGER = LoggerFactory.getLogger(ResourceDownloadTest.class);
 
     private static final String MIRROR_INDEX = "http://npm.taobao.org/mirrors/chromedriver/";
     private static final String RESOURCE_INDEX = "http://npm.taobao.org/mirrors/chromedriver/2.0/chromedriver_win32.zip";
@@ -35,14 +33,14 @@ public class ResourceDownloadTest {
     @Test
     public void testGetFileName() {
 
-        LOGGER.begin().info("runt test method {{testGetFileName}} start");
+        log.info("runt test method {{testGetFileName}} start");
         String url = RESOURCE_INDEX;
         System.out.println("url = " + RESOURCE_INDEX);
 
         String fileName = url.substring(url.lastIndexOf("/") + 1);
         System.out.println("fileName = " + fileName);
 
-        LOGGER.begin().info("runt test method {{testGetFileName}} complete");
+        log.info("runt test method {{testGetFileName}} complete");
     }
 
     private void downloadByDataInputStream(String path) throws IOException, BusinessException {
@@ -87,7 +85,7 @@ public class ResourceDownloadTest {
 
     @Test
     public void testDownloadByDataInputStream() {
-        LOGGER.begin().info("runt test method {{testDownloadByDataInputStream}} start");
+        log.info("runt test method {{testDownloadByDataInputStream}} start");
 
         String[] examples = new String[]{RESOURCE_INDEX, RESOURCE_INDEX_1};
         for (String ex : examples) {
@@ -98,6 +96,6 @@ public class ResourceDownloadTest {
             }
         }
 
-        LOGGER.begin().info("runt test method {{testDownloadByDataInputStream}} complete");
+        log.info("runt test method {{testDownloadByDataInputStream}} complete");
     }
 }

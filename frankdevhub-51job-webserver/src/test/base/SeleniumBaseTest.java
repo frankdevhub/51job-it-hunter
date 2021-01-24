@@ -1,11 +1,10 @@
 package base;
 
-import frankdevhub.job.automatic.core.data.logging.Logger;
-import frankdevhub.job.automatic.core.data.logging.LoggerFactory;
 import frankdevhub.job.automatic.core.utils.WebDriverUtils;
 import frankdevhub.job.automatic.selenium.AssignDriver;
 import frankdevhub.job.automatic.selenium.DriverBase;
 import frankdevhub.job.automatic.selenium.Query;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -28,14 +27,12 @@ import java.util.List;
  * @Version: 1.0
  */
 
+@Slf4j
 @RunWith(SpringJUnit4ClassRunner.class)
 public class SeleniumBaseTest {
 
     private WebDriver driver;
     private Query elementsList;
-
-    private final Logger LOGGER = LoggerFactory.getLogger(SeleniumBaseTest.class);
-
     private static final String SELENIUM_TEST_CACHE_PATH = "C:/Automation/junit-selenium-test";
     private static final String TEST_PAGE_URL = "file:///C:/Users/Administrator/Desktop/WebMail%20_%20Powered%20by%20Winmail%20Server.html";
 
@@ -59,7 +56,7 @@ public class SeleniumBaseTest {
 
     @Test
     public void testGetElement() throws InterruptedException {
-        LOGGER.begin().info("run test method {{testGetElement}} start");
+        log.info("run test method {{testGetElement}} start");
         Thread.sleep(2000L);
         //focus on iframe
         driver.switchTo().frame("expressaddress_iframe");
@@ -71,7 +68,7 @@ public class SeleniumBaseTest {
         for (WebElement el : elements)
             System.out.println(el.getAttribute("title"));
 
-        LOGGER.begin().info("run test method {{testGetElement}} complete");
+        log.info("run test method {{testGetElement}} complete");
     }
 
 

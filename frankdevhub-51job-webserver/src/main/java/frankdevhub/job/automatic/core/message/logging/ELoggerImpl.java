@@ -18,6 +18,7 @@ import frankdevhub.job.automatic.core.message.MessageMethod;
  * @date:2019-04-20 22:54
  */
 
+@SuppressWarnings("all")
 public class ELoggerImpl extends MessageBuilder {
     private static final String COLUMN_CHAIN = "@chain";
     private static final String COLUMN_CLASS = "@class";

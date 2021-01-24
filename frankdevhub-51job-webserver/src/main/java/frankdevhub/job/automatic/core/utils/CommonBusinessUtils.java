@@ -22,6 +22,8 @@ import java.util.regex.Pattern;
  * @CreateDate: 2020/1/28 23:36
  * @Version: 1.0
  */
+
+@SuppressWarnings("all")
 public class CommonBusinessUtils {
 
     public static String getRuntimeMethodName(Integer trace) {

@@ -23,6 +23,7 @@ import java.util.regex.Pattern;
  * @Version: 1.0
  */
 
+@SuppressWarnings("all")
 public class SalaryRangeTextUtils {
 
     private String text;

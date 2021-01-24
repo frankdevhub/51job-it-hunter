@@ -27,6 +27,7 @@ import java.util.Map;
  * @date:2019-05-13 09:32
  */
 
+@SuppressWarnings("all")
 public class ExcelReaderUtils {
     public static final String OFFICE_EXCEL_2003_POSTFIX = "xls";
     public static final String OFFICE_EXCEL_2010_POSTFIX = "xlsx";

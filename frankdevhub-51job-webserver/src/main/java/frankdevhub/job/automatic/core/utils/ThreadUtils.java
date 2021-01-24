@@ -11,6 +11,7 @@ package frankdevhub.job.automatic.core.utils;
  * @date:2019-05-22 19:17
  */
 
+@SuppressWarnings("all")
 public class ThreadUtils {
     public synchronized static Thread check(String thread) {
         Thread alive = null;

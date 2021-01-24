@@ -11,6 +11,7 @@ package frankdevhub.job.automatic.core.message;
  * @date:2019-04-20 22:47
  */
 
+@SuppressWarnings("all")
 public interface IMessageSender {
     public abstract void sendMessage(MessageItem paramMessageItem);
 }

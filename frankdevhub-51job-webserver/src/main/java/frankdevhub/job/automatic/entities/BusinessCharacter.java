@@ -14,15 +14,16 @@ import java.util.Map;
  * @CreateDate: 2020/1/28 23:49
  * @Version: 1.0
  */
+@SuppressWarnings("all")
 public class BusinessCharacter {
-    private Character value;
-    private Boolean isCN_Character;
-    private Boolean isTW_Character;
-    private Boolean isEN_Character;
-    private Boolean isENCapital;
-    private Boolean isNumericCharacter;
-    private Boolean isSymbolCharacter;
-    private Map<String, Boolean> attributes;
+    private Character value; // 字符名称
+    private Boolean isCN_Character; // 是否是中文简体字符
+    private Boolean isTW_Character; // 是否是台湾地区繁体字符
+    private Boolean isEN_Character;  // 是否是英文字符
+    private Boolean isENCapital; // 是否是英语字符
+    private Boolean isNumericCharacter; // 是否是数值类计量字符
+    private Boolean isSymbolCharacter; // 是否是象形字符
+    private Map<String, Boolean> attributes; // 字符属性集合
 
     @Override
     public String toString() {
@@ -58,10 +59,8 @@ public class BusinessCharacter {
         return this;
     }
 
-    //TODO
     private void setAttributes() throws InvocationTargetException, IllegalAccessException {
         System.out.println("BusinessCharacter::setAttributes");
-
         if (null != this.attributes) {
             Class<?> clazz = this.getClass();
             Method[] methods = clazz.getDeclaredMethods();
@@ -73,8 +72,9 @@ public class BusinessCharacter {
                     Boolean value = this.attributes.get(name);
                     System.out.println("method name: " + name + " value: " + value);
 
-                    if (null != value)
+                    if (null != value) {
                         m.invoke(this, value);
+                    }
                 }
             }
         }

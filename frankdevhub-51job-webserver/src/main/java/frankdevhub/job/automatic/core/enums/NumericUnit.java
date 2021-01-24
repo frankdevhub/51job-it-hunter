@@ -16,8 +16,11 @@ import java.util.Map;
  * @CreateDate: 2020/1/28 22:56
  * @Version: 1.0
  */
+@SuppressWarnings("all")
 public enum NumericUnit {
-
+    /**
+     * 通用计量单位
+     */
     Digitis_CN('个'),
     Digitis_TW('個'),
     Ten_Digitis_CN_TW('十'),
@@ -29,13 +32,19 @@ public enum NumericUnit {
     Ten_Thousand_TW('萬'),
     Ten_Thousand_EN('W');
 
-    private Character unit;
-    private Boolean isCN_Character;
-    private Boolean isTW_Character;
-    private Boolean isEN_Character;
-    private Boolean isCapital;
-    private Map<String, Boolean> attributes;
+    private Character unit; //单位名称
+    private Boolean isCN_Character; //是否是中文简体字符
+    private Boolean isTW_Character; // 是否是中文台湾繁体字符
+    private Boolean isEN_Character; // 是否是英语字符
+    private Boolean isCapital; // 是否是首字母大写
+    private Map<String, Boolean> attributes; // 字符属性集合
 
+    /**
+     * 获取枚举是实例对象
+     *
+     * @param unit 字符名称
+     * @return 计量单位对象
+     */
     public static NumericUnit getUnitType(Character unit) {
         for (NumericUnit u : NumericUnit.values()) {
             if (u.getUnit().equals(unit))
@@ -75,7 +84,6 @@ public enum NumericUnit {
     //TODO
     private void setAttributes() {
         System.out.println("NumericUnit::setAttributes, UnitValue = " + unit + "");
-
         if (null != this.attributes) {
             Class<?> clazz = this.getClass();
             Method[] methods = clazz.getDeclaredMethods();

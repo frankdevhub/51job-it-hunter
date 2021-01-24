@@ -1,6 +1,7 @@
 package frankdevhub.job.automatic.core.utils;
 
 import frankdevhub.job.automatic.selenium.Query;
+import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
@@ -9,6 +10,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.List;
 
+@Slf4j
+@SuppressWarnings("all")
 public class WebDriverUtils {
 
     private static ExpectedCondition<Boolean> pageTitleStartsWith(final String header) {
@@ -27,13 +30,13 @@ public class WebDriverUtils {
 
     public static synchronized WebElement findWebElement(Query query) {
         WebElement element = query.findWebElement();
-        System.out.println(String.format("Find Query:[%s]", query.toString()));
+        log.info(String.format("Find Query:[%s]", query.toString()));
         return element;
     }
 
     public static synchronized List<WebElement> findWebElements(Query query) {
         List<WebElement> list = query.findWebElements();
-        System.out.println(String.format("Find Query:[%s]", query.toString()));
+        log.info(String.format("Find Query:[%s]", query.toString()));
         return list;
     }
 
@@ -47,18 +50,17 @@ public class WebDriverUtils {
 
     public static synchronized void doWaitQuery(Query query, WebDriverWait wait) {
         wait.until((ExpectedCondition<WebElement>) driver -> query.findWebElement());
-        System.out.println(String.format("Find Query:[%s]", query.toString()));
+        log.info(String.format("Find Query:[%s]", query.toString()));
     }
 
     public static synchronized void doWaitCss(String css, WebDriverWait wait) {
         wait.until((ExpectedCondition<WebElement>) driver ->
                 driver.findElement(By.cssSelector(css)));
-        System.out.println(String.format("Find element by xPath:[%s]", css));
+        log.info(String.format("Find element by xPath:[%s]", css));
     }
 
     public static synchronized void doWaitId(String id, WebDriverWait wait) {
         wait.until((ExpectedCondition<WebElement>) driver -> driver.findElement(By.id(id)));
-
-        System.out.println(String.format("Find Element with id:[%s]", id));
+        log.info(String.format("Find Element with id:[%s]", id));
     }
 }

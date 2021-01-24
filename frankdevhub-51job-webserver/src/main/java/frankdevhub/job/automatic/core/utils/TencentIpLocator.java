@@ -2,8 +2,7 @@ package frankdevhub.job.automatic.core.utils;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import frankdevhub.job.automatic.core.data.logging.Logger;
-import frankdevhub.job.automatic.core.data.logging.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -17,11 +16,11 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.net.URLEncoder;
 
+@Slf4j
+@SuppressWarnings("all")
 public class TencentIpLocator {
 
     private static final String API_KEY = "EPOBZ-NAQ36-5VZSA-MBIIB-NMB7O-SEBRQ";
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(TencentIpLocator.class);
 
     public static String[] getIpLocation(String ip) throws IOException {
         String[] location = null;
@@ -42,11 +41,11 @@ public class TencentIpLocator {
         response = httpClient.execute(httpGet);
 
         HttpEntity responseEntity = response.getEntity();
-        System.out.println(String.format("response status:[%s]", response.getStatusLine()));
+        log.info(String.format("response status:[%s]", response.getStatusLine()));
         String responseText = EntityUtils.toString(responseEntity);
         if (responseEntity != null) {
-            System.out.println(String.format("content-length:[%s]", responseEntity.getContentLength()));
-            System.out.println(String.format("response context:[%s]", responseText));
+            log.info(String.format("content-length:[%s]", responseEntity.getContentLength()));
+            log.info(String.format("response context:[%s]", responseText));
 
             JSONObject responseObj = JSON.parseObject(responseText);
             JSONObject resObj = (JSONObject) responseObj.get("result");
@@ -56,7 +55,7 @@ public class TencentIpLocator {
             BigDecimal lng = (BigDecimal) locObj.get("lng");
             location = new String[]{lat.toString(), lng.toString()};
 
-            LOGGER.begin().info(String.format("location:[%s,%s]", lat, lng));
+            log.info(String.format("location:[%s,%s]", lat, lng));
         }
 
         return location;
@@ -83,17 +82,16 @@ public class TencentIpLocator {
         response = httpClient.execute(httpGet);
 
         HttpEntity responseEntity = response.getEntity();
-        System.out.println(String.format("response status:[%s]", response.getStatusLine()));
+        log.info(String.format("response status:[%s]", response.getStatusLine()));
         String responseText = EntityUtils.toString(responseEntity);
         if (responseEntity != null) {
-            System.out.println(String.format("content-length:[%s]", responseEntity.getContentLength()));
-            System.out.println(String.format("response context:[%s]", responseText));
+            log.info(String.format("content-length:[%s]", responseEntity.getContentLength()));
+            log.info(String.format("response context:[%s]", responseText));
 
             JSONObject responseObj = JSON.parseObject(responseText);
             JSONObject resObj = (JSONObject) responseObj.get("result");
             address = (String) resObj.get("address");
-
-            LOGGER.begin().info(String.format("address:[%s]", address));
+            log.info(String.format("address:[%s]", address));
         }
 
         return address;

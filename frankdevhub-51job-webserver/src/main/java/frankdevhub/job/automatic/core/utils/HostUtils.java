@@ -4,7 +4,7 @@ import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.util.Enumeration;
-
+@SuppressWarnings("all")
 public class HostUtils {
     public static String getMyIp() {
         String localip = null;

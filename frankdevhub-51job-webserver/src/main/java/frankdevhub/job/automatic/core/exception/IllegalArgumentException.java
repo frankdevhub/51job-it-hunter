@@ -10,6 +10,7 @@ package frankdevhub.job.automatic.core.exception;
  * @CreateDate: 2020/1/28 23:05
  * @Version: 1.0
  */
+@SuppressWarnings("all")
 public class IllegalArgumentException extends BusinessException {
 
     public IllegalArgumentException(String message) {

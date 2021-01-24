@@ -9,22 +9,23 @@ import org.springframework.stereotype.Component;
 @Component
 public class SpringUtils implements ApplicationContextAware {
 
-	@Autowired
-	private static ApplicationContext applicationContext;
+    @Autowired
+    private static ApplicationContext applicationContext;
 
-	public static ApplicationContext getApplicationContext() {
-		return applicationContext;
-	}
+    public static ApplicationContext getApplicationContext() {
+        return applicationContext;
+    }
 
-	public void setApplicationContext(ApplicationContext context) throws BeansException {
-		applicationContext = context;
-	}
+    @Override
+    public void setApplicationContext(ApplicationContext context) throws BeansException {
+        applicationContext = context;
+    }
 
-	public static <T> T getBean(@SuppressWarnings("rawtypes") Class T) {
-		return (T) applicationContext.getBean(T);
-	}
+    public static <T> T getBean(@SuppressWarnings("rawtypes") Class T) {
+        return (T) applicationContext.getBean(T);
+    }
 
-	public static <T> T getBean(String name) {
-		return (T) applicationContext.getBean(name);
-	}
+    public static <T> T getBean(String name) {
+        return (T) applicationContext.getBean(name);
+    }
 }

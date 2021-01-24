@@ -1,7 +1,6 @@
 package utils;
 
-import frankdevhub.job.automatic.core.data.logging.Logger;
-import frankdevhub.job.automatic.core.data.logging.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -17,35 +16,29 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
  * @Version: 1.0
  */
 
+@Slf4j
 @RunWith(SpringJUnit4ClassRunner.class)
 public class WebDriverInstallerTest {
 
-    private final Logger LOGGER = LoggerFactory.getLogger(WebDriverInstallerTest.class);
-
     @Test
     public void testGetOperatingSystem() {
-        LOGGER.begin().info("runt test method {{testGetOperatingSystem}} start");
+        log.info("runt test method {{testGetOperatingSystem}} start");
         String info = System.getProperty("os.name").toUpperCase();
         System.out.println("System.getProperty(\"os.name\") = " + info);
-
-        LOGGER.begin().info("runt test method {{testGetOperatingSystem}} complete");
+        log.info("runt test method {{testGetOperatingSystem}} complete");
     }
 
     @Test
     public void testGetSystemArchitecture() {
-        LOGGER.begin().info("runt test method {{testGetSystemArchitecture}} start");
+        log.info("runt test method {{testGetSystemArchitecture}} start");
         String info = System.getProperty("os.arch").toUpperCase();
         System.out.println("System.getProperty(\"os.arch\") = " + info);
-
-        LOGGER.begin().info("runt test method {{testGetSystemArchitecture}} complete");
+        log.info("runt test method {{testGetSystemArchitecture}} complete");
     }
-
 
     @Test
     public void testGetAllChromeDriverResources() {
-        LOGGER.begin().info("runt test method {{testGetAllChromeDriverResources}} start");
-
-
-        LOGGER.begin().info("runt test method {{testGetAllChromeDriverResources}} complete");
+        log.info("runt test method {{testGetAllChromeDriverResources}} start");
+        log.info("runt test method {{testGetAllChromeDriverResources}} complete");
     }
 }

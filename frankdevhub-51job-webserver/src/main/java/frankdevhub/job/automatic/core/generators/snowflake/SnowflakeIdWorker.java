@@ -1,5 +1,6 @@
 package frankdevhub.job.automatic.core.generators.snowflake;
 
+@SuppressWarnings("all")
 public class SnowflakeIdWorker {
 
     private final static long twepoch = 1483200000000l;

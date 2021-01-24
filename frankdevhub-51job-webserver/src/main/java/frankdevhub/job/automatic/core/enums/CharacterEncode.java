@@ -10,7 +10,12 @@ package frankdevhub.job.automatic.core.enums;
  * @CreateDate: 2020/1/29 4:27
  * @Version: 1.0
  */
+
+@SuppressWarnings("all")
 public enum CharacterEncode {
+    /**
+     * 通用国际字符编码
+     */
     GB2312("GB2312"),
     ASCII("ASCII"),
     MBCS("MBCS"),
@@ -20,7 +25,7 @@ public enum CharacterEncode {
     UTF8("UTF-8"),
     Base64("Base64");
 
-    private String codeName;
+    private String codeName; //编码中文名称
 
     public String getCodeName() {
         return codeName;

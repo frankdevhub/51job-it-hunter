@@ -55,13 +55,20 @@ public class JobPlatformClient {
     @Autowired
     private JobSearchResultService jobSearchResultService;
 
+    /**
+     * 获取缓存的会话信息,直接登录
+     *
+     * @param configuration Chrome浏览器配置对象
+     * @return 客户端浏览器会话对象
+     * @throws Exception
+     **/
     public Set<Cookie> getPlatformCookie(ChromeConfiguration configuration) throws Exception {
         DriverBase.instantiateDriverObject();
 
         log.info("using cache path: " + configuration.getSeleniumCacheDirectoryPath());
         WebDriver driver = DriverBase.getDriver(configuration.getSeleniumCacheDirectoryPath());
         driver.get(BusinessConstants.JOB_PLATFORM_HOMEPAGE);
-        WebDriverUtils.doWaitTitleContains("招聘", new WebDriverWait(driver, 3));
+        WebDriverUtils.doWaitTitleContains(BusinessConstants.JOB_PLATFORM_HOMEPAGE_TITLE_KEY_1, new WebDriverWait(driver, 3));
 
         log.info("navigate to platform homepage complete");
         log.info("start to get web cookie");
@@ -84,7 +91,6 @@ public class JobPlatformClient {
 
         String pageContext = null;
         CloseableHttpClient httpClient = null;
-
         Long start = System.currentTimeMillis();
         try {
             // httpClient = HttpClientBuilder.create().build();
@@ -117,13 +123,10 @@ public class JobPlatformClient {
         } else {
             throw new RuntimeException("url regex cannot match page url");
         }
-
         StringBuffer buffer = new StringBuffer(url);
         buffer.replace(matcher.start(1), matcher.end(1), previous);
         String previousPage = buffer.toString();
-
         log.info("previous page url = " + previousPage);
-
         return previousPage;
     }
 
@@ -132,20 +135,16 @@ public class JobPlatformClient {
         Matcher matcher = Pattern.compile(regex).matcher(url);
         String index;
         String next;
-
         if (matcher.find()) {
             index = matcher.group(1);
             next = new Integer(Integer.parseInt(index) + 1).toString();
         } else {
             throw new RuntimeException("url regex cannot match page url");
         }
-
         StringBuffer buffer = new StringBuffer(url);
         buffer.replace(matcher.start(1), matcher.end(1), next);
         String nextPage = buffer.toString();
-
         log.info("next page url = " + nextPage);
-
         return nextPage;
     }
 

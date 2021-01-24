@@ -11,6 +11,7 @@ package frankdevhub.job.automatic.core.message;
  * @date:2019-04-20 22:53
  */
 
+@SuppressWarnings("all")
 public enum MessageMethod {
     DELETE, EVENT, GET, PATCH, POST, ERROR, PUT;
 

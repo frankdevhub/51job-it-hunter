@@ -1,7 +1,6 @@
 package utils;
 
-import frankdevhub.job.automatic.core.data.logging.Logger;
-import frankdevhub.job.automatic.core.data.logging.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -20,6 +19,7 @@ import java.util.regex.Pattern;
  * @Version: 1.0
  */
 
+@Slf4j
 @RunWith(SpringJUnit4ClassRunner.class)
 public class SalaryRangeStringTest {
 
@@ -29,11 +29,8 @@ public class SalaryRangeStringTest {
                     "(?<max>(([1-9]\\d*\\.?\\d+)|(0\\.\\d*[1-9])|(\\d+))?)" +
                     "(?<numeric>[\\u4e00-\\u9fa5]?)(/?)(?<date>[\\u4e00-\\u9fa5]?)";
 
-    private final Logger LOGGER = LoggerFactory.getLogger(SalaryRangeStringTest.class);
-
     private void testExample(String example) {
         Matcher matcher = Pattern.compile(rangeRegex).matcher(example);
-
         System.out.println("using example: " + example + "");
         if (matcher.find()) {
 
@@ -58,8 +55,7 @@ public class SalaryRangeStringTest {
 
     @Test
     public void testExamplesUsingRegex_1() {
-        LOGGER.begin().info("runt test method {{testExamplesUsingRegex_1}} start");
-
+        log.info("runt test method {{testExamplesUsingRegex_1}} start");
         String[] examples = new String[]{"150元/天", "2.0元/天", "250 元/天", "56.78 元/天"};
         try {
             for (String example : examples)
@@ -67,15 +63,13 @@ public class SalaryRangeStringTest {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        LOGGER.begin().info("runt test method {{testExamplesUsingRegex_1}} start");
+        log.info("runt test method {{testExamplesUsingRegex_1}} start");
     }
 
 
     @Test
     public void testExamplesUsingRegex() {
-        LOGGER.begin().info("runt test method {{testExamplesUsingRegex}} start");
-
+        log.info("runt test method {{testExamplesUsingRegex}} start");
         String[] examples = new String[]{"2-3万/月", "2——7万/年", "23.9-3万/月", "12000-15000/月", "23.0-334.98"};
         try {
             for (String example : examples)
@@ -83,7 +77,6 @@ public class SalaryRangeStringTest {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        LOGGER.begin().info("runt test method {{testExamplesUsingRegex}} complete");
+        log.info("runt test method {{testExamplesUsingRegex}} complete");
     }
 }

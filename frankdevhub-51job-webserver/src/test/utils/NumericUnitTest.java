@@ -3,6 +3,7 @@ package utils;
 import frankdevhub.job.automatic.core.data.logging.Logger;
 import frankdevhub.job.automatic.core.data.logging.LoggerFactory;
 import frankdevhub.job.automatic.core.enums.NumericUnit;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -18,6 +19,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
  * @Version: 1.0
  */
 
+@Slf4j
 @RunWith(SpringJUnit4ClassRunner.class)
 public class NumericUnitTest {
 

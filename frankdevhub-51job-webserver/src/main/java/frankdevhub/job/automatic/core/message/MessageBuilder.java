@@ -18,6 +18,7 @@ import frankdevhub.job.automatic.core.utils.HostUtils;
  * @date:2019-04-20 22:49
  */
 
+@SuppressWarnings("all")
 public class MessageBuilder {
     private static final String COLUMN_SERVER_IP = "@serverIp";
     private static final String COLUMN_TIMESTAMP = "@timestamp";

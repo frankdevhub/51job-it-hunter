@@ -8,6 +8,7 @@ import frankdevhub.job.automatic.core.utils.WebDriverUtils;
 import frankdevhub.job.automatic.selenium.DriverBase;
 import frankdevhub.job.automatic.selenium.config.ChromeConfiguration;
 import frankdevhub.job.automatic.web.clients.JobPlatformClient;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.Cookie;
@@ -34,10 +35,9 @@ import java.util.regex.Pattern;
  * @Version: 1.0
  */
 
+@Slf4j
 @RunWith(SpringJUnit4ClassRunner.class)
 public class JobPlatformClientTest {
-
-    private final Logger LOGGER = LoggerFactory.getLogger(JobPlatformClientTest.class);
 
     private final String TEST_RESULT_PAGE = "https://search.51job.com/list/020000,000000,0000,00,9,99,java,2,1.html?lang=c&stype=&postchannel=0000&workyear=99&cotype=99&degreefrom=99&jobterm=99&companysize=99&providesalary=99&lonlat=0%2C0&radius=-1&ord_field=0&confirmdate=9&fromType=&dibiaoid=0&address=&line=&specialarea=00&from=&welfare=";
     private final String TEST_CONTENT = "<img http://sss src=\"http://www.foo.com/a.png\">http://sss/";
@@ -45,17 +45,17 @@ public class JobPlatformClientTest {
 
     @Test
     public void testAccessCacheDirectory() throws IOException {
-        LOGGER.begin().info("run test method {{testAccessCacheDirectory}} start");
+        log.info("run test method {{testAccessCacheDirectory}} start");
         Resource res = new ClassPathResource("src/resources/cache/temp_cookie.dat");
         InputStream in = res.getInputStream();
         Assert.notNull(in, "resource document may not exist");
 
-        LOGGER.begin().info("run test method {{testAccessCacheDirectory}} end");
+        log.info("run test method {{testAccessCacheDirectory}} end");
     }
 
     @Test
     public void testReadTempCookieDocument() throws IOException, ClassNotFoundException {
-        LOGGER.begin().info("run test method {{testReadTempCookieDocument}} start");
+        log.info("run test method {{testReadTempCookieDocument}} start");
         File temp = new File(new ClassPathResource("src/main/resources/cache/temp_cookie.dat").getPath());
         Assert.notNull(temp, "temp file not found");
 
@@ -74,7 +74,7 @@ public class JobPlatformClientTest {
             System.out.println("\n");
         }
 
-        LOGGER.begin().info("run test method {{testReadTempCookieDocument}} end");
+        log.info("run test method {{testReadTempCookieDocument}} end");
     }
 
     //cookies when not login
@@ -103,7 +103,7 @@ public class JobPlatformClientTest {
 
     @Test
     public void testGetPlatformCookie() throws Exception {
-        LOGGER.begin().info("run test method {{testGetPlatformCookie}} start");
+        log.info("run test method {{testGetPlatformCookie}} start");
         ChromeConfiguration configuration = ChromeConfiguration.newInstance(false);
         configuration.setWebDriverPath(ChromeConfiguration.CHROME_DRIVER_PATH)
                 .setSeleniumCacheFileName(ChromeConfiguration.DEFAULT_SELENIUM_CACHE_NAME)
@@ -152,16 +152,16 @@ public class JobPlatformClientTest {
         oos.close();
         fos.close();
 
-        LOGGER.begin().info("run test method {{testGetPlatformCookie}} complete");
+        log.info("run test method {{testGetPlatformCookie}} complete");
     }
 
     @Test
     public void testGetJobSearchResult() throws IOException, XpathSyntaxErrorException {
-        LOGGER.begin().info("run test method {{testGetJobSearchResult}} start");
+        log.info("run test method {{testGetJobSearchResult}} start");
         JobPlatformClient client = new JobPlatformClient();
         client.getJobSearchResult(TEST_RESULT_PAGE);
 
-        LOGGER.begin().info("run test method {{testGetJobSearchResult}} complete");
+        log.info("run test method {{testGetJobSearchResult}} complete");
     }
 
     @Test
@@ -184,7 +184,7 @@ public class JobPlatformClientTest {
 
     @Test
     public void testPageUrlRegex() {
-        LOGGER.begin().info("run test method {{testGetPreviousPageUrl}} start");
+        log.info("run test method {{testGetPreviousPageUrl}} start");
         String url = TEST_RESULT_PAGE;
         Matcher matcher = Pattern.compile(SEARCH_RESULT_REGEX).matcher(url);
         if (matcher.find()) {
@@ -198,12 +198,12 @@ public class JobPlatformClientTest {
         } else
             throw new RuntimeException("search result page url can not match regex example");
 
-        LOGGER.begin().info("run test method {{testGetPreviousPageUrl}} complete");
+        log.info("run test method {{testGetPreviousPageUrl}} complete");
     }
 
     @Test
     public void testGetPreviousAndNextPageUrl() {
-        LOGGER.begin().info("run test method {{testGetPreviousAndNextPageUrl}} start");
+        log.info("run test method {{testGetPreviousAndNextPageUrl}} start");
 
         String url = TEST_RESULT_PAGE;
         StringBuffer previousIndexUrl = new StringBuffer(url);
@@ -228,6 +228,6 @@ public class JobPlatformClientTest {
         } else
             throw new RuntimeException("search result page url can not match regex example");
 
-        LOGGER.begin().info("run test method {{testGetPreviousAndNextPageUrl}} complete");
+        log.info("run test method {{testGetPreviousAndNextPageUrl}} complete");
     }
 }

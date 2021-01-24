@@ -5,6 +5,7 @@ import cn.wanghaomiao.xpath.model.JXDocument;
 import cn.wanghaomiao.xpath.model.JXNode;
 import frankdevhub.job.automatic.core.data.logging.Logger;
 import frankdevhub.job.automatic.core.data.logging.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -32,7 +33,7 @@ import java.util.List;
  * @CreateDate: 2020/2/13 22:36
  * @Version: 1.0
  */
-
+@Slf4j
 @RunWith(SpringJUnit4ClassRunner.class)
 public class JobPlatformSearchPageMainTest_1 {
 
@@ -44,7 +45,7 @@ public class JobPlatformSearchPageMainTest_1 {
 
     @Before
     public void init() throws IOException {
-        LOGGER.begin().info("invoke {{JobPlatformSearchPageMainTest_1::init()}}");
+        log.info("invoke {{JobPlatformSearchPageMainTest_1::init()}}");
 
         Long start = System.currentTimeMillis();
         String responseText = null;
@@ -77,7 +78,7 @@ public class JobPlatformSearchPageMainTest_1 {
 
     @Test
     public void testParseByUsingJSoupSupport() {
-        LOGGER.begin().info("run test method {{testParseByUsingJSoupSupport}} start");
+        log.info("run test method {{testParseByUsingJSoupSupport}} start");
 
         Document document = Jsoup.parse(this.pageContext);
         String title = document.getElementsByTag("title").html();
@@ -100,6 +101,6 @@ public class JobPlatformSearchPageMainTest_1 {
         }
 
 
-        LOGGER.begin().info("run test method {{testParseByUsingJSoupSupport}} complete");
+        log.info("run test method {{testParseByUsingJSoupSupport}} complete");
     }
 }

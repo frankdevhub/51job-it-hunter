@@ -4,6 +4,7 @@ import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+@SuppressWarnings("all")
 public class SHA256Encrypt {
 
     public static String getSHA256String(String str) {

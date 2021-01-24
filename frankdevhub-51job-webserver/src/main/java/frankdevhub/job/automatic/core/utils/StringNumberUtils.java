@@ -1,5 +1,5 @@
 package frankdevhub.job.automatic.core.utils;
-
+@SuppressWarnings("all")
 public class StringNumberUtils {
     private static final String[] units = {"千", "百", "十", "万"};
     private static final String[] bigUnits = {"万", "亿"};

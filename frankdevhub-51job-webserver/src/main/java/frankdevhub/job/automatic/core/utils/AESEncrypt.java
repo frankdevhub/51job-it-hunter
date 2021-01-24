@@ -14,7 +14,7 @@ import java.io.UnsupportedEncodingException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 
-
+@SuppressWarnings("all")
 public class AESEncrypt {
 
     private static final String PASSWORD = "sjlexpress@admin";

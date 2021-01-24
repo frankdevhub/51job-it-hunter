@@ -1,8 +1,7 @@
 package utils;
 
-import frankdevhub.job.automatic.core.data.logging.Logger;
-import frankdevhub.job.automatic.core.data.logging.LoggerFactory;
 import frankdevhub.job.automatic.core.utils.CommonBusinessUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -20,10 +19,9 @@ import java.lang.reflect.Method;
  * @Version: 1.0
  */
 
+@Slf4j
 @RunWith(SpringJUnit4ClassRunner.class)
 public class CommonBusinessUtilsTest {
-
-    private final Logger LOGGER = LoggerFactory.getLogger(CommonBusinessUtilsTest.class);
 
     private void printTestResult(Boolean res, Character c) {
         System.out.println("Test Character = " + c + " Test Result: " + res.toString() + "");
@@ -31,38 +29,34 @@ public class CommonBusinessUtilsTest {
 
     @Test
     public void testNumericUnitConstructor() {
-        LOGGER.begin().info("run test method {{testNumericUnitConstructor}} start");
-
-        LOGGER.begin().info("run test method {{testNumericUnitConstructor}} start");
+        log.info("run test method {{testNumericUnitConstructor}} start");
+        log.info("run test method {{testNumericUnitConstructor}} start");
     }
 
     @Test
     public void testGetRuntimeMethodName() {
-        LOGGER.begin().info("run test method {{testGetRuntimeMethodName}} start");
-
+        log.info("run test method {{testGetRuntimeMethodName}} start");
         Integer defineTrace = 1;
         String methodName = CommonBusinessUtils.getRuntimeMethodName(defineTrace);
         System.out.println("test result-> current runtime method name: " + methodName);
-
-        LOGGER.begin().info("run test method {{testGetRuntimeMethodName}} complete");
+        log.info("run test method {{testGetRuntimeMethodName}} complete");
     }
 
 
     @Test
     public void testGetBusinessUtilsDeclaredMethods() {
-        LOGGER.begin().info("run test method {{getBusinessUtilsDeclaredMethods}} start");
+        log.info("run test method {{getBusinessUtilsDeclaredMethods}} start");
         Class<?> clazz = CommonBusinessUtils.class;
         Method[] methods = clazz.getDeclaredMethods();
-        for (Method m : methods)
+        for (Method m : methods) {
             System.out.println("method name: " + m.getName());
-
-        LOGGER.begin().info("run test method {{getBusinessUtilsDeclaredMethods}} complete");
+        }
+        log.info("run test method {{getBusinessUtilsDeclaredMethods}} complete");
     }
 
     @Test
     public void testIsSimpleChinese() {
-        LOGGER.begin().info("run test method {{testIsSimpleChinese}} start");
-
+        log.info("run test method {{testIsSimpleChinese}} start");
         Character CN_CHAR = '个';
         Character TW_CHAR = '個';
         Character EN_CHAR = 'h';
@@ -104,21 +98,18 @@ public class CommonBusinessUtilsTest {
         } finally {
             printTestResult(value, NUM_CHAR);
         }
-
-
-        LOGGER.begin().info("run test method {{testIsSimpleChinese}} complete");
+        log.info("run test method {{testIsSimpleChinese}} complete");
     }
 
     @Test
     public void testIsSymbolCharacter() {
-        LOGGER.begin().info("run test method {{testIsSymbolCharacter}} start");
+        log.info("run test method {{testIsSymbolCharacter}} start");
         Character[] characters = new Character[]{'=', '-', '.', '{', '【', '、', '~', '`', '·', '2', 'o', '个'};
         for (Character c : characters) {
             Boolean value = CommonBusinessUtils.isSymbolCharacter(c);
             System.out.println("char = " + c + " value = " + value);
         }
-
-        LOGGER.begin().info("run test method {{testIsSymbolCharacter}} complete");
+        log.info("run test method {{testIsSymbolCharacter}} complete");
 
     }
 
