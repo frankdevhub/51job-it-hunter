@@ -379,7 +379,6 @@
         </where>
     </sql>
 
-
     <select id="findPageWithResult" parameterType="frankdevhub.job.automatic.dto.JobSearchResultQuery"
             resultMap="BaseResultMap">
         select
@@ -389,12 +388,10 @@
         limit #{start},#{pageSize}
     </select>
 
-
     <select id="findPageWithCount" parameterType="frankdevhub.job.automatic.dto.JobSearchResultQuery"
             resultType="Integer">
         select count(1)
         from platform_search_result
         <include refid="findPageWithWhere"/>
     </select>
-
 </mapper>

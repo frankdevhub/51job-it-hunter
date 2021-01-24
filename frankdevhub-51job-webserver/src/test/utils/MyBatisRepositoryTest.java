@@ -29,7 +29,6 @@ public class MyBatisRepositoryTest {
         int year = 2019;
         int month = 12;
         int day = 15;
-
         Long[] range = myBatisRepository.getTimeStampRange(year, month, day);
         Long zeroT = range[0];
         Long endT = range[1];
@@ -37,10 +36,8 @@ public class MyBatisRepositoryTest {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String zeroTString = dateFormat.format(zeroT);
         String endTString = dateFormat.format(endT);
-
-        System.out.println("zeroTString = " + zeroTString + "");
-        System.out.println("endTString = " + endTString + "");
-
+        log.info("zeroTString = " + zeroTString + "");
+        log.info("endTString = " + endTString + "");
         log.info("run test method {{testGetTimeStampRange_1}} complete");
     }
 
@@ -49,7 +46,6 @@ public class MyBatisRepositoryTest {
     public void testGetTodayTimeStampRange() {
         log.info("run test method {{testGetTodayTimeStampRange}} start");
         Long[] range = myBatisRepository.getTodayTimeStampRange();
-
         Long zeroT = range[0];
         Long endT = range[1];
 
@@ -57,10 +53,8 @@ public class MyBatisRepositoryTest {
         String zeroTString = dateFormat.format(zeroT);
         String endTString = dateFormat.format(endT);
 
-        System.out.println("zeroTString = " + zeroTString + "");
-        System.out.println("endTString = " + endTString + "");
-
-
+        log.info("zeroTString = " + zeroTString + "");
+        log.info("endTString = " + endTString + "");
         log.info("run test method {{testGetTodayTimeStampRange}} complete");
     }
 
@@ -72,14 +66,11 @@ public class MyBatisRepositoryTest {
 
         Long zeroT = range[0];
         Long endT = range[1];
-
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String zeroTString = dateFormat.format(zeroT);
         String endTString = dateFormat.format(endT);
-
-        System.out.println("zeroTString = " + zeroTString + "");
-        System.out.println("endTString = " + endTString + "");
-
+        log.info("zeroTString = " + zeroTString + "");
+        log.info("endTString = " + endTString + "");
         log.info("run test method {{testGetTimeStampRange}} complete");
     }
 }

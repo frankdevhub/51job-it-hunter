@@ -29,7 +29,7 @@ public class MybatisConfig implements TransactionManagementConfigurer {
         bean.setTypeAliasesPackage("frankdevhub.job.automatic.mapper");
         ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
         try {
-            bean.setMapperLocations(resolver.getResources("classpath:mapper/*.xml"));
+            bean.setMapperLocations(resolver.getResources("classpath:mybatis/*.xml"));
             return bean.getObject();
         } catch (Exception e) {
             e.printStackTrace();

@@ -31,7 +31,7 @@ public class SalaryRangeStringTest {
 
     private void testExample(String example) {
         Matcher matcher = Pattern.compile(rangeRegex).matcher(example);
-        System.out.println("using example: " + example + "");
+        log.info("using example: " + example + "");
         if (matcher.find()) {
 
             String match_0 = matcher.group(0);
@@ -41,16 +41,16 @@ public class SalaryRangeStringTest {
             String match_4 = matcher.group("numeric");
             String match_5 = matcher.group("date");
 
-            System.out.println("match_0 = " + match_0);
-            System.out.println("match_1 = " + match_1);
-            System.out.println("match_2 = " + match_2);
-            System.out.println("match_3 = " + match_3);
-            System.out.println("match_4 = " + match_4);
-            System.out.println("match_5 = " + match_5);
+            log.info("match_0 = " + match_0);
+            log.info("match_1 = " + match_1);
+            log.info("match_2 = " + match_2);
+            log.info("match_3 = " + match_3);
+            log.info("match_4 = " + match_4);
+            log.info("match_5 = " + match_5);
 
         } else
-            System.out.println("no matched element found !!!");
-        System.out.println("\n");
+            log.info("no matched element found !!!");
+        log.info("\n");
     }
 
     @Test

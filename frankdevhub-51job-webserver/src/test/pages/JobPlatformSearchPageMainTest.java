@@ -1,8 +1,6 @@
 package pages;
 
 import frankdevhub.job.automatic.JobWebAutoService;
-import frankdevhub.job.automatic.core.data.logging.Logger;
-import frankdevhub.job.automatic.core.data.logging.LoggerFactory;
 import frankdevhub.job.automatic.web.pages.JobPlatformSearchPage;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
@@ -21,7 +19,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
  * @Version: 1.0
  */
 @Slf4j
-@RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = JobWebAutoService.class)
 public class JobPlatformSearchPageMainTest {
 
@@ -30,10 +27,8 @@ public class JobPlatformSearchPageMainTest {
     @Test
     public void doPatrolTestOnePageOnly() throws InterruptedException {
         log.info("run test method {{doPatrolTestOnePageOnly}} start");
-
         JobPlatformSearchPage patrolService = new JobPlatformSearchPage(Boolean.FALSE, TEST_SEARCH_KEY);
         patrolService.startSearchResultPatrol();
-
         log.info("run test method {{doPatrolTestOnePageOnly}} complete");
     }
 }

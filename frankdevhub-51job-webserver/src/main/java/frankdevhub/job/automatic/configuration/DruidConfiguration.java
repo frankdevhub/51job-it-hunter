@@ -20,6 +20,7 @@ import org.springframework.context.annotation.Configuration;
  * @Version: 1.0
  */
 @Configuration
+@SuppressWarnings("all")
 public class DruidConfiguration {
 
     @ConditionalOnClass(DruidDataSource.class)

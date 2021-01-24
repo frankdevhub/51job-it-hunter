@@ -29,14 +29,12 @@ public class ResourceDownloadTest {
     private static final String RESOURCE_INDEX = "http://npm.taobao.org/mirrors/chromedriver/2.0/chromedriver_win32.zip";
     private static final String RESOURCE_INDEX_1 = "http://www.frankdevhub.site/robots.txt";
 
-
     @Test
     public void testGetFileName() {
-
         log.info("runt test method {{testGetFileName}} start");
+
         String url = RESOURCE_INDEX;
         System.out.println("url = " + RESOURCE_INDEX);
-
         String fileName = url.substring(url.lastIndexOf("/") + 1);
         System.out.println("fileName = " + fileName);
 
@@ -53,14 +51,12 @@ public class ResourceDownloadTest {
         URL url = new URL(path);
         HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
         int code = urlConnection.getResponseCode();
-
         System.out.println("code = " + code);
         if (code != HttpURLConnection.HTTP_OK)
             throw new BusinessException("cannot read remote file");
 
         System.out.println("start to download");
         Long start = System.currentTimeMillis();
-
         DataInputStream in = new DataInputStream(urlConnection.getInputStream());
         DataOutputStream out = new DataOutputStream(new FileOutputStream(savePath));
         byte[] buffer = new byte[2048];
@@ -82,11 +78,9 @@ public class ResourceDownloadTest {
         }
     }
 
-
     @Test
     public void testDownloadByDataInputStream() {
         log.info("runt test method {{testDownloadByDataInputStream}} start");
-
         String[] examples = new String[]{RESOURCE_INDEX, RESOURCE_INDEX_1};
         for (String ex : examples) {
             try {
@@ -95,7 +89,6 @@ public class ResourceDownloadTest {
                 e.printStackTrace();
             }
         }
-
         log.info("runt test method {{testDownloadByDataInputStream}} complete");
     }
 }

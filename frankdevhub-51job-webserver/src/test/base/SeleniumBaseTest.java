@@ -1,15 +1,14 @@
 package base;
 
+import frankdevhub.job.automatic.JobWebAutoService;
 import frankdevhub.job.automatic.selenium.DriverBase;
-import frankdevhub.job.automatic.selenium.Query;
 import frankdevhub.job.automatic.web.pages.JobPlatformSearchPage;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.openqa.selenium.WebDriver;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.boot.test.context.SpringBootTest;
 
 /**
  * <p>Title:@ClassName SeleniumBaseTest.java</p>
@@ -23,12 +22,11 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
  */
 
 @Slf4j
-@RunWith(SpringJUnit4ClassRunner.class)
+@SpringBootTest(classes = JobWebAutoService.class)
 public class SeleniumBaseTest {
 
-    private WebDriver driver;
-    private Query elementsList;
-    private static final String SELENIUM_TEST_CACHE_PATH = "C:/Automation/junit-selenium-test";
+    private WebDriver driver; //浏览器驱动对象
+    private static final String SELENIUM_TEST_CACHE_PATH = "C:/Automation/junit-selenium-test"; //本地测试默认配置的浏览器缓存地址
 
     @Autowired
     private static JobPlatformSearchPage jobPlatformSearchPage;
@@ -42,8 +40,9 @@ public class SeleniumBaseTest {
     public void init() throws Exception {
         Long start = System.currentTimeMillis();
         DriverBase.instantiateDriverObject();
-        driver = DriverBase.getDriver(SELENIUM_TEST_CACHE_PATH);
+        driver = DriverBase.getDriver(SELENIUM_TEST_CACHE_PATH); //实例化浏览器驱动对象
         Long current = System.currentTimeMillis();
+        //测试计量并输出浏览器驱动加载的时间
         log.info(String.format("Chrome Driver instance initialize complete, cost:%s sec", (current - start) / 1000));
     }
 
@@ -54,6 +53,7 @@ public class SeleniumBaseTest {
      */
     @Test
     public void testSpringBootEnv() throws InterruptedException {
+        //测试页面扫描解析流程
         jobPlatformSearchPage.startSearchResultPatrol();
     }
 

@@ -2,8 +2,6 @@ package clients;
 
 import cn.wanghaomiao.xpath.exception.XpathSyntaxErrorException;
 import frankdevhub.job.automatic.core.constants.BusinessConstants;
-import frankdevhub.job.automatic.core.data.logging.Logger;
-import frankdevhub.job.automatic.core.data.logging.LoggerFactory;
 import frankdevhub.job.automatic.core.utils.WebDriverUtils;
 import frankdevhub.job.automatic.selenium.DriverBase;
 import frankdevhub.job.automatic.selenium.config.ChromeConfiguration;
@@ -67,39 +65,15 @@ public class JobPlatformClientTest {
         fis.close();
 
         for (Cookie c : cookies) {
-            System.out.println("name = " + c.getName());
-            System.out.println("path = " + c.getPath());
-            System.out.println("value = " + c.getValue());
+            log.info("name = " + c.getName());
+            log.info("path = " + c.getPath());
+            log.info("value = " + c.getValue());
 
-            System.out.println("\n");
+            log.info("\n");
         }
 
         log.info("run test method {{testReadTempCookieDocument}} end");
     }
-
-    //cookies when not login
-    //***************************************************************************************************************************************
-    // navigate to platform homepage complete
-    //start to get web cookie
-    //time cost: 103 ms
-    //cookie properties:
-    //name = nsearch
-    //path = /
-    //value = jobarea%3D%26%7C%26ord_field%3D%26%7C%26recentSearch0%3D%26%7C%26recentSearch1%3D%26%7C%26recentSearch2%3D%26%7C%26recentSearch3%3D%26%7C%26recentSearch4%3D%26%7C%26collapse_expansion%3D
-    //
-    //name = search
-    //path = /
-    //value = jobarea%7E%60020000%7C%21ord_field%7E%600%7C%21recentSearch0%7E%60020000%A1%FB%A1%FA000000%A1%FB%A1%FA0000%A1%FB%A1%FA00%A1%FB%A1%FA99%A1%FB%A1%FA%A1%FB%A1%FA99%A1%FB%A1%FA99%A1%FB%A1%FA99%A1%FB%A1%FA99%A1%FB%A1%FA9%A1%FB%A1%FA99%A1%FB%A1%FA%A1%FB%A1%FA0%A1%FB%A1%FAjava%A1%FB%A1%FA2%A1%FB%A1%FA1%7C%21recentSearch1%7E%60020000%A1%FB%A1%FA000000%A1%FB%A1%FA0000%A1%FB%A1%FA00%A1%FB%A1%FA99%A1%FB%A1%FA%A1%FB%A1%FA99%A1%FB%A1%FA99%A1%FB%A1%FA99%A1%FB%A1%FA99%A1%FB%A1%FA9%A1%FB%A1%FA99%A1%FB%A1%FA%A1%FB%A1%FA0%A1%FB%A1%FA%A1%FB%A1%FA2%A1%FB%A1%FA1%7C%21recentSearch2%7E%60020000%A1%FB%A1%FA000000%A1%FB%A1%FA0000%A1%FB%A1%FA00%A1%FB%A1%FA99%A1%FB%A1%FA%A1%FB%A1%FA99%A1%FB%A1%FA99%A1%FB%A1%FA99%A1%FB%A1%FA99%A1%FB%A1%FA9%A1%FB%A1%FA99%A1%FB%A1%FA%A1%FB%A1%FA0%A1%FB%A1%FA%C9%CF%BA%A3%BD%DD%C0%FB%BB%F5%D4%CB%D3%D0%CF%DE%B9%AB%CB%BE%A1%FB%A1%FA2%A1%FB%A1%FA1%7C%21recentSearch3%7E%60360000%A1%FB%A1%FA000000%A1%FB%A1%FA0000%A1%FB%A1%FA00%A1%FB%A1%FA99%A1%FB%A1%FA%A1%FB%A1%FA99%A1%FB%A1%FA99%A1%FB%A1%FA99%A1%FB%A1%FA99%A1%FB%A1%FA9%A1%FB%A1%FA99%A1%FB%A1%FA%A1%FB%A1%FA0%A1%FB%A1%FA%C9%CF%BA%A3%BD%DD%C0%FB%BB%F5%D4%CB%D3%D0%CF%DE%B9%AB%CB%BE%A1%FB%A1%FA2%A1%FB%A1%FA1%7C%21
-    //
-    //name = 51job
-    //path = /
-    //value = cenglish%3D0%26%7C%26
-    //
-    //name = guid
-    //path = /
-    //value = 5006ef6ea365e3268bd6afde0846a758
-    //
-    //**********************************************************************************************************************//
 
     @Test
     public void testGetPlatformCookie() throws Exception {
@@ -111,32 +85,32 @@ public class JobPlatformClientTest {
         //configuration.synchronizeSeleniumBrowserCache();
         DriverBase.instantiateDriverObject();
 
-        System.out.println("using cache path: " + configuration.getSeleniumCacheDirectoryPath());
+        log.info("using cache path: " + configuration.getSeleniumCacheDirectoryPath());
         WebDriver driver = DriverBase.getDriver(configuration.getSeleniumCacheDirectoryPath());
         Assert.notNull(driver, "web driver not found");
        /* //clear default history cookies
-        System.out.println("clear all restored cookies");
+       log.info("clear all restored cookies");
         driver.manage().deleteAllCookies();*/
 
         driver.get(BusinessConstants.JOB_PLATFORM_HOMEPAGE);
         WebDriverUtils.doWaitTitleContains("招聘", new WebDriverWait(driver, 3));
 
-        System.out.println("navigate to platform homepage complete");
-        System.out.println("login with user credential");
+        log.info("navigate to platform homepage complete");
+        log.info("login with user credential");
 
-        System.out.println("start to get web cookie");
+        log.info("start to get web cookie");
         Long start = System.currentTimeMillis();
         Set<Cookie> cookies = driver.manage().getCookies();
         Long end = System.currentTimeMillis();
 
-        System.out.println("time cost: " + (end - start) + " ms");
-        System.out.println("cookie properties:");
+        log.info("time cost: " + (end - start) + " ms");
+        log.info("cookie properties:");
         for (Cookie c : cookies) {
-            System.out.println("name = " + c.getName());
-            System.out.println("path = " + c.getPath());
-            System.out.println("value = " + c.getValue());
+            log.info("name = " + c.getName());
+            log.info("path = " + c.getPath());
+            log.info("value = " + c.getValue());
 
-            System.out.println("\n");
+            log.info("\n");
         }
 
         //restore cookie to cache directory
@@ -167,9 +141,7 @@ public class JobPlatformClientTest {
     @Test
     public void testRegexGroupReplace() {
         String content = TEST_CONTENT;
-
-        System.out.println(content);
-
+        log.info(content);
         String pattern = "<img\\s*([^>]*)\\s*src=\\\"(http://.*?/)(.*?)\\\"\\s*([^>]*)>(http://.*?/)";
         StringBuffer operatorStr = new StringBuffer(content);
         Pattern p = Pattern.compile(pattern, Pattern.CASE_INSENSITIVE);
@@ -178,8 +150,7 @@ public class JobPlatformClientTest {
             operatorStr.replace(m.start(2), m.end(2), "/");
             m = p.matcher(operatorStr);
         }
-
-        System.out.println(operatorStr);
+        log.info(operatorStr.toString());
     }
 
     @Test
@@ -191,13 +162,12 @@ public class JobPlatformClientTest {
             String matcher_0 = matcher.group(0);
             String matcher_1 = matcher.group(1);
             String matcher_2 = matcher.group(2);
-
-            System.out.println("matcher_0 = " + matcher_0);
-            System.out.println("matcher_1 = " + matcher_1);
-            System.out.println("matcher_2 = " + matcher_2);
-        } else
+            log.info("matcher_0 = " + matcher_0);
+            log.info("matcher_1 = " + matcher_1);
+            log.info("matcher_2 = " + matcher_2);
+        } else {
             throw new RuntimeException("search result page url can not match regex example");
-
+        }
         log.info("run test method {{testGetPreviousPageUrl}} complete");
     }
 
@@ -208,26 +178,22 @@ public class JobPlatformClientTest {
         String url = TEST_RESULT_PAGE;
         StringBuffer previousIndexUrl = new StringBuffer(url);
         Matcher matcher = Pattern.compile(SEARCH_RESULT_REGEX).matcher(url);
-
         if (matcher.find()) {
-
             String currentIndex = matcher.group(1);
             String previousIndex = new Integer(Integer.parseInt(currentIndex) - 1).toString();
             String nextIndex = new Integer(Integer.parseInt(currentIndex) + 1).toString();
-
             String previousIndexUrlStr, nextIndexUrlStr;
             previousIndexUrlStr = previousIndexUrl.replace(matcher.start(1), matcher.end(1), previousIndex).toString();
             nextIndexUrlStr = previousIndexUrl.replace(matcher.start(1), matcher.end(1), nextIndex).toString();
 
-            System.out.println("previous url: ");
-            System.out.println(previousIndexUrlStr);
+            log.info("previous url: ");
+            log.info(previousIndexUrlStr);
+            log.info("next url: ");
+            log.info(nextIndexUrlStr);
 
-            System.out.println("next url: ");
-            System.out.println(nextIndexUrlStr);
-
-        } else
+        } else {
             throw new RuntimeException("search result page url can not match regex example");
-
+        }
         log.info("run test method {{testGetPreviousAndNextPageUrl}} complete");
     }
 }

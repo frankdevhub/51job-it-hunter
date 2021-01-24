@@ -3,8 +3,6 @@ package pages;
 import cn.wanghaomiao.xpath.exception.XpathSyntaxErrorException;
 import cn.wanghaomiao.xpath.model.JXDocument;
 import cn.wanghaomiao.xpath.model.JXNode;
-import frankdevhub.job.automatic.core.data.logging.Logger;
-import frankdevhub.job.automatic.core.data.logging.LoggerFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -38,9 +36,6 @@ import java.util.List;
 public class JobPlatformSearchPageMainTest_1 {
 
     private final String TEST_RESULT_PAGE = "https://search.51job.com/list/020000,000000,0000,00,9,99,java,2,1.html?lang=c&stype=&postchannel=0000&workyear=99&cotype=99&degreefrom=99&jobterm=99&companysize=99&providesalary=99&lonlat=0%2C0&radius=-1&ord_field=0&confirmdate=9&fromType=&dibiaoid=0&address=&line=&specialarea=00&from=&welfare=";
-
-    private final Logger LOGGER = LoggerFactory.getLogger(JobPlatformSearchPageMainTest_1.class);
-
     private String pageContext = "";
 
     @Before
@@ -53,10 +48,8 @@ public class JobPlatformSearchPageMainTest_1 {
         try {
             // httpClient = HttpClientBuilder.create().build();
             httpClient = HttpClients.createDefault();
-
             HttpGet httpGet = new HttpGet(TEST_RESULT_PAGE);
             httpGet.setHeader("Content-Type", "text/html; charset=GBK");
-
             CloseableHttpResponse response = httpClient.execute(httpGet);
             HttpEntity responseEntity = response.getEntity();
             responseText = EntityUtils.toString(responseEntity, "GBK");
@@ -68,9 +61,8 @@ public class JobPlatformSearchPageMainTest_1 {
         }
 
         Long end = System.currentTimeMillis();
-        System.out.println(String.format("time cost: %s sec", (end - start) / 1000));
-
-        System.out.println(responseText);
+        log.info(String.format("time cost: %s sec", (end - start) / 1000));
+        log.info(responseText);
 
         this.pageContext = responseText;
 
@@ -82,25 +74,20 @@ public class JobPlatformSearchPageMainTest_1 {
 
         Document document = Jsoup.parse(this.pageContext);
         String title = document.getElementsByTag("title").html();
-        System.out.println("test :[getElementsByTag]");
-        System.out.println("title = " + title);
-
-        System.out.println("test :[get element by JSoup xpath]");
+        log.info("test :[getElementsByTag]");
+        log.info("title = " + title);
+        log.info("test :[get element by JSoup xpath]");
         JXDocument jxDocument = new JXDocument(document);
         try {
             List<JXNode> jxNodes = jxDocument.selN("//div[@class=el]/p/span/a");
-            System.out.println("get jxNodes count = " + jxNodes.size());
-
+            log.info("get jxNodes count = " + jxNodes.size());
             for (JXNode jn : jxNodes) {
                 Element el = jn.getElement();
-                System.out.println("title =  " + el.attr("title"));
+                log.info("title =  " + el.attr("title"));
             }
-
         } catch (XpathSyntaxErrorException e) {
             e.printStackTrace();
         }
-
-
         log.info("run test method {{testParseByUsingJSoupSupport}} complete");
     }
 }
