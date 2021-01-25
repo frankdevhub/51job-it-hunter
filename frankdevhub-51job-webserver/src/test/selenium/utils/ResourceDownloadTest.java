@@ -25,25 +25,34 @@ import java.net.URL;
 @RunWith(SpringJUnit4ClassRunner.class)
 public class ResourceDownloadTest {
 
-    private static final String MIRROR_INDEX = "http://npm.taobao.org/mirrors/chromedriver/";
-    private static final String RESOURCE_INDEX = "http://npm.taobao.org/mirrors/chromedriver/2.0/chromedriver_win32.zip";
-    private static final String RESOURCE_INDEX_1 = "http://www.frankdevhub.site/robots.txt";
+    private static final String MIRROR_INDEX = "http://npm.taobao.org/mirrors/chromedriver/"; //驱动镜像资源地址
+    private static final String RESOURCE_INDEX = "http://npm.taobao.org/mirrors/chromedriver/2.0/chromedriver_win32.zip"; //驱动镜像资源地址
+    private static final String RESOURCE_INDEX_1 = "http://www.frankdevhub.site/robots.txt"; //外链资源文件地址
 
+    /**
+     * 测试获取文件名
+     */
     @Test
     public void testGetFileName() {
         log.info("runt test method {{testGetFileName}} start");
 
         String url = RESOURCE_INDEX;
         System.out.println("url = " + RESOURCE_INDEX);
-        String fileName = url.substring(url.lastIndexOf("/") + 1);
+        String fileName = url.substring(url.lastIndexOf("/") + 1); //截取地址获取文件名称
         System.out.println("fileName = " + fileName);
 
         log.info("runt test method {{testGetFileName}} complete");
     }
 
+    /**
+     * 测试下载外链数据文件
+     *
+     * @param path 链接地址
+     * @throws IOException,BusinessException
+     */
     private void downloadByDataInputStream(String path) throws IOException, BusinessException {
         String fileName = path.substring(path.lastIndexOf("/") + 1);
-        String savePath = "D:\\download_test\\" + fileName;
+        String savePath = "D:\\download_test\\" + fileName; //默认下载存储的目录
 
         File downloadFile = new File(savePath);
         if (!downloadFile.exists())
@@ -61,10 +70,8 @@ public class ResourceDownloadTest {
         DataOutputStream out = new DataOutputStream(new FileOutputStream(savePath));
         byte[] buffer = new byte[2048];
         int count;
-        while ((count = in.read(buffer)) > 0) {
+        while ((count = in.read(buffer)) > 0)
             out.write(buffer, 0, count);
-        }
-
         try {
             if (out != null)
                 out.close();
@@ -78,6 +85,9 @@ public class ResourceDownloadTest {
         }
     }
 
+    /**
+     * 测试下载外链数据文件
+     */
     @Test
     public void testDownloadByDataInputStream() {
         log.info("runt test method {{testDownloadByDataInputStream}} start");

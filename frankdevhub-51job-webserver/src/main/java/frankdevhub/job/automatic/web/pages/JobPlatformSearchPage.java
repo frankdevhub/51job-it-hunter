@@ -16,7 +16,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 import tk.mybatis.mapper.util.Assert;
 
@@ -57,16 +56,19 @@ public class JobPlatformSearchPage extends BaseWebPage {
     public JobPlatformSearchPage(Boolean isAutoConfig, String keyword) {
         super(isAutoConfig);
         Assert.notNull(keyword, BusinessConstants.JOB_SEARCH_KEYWORD_NULL); // 搜索关键字不能为空
-        this.pageNum = 0;
-        this.pageSize = 0;
-        this.keyword = keyword;
-        this.searchBox = new Query().defaultLocator(By.xpath(SeleniumConstants.INPUT_SEARCH_XPATH));
-        this.submitBtn = new Query().defaultLocator(By.xpath(SeleniumConstants.SUBMIT_SEARCH_XPATH));
-        this.searchResultList = new Query().defaultLocator(By.xpath(SeleniumConstants.SEARCH_RESULT_LIST_XPATH));
-        this.pageNavigator = new Query().defaultLocator(By.xpath(SeleniumConstants.RESULT_PAGE_NAVIGATOR_XPATH));
-        this.threadPool = Executors.newSingleThreadExecutor();
+        this.pageNum = 0; //分页参数:第几页
+        this.pageSize = 0; //分页参数:每页大小
+        this.keyword = keyword; //搜索关键字
+        this.searchBox = new Query().defaultLocator(By.xpath(SeleniumConstants.INPUT_SEARCH_XPATH)); //搜索框控件
+        this.submitBtn = new Query().defaultLocator(By.xpath(SeleniumConstants.SUBMIT_SEARCH_XPATH)); //提交按钮控件
+        this.searchResultList = new Query().defaultLocator(By.xpath(SeleniumConstants.SEARCH_RESULT_LIST_XPATH)); //搜索返回结果集列表控件
+        this.pageNavigator = new Query().defaultLocator(By.xpath(SeleniumConstants.RESULT_PAGE_NAVIGATOR_XPATH)); //页面分页跳转控件
+        this.threadPool = Executors.newSingleThreadExecutor(); //解析每一个列表页面的线程对象所在的线程池
     }
 
+    /**
+     * 初始化页面对象,配置浏览器驱动
+     */
     private void initSearchPage() {
         AssignDriver.initQueryObjects(this, (RemoteWebDriver) getDriver());
     }
@@ -87,6 +89,11 @@ public class JobPlatformSearchPage extends BaseWebPage {
         log.info("navigate to www.51job.com success");
     }
 
+    /**
+     * 初始化xpath关联控件对象
+     *
+     * @throws InterruptedException
+     */
     private void inputSearchQuery() throws InterruptedException {
         log.info("locate search box element");
         WebElement searchBoxElement = WebDriverUtils.findWebElement(searchBox);
@@ -97,6 +104,11 @@ public class JobPlatformSearchPage extends BaseWebPage {
         log.info("input search keyWord complete");
     }
 
+    /**
+     * 提交搜索的关键字
+     *
+     * @throws InterruptedException
+     */
     private void submitSearchKeyword() throws InterruptedException {
         log.info("submit search keyword");
 
@@ -121,14 +133,17 @@ public class JobPlatformSearchPage extends BaseWebPage {
         private void parseAndRestore() {
             if (null == result)
                 return;
+            //查询校验是否存在已经入库的搜索职位记录
             int count = jobSearchResultService.selectCountByMarkId(result.getMarkId());
             if (count <= 0) {
                 System.out.println("do insert result record");
                 String id = UUID.randomUUID().toString();
                 result.setId(id);
+                result.doCreateEntity();
                 jobSearchResultService.insertSelective(result);
             } else {
                 System.out.println("do update result record");
+                result.doUpdateEntity();
                 jobSearchResultService.updateByPrimaryKeySelective(result);
             }
         }
@@ -155,8 +170,7 @@ public class JobPlatformSearchPage extends BaseWebPage {
      *
      * @param row 页面列表行对象
      * @return 职位搜索返回的结果集
-     * @throws BusinessException
-     * @throws IllegalAccessException
+     * @throws BusinessException,IllegalAccessException
      */
     private JobSearchResult parseSearchResult(WebElement row) throws BusinessException, IllegalAccessException {
         WebElement jobDescriptionElement = row.findElement(By.xpath(SeleniumConstants.RESULT_JD_NAME_XPATH));
@@ -165,28 +179,29 @@ public class JobPlatformSearchPage extends BaseWebPage {
         WebElement publishDateElement = row.findElement(By.xpath(SeleniumConstants.RESULT_JD_PUBLISH_DATE_XPATH));
         WebElement jobLocationElement = row.findElement(By.xpath(SeleniumConstants.RESULT_JD_LOCATION_XPATH));
 
-        Assert.notNull(jobDescriptionElement, "job description element cannot be found on this row");
-        Assert.notNull(companyNameElement, "company name element cannot be found on this row");
-        Assert.notNull(publishDateElement, "publish date element cannot be found on this row");
-        Assert.notNull(jobLocationElement, "job location element cannot be found on this row");
+        Assert.notNull(jobDescriptionElement, "job description element cannot be found on this row"); //职位描述
+        Assert.notNull(companyNameElement, "company name element cannot be found on this row"); //职位所在企业
+        Assert.notNull(publishDateElement, "publish date element cannot be found on this row"); //职位发布日期
+        Assert.notNull(jobLocationElement, "job location element cannot be found on this row"); //职位地点
 
         JobSearchResult result = new JobSearchResult();
         result.setJobTitle(jobDescriptionElement.getText())
                 .setLinkUrl(jobDescriptionElement.getAttribute(SeleniumConstants.ATTRIBUTE_HREF));
+        //职位薪资范围的描述性字符串
         String salaryRangeText = null == salaryRangeElement.getText() ? "" : salaryRangeElement.getText();
-
+        //如果描述内容不为空则解析获取薪资范围以及计量单位
         if (StringUtils.isNotEmpty(salaryRangeText.trim())) {
             SalaryRangeTextUtils utils = new SalaryRangeTextUtils(salaryRangeElement.getText());
             utils.parse();
-            result.setSalaryNumericUnit(utils.getNumericUnit())
-                    .setSalaryRangeMin(utils.getMinimizeValue())
-                    .setSalaryRangeMax(utils.getMaximumValue())
-                    .setSalaryTimeUnit(utils.getTimeUnit())
-                    .setIsDefineByDay(utils.isUnitByDay())
-                    .setIsDefineByMonth(utils.isUnitByMonth())
-                    .setIsDefineByYear(utils.isUnitByYear())
-                    .setIsDefineByK(utils.isUnitByThousand())
-                    .setIsDefineByW(utils.isUnitByTenThousand());
+            result.setSalaryNumericUnit(utils.getNumericUnit()) //薪资数值计量单位
+                    .setSalaryRangeMin(utils.getMinimizeValue()) //薪资范围的最小值
+                    .setSalaryRangeMax(utils.getMaximumValue()) //薪资范围的最大值
+                    .setSalaryTimeUnit(utils.getTimeUnit()) //薪资计量的时间单位
+                    .setIsDefineByDay(utils.isUnitByDay()) //是否以天为单位计量
+                    .setIsDefineByMonth(utils.isUnitByMonth()) //是否以月为单位计量
+                    .setIsDefineByYear(utils.isUnitByYear()) //是否以年为单位计量
+                    .setIsDefineByK(utils.isUnitByThousand()) //是否以千位数计量
+                    .setIsDefineByW(utils.isUnitByTenThousand()); //是否以万位数计量
 
         }
         result.setSalaryRangeChars(salaryRangeText);
@@ -206,26 +221,27 @@ public class JobPlatformSearchPage extends BaseWebPage {
         } catch (Exception e) {
             result.setIsInternshipPos(false);
         }
-
-        //TODO
+        //薪资是否可以面议
         result.setIsSalaryNegotiable(false);
         result.setCompanyName(companyNameElement.getAttribute(SeleniumConstants.ATTRIBUTE_TITLE).trim());
         result.setLocation(jobLocationElement.getText().trim());
         String publishDate = publishDateElement.getText().trim();
         int month = Integer.parseInt(publishDate.split("-")[0]);
         int day = Integer.parseInt(publishDate.split("-")[1]);
-        result.setPublishDateChar(publishDate)
-                .setPublishDateDayNumeric(day)
-                .setPublishDateMonthNumeric(month);
-
+        result.setPublishDateChar(publishDate) //职位发布日期
+                .setPublishDateDayNumeric(day) //职位发布时间(天)
+                .setPublishDateMonthNumeric(month); //职位发布时间(月)
+        //生成新的唯一标识
         int markId = result.hashCode();
         result.setMarkId(markId);
-
-        System.out.print(result.toString());
-
         return result;
     }
 
+    /**
+     * 逐行解析搜索返回的岗位信息
+     *
+     * @param row 页面列表行对象
+     */
     private void parseSearchResults(List<WebElement> rows) {
         for (WebElement row : rows) {
             try {
@@ -239,6 +255,9 @@ public class JobPlatformSearchPage extends BaseWebPage {
         }
     }
 
+    /**
+     * 逐行解析搜索返回的岗位信息
+     */
     private void parseSearchResultPage() {
         log.info("locate search result list");
         List<WebElement> resultList = WebDriverUtils.findWebElements(searchResultList);
@@ -247,19 +266,26 @@ public class JobPlatformSearchPage extends BaseWebPage {
         log.info("parse current page list complete");
     }
 
+    /**
+     * 跳转到结果集页面的下一页
+     *
+     * @throws BusinessException
+     */
     private void turnToNextPage() throws BusinessException {
         log.info("invoke {{JobPlatformSearchPage::nextPage()}}");
         log.info("locate search result page navigator");
-
+        //获取页面分页控件对象
         List<WebElement> navigators = pageNavigator.findWebElements();
         if (null == navigators || navigators.size() == 0)
             throw new RuntimeException("invalid element may be located as search result page navigator");
 
+        //校验是否可以进行下一页跳转
         WebElement nextPageButton = navigators.size() == 1 ? navigators.get(0) : navigators.get(1);
         String nextPageUrl = nextPageButton.getAttribute(SeleniumConstants.ATTRIBUTE_HREF);
         if (null == nextPageUrl)
             throw new BusinessException(BusinessConstants.NEXT_PAGE_NOT_AVAILABLE);
 
+        //校验下一页的跳转链接并跳转
         Assert.notEmpty(nextPageUrl, "next page url should not be null");
         this.getDriver().get(nextPageUrl);
         log.info("navigate to next search result page");
@@ -267,26 +293,35 @@ public class JobPlatformSearchPage extends BaseWebPage {
         WebDriverUtils.doWaitTitleContains(this.keyword, wait);
 
         log.info("navigate to next search result page success");
+        //累计分页数累加
         this.pageNum++;
     }
 
+    /**
+     * 解析当前搜索结果集列表页面
+     */
     private void parseCurrentSearchResultPage() {
         parseSearchResultPage();
         try {
-            turnToNextPage();
-            parseCurrentSearchResultPage();
+            turnToNextPage(); //跳转至下一页
+            parseCurrentSearchResultPage(); //解析跳转后当前视图内的列表页
         } catch (Exception e) {
             e.printStackTrace();
             return;
         }
     }
 
+    /**
+     * 关键字搜索职位并解析返回的列表页
+     *
+     * @throws InterruptedException
+     */
     public void startSearchResultPatrol() throws InterruptedException {
-        initSearchPage();
-        navigateToPlatformHomePage();
-        inputSearchQuery();
-        submitSearchKeyword();
-        parseCurrentSearchResultPage();
+        initSearchPage(); //初始化页面基类对象
+        navigateToPlatformHomePage(); //导航跳转到首页
+        inputSearchQuery(); //初始化页面相关的控件
+        submitSearchKeyword(); //提交搜索关键字
+        parseCurrentSearchResultPage(); //解析搜索返回的结果集列表并入库
     }
 
 }
