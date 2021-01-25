@@ -65,7 +65,7 @@ if internal_targz:
         """Add Builders and construction variables for zip to an Environment.
            The following environnement variables may be set:
            TARGZ_COMPRESSION_LEVEL: integer, [0-9]. 0: no compression, 9: best compression (same as gzip compression level).
-           TARGZ_BASEDIR: base-directory used to determine archive name (this allow archive name to be relative
+           TARGZ_BASEDIR: selenium.base-directory used to determine archive name (this allow archive name to be relative
                           to something other than top-dir).
         """
         env['BUILDERS']['TarGz'] = TarGzBuilder

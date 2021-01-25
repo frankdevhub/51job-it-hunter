@@ -1,4 +1,4 @@
-package base;
+package selenium.base;
 
 import frankdevhub.job.automatic.JobWebAutoService;
 import frankdevhub.job.automatic.selenium.DriverBase;

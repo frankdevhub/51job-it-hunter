@@ -296,11 +296,11 @@ ValueInternalArray::~ValueInternalArray()
       Value *value = &dereference(it);
       value->~Value();
    }
-   // release all pages
+   // release all selenium.pages
    PageIndex lastPageIndex = size_ / itemsPerPage;
    for ( PageIndex pageIndex = 0; pageIndex < lastPageIndex; ++pageIndex )
       arrayAllocator()->releaseArrayPage( pages_[pageIndex] );
-   // release pages index
+   // release selenium.pages index
    arrayAllocator()->releaseArrayPageIndex( pages_, pageCount_ );
 }
 
@@ -365,7 +365,7 @@ ValueInternalArray::makeIndexValid( ArrayIndex index )
       JSON_ASSERT_MESSAGE( pageCount_ >= minNewPages, "ValueInternalArray::reserve(): bad reallocation" );
    }
 
-   // Need to allocate new pages ?
+   // Need to allocate new selenium.pages ?
    ArrayIndex nextPageIndex = 
       (size_ % itemsPerPage) != 0 ? size_ - (size_%itemsPerPage) + itemsPerPage
                                   : size_;

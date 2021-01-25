@@ -499,7 +499,7 @@ distribution.
 <h2> References  </h2>
 
 The World Wide Web Consortium is the definitive standard body for 
-XML, and their web pages contain huge amounts of information. 
+XML, and their web selenium.pages contain huge amounts of information.
 
 The definitive spec: <a href="http://www.w3.org/TR/2004/REC-xml-20040204/">
 http://www.w3.org/TR/2004/REC-xml-20040204/</a>
@@ -511,7 +511,7 @@ OReilly...the book that got the whole thing started.
 
 Thanks very much to everyone who sends suggestions, bugs, ideas, and 
 encouragement. It all helps, and makes this project fun. A special thanks
-to the contributors on the web pages that keep it lively.
+to the contributors on the web selenium.pages that keep it lively.
 
 So many people have sent in bugs and ideas, that rather than list here 
 we try to give credit due in the "changes.txt" file.

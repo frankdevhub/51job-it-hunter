@@ -34,7 +34,7 @@ PROJECT_NAME           = "JsonCpp"
 PROJECT_NUMBER         = %JSONCPP_VERSION%
 
 # The OUTPUT_DIRECTORY tag is used to specify the (relative or absolute) 
-# base path where the generated documentation will be put. 
+# selenium.base path where the generated documentation will be put.
 # If a relative path is entered, it will be relative to the location 
 # where doxygen was started. If left blank the current directory will be used.
 
@@ -107,7 +107,7 @@ ALWAYS_DETAILED_SEC    = NO
 # If the INLINE_INHERITED_MEMB tag is set to YES, doxygen will show all 
 # inherited members of a class in the documentation of that class as if those 
 # members were ordinary class members. Constructors, destructors and assignment 
-# operators of the base classes will not be shown.
+# operators of the selenium.base classes will not be shown.
 
 INLINE_INHERITED_MEMB  = NO
 
@@ -337,7 +337,7 @@ EXTRACT_LOCAL_METHODS  = NO
 
 # If this flag is set to YES, the members of anonymous namespaces will be 
 # extracted and appear in the documentation as a namespace called 
-# 'anonymous_namespace{file}', where file will be replaced with the base 
+# 'anonymous_namespace{file}', where file will be replaced with the selenium.base
 # name of the file that contains the anonymous namespace. By default 
 # anonymous namespace are hidden.
 
@@ -961,7 +961,7 @@ ENUM_VALUES_PER_LINE   = 4
 # Netscape 6.0+, Internet explorer 5.0+, or Konqueror). Windows users are 
 # probably better off using the HTML help feature. Other possible values 
 # for this tag are: HIERARCHIES, which will generate the Groups, Directories, 
-# and Class Hierarchy pages using a tree view instead of an ordered list; 
+# and Class Hierarchy selenium.pages using a tree view instead of an ordered list;
 # ALL, which combines the behavior of FRAME and HIERARCHIES; and NONE, which 
 # disables this behavior completely. For backwards compatibility with previous 
 # releases of Doxygen, the values YES and NO are equivalent to FRAME and NONE 
@@ -1110,18 +1110,18 @@ RTF_EXTENSIONS_FILE    =
 #---------------------------------------------------------------------------
 
 # If the GENERATE_MAN tag is set to YES (the default) Doxygen will 
-# generate man pages
+# generate man selenium.pages
 
 GENERATE_MAN           = NO
 
-# The MAN_OUTPUT tag is used to specify where the man pages will be put. 
+# The MAN_OUTPUT tag is used to specify where the man selenium.pages will be put.
 # If a relative path is entered the value of OUTPUT_DIRECTORY will be 
 # put in front of it. If left blank `man' will be used as the default path.
 
 MAN_OUTPUT             = man
 
 # The MAN_EXTENSION tag determines the extension that is added to 
-# the generated man pages (default is the subroutine's section .3)
+# the generated man selenium.pages (default is the subroutine's section .3)
 
 MAN_EXTENSION          = .3
 
@@ -1143,7 +1143,7 @@ MAN_LINKS              = NO
 
 GENERATE_XML           = NO
 
-# The XML_OUTPUT tag is used to specify where the XML pages will be put. 
+# The XML_OUTPUT tag is used to specify where the XML selenium.pages will be put.
 # If a relative path is entered the value of OUTPUT_DIRECTORY will be 
 # put in front of it. If left blank `xml' will be used as the default path.
 
@@ -1335,7 +1335,7 @@ PERL_PATH              = /usr/bin/perl
 #---------------------------------------------------------------------------
 
 # If the CLASS_DIAGRAMS tag is set to YES (the default) Doxygen will 
-# generate a inheritance diagram (in HTML, RTF and LaTeX) for classes with base 
+# generate a inheritance diagram (in HTML, RTF and LaTeX) for classes with selenium.base
 # or super classes. Setting the tag to NO turns the diagrams off. Note that 
 # this option is superseded by the HAVE_DOT option below. This is only a 
 # fallback. It is recommended to install and use dot, since it yields more 

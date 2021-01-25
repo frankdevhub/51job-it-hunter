@@ -19,7 +19,7 @@
     - Get jsonchecker failing tests to pass in strict mode
   \section ms_separation Expose json reader/writer API that do not impose using Json::Value.
 	Some typical use-case involve an application specific structure to/from a JSON document.
-    - Event base parser to allow unserializing a Json document directly in datastructure instead of
+    - Event selenium.base parser to allow unserializing a Json document directly in datastructure instead of
       using the intermediate Json::Value.
     - "Stream" based parser to serialized a Json document without using Json::Value as input.
 	- Performance oriented parser/writer:

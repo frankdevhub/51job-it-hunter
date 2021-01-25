@@ -12,7 +12,7 @@
   <div class="tabs">
     <ul>
       <li><a href="index.html"><span>Main&nbsp;Page</span></a></li>
-      <li><a href="pages.html"><span>Related&nbsp;Pages</span></a></li>
+      <li><a href="selenium.pages.html"><span>Related&nbsp;Pages</span></a></li>
       <li><a href="annotated.html"><span>Classes</span></a></li>
       <li class="current"><a href="files.html"><span>Files</span></a></li>
     </ul>
@@ -166,15 +166,15 @@
 <a name="l00169"></a>00169 
 <a name="l00170"></a>00170 <span class="keyword">const</span> TiXmlEncoding TIXML_DEFAULT_ENCODING = TIXML_ENCODING_UNKNOWN;
 <a name="l00171"></a>00171 
-<a name="l00194"></a><a class="code" href="classTiXmlBase.html">00194</a> <span class="keyword">class </span><a class="code" href="classTiXmlBase.html" title="TiXmlBase is a base class for every class in TinyXml.">TiXmlBase</a>
+<a name="l00194"></a><a class="code" href="classTiXmlBase.html">00194</a> <span class="keyword">class </span><a class="code" href="classTiXmlBase.html" title="TiXmlBase is a selenium.base class for every class in TinyXml.">TiXmlBase</a>
 <a name="l00195"></a>00195 {
 <a name="l00196"></a>00196     <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="classTiXmlNode.html" title="The parent class for everything in the Document Object Model.">TiXmlNode</a>;
 <a name="l00197"></a>00197     <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="classTiXmlElement.html" title="The element is a container class.">TiXmlElement</a>;
 <a name="l00198"></a>00198     <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="classTiXmlDocument.html" title="Always the top level node.">TiXmlDocument</a>;
 <a name="l00199"></a>00199 
 <a name="l00200"></a>00200 <span class="keyword">public</span>:
-<a name="l00201"></a>00201     <a class="code" href="classTiXmlBase.html" title="TiXmlBase is a base class for every class in TinyXml.">TiXmlBase</a>() :   <a class="code" href="classTiXmlBase.html#ab242c01590191f644569fa89a080d97c" title="Field containing a generic user pointer.">userData</a>(0)     {}
-<a name="l00202"></a>00202     <span class="keyword">virtual</span> ~<a class="code" href="classTiXmlBase.html" title="TiXmlBase is a base class for every class in TinyXml.">TiXmlBase</a>()            {}
+<a name="l00201"></a>00201     <a class="code" href="classTiXmlBase.html" title="TiXmlBase is a selenium.base class for every class in TinyXml.">TiXmlBase</a>() :   <a class="code" href="classTiXmlBase.html#ab242c01590191f644569fa89a080d97c" title="Field containing a generic user pointer.">userData</a>(0)     {}
+<a name="l00202"></a>00202     <span class="keyword">virtual</span> ~<a class="code" href="classTiXmlBase.html" title="TiXmlBase is a selenium.base class for every class in TinyXml.">TiXmlBase</a>()            {}
 <a name="l00203"></a>00203 
 <a name="l00213"></a>00213     <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classTiXmlBase.html#a0de56b3f2ef14c65091a3b916437b512" title="All TinyXml classes can print themselves to a filestream or the string class (TiXmlString...">Print</a>( FILE* cfile, <span class="keywordtype">int</span> depth ) <span class="keyword">const</span> = 0;
 <a name="l00214"></a>00214 
@@ -331,8 +331,8 @@
 <a name="l00394"></a>00394     <span class="keyword">static</span> <span class="keywordtype">void</span> ConvertUTF32ToUTF8( <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> input, <span class="keywordtype">char</span>* output, <span class="keywordtype">int</span>* length );
 <a name="l00395"></a>00395 
 <a name="l00396"></a>00396 <span class="keyword">private</span>:
-<a name="l00397"></a>00397     <a class="code" href="classTiXmlBase.html" title="TiXmlBase is a base class for every class in TinyXml.">TiXmlBase</a>( <span class="keyword">const</span> <a class="code" href="classTiXmlBase.html" title="TiXmlBase is a base class for every class in TinyXml.">TiXmlBase</a>&amp; );              <span class="comment">// not implemented.</span>
-<a name="l00398"></a>00398     <span class="keywordtype">void</span> operator=( <span class="keyword">const</span> <a class="code" href="classTiXmlBase.html" title="TiXmlBase is a base class for every class in TinyXml.">TiXmlBase</a>&amp; base );    <span class="comment">// not allowed.</span>
+<a name="l00397"></a>00397     <a class="code" href="classTiXmlBase.html" title="TiXmlBase is a selenium.base class for every class in TinyXml.">TiXmlBase</a>( <span class="keyword">const</span> <a class="code" href="classTiXmlBase.html" title="TiXmlBase is a selenium.base class for every class in TinyXml.">TiXmlBase</a>&amp; );              <span class="comment">// not implemented.</span>
+<a name="l00398"></a>00398     <span class="keywordtype">void</span> operator=( <span class="keyword">const</span> <a class="code" href="classTiXmlBase.html" title="TiXmlBase is a selenium.base class for every class in TinyXml.">TiXmlBase</a>&amp; selenium.base );    <span class="comment">// not allowed.</span>
 <a name="l00399"></a>00399 
 <a name="l00400"></a>00400     <span class="keyword">struct </span>Entity
 <a name="l00401"></a>00401     {
@@ -351,7 +351,7 @@
 <a name="l00414"></a>00414 };
 <a name="l00415"></a>00415 
 <a name="l00416"></a>00416 
-<a name="l00423"></a><a class="code" href="classTiXmlNode.html">00423</a> <span class="keyword">class </span><a class="code" href="classTiXmlNode.html" title="The parent class for everything in the Document Object Model.">TiXmlNode</a> : <span class="keyword">public</span> <a class="code" href="classTiXmlBase.html" title="TiXmlBase is a base class for every class in TinyXml.">TiXmlBase</a>
+<a name="l00423"></a><a class="code" href="classTiXmlNode.html">00423</a> <span class="keyword">class </span><a class="code" href="classTiXmlNode.html" title="The parent class for everything in the Document Object Model.">TiXmlNode</a> : <span class="keyword">public</span> <a class="code" href="classTiXmlBase.html" title="TiXmlBase is a selenium.base class for every class in TinyXml.">TiXmlBase</a>
 <a name="l00424"></a>00424 {
 <a name="l00425"></a>00425     <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="classTiXmlDocument.html" title="Always the top level node.">TiXmlDocument</a>;
 <a name="l00426"></a>00426     <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="classTiXmlElement.html" title="The element is a container class.">TiXmlElement</a>;
@@ -359,11 +359,11 @@
 <a name="l00428"></a>00428 <span class="keyword">public</span>:
 <a name="l00429"></a>00429 <span class="preprocessor">    #ifdef TIXML_USE_STL    </span>
 <a name="l00430"></a>00430 <span class="preprocessor"></span>
-<a name="l00434"></a>00434         <span class="keyword">friend</span> std::istream&amp; <a class="code" href="classTiXmlNode.html#ab57bd426563c926844f65a78412e18b9" title="An input stream operator, for every class.">operator &gt;&gt; </a>(std::istream&amp; in, <a class="code" href="classTiXmlNode.html" title="The parent class for everything in the Document Object Model.">TiXmlNode</a>&amp; base);
+<a name="l00434"></a>00434         <span class="keyword">friend</span> std::istream&amp; <a class="code" href="classTiXmlNode.html#ab57bd426563c926844f65a78412e18b9" title="An input stream operator, for every class.">operator &gt;&gt; </a>(std::istream&amp; in, <a class="code" href="classTiXmlNode.html" title="The parent class for everything in the Document Object Model.">TiXmlNode</a>&amp; selenium.base);
 <a name="l00435"></a>00435 
-<a name="l00452"></a>00452         <span class="keyword">friend</span> std::ostream&amp; <a class="code" href="classTiXmlNode.html#a86cd49cfb17a844c0010b3136ac966c7" title="An output stream operator, for every class.">operator&lt;&lt; </a>(std::ostream&amp; out, <span class="keyword">const</span> <a class="code" href="classTiXmlNode.html" title="The parent class for everything in the Document Object Model.">TiXmlNode</a>&amp; base);
+<a name="l00452"></a>00452         <span class="keyword">friend</span> std::ostream&amp; <a class="code" href="classTiXmlNode.html#a86cd49cfb17a844c0010b3136ac966c7" title="An output stream operator, for every class.">operator&lt;&lt; </a>(std::ostream&amp; out, <span class="keyword">const</span> <a class="code" href="classTiXmlNode.html" title="The parent class for everything in the Document Object Model.">TiXmlNode</a>&amp; selenium.base);
 <a name="l00453"></a>00453 
-<a name="l00455"></a>00455         <span class="keyword">friend</span> std::string&amp; <a class="code" href="classTiXmlNode.html#a86cd49cfb17a844c0010b3136ac966c7" title="An output stream operator, for every class.">operator&lt;&lt; </a>(std::string&amp; out, <span class="keyword">const</span> <a class="code" href="classTiXmlNode.html" title="The parent class for everything in the Document Object Model.">TiXmlNode</a>&amp; base );
+<a name="l00455"></a>00455         <span class="keyword">friend</span> std::string&amp; <a class="code" href="classTiXmlNode.html#a86cd49cfb17a844c0010b3136ac966c7" title="An output stream operator, for every class.">operator&lt;&lt; </a>(std::string&amp; out, <span class="keyword">const</span> <a class="code" href="classTiXmlNode.html" title="The parent class for everything in the Document Object Model.">TiXmlNode</a>&amp; selenium.base );
 <a name="l00456"></a>00456 
 <a name="l00457"></a>00457 <span class="preprocessor">    #endif</span>
 <a name="l00458"></a>00458 <span class="preprocessor"></span>
@@ -560,16 +560,16 @@
 <a name="l00765"></a>00765 
 <a name="l00766"></a>00766 <span class="keyword">private</span>:
 <a name="l00767"></a>00767     <a class="code" href="classTiXmlNode.html" title="The parent class for everything in the Document Object Model.">TiXmlNode</a>( <span class="keyword">const</span> <a class="code" href="classTiXmlNode.html" title="The parent class for everything in the Document Object Model.">TiXmlNode</a>&amp; );              <span class="comment">// not implemented.</span>
-<a name="l00768"></a>00768     <span class="keywordtype">void</span> operator=( <span class="keyword">const</span> <a class="code" href="classTiXmlNode.html" title="The parent class for everything in the Document Object Model.">TiXmlNode</a>&amp; base );    <span class="comment">// not allowed.</span>
+<a name="l00768"></a>00768     <span class="keywordtype">void</span> operator=( <span class="keyword">const</span> <a class="code" href="classTiXmlNode.html" title="The parent class for everything in the Document Object Model.">TiXmlNode</a>&amp; selenium.base );    <span class="comment">// not allowed.</span>
 <a name="l00769"></a>00769 };
 <a name="l00770"></a>00770 
 <a name="l00771"></a>00771 
-<a name="l00779"></a><a class="code" href="classTiXmlAttribute.html">00779</a> <span class="keyword">class </span><a class="code" href="classTiXmlAttribute.html" title="An attribute is a name-value pair.">TiXmlAttribute</a> : <span class="keyword">public</span> <a class="code" href="classTiXmlBase.html" title="TiXmlBase is a base class for every class in TinyXml.">TiXmlBase</a>
+<a name="l00779"></a><a class="code" href="classTiXmlAttribute.html">00779</a> <span class="keyword">class </span><a class="code" href="classTiXmlAttribute.html" title="An attribute is a name-value pair.">TiXmlAttribute</a> : <span class="keyword">public</span> <a class="code" href="classTiXmlBase.html" title="TiXmlBase is a selenium.base class for every class in TinyXml.">TiXmlBase</a>
 <a name="l00780"></a>00780 {
 <a name="l00781"></a>00781     <span class="keyword">friend</span> <span class="keyword">class </span>TiXmlAttributeSet;
 <a name="l00782"></a>00782 
 <a name="l00783"></a>00783 <span class="keyword">public</span>:
-<a name="l00785"></a><a class="code" href="classTiXmlAttribute.html#a9cfa3c8179873fd485d83003b114f8e1">00785</a>     <a class="code" href="classTiXmlAttribute.html#a9cfa3c8179873fd485d83003b114f8e1" title="Construct an empty attribute.">TiXmlAttribute</a>() : <a class="code" href="classTiXmlBase.html" title="TiXmlBase is a base class for every class in TinyXml.">TiXmlBase</a>()
+<a name="l00785"></a><a class="code" href="classTiXmlAttribute.html#a9cfa3c8179873fd485d83003b114f8e1">00785</a>     <a class="code" href="classTiXmlAttribute.html#a9cfa3c8179873fd485d83003b114f8e1" title="Construct an empty attribute.">TiXmlAttribute</a>() : <a class="code" href="classTiXmlBase.html" title="TiXmlBase is a selenium.base class for every class in TinyXml.">TiXmlBase</a>()
 <a name="l00786"></a>00786     {
 <a name="l00787"></a>00787         document = 0;
 <a name="l00788"></a>00788         prev = next = 0;
@@ -649,7 +649,7 @@
 <a name="l00878"></a>00878 
 <a name="l00879"></a>00879 <span class="keyword">private</span>:
 <a name="l00880"></a>00880     <a class="code" href="classTiXmlAttribute.html#a9cfa3c8179873fd485d83003b114f8e1" title="Construct an empty attribute.">TiXmlAttribute</a>( <span class="keyword">const</span> <a class="code" href="classTiXmlAttribute.html" title="An attribute is a name-value pair.">TiXmlAttribute</a>&amp; );                <span class="comment">// not implemented.</span>
-<a name="l00881"></a>00881     <span class="keywordtype">void</span> operator=( <span class="keyword">const</span> <a class="code" href="classTiXmlAttribute.html" title="An attribute is a name-value pair.">TiXmlAttribute</a>&amp; base );   <span class="comment">// not allowed.</span>
+<a name="l00881"></a>00881     <span class="keywordtype">void</span> operator=( <span class="keyword">const</span> <a class="code" href="classTiXmlAttribute.html" title="An attribute is a name-value pair.">TiXmlAttribute</a>&amp; selenium.base );   <span class="comment">// not allowed.</span>
 <a name="l00882"></a>00882 
 <a name="l00883"></a>00883     <a class="code" href="classTiXmlDocument.html" title="Always the top level node.">TiXmlDocument</a>*  document;   <span class="comment">// A pointer back to a document, for error reporting.</span>
 <a name="l00884"></a>00884     TIXML_STRING name;
@@ -715,7 +715,7 @@
 <a name="l00950"></a>00950 <span class="preprocessor"></span>
 <a name="l00951"></a>00951     <a class="code" href="classTiXmlElement.html#a01bc3ab372d35da08efcbbe65ad90c60" title="Construct an element.">TiXmlElement</a>( <span class="keyword">const</span> <a class="code" href="classTiXmlElement.html" title="The element is a container class.">TiXmlElement</a>&amp; );
 <a name="l00952"></a>00952 
-<a name="l00953"></a>00953     <a class="code" href="classTiXmlElement.html" title="The element is a container class.">TiXmlElement</a>&amp; operator=( <span class="keyword">const</span> <a class="code" href="classTiXmlElement.html" title="The element is a container class.">TiXmlElement</a>&amp; base );
+<a name="l00953"></a>00953     <a class="code" href="classTiXmlElement.html" title="The element is a container class.">TiXmlElement</a>&amp; operator=( <span class="keyword">const</span> <a class="code" href="classTiXmlElement.html" title="The element is a container class.">TiXmlElement</a>&amp; selenium.base );
 <a name="l00954"></a>00954 
 <a name="l00955"></a>00955     <span class="keyword">virtual</span> ~<a class="code" href="classTiXmlElement.html" title="The element is a container class.">TiXmlElement</a>();
 <a name="l00956"></a>00956 
@@ -843,7 +843,7 @@
 <a name="l01169"></a>01169         <a class="code" href="classTiXmlNode.html#a2a38329ca5d3f28f98ce932b8299ae90" title="Changes the value of the node.">SetValue</a>( _value );
 <a name="l01170"></a>01170     }
 <a name="l01171"></a>01171     <a class="code" href="classTiXmlComment.html#aaa3252031d3e8bd3a2bf51a1c61201b7" title="Constructs an empty comment.">TiXmlComment</a>( <span class="keyword">const</span> <a class="code" href="classTiXmlComment.html" title="An XML comment.">TiXmlComment</a>&amp; );
-<a name="l01172"></a>01172     <a class="code" href="classTiXmlComment.html" title="An XML comment.">TiXmlComment</a>&amp; operator=( <span class="keyword">const</span> <a class="code" href="classTiXmlComment.html" title="An XML comment.">TiXmlComment</a>&amp; base );
+<a name="l01172"></a>01172     <a class="code" href="classTiXmlComment.html" title="An XML comment.">TiXmlComment</a>&amp; operator=( <span class="keyword">const</span> <a class="code" href="classTiXmlComment.html" title="An XML comment.">TiXmlComment</a>&amp; selenium.base );
 <a name="l01173"></a>01173 
 <a name="l01174"></a>01174     <span class="keyword">virtual</span> ~<a class="code" href="classTiXmlComment.html" title="An XML comment.">TiXmlComment</a>() {}
 <a name="l01175"></a>01175 
@@ -895,7 +895,7 @@
 <a name="l01234"></a>01234 <span class="preprocessor">    #endif</span>
 <a name="l01235"></a>01235 <span class="preprocessor"></span>
 <a name="l01236"></a>01236     <a class="code" href="classTiXmlText.html#af659e77c6b87d684827f35a8f4895960" title="Constructor for text element.">TiXmlText</a>( <span class="keyword">const</span> <a class="code" href="classTiXmlText.html" title="XML text.">TiXmlText</a>&amp; copy ) : <a class="code" href="classTiXmlNode.html" title="The parent class for everything in the Document Object Model.">TiXmlNode</a>( <a class="code" href="classTiXmlNode.html" title="The parent class for everything in the Document Object Model.">TiXmlNode</a>::TINYXML_TEXT )   { copy.CopyTo( <span class="keyword">this</span> ); }
-<a name="l01237"></a>01237     <a class="code" href="classTiXmlText.html" title="XML text.">TiXmlText</a>&amp; operator=( <span class="keyword">const</span> <a class="code" href="classTiXmlText.html" title="XML text.">TiXmlText</a>&amp; base )                               { base.CopyTo( <span class="keyword">this</span> ); <span class="keywordflow">return</span> *<span class="keyword">this</span>; }
+<a name="l01237"></a>01237     <a class="code" href="classTiXmlText.html" title="XML text.">TiXmlText</a>&amp; operator=( <span class="keyword">const</span> <a class="code" href="classTiXmlText.html" title="XML text.">TiXmlText</a>&amp; selenium.base )                               { selenium.base.CopyTo( <span class="keyword">this</span> ); <span class="keywordflow">return</span> *<span class="keyword">this</span>; }
 <a name="l01238"></a>01238 
 <a name="l01239"></a>01239     <span class="comment">// Write this text object to a FILE stream.</span>
 <a name="l01240"></a>01240     <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classTiXmlText.html#a0cafbf6f236c7f02d12b2bffc2b7976b" title="All TinyXml classes can print themselves to a filestream or the string class (TiXmlString...">Print</a>( FILE* cfile, <span class="keywordtype">int</span> depth ) <span class="keyword">const</span>;
