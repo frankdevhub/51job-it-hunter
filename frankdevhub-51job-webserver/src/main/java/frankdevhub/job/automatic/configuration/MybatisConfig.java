@@ -16,8 +16,16 @@ import org.springframework.transaction.annotation.TransactionManagementConfigure
 
 import javax.sql.DataSource;
 
+/**
+ * @Title: MybatisConfig
+ * @Description:
+ * @date: 2021/1/25 0:23
+ * @author: frankdevhub@gmail.com
+ * @blog: blog.frankdevhub.site
+ * @version: 1.0
+ */
+
 @Configuration
-@SuppressWarnings("all")
 public class MybatisConfig implements TransactionManagementConfigurer {
     @Autowired
     DataSource dataSource;
@@ -29,7 +37,7 @@ public class MybatisConfig implements TransactionManagementConfigurer {
         bean.setTypeAliasesPackage("frankdevhub.job.automatic.mapper");
         ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
         try {
-            bean.setMapperLocations(resolver.getResources("classpath:mybatis/*.xml"));
+            bean.setMapperLocations(resolver.getResources("classpath:mapper/*.xml"));
             return bean.getObject();
         } catch (Exception e) {
             e.printStackTrace();
@@ -43,6 +51,7 @@ public class MybatisConfig implements TransactionManagementConfigurer {
     }
 
     @Bean
+    @Override
     public PlatformTransactionManager annotationDrivenTransactionManager() {
         return new DataSourceTransactionManager(dataSource);
     }
@@ -51,8 +60,10 @@ public class MybatisConfig implements TransactionManagementConfigurer {
     public PageHelper pageHelper() {
         PageHelper pageHelper = new PageHelper();
         ConfigProperties props = new ConfigProperties();
-        props.setProperty("offsetAsPageNum", "true").setProperty("rowBoundsWithCount", "true").setProperty("reasonable",
-                "true");
+        props.setProperty("offsetAsPageNum", "true")
+                .setProperty("rowBoundsWithCount", "true")
+                .setProperty("reasonable",
+                        "true");
         pageHelper.setProperties(props);
         return pageHelper;
     }

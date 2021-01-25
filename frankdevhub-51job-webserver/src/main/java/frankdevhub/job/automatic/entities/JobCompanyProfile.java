@@ -10,5 +10,5 @@ package frankdevhub.job.automatic.entities;
  */
 
 @SuppressWarnings("all")
-public class JobCompanyProfile {
+public class JobCompanyProfile extends BaseRecord<JobCompanyProfile> {
 }

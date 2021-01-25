@@ -2,10 +2,13 @@ package frankdevhub.job.automatic.mapper;
 
 import frankdevhub.job.automatic.dto.JobSearchResultQuery;
 import frankdevhub.job.automatic.entities.JobSearchResult;
+import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 
+@Mapper
 public interface JobSearchResultMapper {
+
     int deleteByPrimaryKey(String id);
 
     int insert(JobSearchResult result);

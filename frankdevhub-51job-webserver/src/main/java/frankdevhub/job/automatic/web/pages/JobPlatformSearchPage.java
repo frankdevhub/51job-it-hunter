@@ -4,6 +4,7 @@ import frankdevhub.job.automatic.core.constants.BusinessConstants;
 import frankdevhub.job.automatic.core.constants.SeleniumConstants;
 import frankdevhub.job.automatic.core.exception.BusinessException;
 import frankdevhub.job.automatic.core.utils.SalaryRangeTextUtils;
+import frankdevhub.job.automatic.core.utils.SpringUtils;
 import frankdevhub.job.automatic.core.utils.WebDriverUtils;
 import frankdevhub.job.automatic.entities.JobSearchResult;
 import frankdevhub.job.automatic.selenium.AssignDriver;
@@ -15,8 +16,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import tk.mybatis.mapper.util.Assert;
 
 import java.util.List;
@@ -24,19 +23,8 @@ import java.util.UUID;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-/**
- * <p>Title:@ClassName JobPlatformSearchPage.java</p>
- * <p>Copyright: Copyright (c) 2020</p>
- * <p>Company: www.frankdevhub.site</p>
- * <p>github: https://github.com/frankdevhub</p>
- *
- * @Author: frankdevhub@gmail.com
- * @CreateDate: 2020/2/4 21:46
- * @Version: 1.0
- */
 
 @Slf4j
-@Component
 @SuppressWarnings("all")
 public class JobPlatformSearchPage extends BaseWebPage {
 
@@ -50,8 +38,9 @@ public class JobPlatformSearchPage extends BaseWebPage {
     private final Query pageNavigator; //页面分页控件栏
     private ExecutorService threadPool; //扫描解析的线程池对象
 
-    @Autowired
-    private JobSearchResultService jobSearchResultService;
+    private JobSearchResultService getJobSearchResultService() {
+        return SpringUtils.getBean(JobSearchResultService.class);
+    }
 
     public JobPlatformSearchPage(Boolean isAutoConfig, String keyword) {
         super(isAutoConfig);
@@ -134,17 +123,17 @@ public class JobPlatformSearchPage extends BaseWebPage {
             if (null == result)
                 return;
             //查询校验是否存在已经入库的搜索职位记录
-            int count = jobSearchResultService.selectCountByMarkId(result.getMarkId());
+            int count = getJobSearchResultService().selectCountByMarkId(result.getMarkId());
             if (count <= 0) {
                 System.out.println("do insert result record");
                 String id = UUID.randomUUID().toString();
                 result.setId(id);
                 result.doCreateEntity();
-                jobSearchResultService.insertSelective(result);
+                getJobSearchResultService().insertSelective(result);
             } else {
                 System.out.println("do update result record");
                 result.doUpdateEntity();
-                jobSearchResultService.updateByPrimaryKeySelective(result);
+                getJobSearchResultService().updateByPrimaryKeySelective(result);
             }
         }
 

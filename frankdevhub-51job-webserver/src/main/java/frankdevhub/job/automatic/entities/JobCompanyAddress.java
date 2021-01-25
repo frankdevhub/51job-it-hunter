@@ -8,6 +8,7 @@ package frankdevhub.job.automatic.entities;
  * @blog: blog.frankdevhub.site
  * @version: 1.0
  */
+
 @SuppressWarnings("all")
-public class JobCompanyAddress {
+public class JobCompanyAddress extends BaseRecord<JobCompanyAddress> {
 }

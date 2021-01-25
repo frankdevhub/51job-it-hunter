@@ -11,6 +11,7 @@ package frankdevhub.job.automatic.entities;
  * @CreateDate: 2020/1/26 22:24
  * @Version: 1.0
  */
+
 @SuppressWarnings("all")
 public class JobSearchResult extends BaseRecord<JobSearchResult> {
     /**

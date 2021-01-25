@@ -10,5 +10,5 @@ package frankdevhub.job.automatic.entities;
  */
 
 @SuppressWarnings("all")
-public class JobViewerData {
+public class JobViewerData extends BaseRecord<JobViewerData> {
 }
