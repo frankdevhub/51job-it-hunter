@@ -16,6 +16,7 @@ public class BusinessConstants {
     public static final String INVALID_ENGLISH_CHARACTER = "not an english character";
     // https://www.51job.com 首页地址
     public static final String JOB_PLATFORM_HOMEPAGE = "http://www.51job.com";
+    public static final String JOB_PLATFORM_HOMEPAGE_SH = "http://www.51job.com";
     // 枚举类变量
     public static final String CHARACTER_BOOLEAN_VAREIABLE_CONFLICT = "time unit variable type conflict";
     // 默认职位地点

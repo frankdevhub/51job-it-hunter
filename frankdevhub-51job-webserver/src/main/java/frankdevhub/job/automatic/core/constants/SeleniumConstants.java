@@ -17,7 +17,7 @@ public class SeleniumConstants {
     // 搜索提交按钮
     public static final String SUBMIT_SEARCH_XPATH = "//div[@class='ush top_wrap']/button";
     // 查询结果集列表页面
-    public static final String SEARCH_RESULT_LIST_XPATH = "//div[@class='dw_table']/div[@class='el']";
+    public static final String SEARCH_RESULT_LIST_XPATH = "//div[@class='j_joblist']/div[@class='e']";
     // 查询结果集元素
     public static final String RESULT_JD_NAME_CLASS = "t1";
     public static final String RESULT_COMPANY_NAME_CLASS = "t2";
@@ -32,7 +32,7 @@ public class SeleniumConstants {
     public static final String RESULT_JD_CAMPUS_ONLY_XPATH = "p[@class='t1 ']/img[@alt='校招']";
     public static final String RESULT_JD_INTERNSHIP_ONLY_XPATH = "p[@class='t1 ']/img[@alt='实习']";
     // 分页导航控件
-    public static final String RESULT_PAGE_NAVIGATOR_XPATH = "//li[@class='bk']/a";
+    public static final String RESULT_PAGE_NAVIGATOR_XPATH = "//div[@class='p_in']/ul/li/a";
     // 首页用户登录按钮
     public static final String HOMEPAGE_USER_LOGIN_BTN_XPATH = "//p[@class='op']/a";
 }
