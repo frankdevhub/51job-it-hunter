@@ -1,5 +1,7 @@
 package frankdevhub.job.automatic.entities;
 
+import java.util.Objects;
+
 /**
  * <p>Title:@ClassName JobSearchResult.java</p>
  * <p>Description: 职位列表信息对象</p>
@@ -115,6 +117,44 @@ public class JobSearchResult extends BaseRecord<JobSearchResult> {
     private String linkUrl;
 
     private Integer markId;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof JobSearchResult)) return false;
+        if (!super.equals(o)) return false;
+        JobSearchResult that = (JobSearchResult) o;
+        return getJobTitle().equals(that.getJobTitle())
+                && getCompanyName().equals(that.getCompanyName())
+                && getLocation().equals(that.getLocation())
+                && getSalaryRangeChars().equals(that.getSalaryRangeChars())
+                && getSalaryRangeMin().equals(that.getSalaryRangeMin())
+                && getSalaryRangeMax().equals(that.getSalaryRangeMax())
+                && getSalaryTimeUnit().equals(that.getSalaryTimeUnit())
+                && getSalaryNumericUnit().equals(that.getSalaryNumericUnit())
+                && getIsDefineByW().equals(that.getIsDefineByW())
+                && getIsDefineByK().equals(that.getIsDefineByK())
+                && getIsDefineByDay().equals(that.getIsDefineByDay())
+                && getIsDefineByMonth().equals(that.getIsDefineByMonth())
+                && getIsDefineByYear().equals(that.getIsDefineByYear())
+                && getIsInternshipPos().equals(that.getIsInternshipPos())
+                && getIsCampusOnly().equals(that.getIsCampusOnly())
+                && getIsSalaryNegotiable().equals(that.getIsSalaryNegotiable())
+                && getPublishDateChar().equals(that.getPublishDateChar())
+                && getPublishDateMonthNumeric().equals(that.getPublishDateMonthNumeric())
+                && getPublishDateDayNumeric().equals(that.getPublishDateDayNumeric())
+                && getLinkUrl().equals(that.getLinkUrl());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), getJobTitle(), getCompanyName(), getLocation(),
+                getSalaryRangeChars(), getSalaryRangeMin(), getSalaryRangeMax(), getSalaryTimeUnit(),
+                getSalaryNumericUnit(), getIsDefineByW(), getIsDefineByK(), getIsDefineByDay(),
+                getIsDefineByMonth(), getIsDefineByYear(), getIsInternshipPos(), getIsCampusOnly(),
+                getIsSalaryNegotiable(), getPublishDateChar(), getPublishDateMonthNumeric(),
+                getPublishDateDayNumeric(), getLinkUrl());
+    }
 
     public String getJobTitle() {
         return jobTitle;

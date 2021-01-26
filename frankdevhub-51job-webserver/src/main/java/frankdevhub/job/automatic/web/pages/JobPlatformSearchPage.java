@@ -41,6 +41,8 @@ public class JobPlatformSearchPage extends BaseWebPage {
     private final Query pageNavigator; //页面分页控件栏
     private final Integer CPU_CAPBILITY; //CPU性能
 
+    // private final Lock PAGE_SCOPE_LOCK; //页面锁对象,防止当前页面所有对象没有解析完后直接跳转至下一页致使原获取的对象生命周期结束无法解析
+
     private ThreadPoolExecutor threadPool; //扫描解析的线程池对象
 
     private JobSearchResultService getJobSearchResultService() {
@@ -58,9 +60,10 @@ public class JobPlatformSearchPage extends BaseWebPage {
         this.searchResultList = new Query().defaultLocator(By.xpath(SeleniumConstants.SEARCH_RESULT_LIST_XPATH)); //搜索返回结果集列表控件
         this.pageNavigator = new Query().defaultLocator(By.xpath(SeleniumConstants.RESULT_PAGE_NAVIGATOR_XPATH)); //页面分页跳转控件
         this.CPU_CAPBILITY = Runtime.getRuntime().availableProcessors();
-        this.threadPool = new ThreadPoolExecutor(2 * CPU_CAPBILITY + 1, Integer.MAX_VALUE, 30, TimeUnit.SECONDS,
+        this.threadPool = new ThreadPoolExecutor(2 * CPU_CAPBILITY + 1, Integer.MAX_VALUE, 100, TimeUnit.SECONDS,
                 new SynchronousQueue<Runnable>(), new CustomizableThreadFactory("jd-extract-pool"),
                 new ThreadPoolExecutor.CallerRunsPolicy()); //解析每一个列表页面的线程对象所在的线程池
+        //this.PAGE_SCOPE_LOCK = new ReentrantLock();
     }
 
     /**
@@ -132,9 +135,9 @@ public class JobPlatformSearchPage extends BaseWebPage {
          * 解析搜索返回的结果集并入库
          */
         private void parseAndRestore() {
-            if (null == result)
-                return;
+            Assert.notNull(result, "cannot find result");
             //查询校验是否存在已经入库的搜索职位记录
+            log.info("markId = {}", result.getMarkId());
             int count = getJobSearchResultService().selectCountByMarkId(result.getMarkId());
             if (count <= 0) {
                 //新增未入库的数据
@@ -245,7 +248,7 @@ public class JobPlatformSearchPage extends BaseWebPage {
             try {
                 JobSearchResult result = parseSearchResult(row);
                 Thread t = new ParseSearchResultRow(result);
-                threadPool.submit(t);
+                threadPool.execute(t);
                 log.info("restore result thread submit success");
             } catch (Exception e) {
                 e.printStackTrace();

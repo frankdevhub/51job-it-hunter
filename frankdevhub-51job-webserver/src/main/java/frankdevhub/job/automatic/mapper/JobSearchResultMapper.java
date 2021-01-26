@@ -21,11 +21,11 @@ public interface JobSearchResultMapper {
 
     int findPageWithCount(JobSearchResultQuery query);
 
-    int selectCountByMarkId(String markId);
+    int selectCountByMarkId(Integer markId);
 
     JobSearchResult selectById(String id);
 
     List<JobSearchResult> findPageWithResult(JobSearchResultQuery query);
 
-    JobSearchResult selectByMarkId(String markId);
+    JobSearchResult selectByMarkId(Integer markId);
 }
