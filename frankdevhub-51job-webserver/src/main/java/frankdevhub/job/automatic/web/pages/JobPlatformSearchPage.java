@@ -81,7 +81,7 @@ public class JobPlatformSearchPage extends BaseWebPage {
      */
     private void navigateToPlatformHomePage() {
         //默认跳转至上海地区
-        getDriver().get(BusinessConstants.JOB_PLATFORM_HOMEPAGE_SH);
+        getDriver().get(BusinessConstants.JOB_PLATFORM_HOMEPAGE);
         WebDriverWait wait = new WebDriverWait(getDriver(), 5, 100);
         WebDriverUtils.doWaitTitleContains(BusinessConstants.JOB_PLATFORM_HOMEPAGE_TITLE_KEY, wait);
         log.info("navigate to www.51job.com success");
@@ -218,15 +218,18 @@ public class JobPlatformSearchPage extends BaseWebPage {
         result.setCompanyName(companyNameElement.getAttribute(SeleniumConstants.ATTRIBUTE_TITLE).trim()); //职位所在企业名称
         result.setLocation(jobLocationElement.getText().trim()); //职位地点位置
         String publishDate = publishDateElement.getText().trim(); //职位发布日期
-        //替换中文字符 2020-01-15 发布-> 2020-01-15
-        publishDate = publishDate.replaceAll("[\u4E00-\u9FA5]", "");
-        int month = Integer.parseInt(publishDate.split("-")[0]);
-        int day = Integer.parseInt(publishDate.split("-")[1]);
-        result.setPublishDateChar(publishDate) //职位发布日期
-                .setPublishDateDayNumeric(day) //职位发布时间(天)
-                .setPublishDateMonthNumeric(month); //职位发布时间(月)
-        //生成新的唯一标识
-        int markId = result.hashCode();
+        log.info("publishDate = {}", publishDate);
+        //若发布日期存在则进行解析
+        if (null != publishDate) {
+            //替换中文字符 2020-01-15 发布-> 2020-01-15
+            publishDate = publishDate.replaceAll("[\u4E00-\u9FA5]", "");
+            int month = Integer.parseInt(publishDate.split("-")[0]);
+            int day = Integer.parseInt(publishDate.split("-")[1]);
+            result.setPublishDateChar(publishDate) //职位发布日期
+                    .setPublishDateDayNumeric(day) //职位发布时间(天)
+                    .setPublishDateMonthNumeric(month); //职位发布时间(月)
+        }
+        int markId = result.hashCode(); //生成新的唯一标识
         result.setMarkId(markId);
         return result;
     }
@@ -272,20 +275,23 @@ public class JobPlatformSearchPage extends BaseWebPage {
         log.info("locate search result page navigator");
         //获取页面分页控件对象
         List<WebElement> navigators = pageNavigator.findWebElements();
+        Assert.notEmpty(navigators, "cannot find navigators");
         //校验是否捕获到分页导航控件
-        if (null == navigators || navigators.size() == 0) {
+        if (null == navigators || navigators.size() == 0)
             throw new RuntimeException("invalid element may be located as search result page navigator");
-        }
 
-        //校验是否可以进行下一页跳转
-        WebElement nextPageButton = navigators.size() == 1 ? navigators.get(0) : navigators.get(1);
-        String nextPageUrl = nextPageButton.getAttribute(SeleniumConstants.ATTRIBUTE_HREF);
-        if (null == nextPageUrl) {
-            throw new BusinessException(BusinessConstants.NEXT_PAGE_NOT_AVAILABLE);
+        //遍历翻页控件校验是否可以进行下一页跳转
+        WebElement nextPage = null;
+        for (WebElement nav : navigators) {
+            String name = nav.getAttribute(SeleniumConstants.ATTRIBUTE_CLASS);
+            if (null != name && "next".equals(name))
+                nextPage = nav;
         }
+        if (null == nextPage)
+            throw new BusinessException(BusinessConstants.NEXT_PAGE_NOT_AVAILABLE);
         //校验下一页的跳转链接并跳转
-        Assert.notEmpty(nextPageUrl, "next page url should not be null");
-        this.getDriver().get(nextPageUrl);
+        //点击翻页控件触发翻页
+        nextPage.click();
         log.info("navigate to next search result page");
         WebDriverWait wait = new WebDriverWait(getDriver(), 5, 100);
         WebDriverUtils.doWaitTitleContains(this.keyword, wait);

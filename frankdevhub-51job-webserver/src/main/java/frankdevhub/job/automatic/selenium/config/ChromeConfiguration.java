@@ -55,10 +55,13 @@ public class ChromeConfiguration implements SeleniumBrowserConfiguration {
 
     public static ChromeConfiguration newInstance(Boolean isAutoConfig) {
         //TODO
-        if (isAutoConfig)
+        if (isAutoConfig) {
             return null;
-        else
-            return new ChromeConfiguration();
+        } else {
+            //TODO:自动装配默认配置
+            //return new ChromeConfiguration();
+            return new ChromeConfiguration(DEFAULT_WIN_SELENIUM_CACHE_ROOT, DEFAULT_SELENIUM_CACHE_NAME, CHROME_DRIVER_PATH);
+        }
         //return new ChromeConfiguration(DEFAULT_WIN_SELENIUM_CACHE_ROOT, DEFAULT_SELENIUM_CACHE_NAME, CHROME_DRIVER_PATH);
     }
 
@@ -69,8 +72,9 @@ public class ChromeConfiguration implements SeleniumBrowserConfiguration {
     private void isSeleniumBrowserCacheDirectoryExist(File directory) throws BusinessException {
         System.out.println("use selenium browser cache as:");
         System.out.println(directory.getAbsolutePath());
-        if (!directory.exists())
+        if (!directory.exists()) {
             throw new BusinessException(BusinessConstants.SELENIUM_CACHE_ROOT_NOT_EXISTS);
+        }
     }
 
     public String getSeleniumCacheDirectoryPath() {

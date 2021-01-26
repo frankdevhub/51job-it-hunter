@@ -87,7 +87,6 @@ public class JobPlatformClientTest {
 
             log.info("\n");
         }
-
         log.info("run test method {{testReadTempCookieDocument}} end");
     }
 
@@ -112,12 +111,10 @@ public class JobPlatformClientTest {
        /* //clear default history cookies
        log.info("clear all restored cookies");
         driver.manage().deleteAllCookies();*/
-
         //跳转到测试连接地址
         driver.get(BusinessConstants.JOB_PLATFORM_HOMEPAGE);
         //判断是否跳转到目标的首页
         WebDriverUtils.doWaitTitleContains("招聘", new WebDriverWait(driver, 3));
-
         log.info("navigate to platform homepage complete");
         log.info("login with user credential");
         //测试计量cookie对象的读取的时间
@@ -132,10 +129,8 @@ public class JobPlatformClientTest {
             log.info("name = " + c.getName());
             log.info("path = " + c.getPath());
             log.info("value = " + c.getValue());
-
             log.info("\n");
         }
-
         //restore cookie to cache directory
         //加载并读取本地存储的会话文件
         File temp = new File(new ClassPathResource("/src/main/resources/cache/temp_cookie.dat").getPath());
@@ -163,7 +158,6 @@ public class JobPlatformClientTest {
         log.info("run test method {{testGetJobSearchResult}} start");
         JobPlatformClient client = new JobPlatformClient();
         client.getJobSearchResult(TEST_RESULT_PAGE);
-
         log.info("run test method {{testGetJobSearchResult}} complete");
     }
 
@@ -228,7 +222,6 @@ public class JobPlatformClientTest {
             log.info(previousIndexUrlStr);
             log.info("next url: ");
             log.info(nextIndexUrlStr);
-
         } else {
             throw new RuntimeException("search result page url can not match regex example");
         }
