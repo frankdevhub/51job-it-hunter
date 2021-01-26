@@ -7,11 +7,13 @@ import frankdevhub.job.automatic.core.constants.BusinessConstants;
 import frankdevhub.job.automatic.core.constants.SeleniumConstants;
 import frankdevhub.job.automatic.core.exception.BusinessException;
 import frankdevhub.job.automatic.core.utils.SalaryRangeTextUtils;
+import frankdevhub.job.automatic.core.utils.SpringUtils;
 import frankdevhub.job.automatic.core.utils.WebDriverUtils;
 import frankdevhub.job.automatic.entities.JobSearchResult;
 import frankdevhub.job.automatic.selenium.DriverBase;
 import frankdevhub.job.automatic.selenium.config.ChromeConfiguration;
 import frankdevhub.job.automatic.service.JobSearchResultService;
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.apache.http.HttpEntity;
@@ -25,7 +27,6 @@ import org.jsoup.nodes.Document;
 import org.openqa.selenium.Cookie;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.springframework.beans.factory.annotation.Autowired;
 import tk.mybatis.mapper.util.Assert;
 
 import java.io.IOException;
@@ -52,8 +53,9 @@ import java.util.regex.Pattern;
 @SuppressWarnings("all")
 public class JobPlatformClient {
 
-    @Autowired
-    private JobSearchResultService jobSearchResultService;
+    private JobSearchResultService getJobSearchResultService() {
+        return SpringUtils.getBean(JobSearchResultService.class);
+    }
 
     /**
      * 获取缓存的会话信息,直接登录
@@ -67,7 +69,7 @@ public class JobPlatformClient {
 
         log.info("using cache path: " + configuration.getSeleniumCacheDirectoryPath());
         WebDriver driver = DriverBase.getDriver(configuration.getSeleniumCacheDirectoryPath());
-        driver.get(BusinessConstants.JOB_PLATFORM_HOMEPAGE);
+        driver.get(BusinessConstants.JOB_PLATFORM_HOMEPAGE_SH);
         WebDriverUtils.doWaitTitleContains(BusinessConstants.JOB_PLATFORM_HOMEPAGE_TITLE_KEY_1, new WebDriverWait(driver, 3));
         log.info("navigate to platform homepage complete");
         log.info("start to get web cookie");
@@ -181,7 +183,7 @@ public class JobPlatformClient {
             throw new RuntimeException();
     }
 
-
+    @Data
     private class JobSearchResultRestoreThread extends Thread {
 
         private String pageUrl;
@@ -237,9 +239,9 @@ public class JobPlatformClient {
         }
 
         private void restoreJobSearchResults(List<JobSearchResult> results) {
-            if (null == this.service)
+            if (null == this.service) {
                 throw new RuntimeException("repository should not be null");
-
+            }
             for (JobSearchResult result : results) {
                 try {
                     if (null == result.getMarkId()) //如果唯一标识为空则跳过
@@ -263,10 +265,12 @@ public class JobPlatformClient {
         @Override
         public void run() {
             log.info("job search result restore thread start");
-            if (StringUtils.isNotEmpty(this.pageUrl))
+            if (StringUtils.isNotEmpty(this.pageUrl)) {
                 log.info("page url = " + pageUrl);
-            if (null == results)
+            }
+            if (null == results) {
                 return;
+            }
             restoreJobSearchResults(results);
         }
     }
@@ -278,7 +282,7 @@ public class JobPlatformClient {
      * @param service 页面返回的结果集存储服务
      */
     private void restoreJobSearchResult(List<JobSearchResult> results, ExecutorService service) {
-        Runnable task = new JobSearchResultRestoreThread(results, jobSearchResultService);
+        Runnable task = new JobSearchResultRestoreThread(results, getJobSearchResultService());
         log.info("submit task to executor service pool");
         service.submit(task);
     }
@@ -293,11 +297,11 @@ public class JobPlatformClient {
      */
     private JobSearchResult parseSearchResult(JXNode row, String keyword) throws XpathSyntaxErrorException, BusinessException, IllegalAccessException {
 
-        JXNode jobDescriptionNode = row.sel(SeleniumConstants.RESULT_JD_NAME_XPATH).get(0);
-        JXNode companyNameNode = row.sel(SeleniumConstants.RESULT_COMPANY_NAME_XPATH).get(0);
-        JXNode salaryRangeNode = row.sel(SeleniumConstants.RESULT_SALARY_RANGE_XPATH).get(0);
-        JXNode publishDateNode = row.sel(SeleniumConstants.RESULT_JD_PUBLISH_DATE_XPATH).get(0);
-        JXNode jobLocationNode = row.sel(SeleniumConstants.RESULT_JD_LOCATION_XPATH).get(0);
+        JXNode jobDescriptionNode = row.sel(SeleniumConstants.RESULT_JD_NAME_XPATH).get(0); //职位信息描述
+        JXNode companyNameNode = row.sel(SeleniumConstants.RESULT_COMPANY_NAME_XPATH).get(0); //公司名称
+        JXNode salaryRangeNode = row.sel(SeleniumConstants.RESULT_SALARY_RANGE_XPATH).get(0); //薪资范围
+        JXNode publishDateNode = row.sel(SeleniumConstants.RESULT_JD_PUBLISH_DATE_XPATH).get(0); //职位发布日期
+        JXNode jobLocationNode = row.sel(SeleniumConstants.RESULT_JD_LOCATION_XPATH).get(0); //职位地点信息
 
         Assert.notNull(jobDescriptionNode, "job description node cannot be found on this row"); //校验职位信息描述
         Assert.notNull(companyNameNode, "company name node cannot be found on this row"); //校验职位所在公司名称不能为空
@@ -339,11 +343,13 @@ public class JobPlatformClient {
         } catch (Exception e) {
             result.setIsInternshipPos(false);
         }
-        result.setIsSalaryNegotiable(false);
+        result.setIsSalaryNegotiable(false); //薪资是否可商议
         result.setCompanyName(companyNameNode.getElement().attr(SeleniumConstants.ATTRIBUTE_TITLE).trim());
         result.setLocation(jobLocationNode.getElement().childNodes().get(0).outerHtml().trim());
         //职位发布日期以及其他属性
         String publishDate = publishDateNode.getElement().childNodes().get(0).outerHtml().trim();
+        //替换中文字符 2020-01-15 发布-> 2020-01-15
+        publishDate = publishDate.replaceAll("[\u4E00-\u9FA5]", "");
         int month = Integer.parseInt(publishDate.split("-")[0]);
         int day = Integer.parseInt(publishDate.split("-")[1]);
         result.setPublishDateChar(publishDate)
