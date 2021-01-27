@@ -173,9 +173,9 @@ public class JobPlatformSearchPage extends BaseWebPage {
         WebElement jobDescriptionElement = row.findElement(By.xpath(SeleniumConstants.RESULT_JD_NAME_XPATH)); //职位描述
         WebElement companyNameElement = row.findElement(By.xpath(SeleniumConstants.RESULT_COMPANY_NAME_XPATH)); //职位所在企业
         WebElement salaryRangeElement = row.findElement(By.xpath(SeleniumConstants.RESULT_SALARY_RANGE_XPATH)); //薪资范围描述
-        WebElement publishDateElement = row.findElement(By.xpath(SeleniumConstants.RESULT_JD_PUBLISH_DATE_XPATH));//职位地点
+        WebElement publishDateElement = row.findElement(By.xpath(SeleniumConstants.RESULT_JD_PUBLISH_DATE_XPATH));//职位发布日期
         WebElement jobLocationElement = row.findElement(By.xpath(SeleniumConstants.RESULT_JD_LOCATION_XPATH)); //职位地点
-
+        //常用非空字段进行非空校验
         Assert.notNull(jobDescriptionElement, "job description element cannot be found on this row"); //职位描述
         Assert.notNull(companyNameElement, "company name element cannot be found on this row"); //职位所在企业
         Assert.notNull(publishDateElement, "publish date element cannot be found on this row"); //职位发布日期
@@ -185,6 +185,7 @@ public class JobPlatformSearchPage extends BaseWebPage {
                 .setLinkUrl(jobDescriptionElement.getAttribute(SeleniumConstants.ATTRIBUTE_HREF)); //职位详情平台链接地址
         //职位薪资范围的描述性字符串
         String salaryRangeText = null == salaryRangeElement.getText() ? "" : salaryRangeElement.getText();
+        log.info("salaryRangeText = {}", salaryRangeText);
         //如果描述内容不为空则解析获取薪资范围以及计量单位
         if (StringUtils.isNotEmpty(salaryRangeText.trim())) {
             SalaryRangeTextUtils utils = new SalaryRangeTextUtils(salaryRangeElement.getText());
