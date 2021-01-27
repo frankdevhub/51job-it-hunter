@@ -1,11 +1,10 @@
-package frankdevhub.job.automatic.core.utils;
+package frankdevhub.job.automatic.core.parser;
 
 import frankdevhub.job.automatic.core.constants.BusinessConstants;
-import frankdevhub.job.automatic.core.data.logging.Logger;
-import frankdevhub.job.automatic.core.data.logging.LoggerFactory;
 import frankdevhub.job.automatic.core.enums.DateUnit;
 import frankdevhub.job.automatic.core.enums.NumericUnit;
 import frankdevhub.job.automatic.core.exception.BusinessException;
+import lombok.extern.slf4j.Slf4j;
 import tk.mybatis.mapper.util.Assert;
 
 import java.lang.reflect.Field;
@@ -23,22 +22,20 @@ import java.util.regex.Pattern;
  * @Version: 1.0
  */
 
+@Slf4j
 @SuppressWarnings("all")
 public class SalaryRangeTextUtils {
-
-    private String text; //薪资范围描述的字符串
-    private String minimize; //薪资范围(最小值)
-    private String maximum; //薪资范围(最大值)
-    private String timeUnit; //计量的时间单位
-    private String numericUnit; //计量的数值单位
 
     private final String rangeRegex =
             "(?<min>(([1-9]\\d*\\.?\\d+)|(0\\.\\d*[1-9])|(\\d+))?)" +
                     "(?<hyphen>((—|-)+)?)" +
                     "(?<max>(([1-9]\\d*\\.?\\d+)|(0\\.\\d*[1-9])|(\\d+))?)" +
                     "(?<numeric>[\\u4e00-\\u9fa5]?)(/?)(?<date>[\\u4e00-\\u9fa5]?)";
-
-    private final Logger LOGGER = LoggerFactory.getLogger(SalaryRangeTextUtils.class);
+    private String text; //薪资范围描述的字符串
+    private String minimize; //薪资范围(最小值)
+    private String maximum; //薪资范围(最大值)
+    private String timeUnit; //计量的时间单位
+    private String numericUnit; //计量的数值单位
 
     public SalaryRangeTextUtils() {
 
@@ -49,7 +46,7 @@ public class SalaryRangeTextUtils {
     }
 
     private void clear() throws IllegalAccessException {
-        LOGGER.begin().info("invoke {{SalaryRangeTextUtils::clear()}}");
+        log.info("invoke {{SalaryRangeTextUtils::clear()}}");
         Class<?> clazz = this.getClass();
         Field[] fields = clazz.getDeclaredFields();
         for (Field f : fields) {
@@ -62,7 +59,7 @@ public class SalaryRangeTextUtils {
 
     @Override
     public String toString() {
-        LOGGER.begin().info("invoke {{SalaryRangeTextUtils::toString()}}");
+        log.info("invoke {{SalaryRangeTextUtils::toString()}}");
 
         return "SalaryRangeTextUtils{" + '\n' +
                 "text='" + text + '\'' + '\n' +
@@ -75,22 +72,20 @@ public class SalaryRangeTextUtils {
     }
 
     public void parse() throws IllegalAccessException, BusinessException {
-        LOGGER.begin().info("invoke {{SalaryRangeTextUtils::parse()}}");
+        log.info("invoke {{SalaryRangeTextUtils::parse()}}");
         Assert.notNull(this.getText(), "text should not be null");
         clear();
         this.text = getText().trim();
-        System.out.println("parsing test: " + this.getText());
+        log.info("parsing test: " + this.getText());
         Matcher matcher = Pattern.compile(rangeRegex).matcher(text);
         if (matcher.find()) {
             this.minimize = matcher.group("min"); //匹配最小值
             this.maximum = matcher.group("max"); //匹配最大值
             this.numericUnit = matcher.group("numeric"); //匹配数值单位
             this.timeUnit = matcher.group("date"); //匹配计量时间(年月日天)
-
         } else
             throw new BusinessException(BusinessConstants.SALARY_RANGE_REGEX_MATCH_ERROR);
-
-        System.out.println("salary range text parse complete");
+        log.info("salary range text parse complete");
     }
 
     public String getText() {

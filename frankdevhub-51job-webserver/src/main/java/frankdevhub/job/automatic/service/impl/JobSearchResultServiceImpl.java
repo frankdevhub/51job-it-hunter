@@ -1,5 +1,6 @@
 package frankdevhub.job.automatic.service.impl;
 
+import frankdevhub.job.automatic.core.repository.MyBatisRepository;
 import frankdevhub.job.automatic.dto.JobSearchResultQuery;
 import frankdevhub.job.automatic.entities.JobSearchResult;
 import frankdevhub.job.automatic.mapper.JobSearchResultMapper;
@@ -22,7 +23,7 @@ import java.util.List;
 @Slf4j
 @Service
 @SuppressWarnings("all")
-public class JobSearchResultServiceImpl implements JobSearchResultService {
+public class JobSearchResultServiceImpl extends MyBatisRepository implements JobSearchResultService {
 
     @Autowired
     private JobSearchResultMapper searchResultMapper;

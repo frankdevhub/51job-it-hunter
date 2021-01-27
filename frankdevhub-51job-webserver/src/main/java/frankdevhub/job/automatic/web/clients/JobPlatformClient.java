@@ -6,7 +6,7 @@ import cn.wanghaomiao.xpath.model.JXNode;
 import frankdevhub.job.automatic.core.constants.BusinessConstants;
 import frankdevhub.job.automatic.core.constants.SeleniumConstants;
 import frankdevhub.job.automatic.core.exception.BusinessException;
-import frankdevhub.job.automatic.core.utils.SalaryRangeTextUtils;
+import frankdevhub.job.automatic.core.parser.SalaryRangeTextUtils;
 import frankdevhub.job.automatic.core.utils.SpringUtils;
 import frankdevhub.job.automatic.core.utils.WebDriverUtils;
 import frankdevhub.job.automatic.entities.JobSearchResult;
@@ -251,9 +251,11 @@ public class JobPlatformClient {
                     if (count == 0) {
                         String id = UUID.randomUUID().toString();
                         result.setId(id);
+                        result.doCreateEntity();
                         service.insertSelective(result);
                     } else {
                         JobSearchResult res = service.selectByMarkId(markId); //查询校验是否已有入库的结果集
+                        result.doUpdateEntity();
                         service.updateByPrimaryKeySelective(res);
                     }
                 } catch (Exception e) {
@@ -371,6 +373,8 @@ public class JobPlatformClient {
     public List<JobSearchResult> getJobSearchResult(String url) throws IOException, XpathSyntaxErrorException {
         String pageContext = getPageHtmlText(url);
         String keyword = getSearchKeyword(url);
+        log.info("keyword  = {}", keyword);
+
         List<JobSearchResult> results = new ArrayList<>();
         Document document = Jsoup.parse(pageContext);
         JXDocument jxDocument = new JXDocument(document);

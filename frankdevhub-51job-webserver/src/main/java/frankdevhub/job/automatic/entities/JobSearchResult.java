@@ -148,12 +148,15 @@ public class JobSearchResult extends BaseRecord<JobSearchResult> {
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), getJobTitle(), getCompanyName(), getLocation(),
+        int hashCode = Objects.hash(super.hashCode(), getJobTitle(), getCompanyName(), getLocation(),
                 getSalaryRangeChars(), getSalaryRangeMin(), getSalaryRangeMax(), getSalaryTimeUnit(),
                 getSalaryNumericUnit(), getIsDefineByW(), getIsDefineByK(), getIsDefineByDay(),
                 getIsDefineByMonth(), getIsDefineByYear(), getIsInternshipPos(), getIsCampusOnly(),
                 getIsSalaryNegotiable(), getPublishDateChar(), getPublishDateMonthNumeric(),
                 getPublishDateDayNumeric(), getLinkUrl());
+        if (hashCode < 0)
+            hashCode = hashCode * (-1);
+        return hashCode;
     }
 
     public String getJobTitle() {

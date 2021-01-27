@@ -12,12 +12,14 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @SpringBootApplication
 @ComponentScan(basePackages = {"frankdevhub.job.automatic"})
 public class JobWebAutoService {
-
     public static void main(String[] args) {
         try {
             SpringApplication.run(JobWebAutoService.class, args);
             log.info("start running service");
+            //可视化Selenium驱动模式
             new JobPlatformSearchPage(false, "java").startSearchResultPatrol();
+            //Jsoup爬虫模式
+            //new JobPlatformService().defaultDataPatrolService(BusinessConstants.JOB_PLATFORM_HOMEPAGE_SH);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

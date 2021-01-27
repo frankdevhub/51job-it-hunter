@@ -3,7 +3,7 @@ package frankdevhub.job.automatic.web.pages;
 import frankdevhub.job.automatic.core.constants.BusinessConstants;
 import frankdevhub.job.automatic.core.constants.SeleniumConstants;
 import frankdevhub.job.automatic.core.exception.BusinessException;
-import frankdevhub.job.automatic.core.utils.SalaryRangeTextUtils;
+import frankdevhub.job.automatic.core.parser.SalaryRangeTextUtils;
 import frankdevhub.job.automatic.core.utils.SpringUtils;
 import frankdevhub.job.automatic.core.utils.WebDriverUtils;
 import frankdevhub.job.automatic.entities.JobSearchResult;

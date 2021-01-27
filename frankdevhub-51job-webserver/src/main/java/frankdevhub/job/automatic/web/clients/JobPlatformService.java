@@ -1,6 +1,7 @@
 package frankdevhub.job.automatic.web.clients;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.util.Assert;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -26,6 +27,7 @@ public class JobPlatformService {
         private String url; //页面链接
 
         public DefaultDataPatrolThread(String url) {
+            Assert.notNull(url, "cannot find url");
             this.url = url;
         }
 
