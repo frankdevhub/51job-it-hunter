@@ -26,11 +26,13 @@ import java.util.regex.Pattern;
 @SuppressWarnings("all")
 public class SalaryRangeTextUtils {
 
+    //薪资范围描述的正则表达式
     private final String rangeRegex =
             "(?<min>(([1-9]\\d*\\.?\\d+)|(0\\.\\d*[1-9])|(\\d+))?)" +
                     "(?<hyphen>((—|-)+)?)" +
                     "(?<max>(([1-9]\\d*\\.?\\d+)|(0\\.\\d*[1-9])|(\\d+))?)" +
                     "(?<numeric>[\\u4e00-\\u9fa5]?)(/?)(?<date>[\\u4e00-\\u9fa5]?)";
+
     private String text; //薪资范围描述的字符串
     private String minimize; //薪资范围(最小值)
     private String maximum; //薪资范围(最大值)

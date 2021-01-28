@@ -1,5 +1,7 @@
 package frankdevhub.job.automatic.entities;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Map;
@@ -14,6 +16,8 @@ import java.util.Map;
  * @CreateDate: 2020/1/28 23:49
  * @Version: 1.0
  */
+
+@Slf4j
 @SuppressWarnings("all")
 public class BusinessCharacter {
     private Character value; // 字符名称
@@ -28,14 +32,14 @@ public class BusinessCharacter {
     @Override
     public String toString() {
 
-        System.out.println("print attributes:");
-        System.out.println("value = " + value);
-        System.out.println("isCN_Character = " + isCN_Character);
-        System.out.println("isTW_Character = " + isTW_Character);
-        System.out.println("isEN_Character = " + isEN_Character);
-        System.out.println("isENCapital = " + isENCapital);
-        System.out.println("isNumericCharacter = " + isNumericCharacter);
-        System.out.println("isSymbolCharacter = " + isSymbolCharacter);
+        log.info("print attributes:");
+        log.info("value = " + value);
+        log.info("isCN_Character = " + isCN_Character);
+        log.info("isTW_Character = " + isTW_Character);
+        log.info("isEN_Character = " + isEN_Character);
+        log.info("isENCapital = " + isENCapital);
+        log.info("isNumericCharacter = " + isNumericCharacter);
+        log.info("isSymbolCharacter = " + isSymbolCharacter);
 
         return "BusinessCharacter{" +
                 "value=" + value +
@@ -53,32 +57,44 @@ public class BusinessCharacter {
         return attributes;
     }
 
+    /**
+     * 获取字符属性
+     *
+     * @param attributes 字符属性
+     * @throws InvocationTargetException,IllegalAccessException
+     */
     public BusinessCharacter setAttributes(Map<String, Boolean> attributes) throws InvocationTargetException, IllegalAccessException {
         this.attributes = attributes;
         setAttributes();
         return this;
     }
 
+    /**
+     * 获取字符属性
+     *
+     * @throws InvocationTargetException,IllegalAccessException
+     */
     private void setAttributes() throws InvocationTargetException, IllegalAccessException {
-        System.out.println("BusinessCharacter::setAttributes");
+        log.info("BusinessCharacter::setAttributes");
         if (null != this.attributes) {
-            Class<?> clazz = this.getClass();
-            Method[] methods = clazz.getDeclaredMethods();
+            Class<?> clazz = this.getClass(); //实体对象的类名
+            Method[] methods = clazz.getDeclaredMethods(); //实体对象的方法集合
             for (Method m : methods) {
-                m.setAccessible(true);
-                String name = m.getName();
-                Integer args = m.getParameterCount();
+                m.setAccessible(true); //设置方法的可读性
+                String name = m.getName(); //配置方法名
+                Integer args = m.getParameterCount(); //配置函数参数的个数
+                //过滤方法名,判断是否是配置字符属性的方法且含参数
                 if (name.contains("Character".trim()) && args == 1) {
                     Boolean value = this.attributes.get(name);
-                    System.out.println("method name: " + name + " value: " + value);
-
+                    log.info("method name: " + name + " value: " + value);
+                    //如果没有获取该项配置,则反射调用此方法进行映射
                     if (null != value) {
                         m.invoke(this, value);
                     }
                 }
             }
         }
-        System.out.println("\n\n");
+        log.info("\n\n");
     }
 
     public Character getValue() {

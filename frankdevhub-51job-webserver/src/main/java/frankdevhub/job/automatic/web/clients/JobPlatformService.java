@@ -18,7 +18,6 @@ import java.util.concurrent.Executors;
  */
 
 @Slf4j
-@SuppressWarnings("all")
 public class JobPlatformService {
 
     private class DefaultDataPatrolThread extends Thread {

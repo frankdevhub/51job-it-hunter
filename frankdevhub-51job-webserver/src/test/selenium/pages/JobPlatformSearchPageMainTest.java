@@ -28,7 +28,7 @@ public class JobPlatformSearchPageMainTest {
      * @throws InterruptedException
      */
     @Test
-    public void doPatrolTestOnePageOnly() throws InterruptedException {
+    public void testPatrolTestOnePageOnly() throws InterruptedException {
         log.info("run test method {{doPatrolTestOnePageOnly}} start");
         JobPlatformSearchPage patrolService = new JobPlatformSearchPage(Boolean.FALSE, TEST_SEARCH_KEY);
         patrolService.startSearchResultPatrol();

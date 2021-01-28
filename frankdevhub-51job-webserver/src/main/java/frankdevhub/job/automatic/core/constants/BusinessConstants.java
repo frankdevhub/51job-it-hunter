@@ -17,9 +17,33 @@ public class BusinessConstants {
     // https://www.51job.com 首页地址
     public static final String JOB_PLATFORM_HOMEPAGE = "http://www.51job.com";
     // 上海地区入口
-    public static final String JOB_PLATFORM_HOMEPAGE_SH = "https://search.51job.com/list/020000,000000,0000,00,9,99,%2B,2,1.html?lang=c&postchannel=0000&workyear=99&cotype=99&degreefrom=99&jobterm=99&companysize=99&ord_field=0&dibiaoid=0&line=&welfare=";
+    public static final String JOB_PLATFORM_HOMEPAGE_SH = "https://search.51job.com/list/020000,000000,0000,00,9,99,%2B,2,1.html?" +
+            "lang=c" +
+            "&postchannel=0000" +  //postchannel  信息发布渠道
+            "&workyear=99" +  //workyear  工作年限
+            "&cotype=99" +  //cotype
+            "&degreefrom=99" + //degreefrom 学历要求
+            "&jobterm=99" + //jobterm 工作经验
+            "&companysize=99" +  //companysize  企业人数规模
+            "&ord_field=0" + //ord_field
+            "&dibiaoid=0" +  //dibiaoid
+            "&line=" + //line
+            "&welfare=";  //welfare  薪资福利
+
+    // 默认上海地区搜索java关键字
+    public static final String DEFAULT_SEARCH_JAVA = "https://search.51job.com/list/020000,000000,0000,00,9,99,java,2,1.html?" +  //搜索关键字java
+            "lang=c&postchannel=0000" +  //postchannel  信息发布渠道
+            "&workyear=99" +   //workyear  工作年限
+            "&cotype=99&degreefrom=99" +  //cotype
+            "&jobterm=99" +   //jobterm 工作年限
+            "&companysize=99" +  //companysize 企业人数规模
+            "&ord_field=0" +  //ord_field
+            "&dibiaoid=0" + //dibiaoid
+            "&line=" + //line
+            "&welfare=";  //welfare  薪资福利
+
     // 枚举类变量
-    public static final String CHARACTER_BOOLEAN_VAREIABLE_CONFLICT = "time unit variable type conflict";
+    public static final String CHARACTER_BOOLEAN_VAREIABLE_CONFLICT = "time unit variable type conflict"; //时间单位逻辑性冲突
     // 默认职位地点
     public static final String DEFAULT_RESOURCE_LOCATION = "上海"; //默认搜索地区名
     // 网页搜索关键字项
@@ -34,4 +58,8 @@ public class BusinessConstants {
     public static final String DUPLICATE_DB_RECORDS_WITH_MARKID = "duplicate records found with markId"; //重复的唯一识别标识异常
     // 默认客户端浏览器会话缓存文件名
     public static final String DEFAULT_TEMP_COOKIE_FILE = "temp_cookie.dat"; //缓存会话文件
+    // 提取链接唯一标识的正则表达式
+    public static final String DEFAULT_HTTP_LINK_MARK_REGEX = "((?<key>[1-9]\\d*\\.?\\d*)(.html))"; //提取链接唯一标识的正则表达式
+    // 无法由平台链接生成唯一检索markId
+    public static final String MARKID_GENERATE_ERROR = "cannot generate markid"; //无法由平台链接生成唯一检索markId
 }

@@ -35,17 +35,35 @@ import java.util.regex.Pattern;
 
 @Slf4j
 @RunWith(SpringJUnit4ClassRunner.class)
+@SuppressWarnings("all")
 public class JobPlatformClientTest {
 
     //测试页面的跳转链接地址
-    private final String TEST_RESULT_PAGE = "https://search.51job.com/list/020000,000000,0000,00,9,99" +
-            ",java,2,1.html?lang=c&stype=&postchannel=0000&workyear=99" +
-            "&cotype=99&degreefrom=99&jobterm=99&companysize=99&providesalary=99&lonlat=0%2C0&radius=-1" +
-            "&ord_field=0&confirmdate=9&fromType=&dibiaoid=0&address=&line=&specialarea=00&from=&welfare=";
+    private final String TEST_RESULT_PAGE = "https://search.51job.com/list/020000,000000,0000,00,9,99,java,2,1.html?" +
+            "lang=c" +  //语言类型 lang
+            "&stype=" + //stype
+            "&postchannel=0000" + //postchannel
+            "&workyear=99" +  //workyear 工作年限
+            "&cotype=99" + //cotype
+            "&degreefrom=99" +  //degreefrom 学历要求
+            "&jobterm=99" + //jobterm
+            "&companysize=99" +  //companysize 企业人数规模
+            "&providesalary=99" +  //providesalary
+            "&lonlat=0%2C0" + //lonlat
+            "&radius=-1" + //radius
+            "&ord_field=0" +  //ord_field
+            "&confirmdate=9" +  //confirmdate
+            "&fromType=" +  //fromType
+            "&dibiaoid=0" +  //dibiaoid
+            "&address=" + //address 工作岗位地址
+            "&line=" + //line
+            "&specialarea=00" + //specialarea 辖区编号
+            "&from=" +  //from
+            "&welfare=";  //welfare 薪资福利
 
     //测试解析的html格式字符串对象
     private final String TEST_CONTENT = "<img http://sss src=\"http://www.foo.com/a.png\">http://sss/";
-    private final String SEARCH_RESULT_REGEX = "([0-9]+)(.html?)";
+    private final String SEARCH_RESULT_REGEX = "([0-9]+)(.html?)"; //匹配字符串中的html标签内容
 
     /**
      * 测试是否有权限读取缓存目录

@@ -14,4 +14,5 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @SuppressWarnings("all")
 public class EduDegreeTextUtils {
+    //上海 | 无需经验 | 本科 | 招若干人
 }

@@ -351,37 +351,36 @@ public class JobPlatformClient {
         //职位发布日期以及其他属性
         String publishDate = publishDateNode.getElement().childNodes().get(0).outerHtml().trim();
         //替换中文字符 2020-01-15 发布-> 2020-01-15
-        publishDate = publishDate.replaceAll("[\u4E00-\u9FA5]", "");
-        int month = Integer.parseInt(publishDate.split("-")[0]);
-        int day = Integer.parseInt(publishDate.split("-")[1]);
-        result.setPublishDateChar(publishDate)
-                .setPublishDateDayNumeric(day)
-                .setPublishDateMonthNumeric(month);
-        //生成hashCode和唯一标识
-        int markId = result.hashCode();
-        result.setMarkId(markId);
+        publishDate = publishDate.replaceAll("[\u4E00-\u9FA5]", ""); //过滤替换中文字符例如"发布"
+        int month = Integer.parseInt(publishDate.split("-")[0]); //职位发布日期(月)
+        int day = Integer.parseInt(publishDate.split("-")[1]);//职位发布日期(天)
+        result.setPublishDateChar(publishDate) //职位发布日期(字符串)
+                .setPublishDateDayNumeric(day) //职位发布日期(天)
+                .setPublishDateMonthNumeric(month); //职位发布日期(月)
+        result.generateMarkId(); //生成hashCode和唯一标识
         return result;
     }
 
     /**
      * 解析结果集对象
      *
-     * @param url 页面链接地址
+     * @param url 页面链接地址(含有关键字)
      * @return 页面搜索结果集对象
      * @throws XpathSyntaxErrorException,BusinessException,IllegalAccessException
      */
     public List<JobSearchResult> getJobSearchResult(String url) throws IOException, XpathSyntaxErrorException {
-        String pageContext = getPageHtmlText(url);
-        String keyword = getSearchKeyword(url);
+        String pageContext = getPageHtmlText(url); //获取页面DOM对象的字符串格式
+        String keyword = getSearchKeyword(url); //从链接中提取关键字
         log.info("keyword  = {}", keyword);
 
         List<JobSearchResult> results = new ArrayList<>();
         Document document = Jsoup.parse(pageContext);
-        JXDocument jxDocument = new JXDocument(document);
-        List<JXNode> rows = jxDocument.selN(SeleniumConstants.SEARCH_RESULT_LIST_XPATH);
+        JXDocument jxDocument = new JXDocument(document); //转为DOM文档对象进行解析
+        List<JXNode> rows = jxDocument.selN(SeleniumConstants.SEARCH_RESULT_LIST_XPATH); //定位职位搜索返回的结果集列表
+        //逐行解析返回的职位信息
         for (JXNode row : rows) {
             try {
-                JobSearchResult result = parseSearchResult(row, keyword);
+                JobSearchResult result = parseSearchResult(row, keyword); //解析职位信息对象
                 results.add(result);
             } catch (BusinessException e) {
                 e.printStackTrace();

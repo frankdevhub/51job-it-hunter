@@ -233,8 +233,7 @@ public class JobPlatformSearchPage extends BaseWebPage {
                     .setPublishDateDayNumeric(day) //职位发布时间(天)
                     .setPublishDateMonthNumeric(month); //职位发布时间(月)
         }
-        int markId = result.hashCode(); //生成新的唯一标识
-        result.setMarkId(markId);
+        result.generateMarkId();//生成新的唯一标识
         return result;
     }
 

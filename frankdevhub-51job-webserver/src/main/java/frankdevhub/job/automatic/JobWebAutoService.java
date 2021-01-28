@@ -1,6 +1,7 @@
 package frankdevhub.job.automatic;
 
-import frankdevhub.job.automatic.web.pages.JobPlatformSearchPage;
+import frankdevhub.job.automatic.core.constants.BusinessConstants;
+import frankdevhub.job.automatic.web.clients.JobPlatformService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -11,17 +12,11 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableTransactionManagement
 @SpringBootApplication
 @ComponentScan(basePackages = {"frankdevhub.job.automatic"})
+@SuppressWarnings("all")
 public class JobWebAutoService {
-    public static void main(String[] args) {
-        try {
-            SpringApplication.run(JobWebAutoService.class, args);
-            log.info("start running service");
-            //可视化Selenium驱动模式
-            new JobPlatformSearchPage(false, "java").startSearchResultPatrol();
-            //Jsoup爬虫模式
-            //new JobPlatformService().defaultDataPatrolService(BusinessConstants.JOB_PLATFORM_HOMEPAGE_SH);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+    public static void main(String[] args) throws InterruptedException {
+        SpringApplication.run(JobWebAutoService.class, args);
+        // 主方法,爬虫模式扫描搜索返回的结果集列表
+        new JobPlatformService().defaultDataPatrolService(BusinessConstants.DEFAULT_SEARCH_JAVA);
     }
 }
