@@ -74,8 +74,12 @@ public class HeadCountTextUtils {
         int num = 0;
         //中文字符
         if (m.find()) {
-            //非大写中文数字转为阿拉伯数字
-            num = NumericStringUtils.numberCN2Arab(match);
+            if (match.contains(EXAMPLE_1)) {
+                num = 99; //默认若干人视为99}
+            } else {
+                //非大写中文数字转为阿拉伯数字
+                num = NumericStringUtils.numberCN2Arab(match);
+            }
         } else {
             //数值类型字符
             num = Integer.parseInt(match);
