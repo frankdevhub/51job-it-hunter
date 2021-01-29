@@ -1,5 +1,13 @@
 package frankdevhub.job.automatic.entities;
 
+import frankdevhub.job.automatic.core.constants.BusinessConstants;
+import frankdevhub.job.automatic.core.exception.BusinessException;
+import tk.mybatis.mapper.util.Assert;
+
+import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
  * <p>Title:@ClassName JobSearchResult.java</p>
  * <p>Description: 职位列表信息对象</p>
@@ -11,6 +19,7 @@ package frankdevhub.job.automatic.entities;
  * @CreateDate: 2020/1/26 22:24
  * @Version: 1.0
  */
+
 @SuppressWarnings("all")
 public class JobSearchResult extends BaseRecord<JobSearchResult> {
     /**
@@ -114,6 +123,47 @@ public class JobSearchResult extends BaseRecord<JobSearchResult> {
     private String linkUrl;
 
     private Integer markId;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof JobSearchResult)) return false;
+        if (!super.equals(o)) return false;
+        JobSearchResult that = (JobSearchResult) o;
+        return getJobTitle().equals(that.getJobTitle())
+                && getCompanyName().equals(that.getCompanyName())
+                && getLocation().equals(that.getLocation())
+                && getSalaryRangeChars().equals(that.getSalaryRangeChars())
+                && getSalaryRangeMin().equals(that.getSalaryRangeMin())
+                && getSalaryRangeMax().equals(that.getSalaryRangeMax())
+                && getSalaryTimeUnit().equals(that.getSalaryTimeUnit())
+                && getSalaryNumericUnit().equals(that.getSalaryNumericUnit())
+                && getIsDefineByW().equals(that.getIsDefineByW())
+                && getIsDefineByK().equals(that.getIsDefineByK())
+                && getIsDefineByDay().equals(that.getIsDefineByDay())
+                && getIsDefineByMonth().equals(that.getIsDefineByMonth())
+                && getIsDefineByYear().equals(that.getIsDefineByYear())
+                && getIsInternshipPos().equals(that.getIsInternshipPos())
+                && getIsCampusOnly().equals(that.getIsCampusOnly())
+                && getIsSalaryNegotiable().equals(that.getIsSalaryNegotiable())
+                && getPublishDateChar().equals(that.getPublishDateChar())
+                && getPublishDateMonthNumeric().equals(that.getPublishDateMonthNumeric())
+                && getPublishDateDayNumeric().equals(that.getPublishDateDayNumeric())
+                && getLinkUrl().equals(that.getLinkUrl());
+    }
+
+    @Override
+    public int hashCode() {
+        int hashCode = Objects.hash(super.hashCode(), getJobTitle(), getCompanyName(), getLocation(),
+                getSalaryRangeChars(), getSalaryRangeMin(), getSalaryRangeMax(), getSalaryTimeUnit(),
+                getSalaryNumericUnit(), getIsDefineByW(), getIsDefineByK(), getIsDefineByDay(),
+                getIsDefineByMonth(), getIsDefineByYear(), getIsInternshipPos(), getIsCampusOnly(),
+                getIsSalaryNegotiable(), getPublishDateChar(), getPublishDateMonthNumeric(),
+                getPublishDateDayNumeric(), getLinkUrl());
+        if (hashCode < 0)
+            hashCode = hashCode * (-1);
+        return hashCode;
+    }
 
     public String getJobTitle() {
         return jobTitle;
@@ -299,8 +349,26 @@ public class JobSearchResult extends BaseRecord<JobSearchResult> {
         return markId;
     }
 
-    public JobSearchResult setMarkId(Integer markId) {
-        this.markId = markId;
-        return this;
+    /**
+     * 生成平台唯一的标识符
+     * 生成策略：依据链接进行生成,提取链接中的唯一特征值
+     * 例: https://jobs.51job.com/shanghai/126397572.html?s=01&t=0
+     * 提取:126397572
+     */
+    public void generateMarkId() throws BusinessException {
+        //校验是否获取到了职位链接
+        Assert.notNull(this.linkUrl, "cannot find job detail link url");
+        String exp = BusinessConstants.DEFAULT_HTTP_LINK_MARK_REGEX;
+        Pattern p = Pattern.compile(exp);
+        Matcher m = p.matcher(exp);
+        if (m.find()) {
+            String s = m.group("key");
+            Assert.notNull(s, "markid cannot be generated as null");
+            this.markId = Integer.parseInt(s); //获取唯一识别号
+        } else {
+            throw new BusinessException(BusinessConstants.MARKID_GENERATE_ERROR);
+        }
     }
+
+
 }

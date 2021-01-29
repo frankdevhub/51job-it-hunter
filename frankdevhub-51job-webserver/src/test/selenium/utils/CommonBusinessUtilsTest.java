@@ -21,10 +21,11 @@ import java.lang.reflect.Method;
 
 @Slf4j
 @RunWith(SpringJUnit4ClassRunner.class)
+@SuppressWarnings("all")
 public class CommonBusinessUtilsTest {
 
     private void printTestResult(Boolean res, Character c) {
-        System.out.println("Test Character = " + c + " Test Result: " + res.toString() + "");
+        log.info("Test Character = " + c + " Test Result: " + res.toString() + "");
     }
 
     @Test
@@ -38,7 +39,7 @@ public class CommonBusinessUtilsTest {
         log.info("run test method {{testGetRuntimeMethodName}} start");
         Integer defineTrace = 1;
         String methodName = CommonBusinessUtils.getRuntimeMethodName(defineTrace);
-        System.out.println("test result-> current runtime method name: " + methodName);
+        log.info("test result-> current runtime method name: " + methodName);
         log.info("run test method {{testGetRuntimeMethodName}} complete");
     }
 
@@ -49,7 +50,7 @@ public class CommonBusinessUtilsTest {
         Class<?> clazz = CommonBusinessUtils.class;
         Method[] methods = clazz.getDeclaredMethods();
         for (Method m : methods) {
-            System.out.println("method name: " + m.getName());
+            log.info("method name: " + m.getName());
         }
         log.info("run test method {{getBusinessUtilsDeclaredMethods}} complete");
     }
@@ -61,8 +62,8 @@ public class CommonBusinessUtilsTest {
         Character TW_CHAR = '個';
         Character EN_CHAR = 'h';
         Character NUM_CHAR = '3';
-
         Boolean value = null;
+        //判断是否是简体中文字符
         try {
             value = CommonBusinessUtils.isSimpleChineseCharacter(CN_CHAR);
         } catch (Exception e) {
@@ -71,6 +72,7 @@ public class CommonBusinessUtilsTest {
         } finally {
             printTestResult(value, CN_CHAR);
         }
+        //判断是否是繁体中文字符
         try {
             value = CommonBusinessUtils.isSimpleChineseCharacter(TW_CHAR);
         } catch (Exception e) {
@@ -79,8 +81,7 @@ public class CommonBusinessUtilsTest {
         } finally {
             printTestResult(value, TW_CHAR);
         }
-
-
+        //判断是否是英文字符
         try {
             value = CommonBusinessUtils.isSimpleChineseCharacter(EN_CHAR);
         } catch (Exception e) {
@@ -89,7 +90,7 @@ public class CommonBusinessUtilsTest {
         } finally {
             printTestResult(value, EN_CHAR);
         }
-
+        //判断是否数值类型的字符
         try {
             value = CommonBusinessUtils.isSimpleChineseCharacter(NUM_CHAR);
         } catch (Exception e) {
@@ -107,7 +108,7 @@ public class CommonBusinessUtilsTest {
         Character[] characters = new Character[]{'=', '-', '.', '{', '【', '、', '~', '`', '·', '2', 'o', '个'};
         for (Character c : characters) {
             Boolean value = CommonBusinessUtils.isSymbolCharacter(c);
-            System.out.println("char = " + c + " value = " + value);
+            log.info("char = " + c + " value = " + value);
         }
         log.info("run test method {{testIsSymbolCharacter}} complete");
 

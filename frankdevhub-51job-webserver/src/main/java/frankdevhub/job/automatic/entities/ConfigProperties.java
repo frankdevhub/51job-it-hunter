@@ -14,11 +14,13 @@ import java.util.Properties;
  */
 public class ConfigProperties extends Properties {
 
+    @Override
     public synchronized ConfigProperties setProperty(String key, String value) {
         super.setProperty(key, value);
         return this;
     }
 
+    @Override
     public synchronized ConfigProperties put(Object key, Object value) {
         super.put(key, value);
         return this;

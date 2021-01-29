@@ -25,6 +25,8 @@
         <result column="publish_date_day_numeric" jdbcType="INTEGER" property="publishDateDayNumeric"/>
         <result column="link_url" jdbcType="VARCHAR" property="linkUrl"/>
         <result column="mark_id" jdbcType="INTEGER" property="markId"/>
+        <result column="create_time" jdbcType="BIGINT" property="createTime"/>
+        <result column="update_time" jdbcType="BIGINT" property="updateTime"/>
     </resultMap>
 
     <sql id="Base_Column_List">
@@ -32,7 +34,7 @@
         salary_time_unit, salary_numeric_unit, is_define_by_w, is_define_by_k, is_define_by_day,
         is_define_by_month, is_define_by_year, is_internship_pos, is_campus_only, is_salary_negotiable,
         publish_date_char, publish_date_month_numeric, publish_date_day_numeric, link_url,
-        mark_id
+        mark_id,create_time,update_time
     </sql>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
@@ -49,7 +51,7 @@
         is_define_by_month, is_define_by_year, is_internship_pos,
         is_campus_only, is_salary_negotiable, publish_date_char,
         publish_date_month_numeric, publish_date_day_numeric,
-        link_url, mark_id)
+        link_url, mark_id,create_time,update_time)
         values (#{id,jdbcType=VARCHAR}, #{jobTitle,jdbcType=VARCHAR}, #{companyName,jdbcType=VARCHAR},
         #{location,jdbcType=VARCHAR}, #{salaryRangeChars,jdbcType=VARCHAR}, #{salaryRangeMin,jdbcType=DOUBLE},
         #{salaryRangeMax,jdbcType=DOUBLE}, #{salaryTimeUnit,jdbcType=VARCHAR}, #{salaryNumericUnit,jdbcType=VARCHAR},
@@ -57,7 +59,8 @@
         #{isDefineByMonth,jdbcType=INTEGER}, #{isDefineByYear,jdbcType=INTEGER}, #{isInternshipPos,jdbcType=INTEGER},
         #{isCampusOnly,jdbcType=INTEGER}, #{isSalaryNegotiable,jdbcType=INTEGER}, #{publishDateChar,jdbcType=VARCHAR},
         #{publishDateMonthNumeric,jdbcType=INTEGER}, #{publishDateDayNumeric,jdbcType=INTEGER},
-        #{linkUrl,jdbcType=VARCHAR}, #{markId,jdbcType=INTEGER})
+        #{linkUrl,jdbcType=VARCHAR},
+        #{markId,jdbcType=INTEGER},#{createTime,jdbcType=BIGINT},#{updateTime,jdbcType=BIGINT})
     </insert>
 
 
@@ -130,6 +133,12 @@
             <if test="markId != null">
                 mark_id,
             </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="id != null">
@@ -197,6 +206,12 @@
             </if>
             <if test="markId != null">
                 #{markId,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=BIGINT},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=BIGINT},
             </if>
         </trim>
     </insert>
@@ -268,6 +283,12 @@
             <if test="markId != null">
                 mark_id = #{markId,jdbcType=INTEGER},
             </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=BIGINT},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=BIGINT},
+            </if>
         </set>
         where id = #{id,jdbcType=VARCHAR}
     </update>
@@ -295,7 +316,9 @@
         publish_date_month_numeric = #{publishDateMonthNumeric,jdbcType=INTEGER},
         publish_date_day_numeric = #{publishDateDayNumeric,jdbcType=INTEGER},
         link_url = #{linkUrl,jdbcType=VARCHAR},
-        mark_id = #{markId,jdbcType=INTEGER}
+        mark_id = #{markId,jdbcType=INTEGER},
+        create_time = #{createTime,jdbcType=BIGINT},
+        update_time = #{updateTime,jdbcType=BIGINT}
         where id = #{id,jdbcType=VARCHAR}
     </update>
 
@@ -393,5 +416,17 @@
         select count(1)
         from platform_search_result
         <include refid="findPageWithWhere"/>
+    </select>
+
+    <select id="selectCountByMarkId" parameterType="java.lang.Integer"
+            resultType="Integer">
+        select count(*) from platform_search_result where mark_id = #{markId}
+    </select>
+
+    <select id="selectByMarkId" parameterType="java.lang.Integer"
+            resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from platform_search_result where mark_id = #{markId}
     </select>
 </mapper>

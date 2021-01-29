@@ -1,11 +1,13 @@
 package frankdevhub.job.automatic.core.repository;
 
 import com.github.pagehelper.PageHelper;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
 
+@Slf4j
 @SuppressWarnings("all")
 public class MyBatisRepository {
 
@@ -43,18 +45,16 @@ public class MyBatisRepository {
         Date date = new Date();
         c.setTime(date);
         resetCurrentCalendarMilliSecond(c);
-
         Long zeroT = c.getTime().getTime();
         Long endT = zeroT + (24 * 3600 * 1000) - 1;
 
         range[0] = zeroT;
         range[1] = endT;
-        System.out.println(
+        log.info(
                 "timeStamp = "
                         + date.getTime()
                         + ", zeroT = " + zeroT
                         + ", endT = " + endT + "");
-
         return range;
     }
 
@@ -78,14 +78,13 @@ public class MyBatisRepository {
 
         range[0] = zeroT;
         range[1] = endT;
-        System.out.println(
+        log.info(
                 "year = "
                         + year
                         + ", month= " + month
                         + ", day = " + day
                         + ", zeroT = " + zeroT
                         + ", endT = " + endT + "");
-
         return range;
     }
 
@@ -97,7 +96,6 @@ public class MyBatisRepository {
      */
     public Long[] getTimeStampRange(Calendar c) {
         Long range[] = new Long[2];
-
         Date date = c.getTime();
         resetCurrentCalendarMilliSecond(c);
         Long zeroT = c.getTime().getTime();
@@ -105,7 +103,7 @@ public class MyBatisRepository {
         range[0] = zeroT;
         range[1] = endT;
 
-        System.out.println("timeStamp = " + date.getTime() + ", "
+        log.info("timeStamp = " + date.getTime() + ", "
                 + "zeroT = " + zeroT + ""
                 + ", endT=" + endT + "");
         return range;
@@ -127,7 +125,7 @@ public class MyBatisRepository {
         long endT = zeroT + (24 * 3600 * 1000) - 1;
         range[0] = zeroT;
         range[1] = endT;
-        System.out.println(
+        log.info(
                 "timeStamp = "
                         + timeStamp
                         + ", zeroT = " + zeroT

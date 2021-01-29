@@ -1,26 +1,22 @@
 package frankdevhub.job.automatic;
 
-import frankdevhub.job.automatic.core.utils.SpringUtils;
-import frankdevhub.job.automatic.web.pages.JobPlatformSearchPage;
+import frankdevhub.job.automatic.core.constants.BusinessConstants;
+import frankdevhub.job.automatic.web.clients.JobPlatformService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-import tk.mybatis.spring.annotation.MapperScan;
 
 @Slf4j
-@MapperScan(basePackages = "frankdevhub.job.automatic.mapper")
 @EnableTransactionManagement
 @SpringBootApplication
+@ComponentScan(basePackages = {"frankdevhub.job.automatic"})
+@SuppressWarnings("all")
 public class JobWebAutoService {
-
-    public static void main(String[] args) {
-        try {
-            SpringApplication.run(JobWebAutoService.class, args);
-            log.info("start running service");
-            ((JobPlatformSearchPage) SpringUtils.getBean(JobPlatformSearchPage.class)).startSearchResultPatrol();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+    public static void main(String[] args) throws InterruptedException {
+        SpringApplication.run(JobWebAutoService.class, args);
+        // 主方法,爬虫模式扫描搜索返回的结果集列表
+        new JobPlatformService().defaultDataPatrolService(BusinessConstants.DEFAULT_SEARCH_JAVA);
     }
 }

@@ -1,9 +1,11 @@
 package frankdevhub.job.automatic.web.clients;
 
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.scheduling.concurrent.CustomizableThreadFactory;
+import org.springframework.util.Assert;
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.*;
 
 /**
  * <p>Title:@ClassName JobPlatformService.java</p>
@@ -20,12 +22,24 @@ import java.util.concurrent.Executors;
 @SuppressWarnings("all")
 public class JobPlatformService {
 
+    private final Integer CPU_CAPBILITY; //CPU性能
+    private ThreadPoolExecutor threadPool; //扫描解析的线程池对象
+
+    public JobPlatformService() {
+        this.CPU_CAPBILITY = Runtime.getRuntime().availableProcessors();
+        this.threadPool = new ThreadPoolExecutor(2 * CPU_CAPBILITY + 1, Integer.MAX_VALUE, 100, TimeUnit.SECONDS,
+                new SynchronousQueue<Runnable>(), new CustomizableThreadFactory("jd-extract-client"),
+                new ThreadPoolExecutor.CallerRunsPolicy()); //解析每一个列表页面的线程对象所在的线程池
+    }
+
+    @Data
     private class DefaultDataPatrolThread extends Thread {
         private final ExecutorService cachedThreadPool = Executors.newCachedThreadPool(); //扫描网页的线程池
         private final JobPlatformClient client = new JobPlatformClient(); //客户端业务逻辑对象
         private String url; //页面链接
 
         public DefaultDataPatrolThread(String url) {
+            Assert.notNull(url, "cannot find url");
             this.url = url;
         }
 
@@ -36,10 +50,10 @@ public class JobPlatformService {
             log.info("default data patrol thread start");
             while (true) {
                 try {
-                    log.info("@current url = " + url);
+                    log.info("current url = " + url);
                     client.restorePageJobSearchResult(url, cachedThreadPool);
                     url = client.getNextResultPage(url);
-                    log.info("@next url = " + url);
+                    log.info("next url = " + url);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -56,16 +70,17 @@ public class JobPlatformService {
     public void defaultDataPatrolService(String url) throws InterruptedException {
         log.info("invoke default data patrol service");
         Runnable task = () -> {
-            log.info("[defaultDataPatrolService --> task]thread name = "
-                    + Thread.currentThread().getName());
+            //子线程命名
+            log.info("[defaultDataPatrolService --> task]thread name = " + Thread.currentThread().getName());
             Thread t = new DefaultDataPatrolThread(url);
-            t.setDaemon(true);
             t.start();
         };
-        Thread t = new Thread(task);
-        log.info("thread t->name =" + t.getName());
-        t.setDaemon(true);
-        t.start();
+        Thread thread = new Thread(task);
+        //设置为守护进程
+        thread.setDaemon(true);
+        //提交任务至线程池
+        threadPool.execute(thread);
+        log.info("thread t->name =" + thread.getName());
         Thread.sleep(200L);
 
     }

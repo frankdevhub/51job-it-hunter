@@ -1,5 +1,6 @@
 package frankdevhub.job.automatic.service.impl;
 
+import frankdevhub.job.automatic.core.repository.MyBatisRepository;
 import frankdevhub.job.automatic.dto.JobSearchResultQuery;
 import frankdevhub.job.automatic.entities.JobSearchResult;
 import frankdevhub.job.automatic.mapper.JobSearchResultMapper;
@@ -22,59 +23,58 @@ import java.util.List;
 @Slf4j
 @Service
 @SuppressWarnings("all")
-public class JobSearchResultServiceImpl implements JobSearchResultService {
+public class JobSearchResultServiceImpl extends MyBatisRepository implements JobSearchResultService {
 
     @Autowired
     private JobSearchResultMapper searchResultMapper;
 
-
     @Override
     public int deleteByPrimaryKey(String id) {
-        return 0;
+        return searchResultMapper.deleteByPrimaryKey(id);
     }
 
     @Override
     public int insert(JobSearchResult result) {
-        return 0;
+        return searchResultMapper.insert(result);
     }
 
     @Override
     public int insertSelective(JobSearchResult result) {
-        return 0;
+        return searchResultMapper.insertSelective(result);
     }
 
     @Override
     public int updateByPrimaryKeySelective(JobSearchResult result) {
-        return 0;
+        return searchResultMapper.updateByPrimaryKeySelective(result);
     }
 
     @Override
     public int updateByPrimaryKey(JobSearchResult result) {
-        return 0;
+        return searchResultMapper.updateByPrimaryKey(result);
     }
 
     @Override
     public JobSearchResult selectById(String id) {
-        return null;
+        return searchResultMapper.selectById(id);
     }
 
     @Override
     public List<JobSearchResult> findPageWithResult(JobSearchResultQuery query) {
-        return null;
+        return searchResultMapper.findPageWithResult(query);
     }
 
     @Override
     public int findPageWithCount(JobSearchResultQuery query) {
-        return 0;
+        return searchResultMapper.findPageWithCount(query);
     }
 
     @Override
     public int selectCountByMarkId(Integer markId) {
-        return 0;
+        return searchResultMapper.selectCountByMarkId(markId);
     }
 
     @Override
     public JobSearchResult selectByMarkId(Integer markId) {
-        return null;
+        return searchResultMapper.selectByMarkId(markId);
     }
 }

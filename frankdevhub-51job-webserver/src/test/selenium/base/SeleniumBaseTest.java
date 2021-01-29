@@ -1,13 +1,13 @@
 package selenium.base;
 
 import frankdevhub.job.automatic.JobWebAutoService;
+import frankdevhub.job.automatic.core.utils.SpringUtils;
 import frankdevhub.job.automatic.selenium.DriverBase;
 import frankdevhub.job.automatic.web.pages.JobPlatformSearchPage;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 /**
@@ -28,8 +28,9 @@ public class SeleniumBaseTest {
     private WebDriver driver; //浏览器驱动对象
     private static final String SELENIUM_TEST_CACHE_PATH = "C:/Automation/junit-selenium-test"; //本地测试默认配置的浏览器缓存地址
 
-    @Autowired
-    private static JobPlatformSearchPage jobPlatformSearchPage;
+    private JobPlatformSearchPage getJobPlatformSearchPage() {
+        return SpringUtils.getBean(JobPlatformSearchPage.class);
+    }
 
     /**
      * 初始化测试驱动对象的配置
@@ -54,7 +55,7 @@ public class SeleniumBaseTest {
     @Test
     public void testSpringBootEnv() throws InterruptedException {
         //测试页面扫描解析流程
-        jobPlatformSearchPage.startSearchResultPatrol();
+        getJobPlatformSearchPage().startSearchResultPatrol();
     }
 
 }
