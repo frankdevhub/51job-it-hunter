@@ -53,6 +53,9 @@ import java.util.regex.Pattern;
 @SuppressWarnings("all")
 public class JobPlatformClient {
 
+    //源码window.__SEARCH_RESULT__=句柄处开始
+    private final String DATA_JSON_REGEX = "window.__SEARCH_RESULT__\\s?=\\s?(?<context>\\{.*\\})</script>";
+
     private JobSearchResultService getJobSearchResultService() {
         return SpringUtils.getBean(JobSearchResultService.class);
     }
@@ -96,6 +99,7 @@ public class JobPlatformClient {
      * @throws IOException
      */
     private String getPageHtmlText(String url) throws IOException {
+        Assert.notNull(url, "url cannot be found");
         String pageContext = null;
         CloseableHttpClient httpClient = null;
         Long start = System.currentTimeMillis();
@@ -125,7 +129,7 @@ public class JobPlatformClient {
      * @return 页面对象的字符串
      * @throws IOException
      */
-    protected String getPreviousResultPage(String url) {
+    public String getPreviousResultPage(String url) {
         String regex = "([0-9]+)(.html?)"; //匹配网页元素对象
         Matcher matcher = Pattern.compile(regex).matcher(url);
         String index;
@@ -149,7 +153,7 @@ public class JobPlatformClient {
      * @param url 页面链接地址
      * @return 页面对象的字符串
      */
-    protected String getNextResultPage(String url) {
+    public String getNextResultPage(String url) {
         String regex = "([0-9]+)(.html?)"; //匹配网页元素对象
         Matcher matcher = Pattern.compile(regex).matcher(url);
         String index;
@@ -174,7 +178,7 @@ public class JobPlatformClient {
      * @param url 页面链接地址
      * @return 页面对象的字符串
      */
-    private String getSearchKeyword(String url) {
+    public String getSearchKeyword(String url) {
         String regex = "(.*),([0-9]+),([0-9]+)(.html?)";
         Matcher matcher = Pattern.compile(regex).matcher(url);
         if (matcher.find()) {
@@ -186,9 +190,9 @@ public class JobPlatformClient {
     @Data
     private class JobSearchResultRestoreThread extends Thread {
 
-        private String pageUrl;
-        private List<JobSearchResult> results;
-        private JobSearchResultService service;
+        private String pageUrl;  //列表页面的链接地址
+        private List<JobSearchResult> results; //返回的搜索集合对象
+        private JobSearchResultService service; //解析返回的搜索集合的服务
 
         /**
          * 构建页面返回的结果集对象
@@ -207,7 +211,7 @@ public class JobPlatformClient {
          * @param service 页面返回的结果集存储服务
          * @return 页面扫描的线程对象
          */
-        public JobSearchResultRestoreThread setRepository(JobSearchResultService service) {
+        protected JobSearchResultRestoreThread setRepository(JobSearchResultService service) {
             this.service = service;
             return this;
         }
@@ -298,7 +302,7 @@ public class JobPlatformClient {
      * @throws XpathSyntaxErrorException,BusinessException,IllegalAccessException
      */
     private JobSearchResult parseSearchResult(JXNode row, String keyword) throws XpathSyntaxErrorException, BusinessException, IllegalAccessException {
-
+        log.info("parseSearchResult start");
         JXNode jobDescriptionNode = row.sel(SeleniumConstants.RESULT_JD_NAME_XPATH).get(0); //职位信息描述
         JXNode companyNameNode = row.sel(SeleniumConstants.RESULT_COMPANY_NAME_XPATH).get(0); //公司名称
         JXNode salaryRangeNode = row.sel(SeleniumConstants.RESULT_SALARY_RANGE_XPATH).get(0); //薪资范围
@@ -311,14 +315,17 @@ public class JobPlatformClient {
         Assert.notNull(jobLocationNode, "job location node cannot be found on this row"); //校验职位地点不能为空
 
         JobSearchResult result = new JobSearchResult();
+
         result.setJobTitle(jobDescriptionNode.getElement().attr(SeleniumConstants.ATTRIBUTE_TITLE)) //职位名称
                 .setLinkUrl(jobDescriptionNode.getElement().attr(SeleniumConstants.ATTRIBUTE_HREF)); //职位描述的详情链接
 
         String salaryRangeText = null == salaryRangeNode.getTextVal() ? "" : salaryRangeNode.getTextVal();
+        result.setSalaryRangeChars(salaryRangeText);
+        log.info("salaryRangeText = {}", salaryRangeText);
+
         if (StringUtils.isNotEmpty(salaryRangeText.trim())) {
             SalaryRangeTextUtils utils = new SalaryRangeTextUtils(salaryRangeNode.getTextVal()); //解析薪资范围描述
             utils.parse();
-            //职位薪资属性
             result.setSalaryNumericUnit(utils.getNumericUnit()) //薪资数值单位
                     .setSalaryRangeMin(utils.getMinimizeValue()) //薪资范围的最小值
                     .setSalaryRangeMax(utils.getMaximumValue()) //薪资范围的最大值
@@ -328,9 +335,7 @@ public class JobPlatformClient {
                     .setIsDefineByYear(utils.isUnitByYear()) //薪资是否以年为单位进行计量
                     .setIsDefineByK(utils.isUnitByThousand()) //薪资是否以千位数进行计量
                     .setIsDefineByW(utils.isUnitByTenThousand()); //薪资是否以万位数进行计量
-
         }
-        result.setSalaryRangeChars(salaryRangeText);
         //判断是否是校招职位
         try {
             row.sel(SeleniumConstants.RESULT_JD_CAMPUS_ONLY_XPATH).get(0);
@@ -351,13 +356,14 @@ public class JobPlatformClient {
         //职位发布日期以及其他属性
         String publishDate = publishDateNode.getElement().childNodes().get(0).outerHtml().trim();
         //替换中文字符 2020-01-15 发布-> 2020-01-15
-        publishDate = publishDate.replaceAll("[\u4E00-\u9FA5]", ""); //过滤替换中文字符例如"发布"
+        publishDate = publishDate.replaceAll("[\u4E00-\u9FA5]+", ""); //过滤替换中文字符例如"发布"
         int month = Integer.parseInt(publishDate.split("-")[0]); //职位发布日期(月)
         int day = Integer.parseInt(publishDate.split("-")[1]);//职位发布日期(天)
         result.setPublishDateChar(publishDate) //职位发布日期(字符串)
                 .setPublishDateDayNumeric(day) //职位发布日期(天)
                 .setPublishDateMonthNumeric(month); //职位发布日期(月)
         result.generateMarkId(); //生成hashCode和唯一标识
+        log.info("result markId  = {}", result.getMarkId());
         return result;
     }
 
@@ -370,26 +376,63 @@ public class JobPlatformClient {
      */
     public List<JobSearchResult> getJobSearchResult(String url) throws IOException, XpathSyntaxErrorException {
         String pageContext = getPageHtmlText(url); //获取页面DOM对象的字符串格式
+
+        Assert.notNull(pageContext, "pageContext cannot be found");
         String keyword = getSearchKeyword(url); //从链接中提取关键字
+        Assert.notNull(keyword, "keyword cannot be found");
         log.info("keyword  = {}", keyword);
 
+        //解析后的结合
         List<JobSearchResult> results = new ArrayList<>();
         Document document = Jsoup.parse(pageContext);
-        JXDocument jxDocument = new JXDocument(document); //转为DOM文档对象进行解析
-        List<JXNode> rows = jxDocument.selN(SeleniumConstants.SEARCH_RESULT_LIST_XPATH); //定位职位搜索返回的结果集列表
-        //逐行解析返回的职位信息
-        for (JXNode row : rows) {
-            try {
-                JobSearchResult result = parseSearchResult(row, keyword); //解析职位信息对象
-                results.add(result);
-            } catch (BusinessException e) {
-                e.printStackTrace();
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
+        //转为DOM文档对象进行解析
+        JXDocument jxDocument = new JXDocument(document);
+        //定位职位搜索返回的结果集列表
+        List<JXNode> rows = jxDocument.selN(SeleniumConstants.SEARCH_RESULT_LIST_XPATH);
+        log.info("rows.size  = {}", rows.size());
+        //如果jsoup返回的报文可以获取列表信息
+        if (null != rows && rows.size() > 5) {
+            //逐行解析返回的职位信息
+            for (JXNode row : rows) {
+                try {
+                    JobSearchResult result = parseSearchResult(row, keyword); //解析职位信息对象
+                    results.add(result);
+                } catch (BusinessException e) {
+                    e.printStackTrace();
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                }
             }
+        } else {
+            //如果不能获取则依据规则匹配页面加载js中的json对象
+            //过滤去除空格换行符
+            String ctx = pageContext.replaceAll("\\n", "");
+            Pattern p = Pattern.compile(DATA_JSON_REGEX);
+            Matcher m = p.matcher(ctx);
+            String j = null;
+            if (m.find()) {
+                j = m.group("context");
+            }
+            Assert.notNull(j, "data json cannot be found");
+            log.info(j);
+            //解析返回的json对象
+            JobSearchResult result = parseJsonData(j);
         }
+
         log.info("get search result entity list complete");
         return results;
+    }
+
+    /**
+     * 解析结果集对象
+     *
+     * @param url 平台网页源码加载时的json字符串
+     * @return 页面搜索结果集对象
+     */
+    private JobSearchResult parseJsonData(String json) {
+        JobSearchResult result = new JobSearchResult();
+        //TODO
+        return result;
     }
 
     /**
