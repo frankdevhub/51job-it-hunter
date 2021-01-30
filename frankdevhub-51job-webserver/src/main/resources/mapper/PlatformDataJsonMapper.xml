@@ -8,8 +8,8 @@
         <result column="jt" jdbcType="INTEGER" property="jt"/>
         <result column="tags" jdbcType="VARCHAR" property="tags"/>
         <result column="ad_track" jdbcType="VARCHAR" property="adTrack"/>
-        <result column="jobid" jdbcType="VARCHAR" property="jobid"/>
-        <result column="coid" jdbcType="VARCHAR" property="coid"/>
+        <result column="jobid" jdbcType="VARCHAR" property="jobId"/>
+        <result column="coid" jdbcType="VARCHAR" property="coId"/>
         <result column="effect" jdbcType="INTEGER" property="effect"/>
         <result column="is_special_job" jdbcType="VARCHAR" property="isSpecialJob"/>
         <result column="job_href" jdbcType="VARCHAR" property="jobHref"/>
@@ -18,7 +18,7 @@
         <result column="company_href" jdbcType="VARCHAR" property="companyHref"/>
         <result column="company_name" jdbcType="VARCHAR" property="companyName"/>
         <result column="providesalary_text" jdbcType="VARCHAR" property="providesalaryText"/>
-        <result column="workarea" jdbcType="VARCHAR" property="workarea"/>
+        <result column="workarea" jdbcType="VARCHAR" property="workArea"/>
         <result column="workarea_text" jdbcType="VARCHAR" property="workareaText"/>
         <result column="updatedate" jdbcType="VARCHAR" property="updatedate"/>
         <result column="is_intern" jdbcType="VARCHAR" property="isIntern"/>
