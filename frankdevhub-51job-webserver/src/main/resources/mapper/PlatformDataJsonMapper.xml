@@ -1,0 +1,550 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="frankdevhub.job.automatic.mapper.PlatformDataJsonMapper">
+
+    <resultMap id="BaseResultMap" type="frankdevhub.job.automatic.entities.PlatformDataJson">
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="type" jdbcType="VARCHAR" property="type"/>
+        <result column="jt" jdbcType="INTEGER" property="jt"/>
+        <result column="tags" jdbcType="VARCHAR" property="tags"/>
+        <result column="ad_track" jdbcType="VARCHAR" property="adTrack"/>
+        <result column="jobid" jdbcType="VARCHAR" property="jobid"/>
+        <result column="coid" jdbcType="VARCHAR" property="coid"/>
+        <result column="effect" jdbcType="INTEGER" property="effect"/>
+        <result column="is_special_job" jdbcType="VARCHAR" property="isSpecialJob"/>
+        <result column="job_href" jdbcType="VARCHAR" property="jobHref"/>
+        <result column="job_name" jdbcType="VARCHAR" property="jobName"/>
+        <result column="job_title" jdbcType="VARCHAR" property="jobTitle"/>
+        <result column="company_href" jdbcType="VARCHAR" property="companyHref"/>
+        <result column="company_name" jdbcType="VARCHAR" property="companyName"/>
+        <result column="providesalary_text" jdbcType="VARCHAR" property="providesalaryText"/>
+        <result column="workarea" jdbcType="VARCHAR" property="workarea"/>
+        <result column="workarea_text" jdbcType="VARCHAR" property="workareaText"/>
+        <result column="updatedate" jdbcType="VARCHAR" property="updatedate"/>
+        <result column="is_intern" jdbcType="VARCHAR" property="isIntern"/>
+        <result column="is_communicate" jdbcType="VARCHAR" property="isCommunicate"/>
+        <result column="companytype_text" jdbcType="VARCHAR" property="companytypeText"/>
+        <result column="degree_from" jdbcType="INTEGER" property="degreeFrom"/>
+        <result column="work_year" jdbcType="INTEGER" property="workYear"/>
+        <result column="issue_date" jdbcType="VARCHAR" property="issueDate"/>
+        <result column="is_from_xyz" jdbcType="VARCHAR" property="isFromXyz"/>
+        <result column="jobwelf" jdbcType="VARCHAR" property="jobwelf"/>
+        <result column="jobwelf_list" jdbcType="VARCHAR" property="jobwelfList"/>
+        <result column="attribute_text" jdbcType="VARCHAR" property="attributeText"/>
+        <result column="companysize_text" jdbcType="VARCHAR" property="companysizeText"/>
+        <result column="companyind_text" jdbcType="VARCHAR" property="companyindText"/>
+        <result column="adid" jdbcType="VARCHAR" property="adid"/>
+        <result column="create_time" jdbcType="BIGINT" property="createTime"/>
+        <result column="update_time" jdbcType="BIGINT" property="updateTime"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, type, jt, tags, ad_track, jobid, coid, effect, is_special_job, job_href, job_name,
+        job_title, company_href, company_name, providesalary_text, workarea, workarea_text,
+        updatedate, is_intern, is_communicate, companytype_text, degree_from, work_year,
+        issue_date, is_from_xyz, jobwelf, jobwelf_list, attribute_text, companysize_text,
+        companyind_text, adid, create_time, update_time
+    </sql>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+        delete from platform_data_brief_source
+        where id = #{id,jdbcType=VARCHAR}
+    </delete>
+
+    <insert id="insert" parameterType="frankdevhub.job.automatic.entities.PlatformDataJson">
+        insert into platform_data_brief_source (id, type, jt,
+        tags, ad_track, jobid,
+        coid, effect, is_special_job,
+        job_href, job_name, job_title,
+        company_href, company_name, providesalary_text,
+        workarea, workarea_text, updatedate,
+        is_intern, is_communicate, companytype_text,
+        degree_from, work_year, issue_date,
+        is_from_xyz, jobwelf, jobwelf_list,
+        attribute_text, companysize_text, companyind_text,
+        adid,create_time,update_time)
+        values (#{id,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{jt,jdbcType=INTEGER},
+        #{tags,jdbcType=VARCHAR}, #{adTrack,jdbcType=VARCHAR}, #{jobid,jdbcType=VARCHAR},
+        #{coid,jdbcType=VARCHAR}, #{effect,jdbcType=INTEGER}, #{isSpecialJob,jdbcType=VARCHAR},
+        #{jobHref,jdbcType=VARCHAR}, #{jobName,jdbcType=VARCHAR}, #{jobTitle,jdbcType=VARCHAR},
+        #{companyHref,jdbcType=VARCHAR}, #{companyName,jdbcType=VARCHAR}, #{providesalaryText,jdbcType=VARCHAR},
+        #{workarea,jdbcType=VARCHAR}, #{workareaText,jdbcType=VARCHAR}, #{updatedate,jdbcType=VARCHAR},
+        #{isIntern,jdbcType=VARCHAR}, #{isCommunicate,jdbcType=VARCHAR}, #{companytypeText,jdbcType=VARCHAR},
+        #{degreeFrom,jdbcType=INTEGER}, #{workYear,jdbcType=INTEGER}, #{issueDate,jdbcType=VARCHAR},
+        #{isFromXyz,jdbcType=VARCHAR}, #{jobwelf,jdbcType=VARCHAR}, #{jobwelfList,jdbcType=VARCHAR},
+        #{attributeText,jdbcType=VARCHAR}, #{companysizeText,jdbcType=VARCHAR}, #{companyindText,jdbcType=VARCHAR},
+        #{adid,jdbcType=VARCHAR},
+        #{createTime,jdbcType=BIGINT},#{updateTime,jdbcType=BIGINT})
+    </insert>
+
+
+    <insert id="insertSelective" parameterType="frankdevhub.job.automatic.entities.PlatformDataJson">
+        insert into platform_data_brief_source
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="type != null">
+                type,
+            </if>
+            <if test="jt != null">
+                jt,
+            </if>
+            <if test="tags != null">
+                tags,
+            </if>
+            <if test="adTrack != null">
+                ad_track,
+            </if>
+            <if test="jobid != null">
+                jobid,
+            </if>
+            <if test="coid != null">
+                coid,
+            </if>
+            <if test="effect != null">
+                effect,
+            </if>
+            <if test="isSpecialJob != null">
+                is_special_job,
+            </if>
+            <if test="jobHref != null">
+                job_href,
+            </if>
+            <if test="jobName != null">
+                job_name,
+            </if>
+            <if test="jobTitle != null">
+                job_title,
+            </if>
+            <if test="companyHref != null">
+                company_href,
+            </if>
+            <if test="companyName != null">
+                company_name,
+            </if>
+            <if test="providesalaryText != null">
+                providesalary_text,
+            </if>
+            <if test="workarea != null">
+                workarea,
+            </if>
+            <if test="workareaText != null">
+                workarea_text,
+            </if>
+            <if test="updatedate != null">
+                updatedate,
+            </if>
+            <if test="isIntern != null">
+                is_intern,
+            </if>
+            <if test="isCommunicate != null">
+                is_communicate,
+            </if>
+            <if test="companytypeText != null">
+                companytype_text,
+            </if>
+            <if test="degreeFrom != null">
+                degree_from,
+            </if>
+            <if test="workYear != null">
+                work_year,
+            </if>
+            <if test="issueDate != null">
+                issue_date,
+            </if>
+            <if test="isFromXyz != null">
+                is_from_xyz,
+            </if>
+            <if test="jobwelf != null">
+                jobwelf,
+            </if>
+            <if test="jobwelfList != null">
+                jobwelf_list,
+            </if>
+            <if test="attributeText != null">
+                attribute_text,
+            </if>
+            <if test="companysizeText != null">
+                companysize_text,
+            </if>
+            <if test="companyindText != null">
+                companyind_text,
+            </if>
+            <if test="adid != null">
+                adid,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null">
+                #{type,jdbcType=VARCHAR},
+            </if>
+            <if test="jt != null">
+                #{jt,jdbcType=INTEGER},
+            </if>
+            <if test="tags != null">
+                #{tags,jdbcType=VARCHAR},
+            </if>
+            <if test="adTrack != null">
+                #{adTrack,jdbcType=VARCHAR},
+            </if>
+            <if test="jobid != null">
+                #{jobid,jdbcType=VARCHAR},
+            </if>
+            <if test="coid != null">
+                #{coid,jdbcType=VARCHAR},
+            </if>
+            <if test="effect != null">
+                #{effect,jdbcType=INTEGER},
+            </if>
+            <if test="isSpecialJob != null">
+                #{isSpecialJob,jdbcType=VARCHAR},
+            </if>
+            <if test="jobHref != null">
+                #{jobHref,jdbcType=VARCHAR},
+            </if>
+            <if test="jobName != null">
+                #{jobName,jdbcType=VARCHAR},
+            </if>
+            <if test="jobTitle != null">
+                #{jobTitle,jdbcType=VARCHAR},
+            </if>
+            <if test="companyHref != null">
+                #{companyHref,jdbcType=VARCHAR},
+            </if>
+            <if test="companyName != null">
+                #{companyName,jdbcType=VARCHAR},
+            </if>
+            <if test="providesalaryText != null">
+                #{providesalaryText,jdbcType=VARCHAR},
+            </if>
+            <if test="workarea != null">
+                #{workarea,jdbcType=VARCHAR},
+            </if>
+            <if test="workareaText != null">
+                #{workareaText,jdbcType=VARCHAR},
+            </if>
+            <if test="updatedate != null">
+                #{updatedate,jdbcType=VARCHAR},
+            </if>
+            <if test="isIntern != null">
+                #{isIntern,jdbcType=VARCHAR},
+            </if>
+            <if test="isCommunicate != null">
+                #{isCommunicate,jdbcType=VARCHAR},
+            </if>
+            <if test="companytypeText != null">
+                #{companytypeText,jdbcType=VARCHAR},
+            </if>
+            <if test="degreeFrom != null">
+                #{degreeFrom,jdbcType=INTEGER},
+            </if>
+            <if test="workYear != null">
+                #{workYear,jdbcType=INTEGER},
+            </if>
+            <if test="issueDate != null">
+                #{issueDate,jdbcType=VARCHAR},
+            </if>
+            <if test="isFromXyz != null">
+                #{isFromXyz,jdbcType=VARCHAR},
+            </if>
+            <if test="jobwelf != null">
+                #{jobwelf,jdbcType=VARCHAR},
+            </if>
+            <if test="jobwelfList != null">
+                #{jobwelfList,jdbcType=VARCHAR},
+            </if>
+            <if test="attributeText != null">
+                #{attributeText,jdbcType=VARCHAR},
+            </if>
+            <if test="companysizeText != null">
+                #{companysizeText,jdbcType=VARCHAR},
+            </if>
+            <if test="companyindText != null">
+                #{companyindText,jdbcType=VARCHAR},
+            </if>
+            <if test="adid != null">
+                #{adid,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=BIGINT},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=BIGINT},
+            </if>
+        </trim>
+    </insert>
+
+
+    <update id="updateByPrimaryKeySelective" parameterType="frankdevhub.job.automatic.entities.PlatformDataJson">
+        update platform_data_brief_source
+        <set>
+            <if test="type != null">
+                type = #{type,jdbcType=VARCHAR},
+            </if>
+            <if test="jt != null">
+                jt = #{jt,jdbcType=INTEGER},
+            </if>
+            <if test="tags != null">
+                tags = #{tags,jdbcType=VARCHAR},
+            </if>
+            <if test="adTrack != null">
+                ad_track = #{adTrack,jdbcType=VARCHAR},
+            </if>
+            <if test="jobid != null">
+                jobid = #{jobid,jdbcType=VARCHAR},
+            </if>
+            <if test="coid != null">
+                coid = #{coid,jdbcType=VARCHAR},
+            </if>
+            <if test="effect != null">
+                effect = #{effect,jdbcType=INTEGER},
+            </if>
+            <if test="isSpecialJob != null">
+                is_special_job = #{isSpecialJob,jdbcType=VARCHAR},
+            </if>
+            <if test="jobHref != null">
+                job_href = #{jobHref,jdbcType=VARCHAR},
+            </if>
+            <if test="jobName != null">
+                job_name = #{jobName,jdbcType=VARCHAR},
+            </if>
+            <if test="jobTitle != null">
+                job_title = #{jobTitle,jdbcType=VARCHAR},
+            </if>
+            <if test="companyHref != null">
+                company_href = #{companyHref,jdbcType=VARCHAR},
+            </if>
+            <if test="companyName != null">
+                company_name = #{companyName,jdbcType=VARCHAR},
+            </if>
+            <if test="providesalaryText != null">
+                providesalary_text = #{providesalaryText,jdbcType=VARCHAR},
+            </if>
+            <if test="workarea != null">
+                workarea = #{workarea,jdbcType=VARCHAR},
+            </if>
+            <if test="workareaText != null">
+                workarea_text = #{workareaText,jdbcType=VARCHAR},
+            </if>
+            <if test="updatedate != null">
+                updatedate = #{updatedate,jdbcType=VARCHAR},
+            </if>
+            <if test="isIntern != null">
+                is_intern = #{isIntern,jdbcType=VARCHAR},
+            </if>
+            <if test="isCommunicate != null">
+                is_communicate = #{isCommunicate,jdbcType=VARCHAR},
+            </if>
+            <if test="companytypeText != null">
+                companytype_text = #{companytypeText,jdbcType=VARCHAR},
+            </if>
+            <if test="degreeFrom != null">
+                degree_from = #{degreeFrom,jdbcType=INTEGER},
+            </if>
+            <if test="workYear != null">
+                work_year = #{workYear,jdbcType=INTEGER},
+            </if>
+            <if test="issueDate != null">
+                issue_date = #{issueDate,jdbcType=VARCHAR},
+            </if>
+            <if test="isFromXyz != null">
+                is_from_xyz = #{isFromXyz,jdbcType=VARCHAR},
+            </if>
+            <if test="jobwelf != null">
+                jobwelf = #{jobwelf,jdbcType=VARCHAR},
+            </if>
+            <if test="jobwelfList != null">
+                jobwelf_list = #{jobwelfList,jdbcType=VARCHAR},
+            </if>
+            <if test="attributeText != null">
+                attribute_text = #{attributeText,jdbcType=VARCHAR},
+            </if>
+            <if test="companysizeText != null">
+                companysize_text = #{companysizeText,jdbcType=VARCHAR},
+            </if>
+            <if test="companyindText != null">
+                companyind_text = #{companyindText,jdbcType=VARCHAR},
+            </if>
+            <if test="adid != null">
+                adid = #{adid,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=BIGINT},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=BIGINT},
+            </if>
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+
+
+    <update id="updateByPrimaryKey" parameterType="frankdevhub.job.automatic.entities.PlatformDataJson">
+        update platform_data_brief_source
+        set type = #{type,jdbcType=VARCHAR},
+        jt = #{jt,jdbcType=INTEGER},
+        tags = #{tags,jdbcType=VARCHAR},
+        ad_track = #{adTrack,jdbcType=VARCHAR},
+        jobid = #{jobid,jdbcType=VARCHAR},
+        coid = #{coid,jdbcType=VARCHAR},
+        effect = #{effect,jdbcType=INTEGER},
+        is_special_job = #{isSpecialJob,jdbcType=VARCHAR},
+        job_href = #{jobHref,jdbcType=VARCHAR},
+        job_name = #{jobName,jdbcType=VARCHAR},
+        job_title = #{jobTitle,jdbcType=VARCHAR},
+        company_href = #{companyHref,jdbcType=VARCHAR},
+        company_name = #{companyName,jdbcType=VARCHAR},
+        providesalary_text = #{providesalaryText,jdbcType=VARCHAR},
+        workarea = #{workarea,jdbcType=VARCHAR},
+        workarea_text = #{workareaText,jdbcType=VARCHAR},
+        updatedate = #{updatedate,jdbcType=VARCHAR},
+        is_intern = #{isIntern,jdbcType=VARCHAR},
+        is_communicate = #{isCommunicate,jdbcType=VARCHAR},
+        companytype_text = #{companytypeText,jdbcType=VARCHAR},
+        degree_from = #{degreeFrom,jdbcType=INTEGER},
+        work_year = #{workYear,jdbcType=INTEGER},
+        issue_date = #{issueDate,jdbcType=VARCHAR},
+        is_from_xyz = #{isFromXyz,jdbcType=VARCHAR},
+        jobwelf = #{jobwelf,jdbcType=VARCHAR},
+        jobwelf_list = #{jobwelfList,jdbcType=VARCHAR},
+        attribute_text = #{attributeText,jdbcType=VARCHAR},
+        companysize_text = #{companysizeText,jdbcType=VARCHAR},
+        companyind_text = #{companyindText,jdbcType=VARCHAR},
+        adid = #{adid,jdbcType=VARCHAR},
+        create_time = #{createTime,jdbcType=BIGINT},
+        update_time = #{updateTime,jdbcType=BIGINT}
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+
+    <select id="selectById" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from platform_data_brief_source
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+
+    <sql id="findPageWithWhere">
+        <where>1=1
+            <if test="id != null and id != ''">
+                and id = #{id,jdbcType=VARCHAR}
+            </if>
+            <if test="type != null and type != ''">
+                and type = #{type,jdbcType=VARCHAR}
+            </if>
+            <if test="jt != null">
+                and jt = #{jt,jdbcType=INTEGER}
+            </if>
+            <if test="tags != null and tags != ''">
+                and tags = #{tags,jdbcType=VARCHAR}
+            </if>
+            <if test="adTrack != null and adTrack != ''">
+                and ad_track = #{adTrack,jdbcType=VARCHAR}
+            </if>
+            <if test="jobid != null and jobid != ''">
+                and jobid = #{jobid,jdbcType=VARCHAR}
+            </if>
+            <if test="coid != null and coid != ''">
+                and coid = #{coid,jdbcType=VARCHAR}
+            </if>
+            <if test="effect != null">
+                and effect = #{effect,jdbcType=INTEGER}
+            </if>
+            <if test="isSpecialJob != null and isSpecialJob != ''">
+                and is_special_job = #{isSpecialJob,jdbcType=VARCHAR}
+            </if>
+            <if test="jobHref != null and jobHref != ''">
+                and job_href = #{jobHref,jdbcType=VARCHAR}
+            </if>
+            <if test="jobName != null and jobName != ''">
+                and job_name = #{jobName,jdbcType=VARCHAR}
+            </if>
+            <if test="jobTitle != null and jobTitle != ''">
+                and job_title = #{jobTitle,jdbcType=VARCHAR}
+            </if>
+            <if test="companyHref != null and companyHref != ''">
+                and company_href = #{companyHref,jdbcType=VARCHAR}
+            </if>
+            <if test="companyName != null and companyName != ''">
+                and company_name = #{companyName,jdbcType=VARCHAR}
+            </if>
+            <if test="providesalaryText != null and providesalaryText != ''">
+                and providesalary_text = #{providesalaryText,jdbcType=VARCHAR}
+            </if>
+            <if test="workarea != null and workarea != ''">
+                and workarea = #{workarea,jdbcType=VARCHAR}
+            </if>
+            <if test="workareaText != null and workareaText != ''">
+                and workarea_text = #{workareaText,jdbcType=VARCHAR}
+            </if>
+            <if test="updatedate != null and updatedate != ''">
+                and updatedate = #{updatedate,jdbcType=VARCHAR}
+            </if>
+            <if test="isIntern != null and isIntern != ''">
+                and is_intern = #{isIntern,jdbcType=VARCHAR}
+            </if>
+            <if test="isCommunicate != null and isCommunicate != ''">
+                and is_communicate = #{isCommunicate,jdbcType=VARCHAR}
+            </if>
+            <if test="companytypeText != null and companytypeText != ''">
+                and companytype_text = #{companytypeText,jdbcType=VARCHAR}
+            </if>
+            <if test="degreeFrom != null">
+                and degree_from = #{degreeFrom,jdbcType=INTEGER}
+            </if>
+            <if test="workYear != null">
+                and work_year = #{workYear,jdbcType=INTEGER}
+            </if>
+            <if test="issueDate != null and issueDate != ''">
+                and issue_date = #{issueDate,jdbcType=VARCHAR}
+            </if>
+            <if test="isFromXyz != null and isFromXyz != ''">
+                and is_from_xyz = #{isFromXyz,jdbcType=VARCHAR}
+            </if>
+            <if test="jobwelf != null and jobwelf != ''">
+                and jobwelf = #{jobwelf,jdbcType=VARCHAR}
+            </if>
+            <if test="jobwelfList != null and jobwelfList != ''">
+                and jobwelf_list = #{jobwelfList,jdbcType=VARCHAR}
+            </if>
+            <if test="attributeText != null and attributeText != ''">
+                and attribute_text = #{attributeText,jdbcType=VARCHAR}
+            </if>
+            <if test="companysizeText != null and companysizeText != ''">
+                and companysize_text = #{companysizeText,jdbcType=VARCHAR}
+            </if>
+            <if test="companyindText != null and companyindText != ''">
+                and companyind_text = #{companyindText,jdbcType=VARCHAR}
+            </if>
+            <if test="adid != null and adid != ''">
+                and adid = #{adid,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </sql>
+
+    <select id="findPageWithResult" parameterType="frankdevhub.job.automatic.dto.PlatformDataJsonQuery"
+            resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from platform_data_brief_source
+        <include refid="findPageWithWhere"/>
+        limit #{start},#{pageSize}
+    </select>
+
+    <select id="findPageWithCount" parameterType="frankdevhub.job.automatic.dto.PlatformDataJsonQuery"
+            resultType="Integer">
+        select count(1)
+        from platform_data_brief_source
+        <include refid="findPageWithWhere"/>
+    </select>
+
+</mapper>
