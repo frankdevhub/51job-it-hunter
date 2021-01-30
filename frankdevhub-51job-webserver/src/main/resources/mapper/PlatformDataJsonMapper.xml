@@ -34,7 +34,7 @@
         <result column="companysize_text" jdbcType="VARCHAR" property="companysizeText"/>
         <result column="companyind_text" jdbcType="VARCHAR" property="companyindText"/>
         <result column="adid" jdbcType="VARCHAR" property="adid"/>
-        <result column="context" jdbcType="LONGTEXT" property="context"/>
+        <result column="context" jdbcType="TEXT" property="context"/>
         <result column="create_time" jdbcType="BIGINT" property="createTime"/>
         <result column="update_time" jdbcType="BIGINT" property="updateTime"/>
     </resultMap>
@@ -74,7 +74,7 @@
         #{degreeFrom,jdbcType=INTEGER}, #{workYear,jdbcType=INTEGER}, #{issueDate,jdbcType=VARCHAR},
         #{isFromXyz,jdbcType=VARCHAR}, #{jobwelf,jdbcType=VARCHAR}, #{jobwelfList,jdbcType=VARCHAR},
         #{attributeText,jdbcType=VARCHAR}, #{companysizeText,jdbcType=VARCHAR}, #{companyindText,jdbcType=VARCHAR},
-        #{adid,jdbcType=VARCHAR},#{context,jdbcType=LONGTEXT},
+        #{adid,jdbcType=VARCHAR},#{context,jdbcType=TEXT},
         #{createTime,jdbcType=BIGINT},#{updateTime,jdbcType=BIGINT})
     </insert>
 
@@ -280,7 +280,7 @@
                 #{adid,jdbcType=VARCHAR},
             </if>
             <if test="context != null">
-                #{context,jdbcTypeLONGTEXT},
+                #{context,jdbcTypeTEXT},
             </if>
             <if test="createTime != null">
                 #{createTime,jdbcType=BIGINT},
@@ -386,7 +386,7 @@
                 adid = #{adid,jdbcType=VARCHAR},
             </if>
             <if test="context != null">
-                context = #{context,jdbcType=LONGTEXT},
+                context = #{context,jdbcType=TEXT},
             </if>
             <if test="createTime != null">
                 create_time = #{createTime,jdbcType=BIGINT},
@@ -431,7 +431,7 @@
         companysize_text = #{companysizeText,jdbcType=VARCHAR},
         companyind_text = #{companyindText,jdbcType=VARCHAR},
         adid = #{adid,jdbcType=VARCHAR},
-        context = #{context,jdbcType=LONGTEXT},
+        context = #{context,jdbcType=TEXT},
         create_time = #{createTime,jdbcType=BIGINT},
         update_time = #{updateTime,jdbcType=BIGINT}
         where id = #{id,jdbcType=VARCHAR}
