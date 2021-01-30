@@ -6,13 +6,16 @@ import cn.wanghaomiao.xpath.model.JXNode;
 import frankdevhub.job.automatic.core.constants.BusinessConstants;
 import frankdevhub.job.automatic.core.constants.SeleniumConstants;
 import frankdevhub.job.automatic.core.exception.BusinessException;
+import frankdevhub.job.automatic.core.parser.PlatformDataConverter;
 import frankdevhub.job.automatic.core.parser.SalaryRangeTextUtils;
 import frankdevhub.job.automatic.core.utils.SpringUtils;
 import frankdevhub.job.automatic.core.utils.WebDriverUtils;
 import frankdevhub.job.automatic.entities.JobSearchResult;
+import frankdevhub.job.automatic.entities.PlatformDataJson;
 import frankdevhub.job.automatic.selenium.DriverBase;
 import frankdevhub.job.automatic.selenium.config.ChromeConfiguration;
 import frankdevhub.job.automatic.service.JobSearchResultService;
+import frankdevhub.job.automatic.service.PlatformDataJsonService;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
@@ -33,7 +36,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-import java.util.UUID;
 import java.util.concurrent.ExecutorService;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -58,6 +60,10 @@ public class JobPlatformClient {
 
     private JobSearchResultService getJobSearchResultService() {
         return SpringUtils.getBean(JobSearchResultService.class);
+    }
+
+    private PlatformDataJsonService getPlatformDataJsonService() {
+        return SpringUtils.getBean(PlatformDataJsonService.class);
     }
 
     /**
@@ -253,8 +259,6 @@ public class JobPlatformClient {
                     int markId = result.getMarkId(); //生成搜索结果集的唯一标识
                     int count = service.selectCountByMarkId(markId);
                     if (count == 0) {
-                        String id = UUID.randomUUID().toString();
-                        result.setId(id);
                         result.doCreateEntity();
                         service.insertSelective(result);
                     } else {
@@ -357,7 +361,7 @@ public class JobPlatformClient {
         String publishDate = publishDateNode.getElement().childNodes().get(0).outerHtml().trim();
         //替换中文字符 2020-01-15 发布-> 2020-01-15
         publishDate = publishDate.replaceAll("[\u4E00-\u9FA5]+", ""); //过滤替换中文字符例如"发布"
-        int month = Integer.parseInt(publishDate.split("-")[0]); //职位发布日期(月)
+        int month = Integer.parseInt(publishDate.split("-")[0]);
         int day = Integer.parseInt(publishDate.split("-")[1]);//职位发布日期(天)
         result.setPublishDateChar(publishDate) //职位发布日期(字符串)
                 .setPublishDateDayNumeric(day) //职位发布日期(天)
@@ -410,30 +414,27 @@ public class JobPlatformClient {
             Pattern p = Pattern.compile(DATA_JSON_REGEX);
             Matcher m = p.matcher(ctx);
             String j = null;
-            if (m.find()) {
+            if (m.find())
                 j = m.group("context");
-            }
+
             Assert.notNull(j, "data json cannot be found");
             log.info(j);
-            //解析返回的json对象
-            JobSearchResult result = parseJsonData(j);
+            //解析返回的json对象,获取指定业务属性下的数据集
+            List<PlatformDataJson> datas = PlatformDataConverter.convertContext(j);
+            //保存源数据
+            if (null != datas & datas.size() > 0) {
+                for (PlatformDataJson data : datas) {
+                    getPlatformDataJsonService().insertSelective(data);
+                    data.doCreateEntity();
+                }
+            }
+            //TODO
+            //JobSearchResult result = PlatformDataConverter.convert(j);
         }
-
         log.info("get search result entity list complete");
         return results;
     }
 
-    /**
-     * 解析结果集对象
-     *
-     * @param url 平台网页源码加载时的json字符串
-     * @return 页面搜索结果集对象
-     */
-    private JobSearchResult parseJsonData(String json) {
-        JobSearchResult result = new JobSearchResult();
-        //TODO
-        return result;
-    }
 
     /**
      * 解析结果集对象
