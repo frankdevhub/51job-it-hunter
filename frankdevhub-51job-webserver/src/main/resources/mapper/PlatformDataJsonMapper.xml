@@ -20,7 +20,7 @@
         <result column="providesalary_text" jdbcType="VARCHAR" property="providesalaryText"/>
         <result column="workarea" jdbcType="VARCHAR" property="workArea"/>
         <result column="workarea_text" jdbcType="VARCHAR" property="workareaText"/>
-        <result column="updatedate" jdbcType="VARCHAR" property="updatedate"/>
+        <result column="updatedate" jdbcType="VARCHAR" property="updateDate"/>
         <result column="is_intern" jdbcType="VARCHAR" property="isIntern"/>
         <result column="is_communicate" jdbcType="VARCHAR" property="isCommunicate"/>
         <result column="companytype_text" jdbcType="VARCHAR" property="companytypeText"/>
@@ -65,11 +65,11 @@
         attribute_text, companysize_text, companyind_text,
         adid, context, create_time,update_time)
         values (#{id,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{jt,jdbcType=INTEGER},
-        #{tags,jdbcType=VARCHAR}, #{adTrack,jdbcType=VARCHAR}, #{jobid,jdbcType=VARCHAR},
-        #{coid,jdbcType=VARCHAR}, #{effect,jdbcType=INTEGER}, #{isSpecialJob,jdbcType=VARCHAR},
+        #{tags,jdbcType=VARCHAR}, #{adTrack,jdbcType=VARCHAR}, #{jobId,jdbcType=VARCHAR},
+        #{coId,jdbcType=VARCHAR}, #{effect,jdbcType=INTEGER}, #{isSpecialJob,jdbcType=VARCHAR},
         #{jobHref,jdbcType=VARCHAR}, #{jobName,jdbcType=VARCHAR}, #{jobTitle,jdbcType=VARCHAR},
         #{companyHref,jdbcType=VARCHAR}, #{companyName,jdbcType=VARCHAR}, #{providesalaryText,jdbcType=VARCHAR},
-        #{workarea,jdbcType=VARCHAR}, #{workareaText,jdbcType=VARCHAR}, #{updatedate,jdbcType=VARCHAR},
+        #{workArea,jdbcType=VARCHAR}, #{workareaText,jdbcType=VARCHAR}, #{updateDate,jdbcType=VARCHAR},
         #{isIntern,jdbcType=VARCHAR}, #{isCommunicate,jdbcType=VARCHAR}, #{companytypeText,jdbcType=VARCHAR},
         #{degreeFrom,jdbcType=INTEGER}, #{workYear,jdbcType=INTEGER}, #{issueDate,jdbcType=VARCHAR},
         #{isFromXyz,jdbcType=VARCHAR}, #{jobwelf,jdbcType=VARCHAR}, #{jobwelfList,jdbcType=VARCHAR},
@@ -97,10 +97,10 @@
             <if test="adTrack != null">
                 ad_track,
             </if>
-            <if test="jobid != null">
+            <if test="jobId != null">
                 jobid,
             </if>
-            <if test="coid != null">
+            <if test="coId != null">
                 coid,
             </if>
             <if test="effect != null">
@@ -127,13 +127,13 @@
             <if test="providesalaryText != null">
                 providesalary_text,
             </if>
-            <if test="workarea != null">
+            <if test="workArea != null">
                 workarea,
             </if>
             <if test="workareaText != null">
                 workarea_text,
             </if>
-            <if test="updatedate != null">
+            <if test="updateDate != null">
                 updatedate,
             </if>
             <if test="isIntern != null">
@@ -201,11 +201,11 @@
             <if test="adTrack != null">
                 #{adTrack,jdbcType=VARCHAR},
             </if>
-            <if test="jobid != null">
-                #{jobid,jdbcType=VARCHAR},
+            <if test="jobId != null">
+                #{jobId,jdbcType=VARCHAR},
             </if>
-            <if test="coid != null">
-                #{coid,jdbcType=VARCHAR},
+            <if test="coId != null">
+                #{coId,jdbcType=VARCHAR},
             </if>
             <if test="effect != null">
                 #{effect,jdbcType=INTEGER},
@@ -231,14 +231,14 @@
             <if test="providesalaryText != null">
                 #{providesalaryText,jdbcType=VARCHAR},
             </if>
-            <if test="workarea != null">
-                #{workarea,jdbcType=VARCHAR},
+            <if test="workArea != null">
+                #{workArea,jdbcType=VARCHAR},
             </if>
             <if test="workareaText != null">
                 #{workareaText,jdbcType=VARCHAR},
             </if>
-            <if test="updatedate != null">
-                #{updatedate,jdbcType=VARCHAR},
+            <if test="updateDate != null">
+                #{updateDate,jdbcType=VARCHAR},
             </if>
             <if test="isIntern != null">
                 #{isIntern,jdbcType=VARCHAR},
@@ -307,11 +307,11 @@
             <if test="adTrack != null">
                 ad_track = #{adTrack,jdbcType=VARCHAR},
             </if>
-            <if test="jobid != null">
-                jobid = #{jobid,jdbcType=VARCHAR},
+            <if test="jobId != null">
+                jobid = #{jobId,jdbcType=VARCHAR},
             </if>
-            <if test="coid != null">
-                coid = #{coid,jdbcType=VARCHAR},
+            <if test="coId != null">
+                coid = #{coId,jdbcType=VARCHAR},
             </if>
             <if test="effect != null">
                 effect = #{effect,jdbcType=INTEGER},
@@ -337,14 +337,14 @@
             <if test="providesalaryText != null">
                 providesalary_text = #{providesalaryText,jdbcType=VARCHAR},
             </if>
-            <if test="workarea != null">
-                workarea = #{workarea,jdbcType=VARCHAR},
+            <if test="workArea != null">
+                workarea = #{workArea,jdbcType=VARCHAR},
             </if>
             <if test="workareaText != null">
                 workarea_text = #{workareaText,jdbcType=VARCHAR},
             </if>
-            <if test="updatedate != null">
-                updatedate = #{updatedate,jdbcType=VARCHAR},
+            <if test="updateDate != null">
+                updatedate = #{updateDate,jdbcType=VARCHAR},
             </if>
             <if test="isIntern != null">
                 is_intern = #{isIntern,jdbcType=VARCHAR},
@@ -405,8 +405,8 @@
         jt = #{jt,jdbcType=INTEGER},
         tags = #{tags,jdbcType=VARCHAR},
         ad_track = #{adTrack,jdbcType=VARCHAR},
-        jobid = #{jobid,jdbcType=VARCHAR},
-        coid = #{coid,jdbcType=VARCHAR},
+        jobid = #{jobId,jdbcType=VARCHAR},
+        coid = #{coId,jdbcType=VARCHAR},
         effect = #{effect,jdbcType=INTEGER},
         is_special_job = #{isSpecialJob,jdbcType=VARCHAR},
         job_href = #{jobHref,jdbcType=VARCHAR},
@@ -415,9 +415,9 @@
         company_href = #{companyHref,jdbcType=VARCHAR},
         company_name = #{companyName,jdbcType=VARCHAR},
         providesalary_text = #{providesalaryText,jdbcType=VARCHAR},
-        workarea = #{workarea,jdbcType=VARCHAR},
-        workarea_text = #{workareaText,jdbcType=VARCHAR},
-        updatedate = #{updatedate,jdbcType=VARCHAR},
+        workarea = #{workArea,jdbcType=VARCHAR},
+        workarea_text = #{workAreaText,jdbcType=VARCHAR},
+        updatedate = #{updateDate,jdbcType=VARCHAR},
         is_intern = #{isIntern,jdbcType=VARCHAR},
         is_communicate = #{isCommunicate,jdbcType=VARCHAR},
         companytype_text = #{companytypeText,jdbcType=VARCHAR},
@@ -461,11 +461,11 @@
             <if test="adTrack != null and adTrack != ''">
                 and ad_track = #{adTrack,jdbcType=VARCHAR}
             </if>
-            <if test="jobid != null and jobid != ''">
-                and jobid = #{jobid,jdbcType=VARCHAR}
+            <if test="jobId != null and jobId != ''">
+                and jobid = #{jobId,jdbcType=VARCHAR}
             </if>
-            <if test="coid != null and coid != ''">
-                and coid = #{coid,jdbcType=VARCHAR}
+            <if test="coId != null and coId != ''">
+                and coid = #{coId,jdbcType=VARCHAR}
             </if>
             <if test="effect != null">
                 and effect = #{effect,jdbcType=INTEGER}
@@ -491,14 +491,14 @@
             <if test="providesalaryText != null and providesalaryText != ''">
                 and providesalary_text = #{providesalaryText,jdbcType=VARCHAR}
             </if>
-            <if test="workarea != null and workarea != ''">
-                and workarea = #{workarea,jdbcType=VARCHAR}
+            <if test="workArea != null and workArea != ''">
+                and workarea = #{workArea,jdbcType=VARCHAR}
             </if>
             <if test="workareaText != null and workareaText != ''">
                 and workarea_text = #{workareaText,jdbcType=VARCHAR}
             </if>
-            <if test="updatedate != null and updatedate != ''">
-                and updatedate = #{updatedate,jdbcType=VARCHAR}
+            <if test="updateDate != null and updateDate != ''">
+                and updatedate = #{updateDate,jdbcType=VARCHAR}
             </if>
             <if test="isIntern != null and isIntern != ''">
                 and is_intern = #{isIntern,jdbcType=VARCHAR}
