@@ -34,6 +34,7 @@
         <result column="companysize_text" jdbcType="VARCHAR" property="companysizeText"/>
         <result column="companyind_text" jdbcType="VARCHAR" property="companyindText"/>
         <result column="adid" jdbcType="VARCHAR" property="adid"/>
+        <result column="context" jdbcType="LONGTEXT" property="context"/>
         <result column="create_time" jdbcType="BIGINT" property="createTime"/>
         <result column="update_time" jdbcType="BIGINT" property="updateTime"/>
     </resultMap>
@@ -43,7 +44,7 @@
         job_title, company_href, company_name, providesalary_text, workarea, workarea_text,
         updatedate, is_intern, is_communicate, companytype_text, degree_from, work_year,
         issue_date, is_from_xyz, jobwelf, jobwelf_list, attribute_text, companysize_text,
-        companyind_text, adid, create_time, update_time
+        companyind_text, adid, ,context, create_time, update_time
     </sql>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
@@ -62,7 +63,7 @@
         degree_from, work_year, issue_date,
         is_from_xyz, jobwelf, jobwelf_list,
         attribute_text, companysize_text, companyind_text,
-        adid,create_time,update_time)
+        adid, context, create_time,update_time)
         values (#{id,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{jt,jdbcType=INTEGER},
         #{tags,jdbcType=VARCHAR}, #{adTrack,jdbcType=VARCHAR}, #{jobid,jdbcType=VARCHAR},
         #{coid,jdbcType=VARCHAR}, #{effect,jdbcType=INTEGER}, #{isSpecialJob,jdbcType=VARCHAR},
@@ -73,7 +74,7 @@
         #{degreeFrom,jdbcType=INTEGER}, #{workYear,jdbcType=INTEGER}, #{issueDate,jdbcType=VARCHAR},
         #{isFromXyz,jdbcType=VARCHAR}, #{jobwelf,jdbcType=VARCHAR}, #{jobwelfList,jdbcType=VARCHAR},
         #{attributeText,jdbcType=VARCHAR}, #{companysizeText,jdbcType=VARCHAR}, #{companyindText,jdbcType=VARCHAR},
-        #{adid,jdbcType=VARCHAR},
+        #{adid,jdbcType=VARCHAR},#{context,jdbcType=LONGTEXT},
         #{createTime,jdbcType=BIGINT},#{updateTime,jdbcType=BIGINT})
     </insert>
 
@@ -173,6 +174,9 @@
             </if>
             <if test="adid != null">
                 adid,
+            </if>
+            <if test="context != null">
+                context,
             </if>
             <if test="createTime != null">
                 create_time,
@@ -274,6 +278,9 @@
             </if>
             <if test="adid != null">
                 #{adid,jdbcType=VARCHAR},
+            </if>
+            <if test="context != null">
+                #{context,jdbcTypeLONGTEXT},
             </if>
             <if test="createTime != null">
                 #{createTime,jdbcType=BIGINT},
@@ -378,6 +385,9 @@
             <if test="adid != null">
                 adid = #{adid,jdbcType=VARCHAR},
             </if>
+            <if test="context != null">
+                context = #{context,jdbcType=LONGTEXT},
+            </if>
             <if test="createTime != null">
                 create_time = #{createTime,jdbcType=BIGINT},
             </if>
@@ -421,6 +431,7 @@
         companysize_text = #{companysizeText,jdbcType=VARCHAR},
         companyind_text = #{companyindText,jdbcType=VARCHAR},
         adid = #{adid,jdbcType=VARCHAR},
+        context = #{context,jdbcType=LONGTEXT},
         create_time = #{createTime,jdbcType=BIGINT},
         update_time = #{updateTime,jdbcType=BIGINT}
         where id = #{id,jdbcType=VARCHAR}
