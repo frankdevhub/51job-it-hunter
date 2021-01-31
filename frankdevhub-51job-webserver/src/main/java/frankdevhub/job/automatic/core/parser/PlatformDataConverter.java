@@ -40,6 +40,8 @@ public class PlatformDataConverter {
         List<PlatformDataJson> datas = new ArrayList<>();
         JSONObject obj = JSON.parseObject(json);
         JSONArray array = obj.getJSONArray("engine_search_result");
+        Assert.notEmpty(array, "cannot find array object [engine_search_result] in response data");
+
         if (null != array && array.size() > 0) {
             for (int i = 0; i < array.size(); i++) {
                 PlatformDataJson dataJson = convert(array.getJSONObject(i));
@@ -92,8 +94,7 @@ public class PlatformDataConverter {
                 .setCompanyindText(obj.getString("companyind_text"))//companyind_text 互联网/电子商务
                 .setAdid(obj.getString("adid"));//adid
 
-        System.out.println(data.toString());
-
+        //System.out.println(data.toString());
         return data;
     }
 
