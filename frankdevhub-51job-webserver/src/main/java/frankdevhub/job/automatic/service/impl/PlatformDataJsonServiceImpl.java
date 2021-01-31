@@ -41,12 +41,25 @@ public class PlatformDataJsonServiceImpl extends MyBatisRepository implements Pl
         return dataJsonMapper.deleteByPrimaryKey(id);
     }
 
+    /**
+     * 新增实体对象
+     *
+     * @param dataJson 实体对象
+     * @return 更新行数
+     */
     @Override
     public int insert(PlatformDataJson dataJson) {
         Assert.notNull(dataJson, "cannot find dataJson");
         return dataJsonMapper.insert(dataJson);
     }
 
+
+    /**
+     * 新增实体对象
+     *
+     * @param dataJson 实体对象
+     * @return 更新行数
+     */
     @Override
     public int insertSelective(PlatformDataJson dataJson) {
 
@@ -61,6 +74,12 @@ public class PlatformDataJsonServiceImpl extends MyBatisRepository implements Pl
         return dataJsonMapper.insertSelective(dataJson);
     }
 
+    /**
+     * 更新实体对象
+     *
+     * @param dataJson 实体对象
+     * @return 更新行数
+     */
     @Override
     public int updateByPrimaryKeySelective(PlatformDataJson dataJson) {
 
@@ -73,6 +92,12 @@ public class PlatformDataJsonServiceImpl extends MyBatisRepository implements Pl
         return dataJsonMapper.updateByPrimaryKeySelective(dataJson);
     }
 
+    /**
+     * 更新实体对象
+     *
+     * @param dataJson 实体对象
+     * @return 更新行数
+     */
     @Override
     public int updateByPrimaryKey(PlatformDataJson dataJson) {
 
@@ -85,18 +110,36 @@ public class PlatformDataJsonServiceImpl extends MyBatisRepository implements Pl
         return dataJsonMapper.updateByPrimaryKey(dataJson);
     }
 
+    /**
+     * 依据主键id查询实体对象
+     *
+     * @param id 主键id
+     * @return 实体对象
+     */
     @Override
     public PlatformDataJson selectById(String id) {
         return dataJsonMapper.selectById(id);
     }
 
+    /**
+     * 条件查询
+     *
+     * @param query 查询实体
+     * @return 满足条件的实体集合
+     */
     @Override
     public List<PlatformDataJson> findPageWithResult(PlatformDataJsonQuery query) {
         return dataJsonMapper.findPageWithResult(query);
     }
 
+    /**
+     * 条件查询
+     *
+     * @param query 查询实体
+     * @return 满足条件的实体数量
+     */
     @Override
-    public Integer findPageWithCount(PlatformDataJsonQuery query) {
+    public int findPageWithCount(PlatformDataJsonQuery query) {
         return dataJsonMapper.findPageWithCount(query);
     }
 }
