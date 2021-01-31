@@ -19,6 +19,7 @@ import com.google.api.client.extensions.java6.auth.oauth2.VerificationCodeReceiv
  * @date:2019-04-28 16:00
  */
 
+@SuppressWarnings("all")
 public class AuthorizationCodeInstalledAppExtend extends AuthorizationCodeInstalledApp{
 
 	private static AuthorizationCodeRequestUrl requestUrl;
@@ -36,7 +37,6 @@ public class AuthorizationCodeInstalledAppExtend extends AuthorizationCodeInstal
 					|| credential.getExpiresInSeconds() > 60)) {
 				return credential;
 			}
-		
 			String redirectUri = getReceiver().getRedirectUri();
 			AuthorizationCodeRequestUrl authorizationUrl = getFlow().newAuthorizationUrl().setRedirectUri(redirectUri);
 			requestUrl = authorizationUrl;
@@ -44,7 +44,7 @@ public class AuthorizationCodeInstalledAppExtend extends AuthorizationCodeInstal
 	
 			String code = getReceiver().waitForCode();
 			TokenResponse response = getFlow().newTokenRequest(code).setRedirectUri(redirectUri).execute();
-		
+
 			return getFlow().createAndStoreCredential(response, userId);
 		} finally {
 			getReceiver().stop();

@@ -1,7 +1,6 @@
 package frankdevhub.job.automatic.google.drive.ftp.adapter.model;
 
-import frankdevhub.job.automatic.core.data.logging.Logger;
-import frankdevhub.job.automatic.core.data.logging.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.dbcp.BasicDataSource;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -30,8 +29,9 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
  * @date:2019-04-23 16:32
  */
 
+@Slf4j
+@SuppressWarnings("all")
 public class SQLCache implements Cache {
-    private static final Logger LOGGER = LoggerFactory.getLogger(SQLCache.class);
     private static final String TABLE_FILES = "files";
     private static final String TABLE_CHILDS = "childs";
     private static final String TABLE_PARAMETERS = "parameters";
@@ -47,8 +47,7 @@ public class SQLCache implements Cache {
 
     public SQLCache(String driverClassName, String jdbcUrl) {
 
-        LOGGER.begin().info("JDBC Driver: '" + driverClassName + "'...");
-
+        log.info("JDBC Driver: '" + driverClassName + "'...");
         BasicDataSource dataSource = new BasicDataSource();
         dataSource.setDriverClassName(driverClassName);
         dataSource.setUrl(jdbcUrl);
@@ -75,7 +74,7 @@ public class SQLCache implements Cache {
         try {
             ret = jdbcTemplate.queryForObject("SELECT value FROM " + TABLE_PARAMETERS + " where id='revision'",
                     Integer.class);
-            LOGGER.begin().info("Database found");
+            log.info("Database found");
         } catch (DataAccessException e) {
             List<String> queries = new ArrayList<>();
             queries.add("create table " + TABLE_FILES + " (id character varying(100), revision character varying(100), "
@@ -92,7 +91,7 @@ public class SQLCache implements Cache {
 
             jdbcTemplate.batchUpdate(queries.toArray(new String[0]));
 
-            LOGGER.begin().info("Database created");
+            log.info("Database created");
         }
     }
 
@@ -100,7 +99,7 @@ public class SQLCache implements Cache {
     public GFile getFile(String id) {
         r.lock();
         try {
-            LOGGER.begin().info("getFile(" + id + ")");
+            log.info("getFile(" + id + ")");
             return jdbcTemplate.queryForObject("select * from " + TABLE_FILES + " where id=?", new Object[]{id},
                     rowMapper);
         } catch (EmptyResultDataAccessException ex) {
@@ -196,7 +195,7 @@ public class SQLCache implements Cache {
                 connection.commit();
                 return ret;
             } catch (Exception ex) {
-                LOGGER.begin().error("Error executing transaction. " + ex.getMessage());
+                log.error("Error executing transaction. " + ex.getMessage());
                 /*
                  * for (int i = 0; i < queries.size(); i++) {
                  * LOG.error("Query '" + queries.get(i) + "' " + (args != null

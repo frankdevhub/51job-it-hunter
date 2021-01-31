@@ -1,9 +1,9 @@
 package frankdevhub.job.automatic.google.drive.ftp.adapter.model;
 
+import org.springframework.dao.IncorrectResultSizeDataAccessException;
+
 import java.util.List;
 import java.util.Set;
-
-import org.springframework.dao.IncorrectResultSizeDataAccessException;
 
 /**
  * <p>Title:Cache.java</p>  
@@ -15,6 +15,7 @@ import org.springframework.dao.IncorrectResultSizeDataAccessException;
  * @date:2019-04-23 16:31
  */
 
+@SuppressWarnings("all")
 public interface Cache {
 	GFile getFile(String id);
 
