@@ -1,4 +1,4 @@
-package selenium.base;
+package data.base;
 
 import frankdevhub.job.automatic.JobWebAutoService;
 import frankdevhub.job.automatic.core.utils.SpringUtils;

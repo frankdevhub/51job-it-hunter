@@ -1,4 +1,4 @@
-package selenium.pages;
+package data.pages;
 
 import frankdevhub.job.automatic.JobWebAutoService;
 import frankdevhub.job.automatic.web.pages.JobPlatformSearchPage;
@@ -29,9 +29,7 @@ public class JobPlatformSearchPageMainTest {
      */
     @Test
     public void testPatrolTestOnePageOnly() throws InterruptedException {
-        log.info("run test method {{doPatrolTestOnePageOnly}} start");
         JobPlatformSearchPage patrolService = new JobPlatformSearchPage(Boolean.FALSE, TEST_SEARCH_KEY);
         patrolService.startSearchResultPatrol();
-        log.info("run test method {{doPatrolTestOnePageOnly}} complete");
     }
 }

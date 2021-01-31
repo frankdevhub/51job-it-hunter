@@ -1,4 +1,4 @@
-package selenium.pages;
+package data.pages;
 
 import cn.wanghaomiao.xpath.exception.XpathSyntaxErrorException;
 import cn.wanghaomiao.xpath.model.JXDocument;
@@ -37,9 +37,25 @@ public class JobPlatformSearchPageMainTest_1 {
 
     //测试页面跳转地址
     private final String TEST_RESULT_PAGE = "https://search.51job.com/list/020000,000000,0000,00,9,99,java,2,1.html?" +
-            "lang=c&stype=&postchannel=0000&workyear=99&cotype=99&degreefrom=99" +
-            "&jobterm=99&companysize=99&providesalary=99&lonlat=0%2C0&radius=-1&ord_field=0" +
-            "&confirmdate=9&fromType=&dibiaoid=0&address=&line=&specialarea=00&from=&welfare=";
+            "lang=c" +  //语言
+            "&stype=" +  //stype
+            "&postchannel=0000" +  //postchannel
+            "&workyear=99" + //workyear 工作年限
+            "&cotype=99" +  //cotype
+            "&degreefrom=99" +  //degreefrom 学历程度
+            "&jobterm=99" + //jobterm
+            "&companysize=99" + //companysize 企业人数规模
+            "&providesalary=99" + //providesalary
+            "&lonlat=0%2C0" +  //lonlat
+            "&radius=-1&ord_field=0" + //radius
+            "&confirmdate=9" + //confirmdate
+            "&fromType=" +  //fromType
+            "&dibiaoid=0" +  //dibiaoid
+            "&address=" +  //address 职位地址
+            "&line=" +  //line
+            "&specialarea=00" + //specialarea 辖区编号
+            "&from=" + //from
+            "&welfare=";  //welfare 薪资福利
 
     private String pageContext = ""; //测试页面的内容
 
@@ -50,8 +66,6 @@ public class JobPlatformSearchPageMainTest_1 {
      */
     @Before
     public void init() throws IOException {
-        log.info("invoke {{JobPlatformSearchPageMainTest_1::init()}}");
-
         Long start = System.currentTimeMillis();
         String responseText = null;
         CloseableHttpClient httpClient = null;
@@ -63,17 +77,14 @@ public class JobPlatformSearchPageMainTest_1 {
             CloseableHttpResponse response = httpClient.execute(httpGet); //获取返回对象
             HttpEntity responseEntity = response.getEntity();
             responseText = EntityUtils.toString(responseEntity, "GBK"); //读取返回内容的编码格式
-
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
             httpClient.close();
         }
-
         Long end = System.currentTimeMillis();
         log.info(String.format("time cost: %s sec", (end - start) / 1000));
         log.info(responseText);
-
         this.pageContext = responseText;
 
     }
@@ -83,11 +94,9 @@ public class JobPlatformSearchPageMainTest_1 {
      */
     @Test
     public void testParseByUsingJSoupSupport() {
-        log.info("run test method {{testParseByUsingJSoupSupport}} start");
 
         Document document = Jsoup.parse(this.pageContext); //页面对象转换为Dom文档对象
         String title = document.getElementsByTag("title").html(); //获取页面标题内容
-        log.info("test :[getElementsByTag]");
         log.info("title = " + title);
         log.info("test :[get element by JSoup xpath]");
         JXDocument jxDocument = new JXDocument(document); //页面对象转换为JXDom文档对象
@@ -102,6 +111,5 @@ public class JobPlatformSearchPageMainTest_1 {
         } catch (XpathSyntaxErrorException e) {
             e.printStackTrace();
         }
-        log.info("run test method {{testParseByUsingJSoupSupport}} complete");
     }
 }

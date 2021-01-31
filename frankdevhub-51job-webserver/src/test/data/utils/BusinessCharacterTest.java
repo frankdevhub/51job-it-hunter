@@ -1,11 +1,9 @@
-package selenium.utils;
+package data.utils;
 
 import frankdevhub.job.automatic.core.utils.CommonBusinessUtils;
 import frankdevhub.job.automatic.entities.BusinessCharacter;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import tk.mybatis.mapper.util.Assert;
 
 import java.lang.reflect.InvocationTargetException;
@@ -24,7 +22,6 @@ import java.util.Set;
  * @Version: 1.0
  */
 @Slf4j
-@RunWith(SpringJUnit4ClassRunner.class)
 public class BusinessCharacterTest {
 
     private static final Character CN_CHAR = '个'; //中文简体字符
@@ -42,9 +39,10 @@ public class BusinessCharacterTest {
         Set<Map.Entry<String, Boolean>> entrySet = attributes.entrySet();
         Iterator<Map.Entry<String, Boolean>> it = entrySet.iterator();
 
-        System.out.println("print attribute map");
-        while (it.hasNext())
-            System.out.println("key = " + it.next().getKey() + "; value = " + it.next().getValue());
+        log.info("print attribute map");
+        while (it.hasNext()) {
+            log.info("key = " + it.next().getKey() + "; value = " + it.next().getValue());
+        }
     }
 
     /**
@@ -56,13 +54,11 @@ public class BusinessCharacterTest {
     public void testSetAttributes() throws InvocationTargetException, IllegalAccessException {
         Map<String, Boolean> attributes;
         BusinessCharacter businessCharacter = new BusinessCharacter();
-        log.info("run test method {{testSetAttributes}} start");
 
-        System.out.println("using example CN_CHAR: " + CN_CHAR);
+        log.info("using example CN_CHAR: " + CN_CHAR);
         attributes = CommonBusinessUtils.getCharacterAttributes(CN_CHAR);
         printAttributeMap(attributes);
         businessCharacter.setValue(CN_CHAR).setAttributes(attributes).toString();
-        log.info("run test method {{testSetAttributes}} complete");
     }
 
 }

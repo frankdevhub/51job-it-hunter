@@ -1,4 +1,4 @@
-package selenium.clients;
+package data.clients;
 
 import cn.wanghaomiao.xpath.exception.XpathSyntaxErrorException;
 import frankdevhub.job.automatic.core.constants.BusinessConstants;
@@ -6,6 +6,7 @@ import frankdevhub.job.automatic.core.utils.WebDriverUtils;
 import frankdevhub.job.automatic.selenium.DriverBase;
 import frankdevhub.job.automatic.selenium.config.ChromeConfiguration;
 import frankdevhub.job.automatic.web.clients.JobPlatformClient;
+import frankdevhub.job.automatic.web.clients.PlatformLinkBuilder;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,6 +20,8 @@ import tk.mybatis.mapper.util.Assert;
 
 import java.io.*;
 import java.util.Set;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -72,12 +75,9 @@ public class JobPlatformClientTest {
      */
     @Test
     public void testAccessCacheDirectory() throws IOException {
-        log.info("run test method {{testAccessCacheDirectory}} start");
         Resource res = new ClassPathResource("src/resources/cache/temp_cookie.dat");
         InputStream in = res.getInputStream();
         Assert.notNull(in, "resource document may not exist");
-
-        log.info("run test method {{testAccessCacheDirectory}} end");
     }
 
     /**
@@ -87,7 +87,6 @@ public class JobPlatformClientTest {
      */
     @Test
     public void testReadTempCookieDocument() throws IOException, ClassNotFoundException {
-        log.info("run test method {{testReadTempCookieDocument}} start");
         File temp = new File(new ClassPathResource("src/main/resources/cache/temp_cookie.dat").getPath());
         Assert.notNull(temp, "temp file not found");
 
@@ -105,7 +104,6 @@ public class JobPlatformClientTest {
 
             log.info("\n");
         }
-        log.info("run test method {{testReadTempCookieDocument}} end");
     }
 
     /**
@@ -115,7 +113,6 @@ public class JobPlatformClientTest {
      */
     @Test
     public void testGetPlatformCookie() throws Exception {
-        log.info("run test method {{testGetPlatformCookie}} start");
         ChromeConfiguration configuration = ChromeConfiguration.newInstance(false); //创建驱动配置实例,依据是否自动配置的策略
         configuration.setWebDriverPath(ChromeConfiguration.CHROME_DRIVER_PATH) //浏览器驱动路径
                 .setSeleniumCacheFileName(ChromeConfiguration.DEFAULT_SELENIUM_CACHE_NAME) //默认的缓存文件目录名
@@ -163,7 +160,6 @@ public class JobPlatformClientTest {
         oos.close(); //关闭对象输出流
         fos.close(); //关闭文件输出流
 
-        log.info("run test method {{testGetPlatformCookie}} complete");
     }
 
     /**
@@ -173,10 +169,8 @@ public class JobPlatformClientTest {
      */
     @Test
     public void testGetJobSearchResult() throws IOException, XpathSyntaxErrorException {
-        log.info("run test method {{testGetJobSearchResult}} start");
         JobPlatformClient client = new JobPlatformClient();
         client.getJobSearchResult(TEST_RESULT_PAGE);
-        log.info("run test method {{testGetJobSearchResult}} complete");
     }
 
     /**
@@ -202,7 +196,6 @@ public class JobPlatformClientTest {
      */
     @Test
     public void testPageUrlRegex() {
-        log.info("run test method {{testGetPreviousPageUrl}} start");
         String url = TEST_RESULT_PAGE;
         Matcher matcher = Pattern.compile(SEARCH_RESULT_REGEX).matcher(url);
         if (matcher.find()) {
@@ -215,7 +208,6 @@ public class JobPlatformClientTest {
         } else {
             throw new RuntimeException("search result page url can not match regex example");
         }
-        log.info("run test method {{testGetPreviousPageUrl}} complete");
     }
 
     /**
@@ -223,8 +215,6 @@ public class JobPlatformClientTest {
      */
     @Test
     public void testGetPreviousAndNextPageUrl() {
-        log.info("run test method {{testGetPreviousAndNextPageUrl}} start");
-
         String url = TEST_RESULT_PAGE;
         StringBuffer previousIndexUrl = new StringBuffer(url);
         Matcher matcher = Pattern.compile(SEARCH_RESULT_REGEX).matcher(url);
@@ -243,6 +233,55 @@ public class JobPlatformClientTest {
         } else {
             throw new RuntimeException("search result page url can not match regex example");
         }
-        log.info("run test method {{testGetPreviousAndNextPageUrl}} complete");
+    }
+
+    private class DefaultDataPatrolThread extends Thread {
+        private final ExecutorService cachedThreadPool = Executors.newCachedThreadPool(); //扫描网页的线程池
+        private final JobPlatformClient client = new JobPlatformClient(); //客户端业务逻辑对象
+        private String url; //页面链接
+
+        public DefaultDataPatrolThread(String url) {
+            Assert.notNull(url, "cannot find url");
+            this.url = url;
+        }
+
+        @Override
+        public void run() {
+            log.info("[defaultDataPatrolService --> task::thread]thread name = "
+                    + Thread.currentThread().getName());
+            log.info("default data patrol thread start");
+            while (true) {
+                try {
+                    log.info("@current url = " + url);
+                    client.restorePageJobSearchResult(url, cachedThreadPool);
+                    //依据链接规则获取下一页的链接
+                    url = PlatformLinkBuilder.getNextResultPage(url);
+                    log.info("@next url = " + url);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    /**
+     * 默认的扫描业务逻辑
+     *
+     * @param url 页面链接
+     * @throws InterruptedException
+     */
+    public void defaultDataPatrolService(String url) throws InterruptedException {
+        Runnable task = () -> {
+            log.info("[defaultDataPatrolService --> task]thread name = "
+                    + Thread.currentThread().getName());
+            Thread t = new JobPlatformClientTest.DefaultDataPatrolThread(url);
+            t.setDaemon(true);
+            t.start();
+        };
+        Thread t = new Thread(task);
+        log.info("thread t->name =" + t.getName());
+        t.setDaemon(true);
+        t.start();
+        Thread.sleep(200L);
     }
 }

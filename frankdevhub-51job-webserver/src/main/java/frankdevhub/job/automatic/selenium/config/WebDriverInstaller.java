@@ -1,7 +1,6 @@
 package frankdevhub.job.automatic.selenium.config;
 
-import frankdevhub.job.automatic.core.data.logging.Logger;
-import frankdevhub.job.automatic.core.data.logging.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 
@@ -15,19 +14,31 @@ import java.util.List;
  * @CreateDate: 2020/2/9 2:16
  * @Version: 1.0
  */
+
+@Slf4j
+@SuppressWarnings("all")
 public class WebDriverInstaller {
 
-    private final Logger LOGGER = LoggerFactory.getLogger(WebDriverInstaller.class);
-
+    /**
+     * 获取本地操作系统
+     */
     public String getOperatingSystem() {
+        //转换为大写字符串格式
         return System.getProperty("os.name").toUpperCase();
     }
 
+    /**
+     * 获取本地操作系统下安装的所有浏览器
+     */
     public List[] getInstalledWebBrowsers() {
         return null;
     }
 
+    /**
+     * 获取本地操作系统下安装的所有浏览器的版本
+     */
     public String getInstalledWebBrowserVersion() {
         return null;
     }
+
 }

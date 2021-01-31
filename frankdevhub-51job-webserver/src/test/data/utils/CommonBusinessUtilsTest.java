@@ -1,10 +1,8 @@
-package selenium.utils;
+package data.utils;
 
 import frankdevhub.job.automatic.core.utils.CommonBusinessUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.lang.reflect.Method;
 
@@ -20,7 +18,6 @@ import java.lang.reflect.Method;
  */
 
 @Slf4j
-@RunWith(SpringJUnit4ClassRunner.class)
 @SuppressWarnings("all")
 public class CommonBusinessUtilsTest {
 
@@ -28,36 +25,33 @@ public class CommonBusinessUtilsTest {
         log.info("Test Character = " + c + " Test Result: " + res.toString() + "");
     }
 
-    @Test
-    public void testNumericUnitConstructor() {
-        log.info("run test method {{testNumericUnitConstructor}} start");
-        log.info("run test method {{testNumericUnitConstructor}} start");
-    }
-
+    /**
+     * 测试由堆栈索引获取对象内的方法名称
+     */
     @Test
     public void testGetRuntimeMethodName() {
-        log.info("run test method {{testGetRuntimeMethodName}} start");
-        Integer defineTrace = 1;
+        Integer defineTrace = 1; //定义堆栈深度
         String methodName = CommonBusinessUtils.getRuntimeMethodName(defineTrace);
         log.info("test result-> current runtime method name: " + methodName);
-        log.info("run test method {{testGetRuntimeMethodName}} complete");
     }
 
-
+    /**
+     * 测试获取对象内声明的方法
+     */
     @Test
     public void testGetBusinessUtilsDeclaredMethods() {
-        log.info("run test method {{getBusinessUtilsDeclaredMethods}} start");
         Class<?> clazz = CommonBusinessUtils.class;
         Method[] methods = clazz.getDeclaredMethods();
         for (Method m : methods) {
             log.info("method name: " + m.getName());
         }
-        log.info("run test method {{getBusinessUtilsDeclaredMethods}} complete");
     }
 
+    /**
+     * 测试判断是否是中文简体字符
+     */
     @Test
     public void testIsSimpleChinese() {
-        log.info("run test method {{testIsSimpleChinese}} start");
         Character CN_CHAR = '个';
         Character TW_CHAR = '個';
         Character EN_CHAR = 'h';
@@ -99,19 +93,18 @@ public class CommonBusinessUtilsTest {
         } finally {
             printTestResult(value, NUM_CHAR);
         }
-        log.info("run test method {{testIsSimpleChinese}} complete");
     }
 
+    /**
+     * 测试是否是非文学数字类制度
+     */
     @Test
     public void testIsSymbolCharacter() {
-        log.info("run test method {{testIsSymbolCharacter}} start");
-        Character[] characters = new Character[]{'=', '-', '.', '{', '【', '、', '~', '`', '·', '2', 'o', '个'};
+        Character[] characters = new Character[]{'=', '-', '.', '{', '【', '、', '~', '`', '·', '2', 'o', '个' };
         for (Character c : characters) {
             Boolean value = CommonBusinessUtils.isSymbolCharacter(c);
             log.info("char = " + c + " value = " + value);
         }
-        log.info("run test method {{testIsSymbolCharacter}} complete");
-
     }
 
 }

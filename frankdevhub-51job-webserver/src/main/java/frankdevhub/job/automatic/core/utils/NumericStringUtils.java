@@ -1,9 +1,10 @@
 package frankdevhub.job.automatic.core.utils;
+
 @SuppressWarnings("all")
-public class StringNumberUtils {
+public class NumericStringUtils {
     private static final String[] units = {"千", "百", "十", "万"};
     private static final String[] bigUnits = {"万", "亿"};
-    private static final char[] numChars = {'一', '二', '三', '四', '五', '六', '七', '八', '九'};
+    private static final char[] numChars = {'一', '二', '三', '四', '五', '六', '七', '八', '九' };
     private static char numZero = '零';
 
     public static int numberCN2Arab(String numberCN) {
@@ -11,7 +12,6 @@ public class StringNumberUtils {
         if (tempNumberCN == null) {
             return 0;
         }
-
         String[] nums = new String[bigUnits.length + 1];
         nums[0] = tempNumberCN;
 

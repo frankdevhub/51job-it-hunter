@@ -3,6 +3,7 @@ package frankdevhub.job.automatic.entities;
 import lombok.Data;
 
 import java.util.Date;
+import java.util.UUID;
 
 /**
  * <p>Title:@ClassName BaseRecord.java</p>
@@ -54,6 +55,7 @@ public class BaseRecord<T> {
     @SuppressWarnings("unchecked")
     public T doCreateEntity() {
         Long timeStamp = new Date().getTime();
+        this.setId(UUID.randomUUID().toString());
         this.setCreateTime(timeStamp).setUpdateTime(timeStamp);
         return (T) this;
     }

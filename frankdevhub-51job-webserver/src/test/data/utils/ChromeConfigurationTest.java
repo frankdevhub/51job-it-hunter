@@ -1,4 +1,4 @@
-package selenium.utils;
+package data.utils;
 
 import frankdevhub.job.automatic.core.constants.BusinessConstants;
 import frankdevhub.job.automatic.core.exception.BusinessException;
@@ -6,9 +6,7 @@ import frankdevhub.job.automatic.selenium.DriverBase;
 import frankdevhub.job.automatic.selenium.config.ChromeConfiguration;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.openqa.selenium.WebDriver;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.io.File;
 import java.io.IOException;
@@ -25,7 +23,6 @@ import java.io.IOException;
  */
 
 @Slf4j
-@RunWith(SpringJUnit4ClassRunner.class)
 public class ChromeConfigurationTest {
 
     private static final String SELENIUM_TEST_CACHE_DIRECTORY_NAME = "junit-selenium-test"; //本地的浏览器缓存文件名
@@ -46,7 +43,6 @@ public class ChromeConfigurationTest {
      */
     @Test
     public void testGetCacheDirectoryLockedStatus() {
-        log.info("run test method {{testGetCacheDirectoryLockedStatus}} start");
         configuration.setSeleniumBrowserCacheRoot(ChromeConfiguration.DEFAULT_WIN_SELENIUM_CACHE_ROOT) //浏览器缓存路径
                 .setSeleniumCacheFileName(SELENIUM_TEST_CACHE_DIRECTORY_NAME) //浏览器缓存文件目录名称
                 .setWebDriverPath(CHROME_DRIVER_PATH); //浏览器驱动存储路径
@@ -58,7 +54,6 @@ public class ChromeConfigurationTest {
 
         //输出配置消耗时间(秒)
         log.info(String.format("cache directory lock status = %s, cost: %s sec", lock.toString(), (end - start) / 1000));
-        log.info("run test method {{testGetCacheDirectoryLockedStatus}} complete");
     }
 
     /**
@@ -70,7 +65,6 @@ public class ChromeConfigurationTest {
     public void testChromeDriverNavigateToWebPage() throws Exception {
         Long start = System.currentTimeMillis();
 
-        log.info("run test method {{testChromeDriverNavigateToWebPage}} start");
         //初始化浏览器驱动对象
         DriverBase.instantiateDriverObject();
         //浏览器驱动缓存目录
@@ -80,7 +74,6 @@ public class ChromeConfigurationTest {
         log.info("navigate to test web site page");
         //跳转到前程无忧首页
         driver.get(BusinessConstants.JOB_PLATFORM_HOMEPAGE);
-        log.info("run test method {{testChromeDriverNavigateToWebPage}} complete");
     }
 
     /**
@@ -90,9 +83,7 @@ public class ChromeConfigurationTest {
      */
     @Test
     public void testSeleniumChromeCacheConfiguration() throws IOException, BusinessException {
-        log.info("run test method {{testSeleniumChromeCacheConfiguration}} start");
         setSeleniumChromeCacheDirectory();
-        log.info("run test method {{testSeleniumChromeCacheConfiguration}} complete");
     }
 
 }

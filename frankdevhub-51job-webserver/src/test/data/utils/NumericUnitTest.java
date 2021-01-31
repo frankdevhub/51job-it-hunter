@@ -1,10 +1,8 @@
-package selenium.utils;
+package data.utils;
 
 import frankdevhub.job.automatic.core.enums.NumericUnit;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
  * <p>Title:@ClassName NumericUnitTest.java</p>
@@ -12,23 +10,21 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
  * <p>Company: www.frankdevhub.site</p>
  * <p>github: https://github.com/frankdevhub</p>
  *
+ * @Description: 测试数值类字符串的解析
  * @Author: frankdevhub@gmail.com
  * @CreateDate: 2020/2/8 18:53
  * @Version: 1.0
  */
 
 @Slf4j
-@RunWith(SpringJUnit4ClassRunner.class)
 public class NumericUnitTest {
 
     @Test
     public void testGetNumericUnit() {
-        log.info("run test method {{testGetNumericUnit}} start");
         log.info("init enum numeric unit objects");
         NumericUnit example = NumericUnit.Digitis_CN;
 
         log.info("\n\n");
-
         log.info("print test example properties");
         example.toString();
 
@@ -64,7 +60,5 @@ public class NumericUnitTest {
 
         example = NumericUnit.Ten_Thousand_EN;
         example.toString();
-
-        log.info("run test method {{testGetNumericUnit}} complete");
     }
 }

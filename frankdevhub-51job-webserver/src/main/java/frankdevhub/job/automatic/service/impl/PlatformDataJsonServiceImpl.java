@@ -30,6 +30,12 @@ public class PlatformDataJsonServiceImpl extends MyBatisRepository implements Pl
     @Autowired
     private PlatformDataJsonMapper dataJsonMapper;
 
+    /**
+     * 根据主键删除对象
+     *
+     * @param id 主键id
+     * @return 更新行数
+     */
     @Override
     public int deleteByPrimaryKey(String id) {
         return dataJsonMapper.deleteByPrimaryKey(id);

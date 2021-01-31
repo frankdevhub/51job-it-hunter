@@ -14,8 +14,15 @@ import java.util.List;
  * @version: 1.0
  */
 
-
+@SuppressWarnings("all")
 public interface JobSearchResultService {
+
+    /**
+     * 根据主键删除对象
+     *
+     * @param id 主键id
+     * @return 更新行数
+     */
     int deleteByPrimaryKey(String id);
 
     int insert(JobSearchResult result);

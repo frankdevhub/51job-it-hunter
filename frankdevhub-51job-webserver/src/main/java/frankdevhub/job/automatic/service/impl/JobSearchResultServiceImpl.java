@@ -28,6 +28,12 @@ public class JobSearchResultServiceImpl extends MyBatisRepository implements Job
     @Autowired
     private JobSearchResultMapper searchResultMapper;
 
+    /**
+     * 根据主键删除对象
+     *
+     * @param id 主键id
+     * @return 更新行数
+     */
     @Override
     public int deleteByPrimaryKey(String id) {
         return searchResultMapper.deleteByPrimaryKey(id);

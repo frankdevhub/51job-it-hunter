@@ -1,10 +1,8 @@
-package selenium.utils;
+package data.utils;
 
 import frankdevhub.job.automatic.core.exception.BusinessException;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.io.*;
 import java.net.HttpURLConnection;
@@ -22,7 +20,6 @@ import java.net.URL;
  */
 
 @Slf4j
-@RunWith(SpringJUnit4ClassRunner.class)
 public class ResourceDownloadTest {
 
     private static final String MIRROR_INDEX = "http://npm.taobao.org/mirrors/chromedriver/"; //驱动镜像资源地址
@@ -34,14 +31,10 @@ public class ResourceDownloadTest {
      */
     @Test
     public void testGetFileName() {
-        log.info("runt test method {{testGetFileName}} start");
-
         String url = RESOURCE_INDEX;
-        System.out.println("url = " + RESOURCE_INDEX);
+        log.info("url = " + RESOURCE_INDEX);
         String fileName = url.substring(url.lastIndexOf("/") + 1); //截取地址获取文件名称
-        System.out.println("fileName = " + fileName);
-
-        log.info("runt test method {{testGetFileName}} complete");
+        log.info("fileName = " + fileName);
     }
 
     /**
@@ -60,11 +53,11 @@ public class ResourceDownloadTest {
         URL url = new URL(path);
         HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
         int code = urlConnection.getResponseCode();
-        System.out.println("code = " + code);
+        log.info("code = " + code);
         if (code != HttpURLConnection.HTTP_OK)
             throw new BusinessException("cannot read remote file");
 
-        System.out.println("start to download");
+        log.info("start to download");
         Long start = System.currentTimeMillis();
         DataInputStream in = new DataInputStream(urlConnection.getInputStream());
         DataOutputStream out = new DataOutputStream(new FileOutputStream(savePath));
@@ -81,7 +74,7 @@ public class ResourceDownloadTest {
             e.printStackTrace();
         } finally {
             Long end = System.currentTimeMillis();
-            System.out.println("download complete, time cost = " + (end - start) / 1000 + "sec");
+            log.info("download complete, time cost = " + (end - start) / 1000 + "sec");
         }
     }
 
@@ -90,7 +83,6 @@ public class ResourceDownloadTest {
      */
     @Test
     public void testDownloadByDataInputStream() {
-        log.info("runt test method {{testDownloadByDataInputStream}} start");
         String[] examples = new String[]{RESOURCE_INDEX, RESOURCE_INDEX_1};
         for (String ex : examples) {
             try {
@@ -99,6 +91,5 @@ public class ResourceDownloadTest {
                 e.printStackTrace();
             }
         }
-        log.info("runt test method {{testDownloadByDataInputStream}} complete");
     }
 }

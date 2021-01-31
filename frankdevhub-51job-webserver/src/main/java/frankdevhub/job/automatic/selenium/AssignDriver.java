@@ -15,7 +15,15 @@ import java.lang.reflect.Field;
  * @date:2019-04-21 16:04
  */
 
+@SuppressWarnings("all")
 public class AssignDriver {
+
+    /**
+     * 初始化定位元素的查询对象
+     *
+     * @param object 加载驱动运行的实体,例网页对象的基类
+     * @param driver 浏览器驱动对象
+     */
     public static void initQueryObjects(Object object, RemoteWebDriver driver) {
         Class<?> clazz = object.getClass();
         try {

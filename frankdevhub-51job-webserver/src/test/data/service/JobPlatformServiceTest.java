@@ -1,4 +1,4 @@
-package selenium.clients;
+package data.service;
 
 import frankdevhub.job.automatic.JobWebAutoService;
 import frankdevhub.job.automatic.web.clients.JobPlatformService;
@@ -58,7 +58,5 @@ public class JobPlatformServiceTest {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        log.info("run test method {{testGetJobSearchResult}} complete");
     }
 }
