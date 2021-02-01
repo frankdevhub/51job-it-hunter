@@ -20,20 +20,21 @@ public interface SeleniumBrowserConfiguration {
      * 配置缓存的目录
      *
      * @param threadName 驱动进程的名称
+     * @return 驱动进程对应的缓存目录名
      */
     String setSeleniumCacheDirectoryName(String threadName);
 
     /**
      * 获取驱动缓存的路径
      */
-    String getDefaultBrowserCachePath();
+    String getDefaultBrowserCache();
 
     /**
      * 自动获取本地驱动缓存的路径
      *
      * @return 本地操作系统下的浏览器缓存路径
      */
-    String searchSystemBrowserCachePath();
+    String searchSystemBrowserCache();
 
     /**
      * 获取驱动缓存的读写权限
@@ -56,7 +57,7 @@ public interface SeleniumBrowserConfiguration {
      * @return 浏览器驱动配置对象
      * @throws IOException
      */
-    ChromeConfiguration deleteHistorySeleniumBrowserCache() throws IOException;
+    ChromeConfiguration deleteSeleniumBrowserCacheHistory() throws IOException;
 
     /**
      * 同步本地浏览器缓存至测试驱动下的浏览器缓存
