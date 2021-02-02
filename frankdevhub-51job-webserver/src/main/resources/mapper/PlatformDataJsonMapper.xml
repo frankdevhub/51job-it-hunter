@@ -280,7 +280,7 @@
                 #{adid,jdbcType=VARCHAR},
             </if>
             <if test="context != null">
-                #{context,jdbcTypeVARCHAR},
+                #{context,jdbcType=VARCHAR},
             </if>
             <if test="createTime != null">
                 #{createTime,jdbcType=BIGINT},
