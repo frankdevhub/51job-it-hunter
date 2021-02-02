@@ -120,6 +120,7 @@ public class JobPlatformClient {
                         continue;
                     int markId = result.getMarkId(); //生成搜索结果集的唯一标识
                     int count = service.selectCountByMarkId(markId);
+                    //更新生成唯一标识符
                     if (count == 0) {
                         result.doCreateEntity();
                         service.insertSelective(result);
@@ -285,8 +286,16 @@ public class JobPlatformClient {
             //保存源数据
             if (null != datas & datas.size() > 0) {
                 for (PlatformDataJson data : datas) {
-                    data.doCreateEntity();
-                    getPlatformDataJsonService().insertSelective(data);
+                    Assert.notNull(data.getJobId(), "cannot find jobId");
+                    //TODO: 校验源数据 jobid查重判断是否已经存在
+                    PlatformDataJson d = getPlatformDataJsonService().selectByJobId(data.getJobId());
+                    if (null == d) {
+                        data.doCreateEntity();
+                        getPlatformDataJsonService().insertSelective(data);
+                    } else {
+                        data.doUpdateEntity();
+                        getPlatformDataJsonService().updateByPrimaryKeySelective(data);
+                    }
                 }
             }
             //TODO
