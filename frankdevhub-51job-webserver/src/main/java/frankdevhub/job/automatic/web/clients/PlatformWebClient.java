@@ -1,5 +1,12 @@
 package frankdevhub.job.automatic.web.clients;
 
+import com.gargoylesoftware.htmlunit.BrowserVersion;
+import com.gargoylesoftware.htmlunit.NicelyResynchronizingAjaxController;
+import com.gargoylesoftware.htmlunit.WebClient;
+import com.gargoylesoftware.htmlunit.html.HtmlDivision;
+import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import frankdevhub.job.automatic.core.constants.SeleniumConstants;
+import frankdevhub.job.automatic.entities.JobCompany;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -24,9 +31,64 @@ import java.util.regex.Pattern;
 
 @Slf4j
 @SuppressWarnings("all")
-public class PlatformHttpClient {
+public class PlatformWebClient {
+
     /**
-     * 获取页面对象的字符串
+     * 构建浏览器客户端获取页面对象
+     *
+     * @param url   网页地址
+     * @param await 异步阻塞等待js加载完毕的时间
+     * @throws IOException
+     * @reutrn 浏览器客户端实例
+     */
+    public static HtmlPage getWebPage(String url, Long await) throws IOException {
+        Assert.notNull(url, "cannot find url");
+
+        WebClient webClient = new WebClient(BrowserVersion.CHROME); //新建一个模拟谷歌Chrome浏览器的浏览器客户端对象
+        webClient.getOptions().setThrowExceptionOnScriptError(false);//当JS执行出错的时候是否抛出异常, 这里选择不需要
+        webClient.getOptions().setThrowExceptionOnFailingStatusCode(false);//当HTTP的状态非200时是否抛出异常, 这里选择不需要
+        webClient.getOptions().setActiveXNative(false);
+        webClient.getOptions().setCssEnabled(false);//是否启用CSS, 因为不需要展现页面, 所以不需要启用
+        webClient.getOptions().setJavaScriptEnabled(true); //很重要，启用JS
+        webClient.setAjaxController(new NicelyResynchronizingAjaxController());//很重要，设置支持AJAX
+        //获取页面对象
+        HtmlPage page = webClient.getPage(url);
+        //默认没有配置则异步阻塞等待3秒钟
+        if (null == await) {
+            await = 3000L;
+        }
+        webClient.waitForBackgroundJavaScript(await);
+        //返回配置完的浏览器客户端实例
+        //注意:返回的浏览器对象仍未释放
+        return page;
+    }
+
+
+    /**
+     * 解析企业介绍页面,获取企业信息
+     *
+     * @param url 企业信息链接
+     * @return 企业信息实例
+     * @throws IOException
+     */
+    public static JobCompany getJobCompany(String url) throws IOException {
+        HtmlPage page = getWebPage(url, null); //获取企业信息页面
+        JobCompany company = new JobCompany(); //创建企业信息实例
+        //测试获取公司信息介绍
+        //div class = 'tCompany_center clearfix'
+        HtmlDivision div = page.getFirstByXPath(SeleniumConstants.COMPANY_INFO_TEXT_XPATH);
+        Assert.notNull(div, "cannot find element by path '//div[@class='tCompany_center clearfix']'");
+        //TODO
+        //获取html源码,去除多余换行字符存储为源数据
+
+        //释放资源
+        page.getWebClient().close();
+        return company;
+    }
+
+
+    /**
+     * Http请求获取页面对象的字符串
      *
      * @param url 页面链接地址
      * @return 页面对象的字符串
@@ -59,6 +121,7 @@ public class PlatformHttpClient {
         return pageContext;
     }
 
+
     /**
      * 获取上一页页面对象的字符串
      *
@@ -87,6 +150,7 @@ public class PlatformHttpClient {
 
         return previousPage;
     }
+
 
     /**
      * 获取下一页页面对象的字符串
@@ -129,7 +193,8 @@ public class PlatformHttpClient {
 
         if (matcher.find()) {
             return matcher.group(1);
-        } else
+        } else {
             throw new RuntimeException();
+        }
     }
 }
