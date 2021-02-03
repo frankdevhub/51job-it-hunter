@@ -24,7 +24,7 @@
         <result column="publish_date_month_numeric" jdbcType="INTEGER" property="publishDateMonthNumeric"/>
         <result column="publish_date_day_numeric" jdbcType="INTEGER" property="publishDateDayNumeric"/>
         <result column="link_url" jdbcType="VARCHAR" property="linkUrl"/>
-        <result column="mark_id" jdbcType="INTEGER" property="markId"/>
+        <result column="union_id" jdbcType="INTEGER" property="unionId"/>
         <result column="create_time" jdbcType="BIGINT" property="createTime"/>
         <result column="update_time" jdbcType="BIGINT" property="updateTime"/>
     </resultMap>
@@ -34,7 +34,7 @@
         salary_time_unit, salary_numeric_unit, is_define_by_w, is_define_by_k, is_define_by_day,
         is_define_by_month, is_define_by_year, is_internship_pos, is_campus_only, is_salary_negotiable,
         publish_date_char, publish_date_month_numeric, publish_date_day_numeric, link_url,
-        mark_id,create_time,update_time
+        union_id,create_time,update_time
     </sql>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
@@ -50,7 +50,7 @@
         is_define_by_month, is_define_by_year, is_internship_pos,
         is_campus_only, is_salary_negotiable, publish_date_char,
         publish_date_month_numeric, publish_date_day_numeric,
-        link_url, mark_id,create_time,update_time)
+        link_url, union_id,create_time,update_time)
         values (#{id,jdbcType=VARCHAR}, #{jobTitle,jdbcType=VARCHAR},
         #{companyName,jdbcType=VARCHAR}, #{location,jdbcType=VARCHAR},
         #{salaryRangeChars,jdbcType=VARCHAR}, #{salaryRangeMin,jdbcType=DOUBLE},
@@ -62,7 +62,7 @@
         #{isSalaryNegotiable,jdbcType=INTEGER}, #{publishDateChar,jdbcType=VARCHAR},
         #{publishDateMonthNumeric,jdbcType=INTEGER}, #{publishDateDayNumeric,jdbcType=INTEGER},
         #{linkUrl,jdbcType=VARCHAR},
-        #{markId,jdbcType=INTEGER},
+        #{unionId,jdbcType=INTEGER},
         #{createTime,jdbcType=BIGINT},#{updateTime,jdbcType=BIGINT})
     </insert>
 
@@ -132,8 +132,8 @@
             <if test="linkUrl != null">
                 link_url,
             </if>
-            <if test="markId != null">
-                mark_id,
+            <if test="unionId != null">
+                union_id,
             </if>
             <if test="createTime != null">
                 create_time,
@@ -206,8 +206,8 @@
             <if test="linkUrl != null">
                 #{linkUrl,jdbcType=VARCHAR},
             </if>
-            <if test="markId != null">
-                #{markId,jdbcType=INTEGER},
+            <if test="unionId != null">
+                #{unionId,jdbcType=INTEGER},
             </if>
             <if test="createTime != null">
                 #{createTime,jdbcType=BIGINT},
@@ -281,8 +281,8 @@
             <if test="linkUrl != null">
                 link_url = #{linkUrl,jdbcType=VARCHAR},
             </if>
-            <if test="markId != null">
-                mark_id = #{markId,jdbcType=INTEGER},
+            <if test="unionId != null">
+                union_id = #{unionId,jdbcType=INTEGER},
             </if>
             <if test="createTime != null">
                 create_time = #{createTime,jdbcType=BIGINT},
@@ -316,7 +316,7 @@
         publish_date_month_numeric = #{publishDateMonthNumeric,jdbcType=INTEGER},
         publish_date_day_numeric = #{publishDateDayNumeric,jdbcType=INTEGER},
         link_url = #{linkUrl,jdbcType=VARCHAR},
-        mark_id = #{markId,jdbcType=INTEGER},
+        union_id = #{unionId,jdbcType=INTEGER},
         create_time = #{createTime,jdbcType=BIGINT},
         update_time = #{updateTime,jdbcType=BIGINT}
         where id = #{id,jdbcType=VARCHAR}
@@ -394,8 +394,8 @@
             <if test="linkUrl != null and linkUrl != ''">
                 and link_url = #{linkUrl,jdbcType=VARCHAR}
             </if>
-            <if test="markId != null">
-                and mark_id = #{markId,jdbcType=INTEGER}
+            <if test="unionId != null">
+                and union_id = #{unionId,jdbcType=INTEGER}
             </if>
         </where>
     </sql>
@@ -416,15 +416,15 @@
         <include refid="findPageWithWhere"/>
     </select>
 
-    <select id="selectCountByMarkId" parameterType="java.lang.Integer"
+    <select id="selectCountByUnionId" parameterType="java.lang.Integer"
             resultType="Integer">
-        select count(*) from platform_search_result where mark_id = #{markId}
+        select count(*) from platform_search_result where union_id = #{unionId}
     </select>
 
-    <select id="selectByMarkId" parameterType="java.lang.Integer"
+    <select id="selectByUnionId" parameterType="java.lang.Integer"
             resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
-        from platform_search_result where mark_id = #{markId}
+        from platform_search_result where union_id = #{unionId}
     </select>
 </mapper>

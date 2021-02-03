@@ -68,10 +68,10 @@ public interface JobSearchResultService {
     /**
      * 依据唯一识别号查询实体对象的数量
      *
-     * @param markId 唯一识别号
+     * @param unionId 唯一识别号
      * @return 满足条件的实体数量
      */
-    int selectCountByMarkId(Integer markId);
+    int selectCountByUnionId(Integer unionId);
 
     /**
      * 依据主键id查询实体对象
@@ -95,6 +95,6 @@ public interface JobSearchResultService {
      * @param markId 唯一识别号
      * @return 实体对象
      */
-    JobSearchResult selectByMarkId(Integer markId);
+    JobSearchResult selectByUnionId(Integer markId);
 
 }

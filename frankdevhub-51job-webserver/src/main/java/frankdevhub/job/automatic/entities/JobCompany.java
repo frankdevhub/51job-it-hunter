@@ -14,7 +14,7 @@ public class JobCompany extends BaseRecord<JobCompany> {
     /**
      * 唯一标识
      */
-    private Integer markId;
+    private Integer unionId;
 
     /**
      * 企业商标
@@ -46,12 +46,12 @@ public class JobCompany extends BaseRecord<JobCompany> {
      */
     private Long updateTime;
 
-    public Integer getMarkId() {
-        return markId;
+    public Integer getUnionId() {
+        return unionId;
     }
 
-    public JobCompany setMarkId(Integer markId) {
-        this.markId = markId;
+    public JobCompany setUnionId(Integer unionId) {
+        this.unionId = unionId;
         return this;
     }
 
