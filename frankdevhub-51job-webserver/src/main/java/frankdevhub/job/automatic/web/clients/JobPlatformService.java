@@ -34,6 +34,7 @@ public class JobPlatformService {
 
     @Data
     private class DefaultDataPatrolThread extends Thread {
+
         private final ExecutorService cachedThreadPool = Executors.newCachedThreadPool(); //扫描网页的线程池
         private final JobPlatformClient client = new JobPlatformClient(); //客户端业务逻辑对象
         private String url; //页面链接
@@ -52,8 +53,10 @@ public class JobPlatformService {
                 try {
                     log.info("current url = " + url);
                     client.restorePageJobSearchResult(url, cachedThreadPool);
-                    url = client.getNextResultPage(url);
+                    //依据链接规则获取下一页链接
+                    url = PlatformLinkBuilder.getNextResultPage(url);
                     log.info("next url = " + url);
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -76,10 +79,9 @@ public class JobPlatformService {
             t.start();
         };
         Thread thread = new Thread(task);
-        //设置为守护进程
-        thread.setDaemon(true);
-        //提交任务至线程池
-        threadPool.execute(thread);
+        thread.setDaemon(true);//设置为守护进程
+        threadPool.execute(thread);   //提交任务至线程池
+
         log.info("thread t->name =" + thread.getName());
         Thread.sleep(200L);
 

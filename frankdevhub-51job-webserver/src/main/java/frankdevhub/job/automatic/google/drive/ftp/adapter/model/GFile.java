@@ -12,6 +12,7 @@ import java.util.Set;
  * @date:2019-04-23 16:32
  */
 
+@SuppressWarnings("all")
 public class GFile {
 	private static final long serialVersionUID = 1L;
 

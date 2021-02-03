@@ -27,7 +27,9 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 
+//此方法已过期,页面定位方式已失效
 @Slf4j
+@Deprecated
 @SuppressWarnings("all")
 public class JobPlatformSearchPage extends BaseWebPage {
 
@@ -142,8 +144,6 @@ public class JobPlatformSearchPage extends BaseWebPage {
             if (count <= 0) {
                 //新增未入库的数据
                 log.info("do insert result record");
-                String id = UUID.randomUUID().toString();
-                result.setId(id);
                 result.doCreateEntity();
                 getJobSearchResultService().insertSelective(result);
             } else {
@@ -180,6 +180,7 @@ public class JobPlatformSearchPage extends BaseWebPage {
         Assert.notNull(companyNameElement, "company name element cannot be found on this row"); //职位所在企业
         Assert.notNull(publishDateElement, "publish date element cannot be found on this row"); //职位发布日期
         Assert.notNull(jobLocationElement, "job location element cannot be found on this row"); //职位地点
+
         JobSearchResult result = new JobSearchResult(); //构建职位搜索对象
         result.setJobTitle(jobDescriptionElement.getText()) //职位描述信息
                 .setLinkUrl(jobDescriptionElement.getAttribute(SeleniumConstants.ATTRIBUTE_HREF)); //职位详情平台链接地址

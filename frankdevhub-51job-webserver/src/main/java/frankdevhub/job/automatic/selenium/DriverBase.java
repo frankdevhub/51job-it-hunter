@@ -20,7 +20,9 @@ import java.util.List;
  * @author frankdevhub
  * @date:2019-04-21 01:16
  */
+
 @Listeners(ScreenshotListener.class)
+@SuppressWarnings("all")
 public class DriverBase {
 
     private static List<DriverFactory> webDriverThreadPool = Collections.synchronizedList(new ArrayList<DriverFactory>());

@@ -10,6 +10,7 @@ package frankdevhub.job.automatic.google.drive.ftp.adapter.model;
  * @date:2019-04-23 16:32
  */
 
+@SuppressWarnings("all")
 public class GChange {
 	private final String fileId;
 	private final boolean removed;

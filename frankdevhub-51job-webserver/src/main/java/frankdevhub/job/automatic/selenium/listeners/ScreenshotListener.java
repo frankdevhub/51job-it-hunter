@@ -20,6 +20,7 @@ import org.testng.TestListenerAdapter;
  * @date:2019-04-21 01:21
  */
 
+@SuppressWarnings("all")
 public class ScreenshotListener extends TestListenerAdapter {
     private boolean createFile(File screenshot) {
         boolean fileCreated = false;

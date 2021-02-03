@@ -1,13 +1,12 @@
 package frankdevhub.job.automatic.google.drive.ftp.adapter.controller;
 
-import frankdevhub.job.automatic.core.data.logging.Logger;
-import frankdevhub.job.automatic.core.data.logging.LoggerFactory;
 import frankdevhub.job.automatic.google.drive.ftp.adapter.model.Cache;
 import frankdevhub.job.automatic.google.drive.ftp.adapter.model.GFile;
 import frankdevhub.job.automatic.google.drive.ftp.adapter.model.GoogleDrive;
 import frankdevhub.job.automatic.google.drive.ftp.adapter.service.FtpGdriveSynchService;
 import frankdevhub.job.automatic.google.drive.ftp.adapter.utils.CallbackInputStream;
 import frankdevhub.job.automatic.google.drive.ftp.adapter.utils.CallbackOutputStream;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -30,9 +29,10 @@ import java.util.concurrent.TimeUnit;
  * @date:2019-04-23 16:28
  */
 
+@Slf4j
+@SuppressWarnings("all")
 public class Controller {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(Controller.class);
     private final GoogleDrive googleDrive;
     private final FtpGdriveSynchService updaterService;
     private final Cache cache;
@@ -46,12 +46,9 @@ public class Controller {
     }
 
     public List<GFile> getFiles(String folderId) {
-
         forceFolderUpdate(folderId);
-
         return cache.getFiles(folderId);
     }
-
 
     private void forceFolderUpdate(String folderId) {
         // patch
@@ -64,7 +61,7 @@ public class Controller {
 
         if (lastAction.times > 2) {
             if (System.currentTimeMillis() < (lastAction.date.getTime() + 10000)) {
-                LOGGER.begin().info("Forcing update for folder '" + folderId + "'");
+                log.info("Forcing update for folder '" + folderId + "'");
                 updaterService.updateFolderNow(folderId);
             }
             lastAction.times = 0;
@@ -74,19 +71,19 @@ public class Controller {
     }
 
     public boolean renameFile(GFile gFile, String newName) {
-        LOGGER.begin().info("Renaming file " + gFile.getId());
+        log.info("Renaming file " + gFile.getId());
         return touch(gFile, new GFile(newName));
     }
 
     public boolean updateLastModified(GFile gFile, long time) {
-        LOGGER.begin().info("Updating last modified date for " + gFile.getId() + " to " + new Date(time));
+        log.info("Updating last modified date for " + gFile.getId() + " to " + new Date(time));
         GFile patch = new GFile(null);
         patch.setLastModified(time);
         return touch(gFile, patch);
     }
 
     private boolean touch(GFile ftpFile, GFile patch) {
-        LOGGER.begin().info("Patching file... " + ftpFile.getId());
+        log.info("Patching file... " + ftpFile.getId());
         if (patch.getName() == null && patch.getLastModified() <= 0) {
             throw new IllegalArgumentException("Patching doesn't contain valid name nor modified date");
         }
@@ -100,7 +97,7 @@ public class Controller {
 
     public boolean trashFile(GFile file) {
         String fileId = file.getId();
-        LOGGER.begin().info("Trashing file " + file.getId() + "...");
+        log.info("Trashing file " + file.getId() + "...");
         if (googleDrive.trashFile(fileId).getTrashed()) {
             cache.deleteFile(fileId);
             return true;
@@ -109,17 +106,17 @@ public class Controller {
     }
 
     public boolean mkdir(String parentFileId, GFile gFile) {
-        LOGGER.begin().info("Creating directory " + gFile.getId() + "...");
+        log.info("Creating directory " + gFile.getId() + "...");
         GFile newDir = googleDrive.mkdir(parentFileId, gFile.getName());
         cache.addOrUpdateFile(newDir);
         return true;
     }
 
     public InputStream createInputStream(GFile gFile) {
-        LOGGER.begin().info("Downloading file " + gFile.getId() + "...");
+        log.info("Downloading file " + gFile.getId() + "...");
 
         return new CallbackInputStream(googleDrive.downloadFile(gFile), (na) -> {
-            LOGGER.begin().info("Input stream closed");
+            log.info("Input stream closed");
             return null;
         });
     }
@@ -129,18 +126,14 @@ public class Controller {
             throw new IllegalArgumentException("Error. Can't upload files of type directory");
         }
 
-
         if (gFile.getParents() == null) {
             gFile.setParents(cache.getParents(gFile.getId()));
         }
 
-
         final GoogleDrive.OutputStreamRequest outputStreamRequest = googleDrive.getOutputStream(gFile);
-
-
         final Future<GFile> fileUploadFuture = outputStreamRequest.getFutureGFile()
                 .thenApply(uploadedFile -> {
-                    LOGGER.begin().info("File uploaded. Updating local cache...");
+                    log.info("File uploaded. Updating local cache...");
                     uploadedFile.setRevision(cache.getRevision());
                     if (cache.addOrUpdateFile(uploadedFile) <= 0) {
                         throw new RuntimeException("Error synchronizing file to cache");
@@ -148,13 +141,12 @@ public class Controller {
                     return uploadedFile;
                 });
 
-
         return new CallbackOutputStream(outputStreamRequest.getOutputStream(), (na) -> {
             try {
                 fileUploadFuture.get(10, TimeUnit.SECONDS);
                 return null;
             } catch (Exception e) {
-                LOGGER.begin().error("Error waiting for upload to complete");
+                log.error("Error waiting for upload to complete");
                 return e;
             }
         });
@@ -163,14 +155,12 @@ public class Controller {
     private static class LRUCache<K, V> extends LinkedHashMap<K, V> {
 
         private static final long serialVersionUID = 5705764796697720184L;
-
         private int size;
 
         private LRUCache(int size) {
             super(size, 0.75f, true);
             this.size = size;
         }
-
         @Override
         protected boolean removeEldestEntry(Map.Entry<K, V> eldest) {
             return size() > size;

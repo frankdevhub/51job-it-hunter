@@ -12,8 +12,7 @@ import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.util.store.FileDataStoreFactory;
 import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.DriveScopes;
-import frankdevhub.job.automatic.core.data.logging.Logger;
-import frankdevhub.job.automatic.core.data.logging.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.InputStreamReader;
 import java.util.HashSet;
@@ -31,32 +30,26 @@ import java.util.Set;
  * @date:2019-04-23 16:32
  */
 
+@Slf4j
+@SuppressWarnings("all")
 public class GoogleDriveFactory {
-    private static final Logger LOGGER = LoggerFactory.getLogger(GoogleDriveFactory.class);
 
-    private static final String APPLICATION_NAME = "nyoibo-inkstone-google-drive";
-
+    private static final String APPLICATION_NAME = "frankdevhub-google-drive";
     private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
 
     private final FileDataStoreFactory dataStoreFactory;
-
     private final HttpTransport httpTransport;
 
     private AuthorizationCodeInstalledAppExtend authorizationApp;
-
     private Drive drive;
 
     public GoogleDriveFactory(Properties configuration) {
 
         java.io.File DATA_STORE_DIR = new java.io.File(
                 "data/google/" + configuration.getProperty("account", "default"));
-
         try {
-
             dataStoreFactory = new FileDataStoreFactory(DATA_STORE_DIR);
-
             httpTransport = GoogleNetHttpTransport.newTrustedTransport();
-
         } catch (Exception e) {
             throw new RuntimeException("Error intializing google drive API", e);
         }
@@ -69,13 +62,10 @@ public class GoogleDriveFactory {
 
     public void init() {
         try {
-
             Credential credential = authorize();
-
             drive = new Drive.Builder(httpTransport, JSON_FACTORY, credential).setApplicationName(APPLICATION_NAME)
                     .build();
-
-            LOGGER.begin().info("Google drive webservice client initialized.");
+            log.info("Google drive webservice client initialized.");
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -93,7 +83,6 @@ public class GoogleDriveFactory {
                     + "into src/main/resources/client_secrets.json");
             System.exit(1);
         }
-
         Set<String> scopes = new HashSet<>();
         scopes.add(DriveScopes.DRIVE);
         scopes.add(DriveScopes.DRIVE_METADATA);

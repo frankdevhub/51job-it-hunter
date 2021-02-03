@@ -2,6 +2,8 @@ package frankdevhub.job.automatic.selenium.config;
 
 import frankdevhub.job.automatic.core.constants.BusinessConstants;
 import frankdevhub.job.automatic.core.exception.BusinessException;
+import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import tk.mybatis.mapper.util.Assert;
 
@@ -22,13 +24,21 @@ import java.util.concurrent.locks.ReentrantLock;
  * @date:2019-05-12 17:28
  */
 
+
+@Slf4j
+@Data
+@SuppressWarnings("all")
 public class ChromeConfiguration implements SeleniumBrowserConfiguration {
 
     private final Lock configLock = new ReentrantLock();
 
+    //Chrome浏览器默认windows操作系统下的缓存目录位置
     public static final String DEFAULT_WIN_CHROME_CACHE_PATH = "C:\\Users\\Administrator\\AppData\\Local\\Google\\Chrome\\User Data";
+    //Selenium浏览器驱动缓存的目录位置
     public static final String DEFAULT_WIN_SELENIUM_CACHE_ROOT = "C:\\Automation";
+    //本地环境下配置的浏览器驱动的路径
     public static final String CHROME_DRIVER_PATH = System.getProperty("user.dir") + File.separator + "chromedriver.exe";
+    //Selenium浏览器驱动的缓存目录名称
     public static final String DEFAULT_SELENIUM_CACHE_NAME = "junit-selenium-test";
 
     private String seleniumBrowserCacheRoot = null;
@@ -40,6 +50,13 @@ public class ChromeConfiguration implements SeleniumBrowserConfiguration {
 
     }
 
+    /**
+     * 浏览器驱动配置
+     *
+     * @param seleniumBrowserCacheRoot 浏览器驱动的缓存路径
+     * @param seleniumCacheFileName    浏览器驱动缓存的文件名
+     * @param webDriverPath            浏览器驱动存储路径
+     */
     private ChromeConfiguration(String seleniumBrowserCacheRoot, String seleniumCacheFileName,
                                 String webDriverPath) {
 
@@ -47,12 +64,18 @@ public class ChromeConfiguration implements SeleniumBrowserConfiguration {
         this.seleniumCacheFileName = seleniumCacheFileName;
         this.webDriverPath = webDriverPath;
 
-        System.out.println("web browser cache configuration properties:");
-        System.out.println("seleniumBrowserCacheRoot = " + seleniumBrowserCacheRoot);
-        System.out.println("seleniumCacheFileName = " + seleniumCacheFileName);
-        System.out.println("\n\n");
+        log.info("web browser cache configuration properties:");
+        log.info("seleniumBrowserCacheRoot = " + seleniumBrowserCacheRoot);
+        log.info("seleniumCacheFileName = " + seleniumCacheFileName);
+        log.info("\n\n");
     }
 
+    /**
+     * 获取浏览器驱动配置实例
+     *
+     * @param isAutoConfig 是否自动装配
+     * @return 浏览器驱动配置
+     */
     public static ChromeConfiguration newInstance(Boolean isAutoConfig) {
         //TODO
         if (isAutoConfig) {
@@ -65,48 +88,74 @@ public class ChromeConfiguration implements SeleniumBrowserConfiguration {
         //return new ChromeConfiguration(DEFAULT_WIN_SELENIUM_CACHE_ROOT, DEFAULT_SELENIUM_CACHE_NAME, CHROME_DRIVER_PATH);
     }
 
-    public String getSystemBrowserCachePath() {
-        return systemBrowserCachePath;
-    }
-
+    /**
+     * 校验判断浏览器缓存目录是否存在
+     *
+     * @param directory 浏览器缓存目录路径
+     * @throws BusinessException 缓存目录不存在时的业务异常
+     */
     private void isSeleniumBrowserCacheDirectoryExist(File directory) throws BusinessException {
-        System.out.println("use selenium browser cache as:");
-        System.out.println(directory.getAbsolutePath());
+        log.info("use selenium browser cache as:");
+        log.info(directory.getAbsolutePath());
         if (!directory.exists()) {
             throw new BusinessException(BusinessConstants.SELENIUM_CACHE_ROOT_NOT_EXISTS);
         }
     }
 
+    /**
+     * 获取浏览器缓存目录的路径
+     */
     public String getSeleniumCacheDirectoryPath() {
         return this.seleniumBrowserCacheRoot + File.separator + this.seleniumCacheFileName;
     }
 
+    /**
+     * 配置缓存的目录
+     *
+     * @param threadName 驱动进程的名称
+     * @return 驱动进程对应的缓存目录名
+     */
     @Override
     public String setSeleniumCacheDirectoryName(String threadName) {
         StringBuilder builder = new StringBuilder();
         long time = System.currentTimeMillis();
         String timeStr = Long.toString(time);
 
+        //方法名加时间戳和间隔符号生成对应驱动实例的缓存的存储目录名称
         String directoryName = builder.append(timeStr).append("-").append(threadName).toString();
         return directoryName;
     }
 
+    /**
+     * 获取驱动缓存的路径
+     */
     @Override
-    public String getDefaultBrowserCachePath() {
+    public String getDefaultBrowserCache() {
         return DEFAULT_WIN_CHROME_CACHE_PATH;
     }
 
+    /**
+     * 自动获取本地驱动缓存的路径
+     *
+     * @return 本地操作系统下的浏览器缓存路径
+     */
     @Override
-    public String searchSystemBrowserCachePath() {
+    public String searchSystemBrowserCache() {
         String path = null;
         this.systemBrowserCachePath = path;
         return null;
     }
 
+    /**
+     * 获取驱动缓存的读写权限
+     *
+     * @return 文件对象是否占用
+     * @throws BusinessException,IOException
+     */
     @Override
     public Boolean getCacheDirectoryLockedStatus() {
         Assert.notNull(webDriverPath, BusinessConstants.SELENIUM_WEB_DRIVER_PATH_NULL);
-        System.out.println("web driver: " + webDriverPath);
+        log.info("web driver: " + webDriverPath);
 
         File driver = new File(webDriverPath);
         try {
@@ -119,28 +168,42 @@ public class ChromeConfiguration implements SeleniumBrowserConfiguration {
         return Boolean.FALSE;
     }
 
+    /**
+     * 获取驱动缓存的路径与目录名称
+     *
+     * @param browserCachePath 浏览器缓存存储路径
+     * @param cacheFileName    浏览器缓存目录名称
+     * @return 依据规则生成的缓存目录的路径
+     * @throws BusinessException,IOException
+     */
     @Override
     public String setSeleniumBrowserCache(String browserCachePath, String cacheFileName) throws IOException, BusinessException {
         Assert.notNull(seleniumBrowserCacheRoot, BusinessConstants.SELENIUM_CACHE_ROOT_NULL);
         Assert.notNull(seleniumCacheFileName, BusinessConstants.SELENIUM_CACHE_FILE_NAME_NULL);
         String directoryCopyName = seleniumBrowserCacheRoot + File.separator + cacheFileName;
 
-        System.out.println(String.format("chrome cache directory location:[%s]", browserCachePath));
-        System.out.println(String.format("copy chrome cache directory location:[%s]", directoryCopyName));
+        log.info(String.format("chrome cache directory location:[%s]", browserCachePath));
+        log.info(String.format("copy chrome cache directory location:[%s]", directoryCopyName));
 
         File browserCacheDirectory = new File(browserCachePath);
         File browserCacheCopyDirectory = new File(directoryCopyName);
         isSeleniumBrowserCacheDirectoryExist(browserCacheCopyDirectory);
 
-        System.out.println("start to copy cache directory from source path to dest path");
+        log.info("start to copy cache directory from source path to dest path");
         FileUtils.copyDirectory(browserCacheDirectory, browserCacheCopyDirectory);
-        System.out.println(String.format("copy complete, directory location:[%s]", directoryCopyName));
+        log.info(String.format("copy complete, directory location:[%s]", directoryCopyName));
 
         return directoryCopyName;
     }
 
+    /**
+     * 清除浏览器缓存历史数据
+     *
+     * @return 浏览器驱动配置对象
+     * @throws IOException
+     */
     @Override
-    public ChromeConfiguration deleteHistorySeleniumBrowserCache() throws IOException {
+    public ChromeConfiguration deleteSeleniumBrowserCacheHistory() throws IOException {
         File cacheFolder = new File(getSeleniumCacheDirectoryPath());
         File[] files = cacheFolder.listFiles();
         for (File file : files) {
@@ -149,6 +212,9 @@ public class ChromeConfiguration implements SeleniumBrowserConfiguration {
         return this;
     }
 
+    /**
+     * 同步本地浏览器缓存至测试驱动下的浏览器缓存
+     */
     @Override
     public void synchronizeSeleniumBrowserCache() {
         try {
@@ -157,7 +223,7 @@ public class ChromeConfiguration implements SeleniumBrowserConfiguration {
             setSeleniumBrowserCache(this.seleniumBrowserCacheRoot, this.seleniumCacheFileName);
             Long end = System.currentTimeMillis();
 
-            System.out.println("synchronized browser cache complete, cost: "
+            log.info("synchronized browser cache complete, cost: "
                     + (end - start) / 1000 + "sec");
         } catch (Exception e) {
             e.printStackTrace();
@@ -166,30 +232,4 @@ public class ChromeConfiguration implements SeleniumBrowserConfiguration {
         }
     }
 
-    public ChromeConfiguration setSeleniumBrowserCacheRoot(String path) {
-        this.seleniumBrowserCacheRoot = path;
-        return this;
-    }
-
-    public ChromeConfiguration setSeleniumCacheFileName(String fileName) {
-        this.seleniumCacheFileName = fileName;
-        return this;
-    }
-
-    public ChromeConfiguration setWebDriverPath(String webDriverPath) {
-        this.webDriverPath = webDriverPath;
-        return this;
-    }
-
-    public String getSeleniumBrowserCacheRoot() {
-        return seleniumBrowserCacheRoot;
-    }
-
-    public String getSeleniumCacheFileName() {
-        return seleniumCacheFileName;
-    }
-
-    public String getWebDriverPath() {
-        return webDriverPath;
-    }
 }

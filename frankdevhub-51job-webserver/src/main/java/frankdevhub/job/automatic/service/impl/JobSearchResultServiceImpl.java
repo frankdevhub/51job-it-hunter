@@ -28,51 +28,111 @@ public class JobSearchResultServiceImpl extends MyBatisRepository implements Job
     @Autowired
     private JobSearchResultMapper searchResultMapper;
 
+    /**
+     * 根据主键删除对象
+     *
+     * @param id 主键id
+     * @return 更新行数
+     */
     @Override
     public int deleteByPrimaryKey(String id) {
         return searchResultMapper.deleteByPrimaryKey(id);
     }
 
+    /**
+     * 新增实体对象
+     *
+     * @param result 实体对象
+     * @return 更新行数
+     */
     @Override
     public int insert(JobSearchResult result) {
         return searchResultMapper.insert(result);
     }
 
+    /**
+     * 新增实体对象
+     *
+     * @param result 实体对象
+     * @return 更新行数
+     */
     @Override
     public int insertSelective(JobSearchResult result) {
         return searchResultMapper.insertSelective(result);
     }
 
+    /**
+     * 更新实体对象
+     *
+     * @param result 实体对象
+     * @return 更新行数
+     */
     @Override
     public int updateByPrimaryKeySelective(JobSearchResult result) {
         return searchResultMapper.updateByPrimaryKeySelective(result);
     }
 
+    /**
+     * 更新实体对象
+     *
+     * @param result 实体对象
+     * @return 更新行数
+     */
     @Override
     public int updateByPrimaryKey(JobSearchResult result) {
         return searchResultMapper.updateByPrimaryKey(result);
     }
 
+    /**
+     * 依据主键id查询实体对象
+     *
+     * @param id 主键id
+     * @return 实体对象
+     */
     @Override
     public JobSearchResult selectById(String id) {
         return searchResultMapper.selectById(id);
     }
 
+    /**
+     * 条件查询
+     *
+     * @param query 查询实体
+     * @return 满足条件的实体集合
+     */
     @Override
     public List<JobSearchResult> findPageWithResult(JobSearchResultQuery query) {
         return searchResultMapper.findPageWithResult(query);
     }
 
+    /**
+     * 条件查询
+     *
+     * @param query 查询实体
+     * @return 满足条件的实体数量
+     */
     @Override
     public int findPageWithCount(JobSearchResultQuery query) {
         return searchResultMapper.findPageWithCount(query);
     }
 
+    /**
+     * 依据唯一识别号查询实体对象的数量
+     *
+     * @param markId 唯一识别号
+     * @return 满足条件的实体数量
+     */
     @Override
     public int selectCountByMarkId(Integer markId) {
         return searchResultMapper.selectCountByMarkId(markId);
     }
 
+    /**
+     * 依据唯一识别号查询实体对象的数量
+     *
+     * @param markId 唯一识别号
+     * @return 实体对象
+     */
     @Override
     public JobSearchResult selectByMarkId(Integer markId) {
         return searchResultMapper.selectByMarkId(markId);

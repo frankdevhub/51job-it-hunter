@@ -1,6 +1,7 @@
 package frankdevhub.job.automatic.core.enums;
 
 import frankdevhub.job.automatic.core.utils.CommonBusinessUtils;
+import lombok.extern.slf4j.Slf4j;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -16,21 +17,23 @@ import java.util.Map;
  * @CreateDate: 2020/1/28 22:56
  * @Version: 1.0
  */
+
+@Slf4j
 @SuppressWarnings("all")
 public enum NumericUnit {
     /**
      * 通用计量单位
      */
-    Digitis_CN('个'),
-    Digitis_TW('個'),
-    Ten_Digitis_CN_TW('十'),
-    Hundred_CN('百'),
-    Hundred_TW('百'),
-    Thousand_CN_TW('千'),
-    Thousand_EN('K'),
-    Ten_Thousand_CN('万'),
-    Ten_Thousand_TW('萬'),
-    Ten_Thousand_EN('W');
+    Digitis_CN('个'),    //个位数 简体中文
+    Digitis_TW('個'),    //个位数 繁体中文
+    Ten_Digitis_CN_TW('十'), //十位数 简体中文
+    Hundred_CN('百'),  //百位数 简体中文
+    Hundred_TW('百'),  //百位数 繁体中文
+    Thousand_CN_TW('千'), //千位数 繁体中文
+    Thousand_EN('K'), //千位数 英文字符
+    Ten_Thousand_CN('万'), //万位数 中文简体
+    Ten_Thousand_TW('萬'), //万位数 繁体中文
+    Ten_Thousand_EN('W');  //万位数 英文字符
 
     private Character unit; //单位名称
     private Boolean isCN_Character; //是否是中文简体字符
@@ -50,55 +53,48 @@ public enum NumericUnit {
             if (u.getUnit().equals(unit))
                 return u;
         }
+        //如果没有匹配的则返回为空
         return null;
     }
 
     @Override
     public String toString() {
-
-        System.out.println("print attributes:");
-        System.out.println("unit = " + unit);
-        System.out.println("isCN_Character = " + isCN_Character);
-        System.out.println("isTW_Character = " + isTW_Character);
-        System.out.println("isEN_Character = " + isEN_Character);
-        System.out.println("isCapital = " + isCapital);
-
-        System.out.println("\n\n");
-
         return "NumericUnit{" +
-                "unit=" + unit +
-                ", isCN_Character=" + isCN_Character +
-                ", isTW_Character=" + isTW_Character +
-                ", isEN_Character=" + isEN_Character +
-                ", isCapital=" + isCapital +
-                ", attributes=" + attributes +
+                "unit=" + unit + //单位字符
+                ", isCN_Character=" + isCN_Character + //是否是中文简体字符
+                ", isTW_Character=" + isTW_Character + //是否是中文繁体字符
+                ", isEN_Character=" + isEN_Character + //是否是英文字符
+                ", isCapital=" + isCapital +  //是否是的大写的字符
+                ", attributes=" + attributes + //表示单位的字符的属性集合
                 '}';
     }
 
     NumericUnit(Character unit) {
-        this.unit = unit;
-        this.attributes = CommonBusinessUtils.getCharacterAttributes(unit);
-        this.setAttributes();
+        this.unit = unit;  //标识单位的字符
+        this.attributes = CommonBusinessUtils.getCharacterAttributes(unit); //解析获取单位的字符的属性
+        this.setAttributes(); //解析的属性依次反射调用getter setter方法注入属性
     }
 
-    //TODO
+    /**
+     * 反射获取方法名并调用后将结果注入属性
+     */
     private void setAttributes() {
-        System.out.println("NumericUnit::setAttributes, UnitValue = " + unit + "");
+        log.info("NumericUnit::setAttributes, UnitValue = " + unit + "");
         if (null != this.attributes) {
-            Class<?> clazz = this.getClass();
-            Method[] methods = clazz.getDeclaredMethods();
+            Class<?> clazz = this.getClass(); //获取枚举对象的类定义
+            Method[] methods = clazz.getDeclaredMethods(); //获取实体类定义的方法集合
             for (Method m : methods) {
                 m.setAccessible(true);
 
-                String name = m.getName();
-                Integer args = m.getParameterCount();
+                String name = m.getName(); //方法名
+                Integer args = m.getParameterCount(); //方法的声明的参数个数
                 if (name.contains("Character".trim()) && args == 1) {
-                    Boolean value = this.attributes.get(name);
-                    System.out.println("method name: " + name + " value: " + value);
+                    Boolean value = this.attributes.get(name); //如果属性没有值则反射调用getter setter方法注入
+                    log.info("method name: " + name + " value: " + value);
 
                     if (null != value) {
                         try {
-                            m.invoke(this, value);
+                            m.invoke(this, value); //反射方式调用getter setter注入属性值
                         } catch (IllegalAccessException | InvocationTargetException e) {
                             e.printStackTrace();
                         }
@@ -106,7 +102,7 @@ public enum NumericUnit {
                 }
             }
         }
-        System.out.println("\n");
+        log.info("\n");
     }
 
     public Character getUnit() {

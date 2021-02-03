@@ -29,8 +29,17 @@ import java.util.HashMap;
  * @date:2019-04-21 01:20
  */
 
+@SuppressWarnings("all")
 public enum DriverType implements DriverSetup {
     FIREFOX {
+        /**
+         * 构造浏览器驱动对象
+         *
+         * @param capabilities 驱动加载页面的策略
+         * @param path         浏览器驱动路径
+         * @return 浏览器驱动对象
+         */
+        @Override
         public RemoteWebDriver getWebDriverObject(DesiredCapabilities capabilities, String path) {
             FirefoxOptions options = new FirefoxOptions();
             options.merge(capabilities);
@@ -40,6 +49,14 @@ public enum DriverType implements DriverSetup {
         }
     },
     CHROME {
+        /**
+         * 构造浏览器驱动对象
+         *
+         * @param capabilities 驱动加载页面的策略
+         * @param path         浏览器驱动路径
+         * @return 浏览器驱动对象
+         */
+        @Override
         public RemoteWebDriver getWebDriverObject(DesiredCapabilities capabilities, String path) {
             HashMap<String, Object> chromePreferences = new HashMap<>();
 
@@ -59,7 +76,16 @@ public enum DriverType implements DriverSetup {
             return new ChromeDriver(options);
         }
     },
+
     IE {
+        /**
+         * 构造浏览器驱动对象
+         *
+         * @param capabilities 驱动加载页面的策略
+         * @param path         浏览器驱动路径
+         * @return 浏览器驱动对象
+         */
+        @Override
         public RemoteWebDriver getWebDriverObject(DesiredCapabilities capabilities, String path) {
             InternetExplorerOptions options = new InternetExplorerOptions();
             options.merge(capabilities);
@@ -76,6 +102,14 @@ public enum DriverType implements DriverSetup {
         }
     },
     EDGE {
+        /**
+         * 构造浏览器驱动对象
+         *
+         * @param capabilities 驱动加载页面的策略
+         * @param path         浏览器驱动路径
+         * @return 浏览器驱动对象
+         */
+        @Override
         public RemoteWebDriver getWebDriverObject(DesiredCapabilities capabilities, String path) {
             EdgeOptions options = new EdgeOptions();
             options.merge(capabilities);
@@ -84,6 +118,14 @@ public enum DriverType implements DriverSetup {
         }
     },
     SAFARI {
+        /**
+         * 构造浏览器驱动对象
+         *
+         * @param capabilities 驱动加载页面的策略
+         * @param path         浏览器驱动路径
+         * @return 浏览器驱动对象
+         */
+        @Override
         public RemoteWebDriver getWebDriverObject(DesiredCapabilities capabilities, String path) {
             SafariOptions options = new SafariOptions();
             options.merge(capabilities);
@@ -92,6 +134,14 @@ public enum DriverType implements DriverSetup {
         }
     },
     OPERA {
+        /**
+         * 构造浏览器驱动对象
+         *
+         * @param capabilities 驱动加载页面的策略
+         * @param path         浏览器驱动路径
+         * @return 浏览器驱动对象
+         */
+        @Override
         public RemoteWebDriver getWebDriverObject(DesiredCapabilities capabilities, String path) {
             OperaOptions options = new OperaOptions();
             options.merge(capabilities);

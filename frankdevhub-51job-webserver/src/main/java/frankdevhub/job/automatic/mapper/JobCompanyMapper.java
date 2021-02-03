@@ -7,7 +7,15 @@ import org.apache.ibatis.annotations.Mapper;
 import java.util.List;
 
 @Mapper
+@SuppressWarnings("all")
 public interface JobCompanyMapper {
+
+    /**
+     * 根据主键删除对象
+     *
+     * @param id 主键id
+     * @return 更新行数
+     */
     int deleteByPrimaryKey(String id);
 
     int insert(JobCompany company);

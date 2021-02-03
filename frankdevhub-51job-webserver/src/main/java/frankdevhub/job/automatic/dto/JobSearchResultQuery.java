@@ -9,6 +9,5 @@ package frankdevhub.job.automatic.dto;
  * @version: 1.0
  */
 
-@SuppressWarnings("all")
 public class JobSearchResultQuery {
 }

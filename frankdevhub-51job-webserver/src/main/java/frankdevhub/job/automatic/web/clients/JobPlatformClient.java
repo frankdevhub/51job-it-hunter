@@ -6,22 +6,19 @@ import cn.wanghaomiao.xpath.model.JXNode;
 import frankdevhub.job.automatic.core.constants.BusinessConstants;
 import frankdevhub.job.automatic.core.constants.SeleniumConstants;
 import frankdevhub.job.automatic.core.exception.BusinessException;
+import frankdevhub.job.automatic.core.parser.PlatformDataConverter;
 import frankdevhub.job.automatic.core.parser.SalaryRangeTextUtils;
 import frankdevhub.job.automatic.core.utils.SpringUtils;
 import frankdevhub.job.automatic.core.utils.WebDriverUtils;
 import frankdevhub.job.automatic.entities.JobSearchResult;
+import frankdevhub.job.automatic.entities.PlatformDataJson;
 import frankdevhub.job.automatic.selenium.DriverBase;
 import frankdevhub.job.automatic.selenium.config.ChromeConfiguration;
 import frankdevhub.job.automatic.service.JobSearchResultService;
+import frankdevhub.job.automatic.service.PlatformDataJsonService;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
-import org.apache.http.HttpEntity;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.util.EntityUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.openqa.selenium.Cookie;
@@ -33,7 +30,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-import java.util.UUID;
 import java.util.concurrent.ExecutorService;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -58,6 +54,10 @@ public class JobPlatformClient {
 
     private JobSearchResultService getJobSearchResultService() {
         return SpringUtils.getBean(JobSearchResultService.class);
+    }
+
+    private PlatformDataJsonService getPlatformDataJsonService() {
+        return SpringUtils.getBean(PlatformDataJsonService.class);
     }
 
     /**
@@ -91,130 +91,12 @@ public class JobPlatformClient {
         return cookies;
     }
 
-    /**
-     * 获取页面对象的字符串
-     *
-     * @param url 页面链接地址
-     * @return 页面对象的字符串
-     * @throws IOException
-     */
-    private String getPageHtmlText(String url) throws IOException {
-        Assert.notNull(url, "url cannot be found");
-        String pageContext = null;
-        CloseableHttpClient httpClient = null;
-        Long start = System.currentTimeMillis();
-        try {
-            // httpClient = HttpClientBuilder.create().build();
-            httpClient = HttpClients.createDefault();
-            HttpGet httpGet = new HttpGet(url);
-            httpGet.setHeader("Content-Type", "text/html; charset=GBK");
-            CloseableHttpResponse response = httpClient.execute(httpGet);
-            HttpEntity responseEntity = response.getEntity();
-            pageContext = EntityUtils.toString(responseEntity, "GBK");
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            httpClient.close();
-        }
-        Long end = System.currentTimeMillis();
-        log.info(String.format("time cost: %s sec", (end - start) / 1000));
-        log.info(pageContext);
-        return pageContext;
-    }
-
-    /**
-     * 获取上一页页面对象的字符串
-     *
-     * @param url 页面链接地址
-     * @return 页面对象的字符串
-     * @throws IOException
-     */
-    public String getPreviousResultPage(String url) {
-        String regex = "([0-9]+)(.html?)"; //匹配网页元素对象
-        Matcher matcher = Pattern.compile(regex).matcher(url);
-        String index;
-        String previous;
-        if (matcher.find()) {
-            index = matcher.group(1);
-            previous = new Integer(Integer.parseInt(index) - 1).toString();
-        } else {
-            throw new RuntimeException("url regex cannot match page url");
-        }
-        StringBuffer buffer = new StringBuffer(url);
-        buffer.replace(matcher.start(1), matcher.end(1), previous);
-        String previousPage = buffer.toString();
-        log.info("previous page url = " + previousPage);
-        return previousPage;
-    }
-
-    /**
-     * 获取下一页页面对象的字符串
-     *
-     * @param url 页面链接地址
-     * @return 页面对象的字符串
-     */
-    public String getNextResultPage(String url) {
-        String regex = "([0-9]+)(.html?)"; //匹配网页元素对象
-        Matcher matcher = Pattern.compile(regex).matcher(url);
-        String index;
-        String next;
-        if (matcher.find()) {
-            index = matcher.group(1);
-            next = new Integer(Integer.parseInt(index) + 1).toString();
-        } else {
-            throw new RuntimeException("url regex cannot match page url");
-        }
-        StringBuffer buffer = new StringBuffer(url);
-        buffer.replace(matcher.start(1), matcher.end(1), next);
-        String nextPage = buffer.toString();
-        log.info("next page url = " + nextPage);
-        return nextPage;
-    }
-
-
-    /**
-     * 获取页面对象的字符串
-     *
-     * @param url 页面链接地址
-     * @return 页面对象的字符串
-     */
-    public String getSearchKeyword(String url) {
-        String regex = "(.*),([0-9]+),([0-9]+)(.html?)";
-        Matcher matcher = Pattern.compile(regex).matcher(url);
-        if (matcher.find()) {
-            return matcher.group(1);
-        } else
-            throw new RuntimeException();
-    }
-
     @Data
     private class JobSearchResultRestoreThread extends Thread {
 
         private String pageUrl;  //列表页面的链接地址
         private List<JobSearchResult> results; //返回的搜索集合对象
         private JobSearchResultService service; //解析返回的搜索集合的服务
-
-        /**
-         * 构建页面返回的结果集对象
-         *
-         * @param results 页面返回的结果集对象
-         * @return 页面扫描的线程对象
-         */
-        public JobSearchResultRestoreThread setResults(List<JobSearchResult> results) {
-            this.results = results;
-            return this;
-        }
-
-        /**
-         * 构建页面返回的结果集对象
-         *
-         * @param service 页面返回的结果集存储服务
-         * @return 页面扫描的线程对象
-         */
-        protected JobSearchResultRestoreThread setRepository(JobSearchResultService service) {
-            this.service = service;
-            return this;
-        }
 
         /**
          * 构建页面返回的结果集对象
@@ -228,20 +110,6 @@ public class JobPlatformClient {
             this.service = service;
         }
 
-        /**
-         * 构建页面返回的结果集对象
-         *
-         * @param results 页面返回的结果集对象
-         * @param service 页面返回的结果集存储服务
-         * @param pageUrl 页面链接地址
-         * @return 页面扫描的线程对象
-         */
-        protected JobSearchResultRestoreThread(List<JobSearchResult> results, JobSearchResultService service, String pageUrl) {
-            this.results = results;
-            this.service = service;
-            this.pageUrl = pageUrl;
-        }
-
         private void restoreJobSearchResults(List<JobSearchResult> results) {
             if (null == this.service) {
                 throw new RuntimeException("repository should not be null");
@@ -252,9 +120,8 @@ public class JobPlatformClient {
                         continue;
                     int markId = result.getMarkId(); //生成搜索结果集的唯一标识
                     int count = service.selectCountByMarkId(markId);
+                    //更新生成唯一标识符
                     if (count == 0) {
-                        String id = UUID.randomUUID().toString();
-                        result.setId(id);
                         result.doCreateEntity();
                         service.insertSelective(result);
                     } else {
@@ -357,12 +224,13 @@ public class JobPlatformClient {
         String publishDate = publishDateNode.getElement().childNodes().get(0).outerHtml().trim();
         //替换中文字符 2020-01-15 发布-> 2020-01-15
         publishDate = publishDate.replaceAll("[\u4E00-\u9FA5]+", ""); //过滤替换中文字符例如"发布"
-        int month = Integer.parseInt(publishDate.split("-")[0]); //职位发布日期(月)
+        int month = Integer.parseInt(publishDate.split("-")[0]);
         int day = Integer.parseInt(publishDate.split("-")[1]);//职位发布日期(天)
         result.setPublishDateChar(publishDate) //职位发布日期(字符串)
                 .setPublishDateDayNumeric(day) //职位发布日期(天)
                 .setPublishDateMonthNumeric(month); //职位发布日期(月)
         result.generateMarkId(); //生成hashCode和唯一标识
+
         log.info("result markId  = {}", result.getMarkId());
         return result;
     }
@@ -375,20 +243,18 @@ public class JobPlatformClient {
      * @throws XpathSyntaxErrorException,BusinessException,IllegalAccessException
      */
     public List<JobSearchResult> getJobSearchResult(String url) throws IOException, XpathSyntaxErrorException {
-        String pageContext = getPageHtmlText(url); //获取页面DOM对象的字符串格式
+        //获取页面DOM对象的字符串格式
+        String pageContext = PlatformLinkBuilder.getPageHtmlText(url);
 
-        Assert.notNull(pageContext, "pageContext cannot be found");
-        String keyword = getSearchKeyword(url); //从链接中提取关键字
+        Assert.notNull(pageContext, "page context cannot be found");
+        String keyword = PlatformLinkBuilder.getSearchKeyword(url);
         Assert.notNull(keyword, "keyword cannot be found");
         log.info("keyword  = {}", keyword);
-
-        //解析后的结合
         List<JobSearchResult> results = new ArrayList<>();
         Document document = Jsoup.parse(pageContext);
-        //转为DOM文档对象进行解析
-        JXDocument jxDocument = new JXDocument(document);
-        //定位职位搜索返回的结果集列表
-        List<JXNode> rows = jxDocument.selN(SeleniumConstants.SEARCH_RESULT_LIST_XPATH);
+        JXDocument jxDocument = new JXDocument(document); //转为DOM文档对象进行解析
+
+        List<JXNode> rows = jxDocument.selN(SeleniumConstants.SEARCH_RESULT_LIST_XPATH);  //定位职位搜索返回的结果集列表
         log.info("rows.size  = {}", rows.size());
         //如果jsoup返回的报文可以获取列表信息
         if (null != rows && rows.size() > 5) {
@@ -410,30 +276,35 @@ public class JobPlatformClient {
             Pattern p = Pattern.compile(DATA_JSON_REGEX);
             Matcher m = p.matcher(ctx);
             String j = null;
-            if (m.find()) {
+            if (m.find())
                 j = m.group("context");
-            }
+
             Assert.notNull(j, "data json cannot be found");
             log.info(j);
-            //解析返回的json对象
-            JobSearchResult result = parseJsonData(j);
+            //解析返回的json对象,获取指定业务属性下的数据集
+            List<PlatformDataJson> datas = PlatformDataConverter.convertContext(j);
+            //保存源数据
+            if (null != datas & datas.size() > 0) {
+                for (PlatformDataJson data : datas) {
+                    Assert.notNull(data.getJobId(), "cannot find jobId");
+                    //TODO: 校验源数据 jobid查重判断是否已经存在
+                    PlatformDataJson d = getPlatformDataJsonService().selectByJobId(data.getJobId());
+                    if (null == d) {
+                        data.doCreateEntity();
+                        getPlatformDataJsonService().insertSelective(data);
+                    } else {
+                        data.doUpdateEntity();
+                        getPlatformDataJsonService().updateByPrimaryKeySelective(data);
+                    }
+                }
+            }
+            //TODO
+            //JobSearchResult result = PlatformDataConverter.convert(j);
         }
-
         log.info("get search result entity list complete");
         return results;
     }
 
-    /**
-     * 解析结果集对象
-     *
-     * @param url 平台网页源码加载时的json字符串
-     * @return 页面搜索结果集对象
-     */
-    private JobSearchResult parseJsonData(String json) {
-        JobSearchResult result = new JobSearchResult();
-        //TODO
-        return result;
-    }
 
     /**
      * 解析结果集对象

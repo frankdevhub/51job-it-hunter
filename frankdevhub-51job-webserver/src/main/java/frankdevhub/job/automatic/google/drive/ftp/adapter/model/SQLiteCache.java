@@ -1,7 +1,6 @@
 package frankdevhub.job.automatic.google.drive.ftp.adapter.model;
 
-import frankdevhub.job.automatic.core.data.logging.Logger;
-import frankdevhub.job.automatic.core.data.logging.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.dbcp.BasicDataSource;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -26,20 +25,16 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
  * @date:2019-04-23 16:33
  */
 
+@Slf4j
+@SuppressWarnings("all")
 public class SQLiteCache implements Cache {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(SQLiteCache.class);
-
     private static final String TABLE_FILES = "files";
-
     private static final String TABLE_CHILDS = "childs";
-
     private static final String TABLE_PARAMETERS = "parameters";
 
     private final RowMapper<GFile> rowMapper;
-
     private final RowMapper<String> parentIdMapper = (rs, rowNum) -> rs.getString("parentId");
-
     private final JdbcTemplate jdbcTemplate;
 
     private final ReentrantReadWriteLock rwl = new ReentrantReadWriteLock();
@@ -52,14 +47,14 @@ public class SQLiteCache implements Cache {
         final String pathname = "data/cache";
         File dataDir = new File(pathname);
         if (!dataDir.exists()) {
-            LOGGER.begin().info("Creating cache '" + dataDir + "'...");
+            log.info("Creating cache '" + dataDir + "'...");
             if (!dataDir.mkdirs()) {
                 throw new RuntimeException("Could not create database folder " + dataDir.getAbsolutePath());
             }
         }
 
         String dataFile = pathname + "/" + account + ".db";
-        LOGGER.begin().info("Loading database '" + dataFile + "'...");
+        log.info("Loading database '" + dataFile + "'...");
 
         BasicDataSource dataSource = new BasicDataSource();
         dataSource.setDriverClassName("org.sqlite.JDBC");
@@ -97,9 +92,9 @@ public class SQLiteCache implements Cache {
             queries.add("create index idx_filename on " + TABLE_FILES + " (filename)");
             jdbcTemplate.batchUpdate(queries.toArray(new String[0]));
 
-            LOGGER.begin().info("Database created");
+            log.info("Database created");
         } else {
-            LOGGER.begin().info("Database found");
+            log.info("Database found");
         }
     }
 
@@ -107,7 +102,7 @@ public class SQLiteCache implements Cache {
     public GFile getFile(String id) {
         r.lock();
         try {
-            LOGGER.begin().info("getFile(" + id + ")");
+            log.info("getFile(" + id + ")");
             return jdbcTemplate.queryForObject("select * from " + TABLE_FILES + " where id=?", new Object[]{id},
                     rowMapper);
         } catch (EmptyResultDataAccessException ex) {
@@ -187,7 +182,7 @@ public class SQLiteCache implements Cache {
                 connection.commit();
                 return ret;
             } catch (Exception ex) {
-                LOGGER.begin().error("Error executing transaction. " + ex.getMessage());
+                log.error("Error executing transaction. " + ex.getMessage());
                 /*
                  * for (int i = 0; i < queries.size(); i++) {
                  * LOG.error("Query '" + queries.get(i) + "' " + (args != null

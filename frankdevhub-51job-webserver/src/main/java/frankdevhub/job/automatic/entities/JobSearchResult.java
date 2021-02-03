@@ -21,7 +21,7 @@ import java.util.regex.Pattern;
  */
 
 @SuppressWarnings("all")
-public class JobSearchResult extends BaseRecord<JobSearchResult> {
+public class JobSearchResult extends PlatformDataJson {
     /**
      * 职位名称
      */
@@ -118,10 +118,18 @@ public class JobSearchResult extends BaseRecord<JobSearchResult> {
     private Integer publishDateDayNumeric;
 
     /**
+     * 企业岗位计划招聘人数(0默认为未知)
+     */
+    private Integer headCount;
+
+    /**
      * 职位链接地址
      */
     private String linkUrl;
 
+    /**
+     * 唯一标识
+     */
     private Integer markId;
 
     @Override
@@ -342,6 +350,15 @@ public class JobSearchResult extends BaseRecord<JobSearchResult> {
 
     public JobSearchResult setLinkUrl(String linkUrl) {
         this.linkUrl = linkUrl;
+        return this;
+    }
+
+    public Integer getHeadCount() {
+        return headCount;
+    }
+
+    public JobSearchResult setHeadCount(Integer headCount) {
+        this.headCount = headCount;
         return this;
     }
 

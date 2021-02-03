@@ -52,15 +52,19 @@
         is_campus_only, is_salary_negotiable, publish_date_char,
         publish_date_month_numeric, publish_date_day_numeric,
         link_url, mark_id,create_time,update_time)
-        values (#{id,jdbcType=VARCHAR}, #{jobTitle,jdbcType=VARCHAR}, #{companyName,jdbcType=VARCHAR},
-        #{location,jdbcType=VARCHAR}, #{salaryRangeChars,jdbcType=VARCHAR}, #{salaryRangeMin,jdbcType=DOUBLE},
-        #{salaryRangeMax,jdbcType=DOUBLE}, #{salaryTimeUnit,jdbcType=VARCHAR}, #{salaryNumericUnit,jdbcType=VARCHAR},
-        #{isDefineByW,jdbcType=INTEGER}, #{isDefineByK,jdbcType=INTEGER}, #{isDefineByDay,jdbcType=INTEGER},
-        #{isDefineByMonth,jdbcType=INTEGER}, #{isDefineByYear,jdbcType=INTEGER}, #{isInternshipPos,jdbcType=INTEGER},
-        #{isCampusOnly,jdbcType=INTEGER}, #{isSalaryNegotiable,jdbcType=INTEGER}, #{publishDateChar,jdbcType=VARCHAR},
+        values (#{id,jdbcType=VARCHAR}, #{jobTitle,jdbcType=VARCHAR},
+        #{companyName,jdbcType=VARCHAR}, #{location,jdbcType=VARCHAR},
+        #{salaryRangeChars,jdbcType=VARCHAR}, #{salaryRangeMin,jdbcType=DOUBLE},
+        #{salaryRangeMax,jdbcType=DOUBLE}, #{salaryTimeUnit,jdbcType=VARCHAR},
+        #{salaryNumericUnit,jdbcType=VARCHAR}, #{isDefineByW,jdbcType=INTEGER},
+        #{isDefineByK,jdbcType=INTEGER}, #{isDefineByDay,jdbcType=INTEGER},
+        #{isDefineByMonth,jdbcType=INTEGER}, #{isDefineByYear,jdbcType=INTEGER},
+        #{isInternshipPos,jdbcType=INTEGER}, #{isCampusOnly,jdbcType=INTEGER},
+        #{isSalaryNegotiable,jdbcType=INTEGER}, #{publishDateChar,jdbcType=VARCHAR},
         #{publishDateMonthNumeric,jdbcType=INTEGER}, #{publishDateDayNumeric,jdbcType=INTEGER},
         #{linkUrl,jdbcType=VARCHAR},
-        #{markId,jdbcType=INTEGER},#{createTime,jdbcType=BIGINT},#{updateTime,jdbcType=BIGINT})
+        #{markId,jdbcType=INTEGER},
+        #{createTime,jdbcType=BIGINT},#{updateTime,jdbcType=BIGINT})
     </insert>
 
 

@@ -60,7 +60,6 @@ public class HeadCountTextUtils {
     public static void parseText(String text, JobSearchResult result) {
         Assert.notNull(text, "cannot find text");
         log.info("text = {}", text);
-
         //匹配关键字
         String match = parseText(text);
         if (null == match)
