@@ -81,4 +81,12 @@ public interface PlatformDataJsonService {
      * @return 满足条件的实体数量
      */
     int findPageWithCount(PlatformDataJsonQuery query);
+
+    /**
+     * 依据主键jobid查询实体对象
+     *
+     * @param jobId 唯一标识jobid
+     * @return 实体对象
+     */
+    PlatformDataJson selectByJobId(String jobId);
 }

@@ -21,7 +21,6 @@ import org.springframework.scheduling.concurrent.CustomizableThreadFactory;
 import tk.mybatis.mapper.util.Assert;
 
 import java.util.List;
-import java.util.UUID;
 import java.util.concurrent.SynchronousQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -29,7 +28,6 @@ import java.util.concurrent.TimeUnit;
 
 //此方法已过期,页面定位方式已失效
 @Slf4j
-@Deprecated
 @SuppressWarnings("all")
 public class JobPlatformSearchPage extends BaseWebPage {
 

@@ -32,29 +32,16 @@ public class BusinessCharacter {
     @Override
     public String toString() {
 
-        log.info("print attributes:");
-        log.info("value = " + value);
-        log.info("isCN_Character = " + isCN_Character);
-        log.info("isTW_Character = " + isTW_Character);
-        log.info("isEN_Character = " + isEN_Character);
-        log.info("isENCapital = " + isENCapital);
-        log.info("isNumericCharacter = " + isNumericCharacter);
-        log.info("isSymbolCharacter = " + isSymbolCharacter);
-
         return "BusinessCharacter{" +
-                "value=" + value +
-                ", isCN_Character=" + isCN_Character +
-                ", isTW_Character=" + isTW_Character +
-                ", isEN_Character=" + isEN_Character +
-                ", isENCapital=" + isENCapital +
-                ", isNumericCharacter=" + isNumericCharacter +
-                ", isSymbolCharacter=" + isSymbolCharacter +
-                ", attributes=" + attributes +
+                "value=" + value +  //字符
+                ", isCN_Character=" + isCN_Character + // 是否是中文简体字福
+                ", isTW_Character=" + isTW_Character + // 是否是台湾地区繁体字符
+                ", isEN_Character=" + isEN_Character + // 是否是英文字符
+                ", isENCapital=" + isENCapital +  // 是否是英语字符
+                ", isNumericCharacter=" + isNumericCharacter + // 是否是数值类计量字符
+                ", isSymbolCharacter=" + isSymbolCharacter + // 是否是象形字符
+                ", attributes=" + attributes + // 字符属性集合
                 '}';
-    }
-
-    public Map<String, Boolean> getAttributes() {
-        return attributes;
     }
 
     /**
@@ -94,12 +81,12 @@ public class BusinessCharacter {
                 }
             }
         }
-        log.info("\n\n");
     }
 
     public Character getValue() {
         return value;
     }
+
     public BusinessCharacter setValue(Character value) {
         this.value = value;
         return this;
@@ -108,6 +95,7 @@ public class BusinessCharacter {
     public Boolean isSimpleChineseCharacter() {
         return isCN_Character;
     }
+
     public BusinessCharacter isSimpleChineseCharacter(Boolean isCN_Character) {
         this.isCN_Character = isCN_Character;
         return this;

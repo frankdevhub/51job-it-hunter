@@ -130,7 +130,7 @@ public class JobSearchResult extends PlatformDataJson {
     /**
      * 唯一标识
      */
-    private Integer markId;
+    private Integer unionId;
 
     @Override
     public boolean equals(Object o) {
@@ -362,8 +362,8 @@ public class JobSearchResult extends PlatformDataJson {
         return this;
     }
 
-    public Integer getMarkId() {
-        return markId;
+    public Integer getUnionId() {
+        return unionId;
     }
 
     /**
@@ -381,7 +381,7 @@ public class JobSearchResult extends PlatformDataJson {
         if (m.find()) {
             String s = m.group("key");
             Assert.notNull(s, "markid cannot be generated as null");
-            this.markId = Integer.parseInt(s); //获取唯一识别号
+            this.unionId = Integer.parseInt(s); //获取唯一识别号
         } else {
             throw new BusinessException(BusinessConstants.MARKID_GENERATE_ERROR);
         }

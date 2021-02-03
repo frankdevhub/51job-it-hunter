@@ -39,6 +39,7 @@ public class ResponseContextTest {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        //校验是否匹配到数据json
         Assert.notNull(str, "str cannot be found");
         //过滤去除空格换行符
         str = str.replaceAll("\\n", "");

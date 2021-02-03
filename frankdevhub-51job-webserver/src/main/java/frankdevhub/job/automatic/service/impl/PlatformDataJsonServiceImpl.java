@@ -142,4 +142,15 @@ public class PlatformDataJsonServiceImpl extends MyBatisRepository implements Pl
     public int findPageWithCount(PlatformDataJsonQuery query) {
         return dataJsonMapper.findPageWithCount(query);
     }
+
+    /**
+     * 依据主键jobid查询实体对象
+     *
+     * @param jobId 唯一标识jobid
+     * @return 实体对象
+     */
+    @Override
+    public PlatformDataJson selectByJobId(String jobId) {
+        return dataJsonMapper.selectByJobId(jobId);
+    }
 }

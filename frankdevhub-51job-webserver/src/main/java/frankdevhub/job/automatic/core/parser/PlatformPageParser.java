@@ -4,6 +4,7 @@ import cn.wanghaomiao.xpath.exception.XpathSyntaxErrorException;
 import cn.wanghaomiao.xpath.model.JXNode;
 import frankdevhub.job.automatic.core.constants.SeleniumConstants;
 import frankdevhub.job.automatic.core.exception.BusinessException;
+import frankdevhub.job.automatic.entities.JobCompany;
 import frankdevhub.job.automatic.entities.JobSearchResult;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
@@ -95,6 +96,18 @@ public class PlatformPageParser {
 
         log.info("result markId  = {}", result.getMarkId());
         return result;
+    }
+
+
+    /**
+     * 解析平台上的企业介绍页面以及企业相关职位介绍
+     *
+     * @param companyInfo 是否抓取企业信息相关的内容
+     * @param jobList     是否抓取该企业所有正在招聘的职位信息
+     */
+    public JobCompany parseCompanyPlatformPage(String url, boolean companyInfo, boolean jobList) {
+        JobCompany company = new JobCompany();
+        return company;
     }
 
 }

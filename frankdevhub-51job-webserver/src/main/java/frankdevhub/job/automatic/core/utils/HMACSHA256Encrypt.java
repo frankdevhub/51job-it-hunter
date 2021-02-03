@@ -2,13 +2,14 @@ package frankdevhub.job.automatic.core.utils;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
+
 @SuppressWarnings("all")
 public class HMACSHA256Encrypt {
 
-    private static final String ENCODE = "UTF-8";
-    private static final String ENCNAME = "MD5";
-    private static final String PUBLIC_KEY = "qpda5-eu8uc-bta6c-qrdm4-775v7-nmymb-c1trv";
-    private static final String PRIVATE_KEY = "*cVd)s-6FYvS-97zEU-HT^SJ-9qd6&-Cz*md-;fpGt";
+    private static final String ENCODE = "UTF-8"; //加密编码
+    private static final String ENCNAME = "MD5"; //加密方式
+    private static final String PUBLIC_KEY = "qpda5-eu8uc-bta6c-qrdm4-775v7-nmymb-c1trv";  //加密公钥
+    private static final String PRIVATE_KEY = "*cVd)s-6FYvS-97zEU-HT^SJ-9qd6&-Cz*md-;fpGt"; //加密私钥
 
     public static String HMACSHA256(String data) throws Exception {
         Mac sha256_HMAC = Mac.getInstance("HmacSHA256");

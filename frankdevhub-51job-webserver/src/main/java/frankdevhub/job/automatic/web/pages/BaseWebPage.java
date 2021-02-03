@@ -29,11 +29,6 @@ public class BaseWebPage {
         initDriver(isAutoConfig);
     }
 
-    public BaseWebPage setDriver(WebDriver driver) {
-        this.driver = driver;
-        return this;
-    }
-
     /**
      * 初始化浏览器驱动对象
      *

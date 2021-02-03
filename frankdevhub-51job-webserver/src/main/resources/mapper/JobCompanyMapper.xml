@@ -4,7 +4,7 @@
 
     <resultMap id="BaseResultMap" type="frankdevhub.job.automatic.entities.JobCompany">
         <id column="id" jdbcType="VARCHAR" property="id"/>
-        <result column="mark_id" jdbcType="INTEGER" property="markId"/>
+        <result column="union_id" jdbcType="INTEGER" property="unionId"/>
         <result column="plat_company_logo" jdbcType="VARCHAR" property="platCompanyLogo"/>
         <result column="plat_company_type" jdbcType="VARCHAR" property="platCompanyType"/>
         <result column="plat_company_industry" jdbcType="VARCHAR" property="platCompanyIndustry"/>
@@ -15,7 +15,7 @@
     </resultMap>
 
     <sql id="Base_Column_List">
-        id, mark_id, plat_company_logo, plat_company_type, plat_company_industry, plat_company_info,
+        id, union_id, plat_company_logo, plat_company_type, plat_company_industry, plat_company_info,
         tag_list, create_time, update_time
     </sql>
 
@@ -25,10 +25,10 @@
     </delete>
 
     <insert id="insert" parameterType="frankdevhub.job.automatic.entities.JobCompany">
-        insert into platform_company_info (id, mark_id, plat_company_logo,
+        insert into platform_company_info (id, union_id, plat_company_logo,
         plat_company_type, plat_company_industry, plat_company_info,
         tag_list, update_time)
-        values (#{id,jdbcType=VARCHAR}, #{markId,jdbcType=INTEGER}, #{platCompanyLogo,jdbcType=VARCHAR},
+        values (#{id,jdbcType=VARCHAR}, #{unionId,jdbcType=INTEGER}, #{platCompanyLogo,jdbcType=VARCHAR},
         #{platCompanyType,jdbcType=VARCHAR}, #{platCompanyIndustry,jdbcType=VARCHAR},
         #{platCompanyInfo,jdbcType=VARCHAR},
         #{tagList,jdbcType=VARCHAR},
@@ -41,8 +41,8 @@
             <if test="id != null">
                 id,
             </if>
-            <if test="markId != null">
-                mark_id,
+            <if test="unionId != null">
+                union_id,
             </if>
             <if test="platCompanyLogo != null">
                 plat_company_logo,
@@ -70,8 +70,8 @@
             <if test="id != null">
                 #{id,jdbcType=VARCHAR},
             </if>
-            <if test="markId != null">
-                #{markId,jdbcType=INTEGER},
+            <if test="unionId != null">
+                #{unionId,jdbcType=INTEGER},
             </if>
             <if test="platCompanyLogo != null">
                 #{platCompanyLogo,jdbcType=VARCHAR},
@@ -97,12 +97,11 @@
         </trim>
     </insert>
 
-
     <update id="updateByPrimaryKeySelective" parameterType="frankdevhub.job.automatic.entities.JobCompany">
         update platform_company_info
         <set>
-            <if test="markId != null">
-                mark_id = #{markId,jdbcType=INTEGER},
+            <if test="unionId != null">
+                union_id = #{unionId,jdbcType=INTEGER},
             </if>
             <if test="platCompanyLogo != null">
                 plat_company_logo = #{platCompanyLogo,jdbcType=VARCHAR},
@@ -128,11 +127,10 @@
         </set>
         where id = #{id,jdbcType=VARCHAR}
     </update>
-
-
+    
     <update id="updateByPrimaryKey" parameterType="frankdevhub.job.automatic.entities.JobCompany">
         update platform_company_info
-        set mark_id = #{markId,jdbcType=INTEGER},
+        set union_id = #{unionId,jdbcType=INTEGER},
         plat_company_logo = #{platCompanyLogo,jdbcType=VARCHAR},
         plat_company_type = #{platCompanyType,jdbcType=VARCHAR},
         plat_company_industry = #{platCompanyIndustry,jdbcType=VARCHAR},
@@ -155,8 +153,8 @@
             <if test="id != null and id != ''">
                 and id = #{id,jdbcType=VARCHAR}
             </if>
-            <if test="markId != null">
-                and mark_id = #{markId,jdbcType=INTEGER}
+            <if test="unionId != null">
+                and union_id = #{unionId,jdbcType=INTEGER}
             </if>
             <if test="platCompanyLogo != null and platCompanyLogo != ''">
                 and plat_company_logo = #{platCompanyLogo,jdbcType=VARCHAR}

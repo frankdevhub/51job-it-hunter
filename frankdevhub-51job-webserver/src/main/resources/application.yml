@@ -1,0 +1,8 @@
+server:
+  port: 9090
+logging:
+  level:
+    ROOT: DEBUG
+spring:
+  profiles:
+    active: prod

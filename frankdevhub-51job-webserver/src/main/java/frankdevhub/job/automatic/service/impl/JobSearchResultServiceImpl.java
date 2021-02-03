@@ -123,8 +123,8 @@ public class JobSearchResultServiceImpl extends MyBatisRepository implements Job
      * @return 满足条件的实体数量
      */
     @Override
-    public int selectCountByMarkId(Integer markId) {
-        return searchResultMapper.selectCountByMarkId(markId);
+    public int selectCountByUnionId(Integer unionId) {
+        return searchResultMapper.selectCountByUnionId(unionId);
     }
 
     /**
@@ -134,7 +134,7 @@ public class JobSearchResultServiceImpl extends MyBatisRepository implements Job
      * @return 实体对象
      */
     @Override
-    public JobSearchResult selectByMarkId(Integer markId) {
-        return searchResultMapper.selectByMarkId(markId);
+    public JobSearchResult selectByUnionId(Integer unionId) {
+        return searchResultMapper.selectByUnionId(unionId);
     }
 }

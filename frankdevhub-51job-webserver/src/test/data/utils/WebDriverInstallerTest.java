@@ -15,14 +15,21 @@ import org.junit.Test;
  */
 
 @Slf4j
+@SuppressWarnings("all")
 public class WebDriverInstallerTest {
 
+    /**
+     * 测试获取本地操作系统
+     */
     @Test
     public void testGetOperatingSystem() {
         String info = System.getProperty("os.name").toUpperCase();
         log.info("System.getProperty(\"os.name\") = " + info);
     }
 
+    /**
+     * 测试获取本地操作系统
+     */
     @Test
     public void testGetSystemArchitecture() {
         String info = System.getProperty("os.arch").toUpperCase();

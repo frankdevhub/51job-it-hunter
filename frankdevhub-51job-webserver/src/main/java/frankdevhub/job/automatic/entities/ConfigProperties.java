@@ -12,6 +12,7 @@ import java.util.Properties;
  * @CreateDate: 2020/2/1 22:00
  * @Version: 1.0
  */
+
 public class ConfigProperties extends Properties {
 
     @Override

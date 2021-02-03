@@ -1,0 +1,33 @@
+server:
+  port: 9090
+logging:
+  level:
+    ROOT: DEBUG
+spring:
+  profiles:
+    active: prod
+  session:
+    store-type: none
+  datasource:
+    url: jdbc:mysql://39.98.246.50:3306/51job_data_center?useUnicode=yes&characterEncoding=UTF-8&useSSL=false&serverTimezone=UTC
+    username: root
+    password: frank#0806db@ecs
+    driver-class-name: com.mysql.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+    filters: stat
+    maxActive: 20
+    initialSize: 2
+    maxWait: 60000
+    minIdle: 1
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    validationQuery: select 'x'
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    poolPreparedStatements: true
+    maxOpenPreparedStatements: 20
+security:
+  sessions: NEVER
+mybatis:
+  executorType: Simple
