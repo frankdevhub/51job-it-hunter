@@ -2,11 +2,14 @@ package data.clients;
 
 import com.gargoylesoftware.htmlunit.BrowserVersion;
 import com.gargoylesoftware.htmlunit.NicelyResynchronizingAjaxController;
+import com.gargoylesoftware.htmlunit.ScriptResult;
 import com.gargoylesoftware.htmlunit.WebClient;
+import com.gargoylesoftware.htmlunit.html.HtmlDivision;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import frankdevhub.job.automatic.web.clients.PlatformHttpClient;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
+import tk.mybatis.mapper.util.Assert;
 
 import java.io.IOException;
 
@@ -51,21 +54,26 @@ public class JobCompanyProfileTest {
         webClient.setAjaxController(new NicelyResynchronizingAjaxController());//很重要，设置支持AJAX
         //获取页面对象
         HtmlPage page = webClient.getPage(TEST_PAGE);
-        webClient.close();
-        webClient.waitForBackgroundJavaScript(30000);//异步JS执行需要耗时,所以这里线程要阻塞30秒,等待异步JS执行结束
+        webClient.waitForBackgroundJavaScript(3000);//异步JS执行需要耗时,所以这里线程要阻塞30秒,等待异步JS执行结束
+
         //获取页面对象的字符串源码
         String context = page.asXml();//直接将加载完成的页面转换成xml格式的字符串
+        //System.out.println(context);
+        //测试获取公司信息介绍
+        //div class = 'tCompany_center clearfix'
+        HtmlDivision div = page.getFirstByXPath("//div[@class='tCompany_center clearfix']");
+        Assert.notNull(div, "cannot find element by path '//div[@class='tCompany_center clearfix']'");
+        //测试调用js获取下一页
+        //javascript:onPage('2');
+        ScriptResult scriptResult = page.executeJavaScript("onPage('2')");
+        Assert.notNull(scriptResult, "cannot find scriptResult");
+        page.refresh(); //页面对象刷新
+        context = page.asXml();
         System.out.println(context);
 
+        //释放浏览器对象
+        webClient.close();
+
     }
 
-    /**
-     * 获取企业信息介绍页面相关信息
-     *
-     * @throws IOException
-     */
-    @Test
-    public void testGetPageContext() throws IOException {
-        String context = PlatformHttpClient.getPageHtmlText(TEST_PAGE);
-    }
 }
