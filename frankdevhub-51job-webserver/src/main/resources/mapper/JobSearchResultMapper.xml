@@ -42,7 +42,6 @@
         where id = #{id,jdbcType=VARCHAR}
     </delete>
 
-
     <insert id="insert" parameterType="frankdevhub.job.automatic.entities.JobSearchResult">
         insert into platform_search_result (id, job_title, company_name,
         location, salary_range_chars, salary_range_min,
@@ -66,7 +65,6 @@
         #{markId,jdbcType=INTEGER},
         #{createTime,jdbcType=BIGINT},#{updateTime,jdbcType=BIGINT})
     </insert>
-
 
     <insert id="insertSelective" parameterType="frankdevhub.job.automatic.entities.JobSearchResult">
         insert into platform_search_result
@@ -220,7 +218,6 @@
         </trim>
     </insert>
 
-
     <update id="updateByPrimaryKeySelective" parameterType="frankdevhub.job.automatic.entities.JobSearchResult">
         update platform_search_result
         <set>
@@ -297,7 +294,6 @@
         where id = #{id,jdbcType=VARCHAR}
     </update>
 
-
     <update id="updateByPrimaryKey" parameterType="frankdevhub.job.automatic.entities.JobSearchResult">
         update platform_search_result
         set job_title = #{jobTitle,jdbcType=VARCHAR},
@@ -326,14 +322,12 @@
         where id = #{id,jdbcType=VARCHAR}
     </update>
 
-
     <select id="selectById" parameterType="java.lang.String" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
         from platform_search_result
         where id = #{id,jdbcType=VARCHAR}
     </select>
-
 
     <sql id="findPageWithWhere">
         <where>1=1

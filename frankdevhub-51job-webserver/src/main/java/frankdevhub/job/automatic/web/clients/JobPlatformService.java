@@ -54,7 +54,7 @@ public class JobPlatformService {
                     log.info("current url = " + url);
                     client.restorePageJobSearchResult(url, cachedThreadPool);
                     //依据链接规则获取下一页链接
-                    url = PlatformLinkBuilder.getNextResultPage(url);
+                    url = PlatformHttpClient.getNextResultPage(url);
                     log.info("next url = " + url);
 
                 } catch (Exception e) {
@@ -74,7 +74,8 @@ public class JobPlatformService {
         log.info("invoke default data patrol service");
         Runnable task = () -> {
             //子线程命名
-            log.info("[defaultDataPatrolService --> task]thread name = " + Thread.currentThread().getName());
+            log.info("[defaultDataPatrolService --> task]thread name = "
+                    + Thread.currentThread().getName());
             Thread t = new DefaultDataPatrolThread(url);
             t.start();
         };

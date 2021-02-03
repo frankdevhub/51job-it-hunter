@@ -558,4 +558,11 @@
         <include refid="findPageWithWhere"/>
     </select>
 
+    <select id="selectByJobId" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from platform_data_brief_source
+        where jobid = #{jobId,jdbcType=VARCHAR}
+    </select>
+
 </mapper>

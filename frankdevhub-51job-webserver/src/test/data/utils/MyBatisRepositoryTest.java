@@ -18,8 +18,12 @@ import java.text.SimpleDateFormat;
  */
 @Slf4j
 public class MyBatisRepositoryTest {
+
     private final MyBatisRepository myBatisRepository = new MyBatisRepository();
 
+    /**
+     * 测试获取对应时间点的时间戳范围
+     */
     @Test
     public void testGetTimeStampRange_1() {
         int year = 2019;
@@ -36,7 +40,9 @@ public class MyBatisRepositoryTest {
         log.info("endTString = " + endTString + "");
     }
 
-
+    /**
+     * 测试获取对应时间点的时间戳范围
+     */
     @Test
     public void testGetTodayTimeStampRange() {
         Long[] range = myBatisRepository.getTodayTimeStampRange();
@@ -51,6 +57,9 @@ public class MyBatisRepositoryTest {
         log.info("endTString = " + endTString + "");
     }
 
+    /**
+     * 测试获取对应时间点的时间戳范围
+     */
     @Test
     public void testGetTimeStampRange() {
         Long current = System.currentTimeMillis();

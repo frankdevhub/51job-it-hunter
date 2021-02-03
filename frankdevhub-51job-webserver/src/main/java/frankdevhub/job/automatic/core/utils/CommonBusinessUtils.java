@@ -29,8 +29,6 @@ public class CommonBusinessUtils {
     public static String getRuntimeMethodName(Integer trace) {
         StackTraceElement[] stackTrace = new Exception().getStackTrace();
         String methodName = stackTrace[trace].getMethodName();
-        System.out.println("current method name: " + methodName);
-
         return methodName;
     }
 
@@ -50,19 +48,12 @@ public class CommonBusinessUtils {
             Boolean value;
             try {
                 value = (Boolean) m.invoke(utils, character);
-                System.out.println("invoke->getCharacterAttributes::" + name + " , "
-                        + "value = " + value);
-
             } catch (IllegalAccessException | InvocationTargetException e) {
                 e.printStackTrace();
-                System.err.println("!!!!ERROR!!!::invoke->getCharacterAttributes::" + name + "");
-
                 continue;
             }
             attributes.put(name, value);
-
         }
-        System.out.println("\n");
 
         return attributes;
     }

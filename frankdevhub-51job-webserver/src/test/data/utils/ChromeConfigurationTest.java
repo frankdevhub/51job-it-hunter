@@ -23,6 +23,7 @@ import java.io.IOException;
  */
 
 @Slf4j
+@SuppressWarnings("all")
 public class ChromeConfigurationTest {
 
     private static final String SELENIUM_TEST_CACHE_DIRECTORY_NAME = "junit-selenium-test"; //本地的浏览器缓存文件名
@@ -34,7 +35,7 @@ public class ChromeConfigurationTest {
     private ChromeConfiguration configuration = ChromeConfiguration.newInstance(false); //浏览器驱动配置对象
 
     private void setSeleniumChromeCacheDirectory() throws IOException, BusinessException {
-        configuration.deleteHistorySeleniumBrowserCache()
+        configuration.deleteSeleniumBrowserCacheHistory()
                 .setSeleniumBrowserCache(configuration.DEFAULT_WIN_CHROME_CACHE_PATH, SELENIUM_TEST_CACHE_DIRECTORY_NAME);
     }
 
@@ -42,10 +43,10 @@ public class ChromeConfigurationTest {
      * 测试读取系统浏览器缓存文件的权限,判断当前缓存是否是处于占用中
      */
     @Test
-    public void testGetCacheDirectoryLockedStatus() {
-        configuration.setSeleniumBrowserCacheRoot(ChromeConfiguration.DEFAULT_WIN_SELENIUM_CACHE_ROOT) //浏览器缓存路径
-                .setSeleniumCacheFileName(SELENIUM_TEST_CACHE_DIRECTORY_NAME) //浏览器缓存文件目录名称
-                .setWebDriverPath(CHROME_DRIVER_PATH); //浏览器驱动存储路径
+    public void testGetCacheDirectoryLockedStatus() throws IOException, BusinessException {
+        configuration.setSeleniumBrowserCacheRoot(ChromeConfiguration.DEFAULT_WIN_SELENIUM_CACHE_ROOT); //浏览器缓存路径
+        configuration.setSeleniumBrowserCache(ChromeConfiguration.DEFAULT_WIN_SELENIUM_CACHE_ROOT, SELENIUM_TEST_CACHE_DIRECTORY_NAME); //浏览器缓存文件目录名称
+        configuration.setWebDriverPath(CHROME_DRIVER_PATH); //浏览器驱动存储路径
         //测试获取浏览器驱动配置读取权限系统时间
         Long start = System.currentTimeMillis(); //标记开始时间
         //获取是否有读取缓存目录的权限

@@ -19,6 +19,7 @@ import java.util.regex.Pattern;
  */
 
 @Slf4j
+@SuppressWarnings("all")
 public class SalaryRangeStringTest {
 
     //描述薪资范围的正则表达式

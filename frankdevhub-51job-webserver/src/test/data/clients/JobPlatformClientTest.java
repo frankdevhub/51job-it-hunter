@@ -6,16 +6,15 @@ import frankdevhub.job.automatic.core.utils.WebDriverUtils;
 import frankdevhub.job.automatic.selenium.DriverBase;
 import frankdevhub.job.automatic.selenium.config.ChromeConfiguration;
 import frankdevhub.job.automatic.web.clients.JobPlatformClient;
-import frankdevhub.job.automatic.web.clients.PlatformLinkBuilder;
+import frankdevhub.job.automatic.web.clients.PlatformHttpClient;
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.openqa.selenium.Cookie;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import tk.mybatis.mapper.util.Assert;
 
 import java.io.*;
@@ -37,7 +36,6 @@ import java.util.regex.Pattern;
  */
 
 @Slf4j
-@RunWith(SpringJUnit4ClassRunner.class)
 @SuppressWarnings("all")
 public class JobPlatformClientTest {
 
@@ -114,9 +112,9 @@ public class JobPlatformClientTest {
     @Test
     public void testGetPlatformCookie() throws Exception {
         ChromeConfiguration configuration = ChromeConfiguration.newInstance(false); //创建驱动配置实例,依据是否自动配置的策略
-        configuration.setWebDriverPath(ChromeConfiguration.CHROME_DRIVER_PATH) //浏览器驱动路径
-                .setSeleniumCacheFileName(ChromeConfiguration.DEFAULT_SELENIUM_CACHE_NAME) //默认的缓存文件目录名
-                .setSeleniumBrowserCacheRoot(ChromeConfiguration.DEFAULT_WIN_SELENIUM_CACHE_ROOT); //默认的浏览器缓存目录
+        configuration.setWebDriverPath(ChromeConfiguration.CHROME_DRIVER_PATH); //浏览器驱动路径
+        configuration.setSeleniumBrowserCache(ChromeConfiguration.DEFAULT_WIN_SELENIUM_CACHE_ROOT,
+                ChromeConfiguration.DEFAULT_SELENIUM_CACHE_NAME); //默认的缓存文件目录名
         //configuration.synchronizeSeleniumBrowserCache();
         DriverBase.instantiateDriverObject();
 
@@ -222,6 +220,7 @@ public class JobPlatformClientTest {
             String currentIndex = matcher.group(1); //当前页的索引
             String previousIndex = new Integer(Integer.parseInt(currentIndex) - 1).toString(); //上一页的索引
             String nextIndex = new Integer(Integer.parseInt(currentIndex) + 1).toString(); //下一页的索引
+            //上一页链接地址,下一页链接地址
             String previousIndexUrlStr, nextIndexUrlStr;
             previousIndexUrlStr = previousIndexUrl.replace(matcher.start(1), matcher.end(1), previousIndex).toString();
             nextIndexUrlStr = previousIndexUrl.replace(matcher.start(1), matcher.end(1), nextIndex).toString();
@@ -235,6 +234,7 @@ public class JobPlatformClientTest {
         }
     }
 
+    @Data
     private class DefaultDataPatrolThread extends Thread {
         private final ExecutorService cachedThreadPool = Executors.newCachedThreadPool(); //扫描网页的线程池
         private final JobPlatformClient client = new JobPlatformClient(); //客户端业务逻辑对象
@@ -255,7 +255,7 @@ public class JobPlatformClientTest {
                     log.info("@current url = " + url);
                     client.restorePageJobSearchResult(url, cachedThreadPool);
                     //依据链接规则获取下一页的链接
-                    url = PlatformLinkBuilder.getNextResultPage(url);
+                    url = PlatformHttpClient.getNextResultPage(url);
                     log.info("@next url = " + url);
                 } catch (Exception e) {
                     e.printStackTrace();

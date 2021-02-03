@@ -97,7 +97,6 @@
         </trim>
     </insert>
 
-
     <update id="updateByPrimaryKeySelective" parameterType="frankdevhub.job.automatic.entities.JobCompany">
         update platform_company_info
         <set>
@@ -128,8 +127,7 @@
         </set>
         where id = #{id,jdbcType=VARCHAR}
     </update>
-
-
+    
     <update id="updateByPrimaryKey" parameterType="frankdevhub.job.automatic.entities.JobCompany">
         update platform_company_info
         set mark_id = #{markId,jdbcType=INTEGER},

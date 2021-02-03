@@ -52,7 +52,6 @@ public class BaseRecord<T> {
         return this;
     }
 
-    @SuppressWarnings("unchecked")
     public T doCreateEntity() {
         Long timeStamp = new Date().getTime();
         this.setId(UUID.randomUUID().toString());
@@ -60,7 +59,6 @@ public class BaseRecord<T> {
         return (T) this;
     }
 
-    @SuppressWarnings("unchecked")
     public T doUpdateEntity() {
         this.setUpdateTime(new Date().getTime());
         return (T) this;

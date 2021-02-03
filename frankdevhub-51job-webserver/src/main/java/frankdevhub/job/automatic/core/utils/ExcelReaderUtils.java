@@ -112,7 +112,6 @@ public class ExcelReaderUtils {
         Map<String, String> container = new HashMap<String, String>();
 
         InputStream is = new FileInputStream(file);
-        @SuppressWarnings("resource")
         HSSFWorkbook hssfWorkbook = new HSSFWorkbook(is);
         hssfWorkbook.getSheetAt(1);
         for (int numSheet = 0; numSheet < hssfWorkbook.getNumberOfSheets(); numSheet++) {

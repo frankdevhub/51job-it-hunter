@@ -2,8 +2,6 @@ package data.utils;
 
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -18,9 +16,10 @@ import java.util.regex.Pattern;
  */
 
 @Slf4j
-@RunWith(SpringJUnit4ClassRunner.class)
+@SuppressWarnings("all")
 public class MarkIdGeneratorTest {
 
+    //测试职位介绍页面链接
     private final String example = "https://jobs.51job.com/shanghai/126397572.html?s=01&t=0";
 
     /**
@@ -31,6 +30,8 @@ public class MarkIdGeneratorTest {
      */
     @Test
     public void testGenerateJobMarkId() {
+
+        //匹配链接中的唯一标识字符串
         String exp = "((?<key>[1-9]\\d*\\.?\\d*)(.html))";
         Pattern p = Pattern.compile(exp);
         Matcher m = p.matcher(example);

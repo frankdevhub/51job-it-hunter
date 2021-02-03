@@ -1,16 +1,16 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : localhost
+Source Server         : 127.0.0.1
 Source Server Version : 80022
-Source Host           : localhost:3306
+Source Host           : 127.0.0.1:3306
 Source Database       : 51job_data_center
 
 Target Server Type    : MYSQL
 Target Server Version : 80022
 File Encoding         : 65001
 
-Date: 2021-01-27 12:50:17
+Date: 2021-01-30 23:57:56
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -29,6 +29,7 @@ CREATE TABLE `platform_search_result` (
   `salary_range_max` double(10,2) DEFAULT NULL COMMENT '薪资最大值',
   `salary_time_unit` varchar(5) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '薪资时间计量单位',
   `salary_numeric_unit` varchar(5) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '薪资计量单位',
+  `head_count` int DEFAULT NULL COMMENT '计划招聘人数',
   `is_define_by_w` tinyint DEFAULT NULL COMMENT '是否以万计量',
   `is_define_by_k` tinyint DEFAULT NULL COMMENT '是否以千计量',
   `is_define_by_day` tinyint DEFAULT NULL COMMENT '是否按日计量',
@@ -47,6 +48,3 @@ CREATE TABLE `platform_search_result` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- ----------------------------
--- Records of platform_search_result
--- ----------------------------
