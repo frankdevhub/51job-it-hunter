@@ -2,13 +2,20 @@ package frankdevhub.job.automatic.core.parser;
 
 import cn.wanghaomiao.xpath.exception.XpathSyntaxErrorException;
 import cn.wanghaomiao.xpath.model.JXNode;
+import com.gargoylesoftware.htmlunit.html.HtmlDivision;
+import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import frankdevhub.job.automatic.core.constants.SeleniumConstants;
 import frankdevhub.job.automatic.core.exception.BusinessException;
 import frankdevhub.job.automatic.entities.JobCompany;
 import frankdevhub.job.automatic.entities.JobSearchResult;
+import frankdevhub.job.automatic.web.clients.PlatformWebClient;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import tk.mybatis.mapper.util.Assert;
+
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @Title: PlatformPageParser
@@ -94,7 +101,7 @@ public class PlatformPageParser {
                 .setPublishDateMonthNumeric(month); //职位发布日期(月)
         result.generateMarkId(); //生成hashCode和唯一标识
 
-        log.info("result markId  = {}", result.getMarkId());
+        log.info("result markId  = {}", result.getUnionId());
         return result;
     }
 
@@ -104,10 +111,44 @@ public class PlatformPageParser {
      *
      * @param companyInfo 是否抓取企业信息相关的内容
      * @param jobList     是否抓取该企业所有正在招聘的职位信息
+     * @return 企业信息以及相关开放招聘的职位信息的集合
+     * dataMap 字段:
+     * company: 企业实体对象
+     * context: 企业信息介绍
+     * jobList: 企业开放的招聘的职位列表(所有页面)
+     * @throws IOException
      */
-    public JobCompany parseCompanyPlatformPage(String url, boolean companyInfo, boolean jobList) {
-        JobCompany company = new JobCompany();
-        return company;
+    public Map<String, Object> parseCompanyPlatformPage(String url, boolean companyInfo, boolean jobList) throws IOException {
+
+        Map<String, Object> data = new HashMap<>();
+
+        Assert.notNull(url, "cannot find url");
+        //获取企业信息coid唯一标识
+        String unionId = PlatformWebClient.getPageUnionId(url);
+        Assert.notNull(unionId, "cannot find unionId");
+        log.info("unionId = {}", unionId);
+
+        HtmlPage page = PlatformWebClient.getWebPage(url, null); //获取企业信息页面
+        JobCompany company = new JobCompany(); //创建企业信息实例
+        data.put("company", company);
+
+        company.setUnionId(Integer.parseInt(unionId)); //链接中提取的唯一识别号
+        //测试获取公司信息介绍
+        //div class = 'tCompany_center clearfix'
+        HtmlDivision div = page.getFirstByXPath(SeleniumConstants.COMPANY_INFO_TEXT_XPATH);
+        Assert.notNull(div, "cannot find element by path '//div[@class='tCompany_center clearfix']'");
+        //获取html源码
+        String ctx = div.getTextContent();
+        company.setContext(ctx);
+        data.put("context", ctx);
+        //TODO
+        //获取html源码,去除多余换行字符存储为源数据
+
+
+        //释放资源
+        page.getWebClient().close();
+
+        return data;
     }
 
 }
