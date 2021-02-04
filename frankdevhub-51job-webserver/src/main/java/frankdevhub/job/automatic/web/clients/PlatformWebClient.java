@@ -5,6 +5,7 @@ import com.gargoylesoftware.htmlunit.NicelyResynchronizingAjaxController;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlDivision;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import frankdevhub.job.automatic.core.constants.BusinessConstants;
 import frankdevhub.job.automatic.core.constants.SeleniumConstants;
 import frankdevhub.job.automatic.entities.JobCompany;
 import lombok.extern.slf4j.Slf4j;
@@ -21,7 +22,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * @Title: PlatformLinkBuilder
+ * @Title: PlatformWebClient
  * @Description: 链接地址构造工具
  * @date: 2021/1/29 22:56
  * @author: frankdevhub@gmail.com
@@ -42,6 +43,7 @@ public class PlatformWebClient {
      * @reutrn 浏览器客户端实例
      */
     public static HtmlPage getWebPage(String url, Long await) throws IOException {
+
         Assert.notNull(url, "cannot find url");
 
         WebClient webClient = new WebClient(BrowserVersion.CHROME); //新建一个模拟谷歌Chrome浏览器的浏览器客户端对象
@@ -188,13 +190,32 @@ public class PlatformWebClient {
      * @return 页面对象的字符串
      */
     public static String getSearchKeyword(String url) {
-        String regex = "(.*),([0-9]+),([0-9]+)(.html?)";
+        Assert.notNull(url, "cannot find url");
+        //提取链接中的关键字的正则表达式
+        String regex = BusinessConstants.DEFAULT_HHTP_LINK_KEYWORD_REGEX;
         Matcher matcher = Pattern.compile(regex).matcher(url);
-
         if (matcher.find()) {
             return matcher.group(1);
         } else {
-            throw new RuntimeException();
+            throw new RuntimeException("cannot match search keyword");
         }
     }
+
+    /**
+     * 获取页面链接对应的唯一标识字段
+     *
+     * @param url 页面链接地址
+     */
+    public static String getPageUnionId(String url) {
+        Assert.notNull(url, "cannot find url");
+        //提取链接中唯一标识的正则表达式
+        String regex = BusinessConstants.DEFAULT_HTTP_LINK_MARK_REGEX;
+        Matcher matcher = Pattern.compile(regex).matcher(url);
+        if (matcher.find()) {
+            return matcher.group("key");
+        } else {
+            throw new RuntimeException("cannot match union id");
+        }
+    }
+
 }
