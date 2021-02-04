@@ -44,7 +44,7 @@
         job_title, company_href, company_name, providesalary_text, workarea, workarea_text,
         updatedate, is_intern, is_communicate, companytype_text, degree_from, work_year,
         issue_date, is_from_xyz, jobwelf, jobwelf_list, attribute_text, companysize_text,
-        companyind_text, adid, ,context, create_time, update_time
+        companyind_text, adid, context, create_time, update_time
     </sql>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
