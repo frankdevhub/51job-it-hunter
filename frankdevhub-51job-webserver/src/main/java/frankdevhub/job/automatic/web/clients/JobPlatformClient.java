@@ -10,8 +10,8 @@ import frankdevhub.job.automatic.core.parser.PlatformDataConverter;
 import frankdevhub.job.automatic.core.parser.PlatformPageParser;
 import frankdevhub.job.automatic.core.utils.SpringUtils;
 import frankdevhub.job.automatic.core.utils.WebDriverUtils;
-import frankdevhub.job.automatic.entities.JobSearchResult;
-import frankdevhub.job.automatic.entities.PlatformDataJson;
+import frankdevhub.job.automatic.entities.business.JobSearchResult;
+import frankdevhub.job.automatic.entities.business.PlatformDataJson;
 import frankdevhub.job.automatic.selenium.DriverBase;
 import frankdevhub.job.automatic.selenium.config.ChromeConfiguration;
 import frankdevhub.job.automatic.service.JobSearchResultService;
@@ -24,6 +24,7 @@ import org.jsoup.nodes.Document;
 import org.openqa.selenium.Cookie;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.springframework.transaction.annotation.Transactional;
 import tk.mybatis.mapper.util.Assert;
 
 import java.io.IOException;
@@ -115,25 +116,31 @@ public class JobPlatformClient {
                 throw new RuntimeException("repository should not be null");
             }
             for (JobSearchResult result : results) {
-                try {
-                    if (null == result.getMarkId()) //如果唯一标识为空则跳过
-                        continue;
-                    int markId = result.getMarkId(); //生成搜索结果集的唯一标识
-                    int count = service.selectCountByMarkId(markId);
-                    //更新生成唯一标识符
-                    if (count == 0) {
-                        result.doCreateEntity();
-                        service.insertSelective(result);
-                    } else {
-                        JobSearchResult res = service.selectByMarkId(markId); //查询校验是否已有入库的结果集
-                        result.doUpdateEntity();
-                        service.updateByPrimaryKeySelective(res);
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                restoreJobSearchResult(result);
             }
         }
+
+        @Transactional
+        private void restoreJobSearchResult(JobSearchResult result) {
+            //TODO: 企业信息解析，企业运营资质,职位列表
+            try {
+                if (null == result.getUnionId()) //如果唯一标识为空则跳过
+                    return;
+                int UnionId = result.getUnionId(); //生成搜索结果集的唯一标识
+                int count = service.selectCountByUnionId(UnionId);
+                if (count == 0) {
+                    result.doCreateEntity();
+                    service.insertSelective(result);
+                } else {
+                    JobSearchResult res = service.selectByUnionId(UnionId); //查询校验是否已有入库的结果集
+                    result.doUpdateEntity();
+                    service.updateByPrimaryKeySelective(res);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
 
         @Override
         public void run() {
@@ -149,19 +156,6 @@ public class JobPlatformClient {
     }
 
     /**
-     * 解析并存储返回的结果集对象
-     *
-     * @param results 页面返回的结果集对象
-     * @param service 页面返回的结果集存储服务
-     */
-    private void restoreJobSearchResult(List<JobSearchResult> results, ExecutorService service) {
-        Runnable task = new JobSearchResultRestoreThread(results, getJobSearchResultService());
-        log.info("submit task to executor service pool");
-        service.submit(task);
-    }
-
-
-    /**
      * 解析搜索职位返回的结果集对象
      *
      * @param url 页面链接地址(含有关键字)
@@ -170,10 +164,10 @@ public class JobPlatformClient {
      */
     public List<JobSearchResult> getJobSearchResult(String url) throws IOException, XpathSyntaxErrorException {
         //获取页面DOM对象的字符串格式
-        String pageContext = PlatformHttpClient.getPageHtmlText(url);
+        String pageContext = PlatformWebClient.getPageHtmlText(url);
 
         Assert.notNull(pageContext, "page context cannot be found");
-        String keyword = PlatformHttpClient.getSearchKeyword(url);
+        String keyword = PlatformWebClient.getSearchKeyword(url);
         Assert.notNull(keyword, "keyword cannot be found");
         log.info("keyword  = {}", keyword);
         List<JobSearchResult> results = new ArrayList<>();
@@ -215,11 +209,13 @@ public class JobPlatformClient {
                     Assert.notNull(data.getJobId(), "cannot find jobId");
                     //TODO: 校验源数据 jobid查重判断是否已经存在
                     PlatformDataJson d = getPlatformDataJsonService().selectByJobId(data.getJobId());
+                    log.info("property id = {}", data.getJobId());
                     if (null == d) {
                         data.doCreateEntity();
                         getPlatformDataJsonService().insertSelective(data);
                     } else {
                         data.doUpdateEntity();
+                        data.setId(d.getId());
                         getPlatformDataJsonService().updateByPrimaryKeySelective(data);
                     }
                 }
@@ -233,7 +229,19 @@ public class JobPlatformClient {
 
 
     /**
-     * 解析结果集对象
+     * 解析并存储返回的结果集对象
+     *
+     * @param results 页面返回的结果集对象
+     * @param service 页面返回的结果集存储服务
+     */
+    private void restoreJobSearchResult(List<JobSearchResult> results, ExecutorService service) {
+        Runnable task = new JobSearchResultRestoreThread(results, getJobSearchResultService());
+        log.info("submit task to executor service pool");
+        service.submit(task);
+    }
+
+    /**
+     * 解析结果集对象(页面单位)
      *
      * @param url     页面链接地址
      * @param service 线程池对象
