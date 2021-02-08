@@ -38,12 +38,24 @@ public class ExcelReaderUtils {
     public static final String NOT_EXCEL_FILE = " : Not the Excel file!";
     public static final String PROCESSING = "Processing...";
 
+    /**
+     * 获取文件后缀
+     *
+     * @param file Excel文件对象
+     * @return 文件后缀名
+     */
     private static String getSuffix(File file) {
         String fileName = file.getName();
         String suffix = fileName.substring(fileName.lastIndexOf(".") + 1);
         return suffix;
     }
 
+    /**
+     * 读取Excel文件数据存入Map对象中
+     *
+     * @param file Excel文件对象
+     * @throws Exception
+     */
     public static Map<String, String> readExcel(File file) throws Exception {
         if (file.isDirectory() || file == null) {
             throw new Exception("should be a file or not be empty");
@@ -62,6 +74,12 @@ public class ExcelReaderUtils {
         return null;
     }
 
+    /**
+     * 读取Excel文件单元格对象
+     *
+     * @param xssfRow Excel文件数据行对象
+     * @return 数据行内容
+     */
     private static String getValue(XSSFCell xssfRow) {
         if (null == xssfRow)
             return null;
@@ -74,6 +92,12 @@ public class ExcelReaderUtils {
         }
     }
 
+    /**
+     * 读取Excel文件单元格对象
+     *
+     * @param hssfCell Excel文件单元格对象
+     * @return 单元格内容
+     */
     private static String getValue(HSSFCell hssfCell) {
         if (null == hssfCell)
             return null;
@@ -86,6 +110,12 @@ public class ExcelReaderUtils {
         }
     }
 
+    /**
+     * 读取Excel文件数据存入Map对象中
+     *
+     * @param file Excel文件对象
+     * @throws IOException
+     */
     private static Map<String, String> readXlsx(File file) throws IOException {
         Map<String, String> container = new HashMap<String, String>();
 
@@ -108,6 +138,12 @@ public class ExcelReaderUtils {
         return container;
     }
 
+    /**
+     * 读取Excel文件数据存入Map对象中
+     *
+     * @param file Excel文件对象
+     * @throws IOException
+     */
     private static Map<String, String> readXls(File file) throws IOException {
         Map<String, String> container = new HashMap<String, String>();
 
