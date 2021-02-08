@@ -13,6 +13,11 @@ package frankdevhub.job.automatic.core.exception;
 @SuppressWarnings("all")
 public class IllegalArgumentException extends BusinessException {
 
+    /**
+     * 参数非法异常
+     *
+     * @param message 异常消息
+     */
     public IllegalArgumentException(String message) {
         super(message);
     }
