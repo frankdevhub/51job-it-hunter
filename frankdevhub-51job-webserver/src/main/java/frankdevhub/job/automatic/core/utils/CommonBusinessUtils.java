@@ -26,12 +26,22 @@ import java.util.regex.Pattern;
 @SuppressWarnings("all")
 public class CommonBusinessUtils {
 
+    /**
+     * 获取运行时方法名
+     *
+     * @param trace 运行时堆栈深度
+     */
     public static String getRuntimeMethodName(Integer trace) {
         StackTraceElement[] stackTrace = new Exception().getStackTrace();
         String methodName = stackTrace[trace].getMethodName();
         return methodName;
     }
 
+    /**
+     * 获取字符属性集合
+     *
+     * @param character 字符对象
+     */
     public static final Map<String, Boolean> getCharacterAttributes(Character character) {
         CommonBusinessUtils utils = new CommonBusinessUtils();
         Class<?> clazz = CommonBusinessUtils.class;
@@ -58,6 +68,12 @@ public class CommonBusinessUtils {
         return attributes;
     }
 
+    /**
+     * 是否是中文字符
+     *
+     * @param character 字符对象
+     * @return 布尔值
+     */
     public static Boolean isChineseCharacter(Character character) {
         Assert.notNull(character, BusinessConstants.CHARACTER_NULL_ARGUMENT);
         String regex = "[\\u4E00-\\u9FA5]";
@@ -67,6 +83,13 @@ public class CommonBusinessUtils {
         return Boolean.FALSE;
     }
 
+    /**
+     * 是否是简体中文字符
+     *
+     * @param character 字符对象
+     * @return 布尔值
+     * @throws UnsupportedEncodingException
+     */
     public static Boolean isSimpleChineseCharacter(Character character) throws UnsupportedEncodingException {
         Boolean isCNChar = isChineseCharacter(character);
         String characterEncode = CharacterEncode.GB2312.getCodeName();
@@ -78,6 +101,13 @@ public class CommonBusinessUtils {
             return Boolean.FALSE;
     }
 
+    /**
+     * 是否是繁体中文字符
+     *
+     * @param character 字符对象
+     * @return 布尔值
+     * @throws UnsupportedEncodingException
+     */
     public static Boolean isTaiwaneseCharacter(Character character) throws UnsupportedEncodingException {
         Boolean isCNChar = isChineseCharacter(character);
         String characterEncode = CharacterEncode.Big5.getCodeName();
@@ -89,6 +119,13 @@ public class CommonBusinessUtils {
             return Boolean.FALSE;
     }
 
+    /**
+     * 是否是英文字符
+     *
+     * @param character 字符对象
+     * @return 布尔值
+     * @throws UnsupportedEncodingException
+     */
     public static Boolean isEnglishCharacter(Character character) {
         Assert.notNull(character, BusinessConstants.CHARACTER_NULL_ARGUMENT);
         String regex = "[a-zA-Z]";
@@ -97,6 +134,13 @@ public class CommonBusinessUtils {
         return match;
     }
 
+    /**
+     * 是否是英文大写字符
+     *
+     * @param character 字符对象
+     * @return 布尔值
+     * @throws UnsupportedEncodingException
+     */
     public static Boolean isENCapitalCharacter(Character character) {
         Boolean isENChar = isEnglishCharacter(character);
         if (isENChar) {
@@ -109,6 +153,12 @@ public class CommonBusinessUtils {
             return Boolean.FALSE;
     }
 
+    /**
+     * 是否是数值类字符
+     *
+     * @param character 字符对象
+     * @return 布尔值
+     */
     public static Boolean isNumericCharacter(Character character) {
         Assert.notNull(character, BusinessConstants.CHARACTER_NULL_ARGUMENT);
         String regex = "[0-9]";
@@ -117,6 +167,12 @@ public class CommonBusinessUtils {
         return match;
     }
 
+    /**
+     * 是否是符号类字符
+     *
+     * @param character 字符对象
+     * @return 布尔值
+     */
     public static Boolean isSymbolCharacter(Character character) {
         Assert.notNull(character, BusinessConstants.CHARACTER_NULL_ARGUMENT);
         String regex = "[a-zA-Z0-9\\u4E00-\\u9FA5]";
