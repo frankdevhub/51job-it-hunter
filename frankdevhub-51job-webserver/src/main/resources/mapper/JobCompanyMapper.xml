@@ -202,4 +202,17 @@
         <include refid="findPageWithWhere"/>
     </select>
 
+    <select id="selectByUnionId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from platform_company_info
+        where union_id = #{unionId,jdbcType=INTEGER}
+    </select>
+
+    <select id="selectCountByUnionId" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+        select count(*)
+        from platform_company_info
+        where union_id = #{unionId,jdbcType=INTEGER}
+    </select>
+
 </mapper>
