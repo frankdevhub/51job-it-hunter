@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="frankdevhub.job.automatic.mapper.JobSearchResultMapper">
 
-    <resultMap id="BaseResultMap" type="frankdevhub.job.automatic.entities.JobSearchResult">
+    <resultMap id="BaseResultMap" type="frankdevhub.job.automatic.entities.business.JobSearchResult">
         <id column="id" jdbcType="VARCHAR" property="id"/>
         <result column="job_title" jdbcType="VARCHAR" property="jobTitle"/>
         <result column="company_name" jdbcType="VARCHAR" property="companyName"/>
@@ -42,7 +42,7 @@
         where id = #{id,jdbcType=VARCHAR}
     </delete>
 
-    <insert id="insert" parameterType="frankdevhub.job.automatic.entities.JobSearchResult">
+    <insert id="insert" parameterType="frankdevhub.job.automatic.entities.business.JobSearchResult">
         insert into platform_search_result (id, job_title, company_name,
         location, salary_range_chars, salary_range_min,
         salary_range_max, salary_time_unit, salary_numeric_unit,
@@ -66,7 +66,7 @@
         #{createTime,jdbcType=BIGINT},#{updateTime,jdbcType=BIGINT})
     </insert>
 
-    <insert id="insertSelective" parameterType="frankdevhub.job.automatic.entities.JobSearchResult">
+    <insert id="insertSelective" parameterType="frankdevhub.job.automatic.entities.business.JobSearchResult">
         insert into platform_search_result
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null">
@@ -218,7 +218,7 @@
         </trim>
     </insert>
 
-    <update id="updateByPrimaryKeySelective" parameterType="frankdevhub.job.automatic.entities.JobSearchResult">
+    <update id="updateByPrimaryKeySelective" parameterType="frankdevhub.job.automatic.entities.business.JobSearchResult">
         update platform_search_result
         <set>
             <if test="jobTitle != null">
@@ -294,7 +294,7 @@
         where id = #{id,jdbcType=VARCHAR}
     </update>
 
-    <update id="updateByPrimaryKey" parameterType="frankdevhub.job.automatic.entities.JobSearchResult">
+    <update id="updateByPrimaryKey" parameterType="frankdevhub.job.automatic.entities.business.JobSearchResult">
         update platform_search_result
         set job_title = #{jobTitle,jdbcType=VARCHAR},
         company_name = #{companyName,jdbcType=VARCHAR},
@@ -406,7 +406,6 @@
         <include refid="Base_Column_List"/>
         from platform_search_result
         <include refid="findPageWithWhere"/>
-        limit #{start},#{pageSize}
     </select>
 
     <select id="findPageWithCount" parameterType="frankdevhub.job.automatic.dto.JobSearchResultQuery"

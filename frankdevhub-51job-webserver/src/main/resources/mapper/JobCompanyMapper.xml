@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="frankdevhub.job.automatic.mapper.JobCompanyMapper">
 
-    <resultMap id="BaseResultMap" type="frankdevhub.job.automatic.entities.JobCompany">
+    <resultMap id="BaseResultMap" type="frankdevhub.job.automatic.entities.business.JobCompany">
         <id column="id" jdbcType="VARCHAR" property="id"/>
         <result column="union_id" jdbcType="INTEGER" property="unionId"/>
         <result column="plat_company_logo" jdbcType="VARCHAR" property="platCompanyLogo"/>
@@ -10,13 +10,14 @@
         <result column="plat_company_industry" jdbcType="VARCHAR" property="platCompanyIndustry"/>
         <result column="plat_company_info" jdbcType="VARCHAR" property="platCompanyInfo"/>
         <result column="tag_list" jdbcType="VARCHAR" property="tagList"/>
+        <result column="context" jdbcType="VARCHAR" property="context"/>
         <result column="create_time" jdbcType="BIGINT" property="createTime"/>
         <result column="update_time" jdbcType="BIGINT" property="updateTime"/>
     </resultMap>
 
     <sql id="Base_Column_List">
         id, union_id, plat_company_logo, plat_company_type, plat_company_industry, plat_company_info,
-        tag_list, create_time, update_time
+        tag_list, context, create_time, update_time
     </sql>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
@@ -24,18 +25,17 @@
         where id = #{id,jdbcType=VARCHAR}
     </delete>
 
-    <insert id="insert" parameterType="frankdevhub.job.automatic.entities.JobCompany">
+    <insert id="insert" parameterType="frankdevhub.job.automatic.entities.business.JobCompany">
         insert into platform_company_info (id, union_id, plat_company_logo,
         plat_company_type, plat_company_industry, plat_company_info,
-        tag_list, update_time)
+        tag_list, context, create_time, update_time)
         values (#{id,jdbcType=VARCHAR}, #{unionId,jdbcType=INTEGER}, #{platCompanyLogo,jdbcType=VARCHAR},
         #{platCompanyType,jdbcType=VARCHAR}, #{platCompanyIndustry,jdbcType=VARCHAR},
-        #{platCompanyInfo,jdbcType=VARCHAR},
-        #{tagList,jdbcType=VARCHAR},
+        #{platCompanyInfo,jdbcType=VARCHAR}, #{tagList,jdbcType=VARCHAR},#{context,jdbcType=VARCHAR},
         #{createTime,jdbcType=BIGINT}, #{updateTime,jdbcType=BIGINT})
     </insert>
 
-    <insert id="insertSelective" parameterType="frankdevhub.job.automatic.entities.JobCompany">
+    <insert id="insertSelective" parameterType="frankdevhub.job.automatic.entities.business.JobCompany">
         insert into platform_company_info
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null">
@@ -58,6 +58,9 @@
             </if>
             <if test="tagList != null">
                 tag_list,
+            </if>
+            <if test="context != null">
+                context,
             </if>
             <if test="createTime != null">
                 create_time,
@@ -88,6 +91,9 @@
             <if test="tagList != null">
                 #{tagList,jdbcType=VARCHAR},
             </if>
+            <if test="context != null">
+                #{context,jdbcType=VARCHAR},
+            </if>
             <if test="createTime != null">
                 #{createTime,jdbcType=BIGINT},
             </if>
@@ -97,7 +103,7 @@
         </trim>
     </insert>
 
-    <update id="updateByPrimaryKeySelective" parameterType="frankdevhub.job.automatic.entities.JobCompany">
+    <update id="updateByPrimaryKeySelective" parameterType="frankdevhub.job.automatic.entities.business.JobCompany">
         update platform_company_info
         <set>
             <if test="unionId != null">
@@ -118,6 +124,9 @@
             <if test="tagList != null">
                 tag_list = #{tagList,jdbcType=VARCHAR},
             </if>
+            <if test="context != null">
+                context = #{context,jdbcType=VARCHAR},
+            </if>
             <if test="createTime != null">
                 create_time = #{createTime,jdbcType=BIGINT},
             </if>
@@ -128,7 +137,7 @@
         where id = #{id,jdbcType=VARCHAR}
     </update>
     
-    <update id="updateByPrimaryKey" parameterType="frankdevhub.job.automatic.entities.JobCompany">
+    <update id="updateByPrimaryKey" parameterType="frankdevhub.job.automatic.entities.business.JobCompany">
         update platform_company_info
         set union_id = #{unionId,jdbcType=INTEGER},
         plat_company_logo = #{platCompanyLogo,jdbcType=VARCHAR},
@@ -136,6 +145,7 @@
         plat_company_industry = #{platCompanyIndustry,jdbcType=VARCHAR},
         plat_company_info = #{platCompanyInfo,jdbcType=VARCHAR},
         tag_list = #{tagList,jdbcType=VARCHAR},
+        context = #{context,jdbcType=VARCHAR},
         create_time = #{createTime,jdbcType=BIGINT},
         update_time = #{updateTime,jdbcType=BIGINT}
         where id = #{id,jdbcType=VARCHAR}
@@ -183,7 +193,6 @@
         <include refid="Base_Column_List"/>
         from platform_company_info
         <include refid="findPageWithWhere"/>
-        limit #{start},#{pageSize}
     </select>
 
     <select id="findPageWithCount" parameterType="frankdevhub.job.automatic.dto.JobCompanyQuery"
