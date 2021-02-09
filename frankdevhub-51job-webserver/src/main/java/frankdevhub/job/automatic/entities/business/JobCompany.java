@@ -1,4 +1,6 @@
-package frankdevhub.job.automatic.entities;
+package frankdevhub.job.automatic.entities.business;
+
+import frankdevhub.job.automatic.entities.BaseRecord;
 
 /**
  * @Title: JobCompany
@@ -34,7 +36,7 @@ public class JobCompany extends BaseRecord<JobCompany> {
     /**
      * 企业介绍信息
      */
-    private String platComppanyInfo;
+    private String platCompanyInfo;
 
     /**
      * 企业标签(环境,人文氛围,福利,个人社保公积金)
@@ -42,9 +44,10 @@ public class JobCompany extends BaseRecord<JobCompany> {
     private String tagList;
 
     /**
-     * 更新时间时间戳
+     * 企业信息介绍原文
      */
-    private Long updateTime;
+    private String context;
+
 
     public Integer getUnionId() {
         return unionId;
@@ -82,12 +85,12 @@ public class JobCompany extends BaseRecord<JobCompany> {
         return this;
     }
 
-    public String getPlatComppanyInfo() {
-        return platComppanyInfo;
+    public String getplatCompanyInfo() {
+        return platCompanyInfo;
     }
 
-    public JobCompany setPlatComppanyInfo(String platComppanyInfo) {
-        this.platComppanyInfo = platComppanyInfo;
+    public JobCompany setplatCompanyInfo(String platCompanyInfo) {
+        this.platCompanyInfo = platCompanyInfo;
         return this;
     }
 
@@ -100,12 +103,12 @@ public class JobCompany extends BaseRecord<JobCompany> {
         return this;
     }
 
-    public Long getUpdateTime() {
-        return updateTime;
+    public String getContext() {
+        return context;
     }
 
-    public JobCompany setUpdateTime(Long updateTime) {
-        this.updateTime = updateTime;
+    public JobCompany setContext(String context) {
+        this.context = context;
         return this;
     }
 }
