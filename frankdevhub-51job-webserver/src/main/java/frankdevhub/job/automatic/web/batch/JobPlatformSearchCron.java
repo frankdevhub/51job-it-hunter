@@ -3,13 +3,14 @@ package frankdevhub.job.automatic.web.batch;
 import frankdevhub.job.automatic.core.parser.PlatformPageParser;
 import frankdevhub.job.automatic.core.utils.SpringUtils;
 import frankdevhub.job.automatic.dto.PlatformDataJsonQuery;
-import frankdevhub.job.automatic.entities.JobCompany;
-import frankdevhub.job.automatic.entities.PlatformDataJson;
+import frankdevhub.job.automatic.entities.business.JobCompany;
+import frankdevhub.job.automatic.entities.business.PlatformDataJson;
 import frankdevhub.job.automatic.service.JobCompanyService;
 import frankdevhub.job.automatic.service.PlatformDataJsonService;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.concurrent.CustomizableThreadFactory;
+import tk.mybatis.mapper.util.Assert;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -54,6 +55,69 @@ public class JobPlatformSearchCron {
     }
 
     /**
+     * 批量刷新企业信息介绍页面
+     *
+     * @param query       条件查询
+     * @param pageNum     分页页数
+     * @param pageSize    分页大小
+     * @param companyInfo 是否抓取企业信息相关的内容
+     * @param jobList     是否抓取该企业所有正在招聘的职位信息
+     */
+    public void refreshCompanyData(PlatformDataJsonQuery query, Integer pageNum, Integer pageSize,
+                                   boolean companyInfo, boolean jobList) throws InterruptedException {
+        //配置默认分页参数大小
+        if (null == pageNum) {
+            pageNum = DEFAULT_PAGE_NUM;
+        }
+        if (null == pageSize) {
+            pageSize = DEFAULT_PAGE_SIZE;
+        }
+
+        //循环分页获取全量
+        List<PlatformDataJson> datas = new ArrayList<>();
+        do {
+            datas = getPlatformDataJsonService().findPageWithResult(query, pageNum, pageSize);
+            log.info("datas.size() = {}", datas.size());
+
+            if (null == datas || datas.isEmpty()) {
+                break;
+            }
+            List<JobCompany> companys = new ArrayList<>();
+            for (PlatformDataJson data : datas) {
+                try {
+                    String link = data.getCompanyHref(); //企业平台介绍链接
+                    if (null == link) {
+                        continue;
+                    }
+                    //解析获取基础实例对象
+                    Map<String, Object> map = PlatformPageParser.parseCompanyPlatformPage(link, companyInfo, jobList);
+                    JobCompany comp = (JobCompany) map.get("company");
+                    Assert.notNull(comp, "company data cannot be null");
+                    companys.add(comp);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            Runnable task = () -> {
+                try {
+                    //线程池批量持久化
+                    Thread t = new JobCompanyRestoreThread(companys);
+                    t.start();
+                    Thread.sleep(500L);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            };
+            Thread thread = new Thread(task);
+            thread.setDaemon(true); //设置为守护进程
+            threadPool.execute(thread);  //提交任务至线程池
+            //TODO:依据策略进行解析操作
+            Thread.sleep(1000L);
+            pageNum++;
+        } while (null != datas && datas.size() > 0);
+    }
+
+    /**
      * 批量进行企业信息解析,解析contextHtml获取企业资质类型,运营类型
      */
     @Data
@@ -66,47 +130,22 @@ public class JobPlatformSearchCron {
 
         @Override
         public void run() {
-
-        }
-    }
-
-    /**
-     * 批量刷新企业信息介绍页面
-     *
-     * @param query    条件查询
-     * @param pageNum  分页页数
-     * @param pageSize 分页大小
-     */
-    public void refreshCompanyData(PlatformDataJsonQuery query, Integer pageNum, Integer pageSize) {
-        //配置默认分页参数大小
-        if (null == pageNum)
-            pageNum = DEFAULT_PAGE_NUM;
-        if (null == pageSize)
-            pageSize = DEFAULT_PAGE_SIZE;
-
-        //循环分页获取全量
-        while (true) {
-            List<PlatformDataJson> datas = getPlatformDataJsonService().findPageWithResult(query, pageNum, pageSize);
-            List<JobCompany> companys = new ArrayList<>();
-            for (PlatformDataJson data : datas) {
+            for (JobCompany company : companyList) {
                 try {
-                    String link = data.getCompanyHref(); //企业平台介绍链接
-                    if (null == link) {
-                        continue;
+                    //unionId查询判断是否库中已经存在
+                    JobCompany c = getJobCompanyService().selectByUnionId(company.getUnionId());
+                    if (null != c) {
+                        company.doUpdateEntity();
+                        company.setId(c.getId());
+                        getJobCompanyService().updateByPrimaryKeySelective(company);
+                    } else {
+                        company.doCreateEntity();
+                        getJobCompanyService().insertSelective(company);
                     }
-                    //解析获取基础实例对象
-                    //TODO: 同时解析其他企业信息,资质信息,运营信息,职位列表
-                    Map<String, Object> map = PlatformPageParser.parseCompanyPlatformPage(link, false, false);
-                    JobCompany comp = (JobCompany) map.get("company");
-                    companys.add(comp);
-
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
-            //线程池批量持久化
-            Thread t = new JobCompanyRestoreThread(companys);
-            threadPool.execute(t);
         }
     }
 
