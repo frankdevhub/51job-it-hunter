@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="frankdevhub.job.automatic.mapper.PlatformDataJsonMapper">
 
-    <resultMap id="BaseResultMap" type="frankdevhub.job.automatic.entities.PlatformDataJson">
+    <resultMap id="BaseResultMap" type="frankdevhub.job.automatic.entities.business.PlatformDataJson">
         <id column="id" jdbcType="VARCHAR" property="id"/>
         <result column="type" jdbcType="VARCHAR" property="type"/>
         <result column="jt" jdbcType="INTEGER" property="jt"/>
@@ -52,7 +52,7 @@
         where id = #{id,jdbcType=VARCHAR}
     </delete>
 
-    <insert id="insert" parameterType="frankdevhub.job.automatic.entities.PlatformDataJson">
+    <insert id="insert" parameterType="frankdevhub.job.automatic.entities.business.PlatformDataJson">
         insert into platform_data_brief_source (id, type, jt,
         tags, ad_track, jobid,
         coid, effect, is_special_job,
@@ -79,7 +79,7 @@
     </insert>
 
 
-    <insert id="insertSelective" parameterType="frankdevhub.job.automatic.entities.PlatformDataJson">
+    <insert id="insertSelective" parameterType="frankdevhub.job.automatic.entities.business.PlatformDataJson">
         insert into platform_data_brief_source
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null">
@@ -292,7 +292,7 @@
     </insert>
 
 
-    <update id="updateByPrimaryKeySelective" parameterType="frankdevhub.job.automatic.entities.PlatformDataJson">
+    <update id="updateByPrimaryKeySelective" parameterType="frankdevhub.job.automatic.entities.business.PlatformDataJson">
         update platform_data_brief_source
         <set>
             <if test="type != null">
@@ -399,7 +399,7 @@
     </update>
 
 
-    <update id="updateByPrimaryKey" parameterType="frankdevhub.job.automatic.entities.PlatformDataJson">
+    <update id="updateByPrimaryKey" parameterType="frankdevhub.job.automatic.entities.business.PlatformDataJson">
         update platform_data_brief_source
         set type = #{type,jdbcType=VARCHAR},
         jt = #{jt,jdbcType=INTEGER},
@@ -548,7 +548,6 @@
         <include refid="Base_Column_List"/>
         from platform_data_brief_source
         <include refid="findPageWithWhere"/>
-        limit #{start},#{pageSize}
     </select>
 
     <select id="findPageWithCount" parameterType="frankdevhub.job.automatic.dto.PlatformDataJsonQuery"
