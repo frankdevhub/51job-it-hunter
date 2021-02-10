@@ -71,32 +71,33 @@ public class JobPlatformSearchCron {
                                    boolean companyInfo, boolean jobList) throws InterruptedException {
         if (null == pageNum) {
             pageNum = DEFAULT_PAGE_NUM;
-            if (null == pageSize) {
-                pageSize = DEFAULT_PAGE_SIZE;
+        }
+        if (null == pageSize) {
+            pageSize = DEFAULT_PAGE_SIZE;
+        }
+
+        List<PlatformDataJson> datas = new ArrayList<>();
+        do {
+            datas = getPlatformDataJsonService().findPageWithResult(query, pageNum, pageSize);
+            log.info("datas.size() = {}", datas.size());
+            if (null == datas || datas.isEmpty()) {
+                break;
             }
 
-            List<PlatformDataJson> datas = new ArrayList<>();
-            do {
-                datas = getPlatformDataJsonService().findPageWithResult(query, pageNum, pageSize);
-                log.info("datas.size() = {}", datas.size());
-                if (null == datas || datas.isEmpty()) {
-                    break;
-                }
+            List<PlatformDataJson> sourceDatas = datas;
+            Runnable task = () -> {
+                //线程池批量持久化
+                Thread t = new JobCompanyRestoreThread(sourceDatas, companyInfo, jobList);
+                t.start();
+            };
+            Thread thread = new Thread(task);
+            thread.setDaemon(true); //设置为守护进程
+            threadPool.submit(thread);  //提交任务至线程池
+            //TODO:依据策略进行解析操作
+            Thread.sleep(1000L);
+            pageNum++;
 
-                List<PlatformDataJson> sourceDatas = datas;
-                Runnable task = () -> {
-                    //线程池批量持久化
-                    Thread t = new JobCompanyRestoreThread(sourceDatas, companyInfo, jobList);
-                    t.start();
-                };
-                Thread thread = new Thread(task);
-                thread.setDaemon(true); //设置为守护进程
-                threadPool.submit(thread);  //提交任务至线程池
-                //TODO:依据策略进行解析操作
-                Thread.sleep(1000L);
-                pageNum++;
-
-            } while (null != datas && datas.size() > 0);
+        } while (null != datas && datas.size() > 0);
 
             threadPool.shutdown();
             while (true) {
@@ -107,7 +108,6 @@ public class JobPlatformSearchCron {
                 Thread.sleep(1000L);
             }
         }
-    }
 
     /**
      * 批量进行企业信息解析,解析contextHtml获取企业资质类型,运营类型
