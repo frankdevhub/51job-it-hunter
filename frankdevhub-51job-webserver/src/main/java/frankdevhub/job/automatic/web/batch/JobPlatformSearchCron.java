@@ -92,9 +92,9 @@ public class JobPlatformSearchCron {
             };
             Thread thread = new Thread(task);
             thread.setDaemon(true); //设置为守护进程
-            threadPool.submit(thread);  //提交任务至线程池
+            threadPool.execute(thread);  //提交任务至线程池
             //TODO:依据策略进行解析操作
-            Thread.sleep(1000L);
+            Thread.sleep(3000L);
             pageNum++;
 
         } while (null != datas && datas.size() > 0);
