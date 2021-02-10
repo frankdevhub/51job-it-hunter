@@ -39,13 +39,13 @@ public class JobPlatformSearchCron {
 
     private final Integer CPU_CAPBILITY; //CPU性能
     private final ThreadPoolExecutor threadPool; //扫描解析的线程池对象
-    private final Semaphore semaphore; //并行运行的最大线程数限制
+    private final Semaphore semaphore;
 
     public JobPlatformSearchCron() {
         this.CPU_CAPBILITY = Runtime.getRuntime().availableProcessors();
         this.threadPool = new ThreadPoolExecutor(2 * CPU_CAPBILITY + 1, Integer.MAX_VALUE, 100, TimeUnit.SECONDS,
                 new SynchronousQueue<Runnable>(), new CustomizableThreadFactory("cron-batch-service"),
-                new ThreadPoolExecutor.CallerRunsPolicy()); //解析每一个列表页面的线程对象所在的线程池
+                new ThreadPoolExecutor.CallerRunsPolicy());
 
         this.semaphore = new Semaphore(DEFAULT_SEMAPHORE); //并行运行的最大线程数限制
     }
@@ -86,19 +86,17 @@ public class JobPlatformSearchCron {
 
             List<PlatformDataJson> sourceDatas = datas;
             Runnable task = () -> {
-                //线程池批量持久化
                 Thread t = new JobCompanyRestoreThread(sourceDatas, companyInfo, jobList);
-                //t.start();
+                t.start();
             };
             Thread thread = new Thread(task);
-            thread.setDaemon(true); //设置为守护进程
-            threadPool.execute(thread);  //提交任务至线程池
+            thread.setDaemon(true);
+            threadPool.execute(thread);
             //TODO:依据策略进行解析操作
             Thread.sleep(3000L * 10);
             pageNum++;
 
         } while (null != datas && datas.size() > 0);
-
             threadPool.shutdown();
             while (true) {
                 if (threadPool.isTerminated()) {

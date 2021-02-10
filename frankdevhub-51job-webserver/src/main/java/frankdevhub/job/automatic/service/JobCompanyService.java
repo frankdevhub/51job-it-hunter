@@ -1,7 +1,7 @@
 package frankdevhub.job.automatic.service;
 
 import frankdevhub.job.automatic.dto.JobCompanyQuery;
-import frankdevhub.job.automatic.entities.JobCompany;
+import frankdevhub.job.automatic.entities.business.JobCompany;
 
 import java.util.List;
 

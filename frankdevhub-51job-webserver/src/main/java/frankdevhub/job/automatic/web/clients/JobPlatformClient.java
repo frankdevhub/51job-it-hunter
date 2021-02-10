@@ -54,10 +54,12 @@ public class JobPlatformClient {
     private final String DATA_JSON_REGEX = "window.__SEARCH_RESULT__\\s?=\\s?(?<context>\\{.*\\})</script>";
 
     private JobSearchResultService getJobSearchResultService() {
+        //解析后的平台职位数据
         return SpringUtils.getBean(JobSearchResultService.class);
     }
 
     private PlatformDataJsonService getPlatformDataJsonService() {
+        //平台职位源数据
         return SpringUtils.getBean(PlatformDataJsonService.class);
     }
 
@@ -72,15 +74,19 @@ public class JobPlatformClient {
         DriverBase.instantiateDriverObject();
 
         log.info("using cache path: " + configuration.getSeleniumCacheDirectoryPath());
+        //实例化浏览器驱动对象
+        //跳转至平台首页
         WebDriver driver = DriverBase.getDriver(configuration.getSeleniumCacheDirectoryPath());
         driver.get(BusinessConstants.JOB_PLATFORM_HOMEPAGE_SH);
+
+        //判断校验是否成功跳转至平台搜索页面
         WebDriverUtils.doWaitTitleContains(BusinessConstants.JOB_PLATFORM_HOMEPAGE_TITLE_KEY_1, new WebDriverWait(driver, 3));
         log.info("navigate to platform homepage complete");
         log.info("start to get web cookie");
         Long start = System.currentTimeMillis();
-        Set<Cookie> cookies = driver.manage().getCookies();
+        Set<Cookie> cookies = driver.manage().getCookies(); //获取驱动的缓存
         Long end = System.currentTimeMillis();
-
+        //加载读取驱动缓存消耗时间
         log.info("time cost: " + (end - start) + " ms");
         log.info("cookie properties:");
         for (Cookie c : cookies) {
@@ -172,16 +178,18 @@ public class JobPlatformClient {
         log.info("keyword  = {}", keyword);
         List<JobSearchResult> results = new ArrayList<>();
         Document document = Jsoup.parse(pageContext);
-        JXDocument jxDocument = new JXDocument(document); //转为DOM文档对象进行解析
-
-        List<JXNode> rows = jxDocument.selN(SeleniumConstants.SEARCH_RESULT_LIST_XPATH);  //定位职位搜索返回的结果集列表
+        //转为DOM文档对象进行解析
+        JXDocument jxDocument = new JXDocument(document);
+        //定位职位搜索返回的结果集列表
+        List<JXNode> rows = jxDocument.selN(SeleniumConstants.SEARCH_RESULT_LIST_XPATH);
         log.info("rows.size  = {}", rows.size());
         //如果jsoup返回的报文可以获取列表信息
         if (null != rows && rows.size() > 5) {
             //逐行解析返回的职位信息
             for (JXNode row : rows) {
                 try {
-                    JobSearchResult result = PlatformPageParser.parseSearchResult(row, keyword); //解析职位信息对象
+                    //解析职位信息对象
+                    JobSearchResult result = PlatformPageParser.parseSearchResult(row, keyword);
                     results.add(result);
                 } catch (BusinessException e) {
                     e.printStackTrace();
