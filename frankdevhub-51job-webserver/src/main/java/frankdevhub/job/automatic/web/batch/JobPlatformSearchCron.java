@@ -88,7 +88,7 @@ public class JobPlatformSearchCron {
             Runnable task = () -> {
                 //线程池批量持久化
                 Thread t = new JobCompanyRestoreThread(sourceDatas, companyInfo, jobList);
-                t.start();
+                //t.start();
             };
             Thread thread = new Thread(task);
             thread.setDaemon(true); //设置为守护进程
