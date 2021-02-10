@@ -94,7 +94,7 @@ public class JobPlatformSearchCron {
             thread.setDaemon(true); //设置为守护进程
             threadPool.execute(thread);  //提交任务至线程池
             //TODO:依据策略进行解析操作
-            Thread.sleep(3000L);
+            Thread.sleep(3000L * 10);
             pageNum++;
 
         } while (null != datas && datas.size() > 0);
@@ -129,23 +129,27 @@ public class JobPlatformSearchCron {
             try {
                 semaphore.acquire();
                 for (PlatformDataJson data : datas) {
-                    String link = data.getCompanyHref(); //企业平台介绍链接
-                    if (null == link) {
-                        continue;
-                    }
-                    //解析获取基础实例对象
-                    Map<String, Object> map = PlatformPageParser.parseCompanyPlatformPage(link, companyInfo, jobList);
-                    JobCompany company = (JobCompany) map.get("company");
-                    Assert.notNull(company, "company data cannot be null");
-                    //unionId查询判断是否库中已经存在
-                    JobCompany c = getJobCompanyService().selectByUnionId(company.getUnionId());
-                    if (null != c) {
-                        c.doUpdateEntity();
-                        c.setId(c.getId());
-                        getJobCompanyService().updateByPrimaryKeySelective(c);
-                    } else {
-                        c.doCreateEntity();
-                        getJobCompanyService().insertSelective(company);
+                    try {
+                        String link = data.getCompanyHref(); //企业平台介绍链接
+                        if (null == link) {
+                            continue;
+                        }
+                        //解析获取基础实例对象
+                        Map<String, Object> map = PlatformPageParser.parseCompanyPlatformPage(link, companyInfo, jobList);
+                        JobCompany company = (JobCompany) map.get("company");
+                        Assert.notNull(company, "company data cannot be null");
+                        //unionId查询判断是否库中已经存在
+                        JobCompany c = getJobCompanyService().selectByUnionId(company.getUnionId());
+                        if (null != c) {
+                            c.doUpdateEntity();
+                            c.setId(c.getId());
+                            getJobCompanyService().updateByPrimaryKeySelective(c);
+                        } else {
+                            c.doCreateEntity();
+                            getJobCompanyService().insertSelective(company);
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
                 }
             } catch (Exception e) {
