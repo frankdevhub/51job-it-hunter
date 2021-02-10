@@ -37,12 +37,13 @@ public class JobCompanyProfileTest {
         PlatformWebClient.getPageHtmlText(TEST_PAGE);
     }
 
-
     /**
      * 测试Htmlunit获取企业信息介绍页面html源码字符串
+     *
+     * @param url 企业介绍链接
      */
-    @Test
-    public void testGetPageHtmlTextByHtmlUnit() throws IOException {
+
+    private void testGetPageHtmlTextByHtmlUnit(String url) throws IOException {
 
         WebClient webClient = new WebClient(BrowserVersion.CHROME); //新建一个模拟谷歌Chrome浏览器的浏览器客户端对象
         webClient.getOptions().setThrowExceptionOnScriptError(false);//当JS执行出错的时候是否抛出异常, 这里选择不需要
@@ -52,7 +53,7 @@ public class JobCompanyProfileTest {
         webClient.getOptions().setJavaScriptEnabled(true); //很重要，启用JS
         webClient.setAjaxController(new NicelyResynchronizingAjaxController());//很重要，设置支持AJAX
         //获取页面对象
-        HtmlPage page = webClient.getPage(TEST_PAGE);
+        HtmlPage page = webClient.getPage(url);
         webClient.waitForBackgroundJavaScript(3000);//异步JS执行需要耗时,所以这里线程要阻塞30秒,等待异步JS执行结束
 
         //获取页面对象的字符串源码
@@ -64,8 +65,6 @@ public class JobCompanyProfileTest {
         Assert.notNull(div, "cannot find element by path '//div[@class='tCompany_center clearfix']'");
         //获取html源码
         String ctx = div.asXml();
-
-
         //测试调用js获取下一页
         //javascript:onPage('2');
         //ScriptResult scriptResult = page.executeJavaScript("onPage('2')");
@@ -77,6 +76,16 @@ public class JobCompanyProfileTest {
         //释放浏览器对象
         webClient.close();
 
+    }
+
+
+    /**
+     * 测试Htmlunit获取企业信息介绍页面html源码字符串
+     */
+    @Test
+    public void testGetPageHtmlTextByHtmlUnit() throws IOException {
+        String example = "";
+        testGetPageHtmlTextByHtmlUnit(TEST_PAGE);
     }
 
 }
