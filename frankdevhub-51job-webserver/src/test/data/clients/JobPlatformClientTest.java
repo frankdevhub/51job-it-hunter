@@ -6,7 +6,7 @@ import frankdevhub.job.automatic.core.utils.WebDriverUtils;
 import frankdevhub.job.automatic.selenium.DriverBase;
 import frankdevhub.job.automatic.selenium.config.ChromeConfiguration;
 import frankdevhub.job.automatic.web.clients.JobPlatformClient;
-import frankdevhub.job.automatic.web.clients.PlatformHttpClient;
+import frankdevhub.job.automatic.web.clients.PlatformWebClient;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
@@ -148,15 +148,15 @@ public class JobPlatformClientTest {
         //加载并读取本地存储的会话文件
         File temp = new File(new ClassPathResource("/src/main/resources/cache/temp_cookie.dat").getPath());
         if (!temp.exists())
-            temp.createNewFile(); //如果不存在则重新创建一个存储的临时文件
+            temp.createNewFile();
         FileOutputStream fos = new FileOutputStream(temp);
         ObjectOutputStream oos = new ObjectOutputStream(fos);
         Assert.notNull(cookies, "cookies object should not be null");
-        oos.writeObject(cookies); //序列化存储会话对象
-        oos.flush(); //清空对象输出流
-        fos.flush(); //清空文件输出流
-        oos.close(); //关闭对象输出流
-        fos.close(); //关闭文件输出流
+        oos.writeObject(cookies);
+        oos.flush();
+        fos.flush();
+        oos.close();
+        fos.close();
 
     }
 
@@ -255,7 +255,7 @@ public class JobPlatformClientTest {
                     log.info("@current url = " + url);
                     client.restorePageJobSearchResult(url, cachedThreadPool);
                     //依据链接规则获取下一页的链接
-                    url = PlatformHttpClient.getNextResultPage(url);
+                    url = PlatformWebClient.getNextResultPage(url);
                     log.info("@next url = " + url);
                 } catch (Exception e) {
                     e.printStackTrace();
