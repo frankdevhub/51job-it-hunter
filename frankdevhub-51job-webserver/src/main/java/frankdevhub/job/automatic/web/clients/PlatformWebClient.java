@@ -3,11 +3,8 @@ package frankdevhub.job.automatic.web.clients;
 import com.gargoylesoftware.htmlunit.BrowserVersion;
 import com.gargoylesoftware.htmlunit.NicelyResynchronizingAjaxController;
 import com.gargoylesoftware.htmlunit.WebClient;
-import com.gargoylesoftware.htmlunit.html.HtmlDivision;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import frankdevhub.job.automatic.core.constants.BusinessConstants;
-import frankdevhub.job.automatic.core.constants.SeleniumConstants;
-import frankdevhub.job.automatic.entities.JobCompany;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -43,7 +40,7 @@ public class PlatformWebClient {
      * @reutrn 浏览器客户端实例
      */
     public static HtmlPage getWebPage(String url, Long await) throws IOException {
-
+        log.info("getWebPage, url  ={}, await = {}", url, await);
         Assert.notNull(url, "cannot find url");
 
         WebClient webClient = new WebClient(BrowserVersion.CHROME); //新建一个模拟谷歌Chrome浏览器的浏览器客户端对象
@@ -65,30 +62,6 @@ public class PlatformWebClient {
         return page;
     }
 
-
-    /**
-     * 解析企业介绍页面,获取企业信息
-     *
-     * @param url 企业信息链接
-     * @return 企业信息实例
-     * @throws IOException
-     */
-    public static JobCompany getJobCompany(String url) throws IOException {
-        HtmlPage page = getWebPage(url, null); //获取企业信息页面
-        JobCompany company = new JobCompany(); //创建企业信息实例
-        //测试获取公司信息介绍
-        //div class = 'tCompany_center clearfix'
-        HtmlDivision div = page.getFirstByXPath(SeleniumConstants.COMPANY_INFO_TEXT_XPATH);
-        Assert.notNull(div, "cannot find element by path '//div[@class='tCompany_center clearfix']'");
-        //TODO
-        //获取html源码,去除多余换行字符存储为源数据
-
-        //释放资源
-        page.getWebClient().close();
-        return company;
-    }
-
-
     /**
      * Http请求获取页面对象的字符串
      *
@@ -97,7 +70,7 @@ public class PlatformWebClient {
      * @throws IOException
      */
     public static String getPageHtmlText(String url) throws IOException {
-
+        log.info("getPageHtmlText, url  ={}", url);
         Assert.notNull(url, "url cannot be found");
         String pageContext = null;
         CloseableHttpClient httpClient = null;
@@ -132,6 +105,7 @@ public class PlatformWebClient {
      * @throws IOException
      */
     public static String getPreviousResultPage(String url) {
+        log.info("getPreviousResultPage, url  ={}", url);
         //匹配网页元素对象
         String regex = "([0-9]+)(.html?)";
         Matcher matcher = Pattern.compile(regex).matcher(url);
@@ -161,6 +135,7 @@ public class PlatformWebClient {
      * @return 页面对象的字符串
      */
     public static String getNextResultPage(String url) {
+        log.info("getNextResultPage, url  ={}", url);
         //匹配网页元素对象
         String regex = "([0-9]+)(.html?)";
         Matcher matcher = Pattern.compile(regex).matcher(url);
@@ -190,14 +165,16 @@ public class PlatformWebClient {
      * @return 页面对象的字符串
      */
     public static String getSearchKeyword(String url) {
+        log.info("getSearchKeyword, url  ={}", url);
         Assert.notNull(url, "cannot find url");
+
         //提取链接中的关键字的正则表达式
         String regex = BusinessConstants.DEFAULT_HHTP_LINK_KEYWORD_REGEX;
         Matcher matcher = Pattern.compile(regex).matcher(url);
         if (matcher.find()) {
             return matcher.group(1);
         } else {
-            throw new RuntimeException("cannot match search keyword");
+            throw new RuntimeException("cannot match search keyword, url = " + url + "");
         }
     }
 
@@ -207,15 +184,23 @@ public class PlatformWebClient {
      * @param url 页面链接地址
      */
     public static String getPageUnionId(String url) {
+        log.info("getPageUnionId, url  ={}", url);
         Assert.notNull(url, "cannot find url");
+
         //提取链接中唯一标识的正则表达式
         String regex = BusinessConstants.DEFAULT_HTTP_LINK_MARK_REGEX;
         Matcher matcher = Pattern.compile(regex).matcher(url);
         if (matcher.find()) {
             return matcher.group("key");
         } else {
-            throw new RuntimeException("cannot match union id");
+            throw new RuntimeException("cannot match union id url =" + url + "");
         }
     }
+
+    public static String getPlatformQueryUrl() {
+        String url = null;
+        return url;
+    }
+
 
 }

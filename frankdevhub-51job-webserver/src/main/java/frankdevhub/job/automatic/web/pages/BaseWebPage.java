@@ -25,8 +25,13 @@ public class BaseWebPage {
     private ChromeConfiguration configuration; //Chrome浏览器驱动配置
     private Boolean isAutoConfig; //是否自动装配
 
+    /**
+     * 构造页面基础对象
+     *
+     * @param isAutoConfig 是否自动装配
+     */
     public BaseWebPage(Boolean isAutoConfig) {
-        initDriver(isAutoConfig);
+        initDriver(isAutoConfig); //初始化浏览器驱动对象
     }
 
     /**
@@ -36,11 +41,14 @@ public class BaseWebPage {
      */
     public void initDriver(Boolean isAutoConfig) {
         try {
+            //Chrome浏览器配置对象实例化
             this.configuration = ChromeConfiguration.newInstance(isAutoConfig);
             this.isAutoConfig = isAutoConfig;
+            //配置浏览器驱动缓存路径
             String seleniumCacheDirectoryPath = configuration.getSeleniumCacheDirectoryPath();
             DriverBase.instantiateDriverObject();
             log.info("configuration path set as: " + seleniumCacheDirectoryPath);
+            //实例化浏览器驱动对象
             this.driver = DriverBase.getDriver(seleniumCacheDirectoryPath);
 
         } catch (Exception e) {
