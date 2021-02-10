@@ -6,7 +6,7 @@ import frankdevhub.job.automatic.core.exception.BusinessException;
 import frankdevhub.job.automatic.core.parser.SalaryRangeTextUtils;
 import frankdevhub.job.automatic.core.utils.SpringUtils;
 import frankdevhub.job.automatic.core.utils.WebDriverUtils;
-import frankdevhub.job.automatic.entities.JobSearchResult;
+import frankdevhub.job.automatic.entities.business.JobSearchResult;
 import frankdevhub.job.automatic.selenium.AssignDriver;
 import frankdevhub.job.automatic.selenium.Query;
 import frankdevhub.job.automatic.service.JobSearchResultService;
@@ -98,10 +98,10 @@ public class JobPlatformSearchPage extends BaseWebPage {
     private void inputSearchQuery() throws InterruptedException {
         log.info("locate search box element");
         WebElement searchBoxElement = WebDriverUtils.findWebElement(searchBox);
-        Thread.sleep(500);
-        log.info(String.format("input search keyWord [" + this.keyword + "]"));
+        Thread.sleep(500L);
+        log.info(String.format("input search keyword [" + this.keyword + "]"));
         searchBoxElement.sendKeys(this.keyword);
-        log.info("input search keyWord complete");
+        log.info("input search keyword complete");
     }
 
     /**
@@ -109,7 +109,7 @@ public class JobPlatformSearchPage extends BaseWebPage {
      *
      * @throws InterruptedException
      */
-    private void submitSearchKeyword() throws InterruptedException {
+    private void submitSearchkeyword() throws InterruptedException {
         log.info("submit search keyword");
         //提交搜索关键字的控件对象
         WebElement submitBtnElement = WebDriverUtils.findWebElement(submitBtn);
@@ -137,8 +137,8 @@ public class JobPlatformSearchPage extends BaseWebPage {
         private void parseAndRestore() {
             Assert.notNull(result, "cannot find result");
             //查询校验是否存在已经入库的搜索职位记录
-            log.info("markId = {}", result.getMarkId());
-            int count = getJobSearchResultService().selectCountByMarkId(result.getMarkId());
+            log.info("markId = {}", result.getUnionId());
+            int count = getJobSearchResultService().selectCountByUnionId(result.getUnionId());
             if (count <= 0) {
                 //新增未入库的数据
                 log.info("do insert result record");
@@ -247,7 +247,7 @@ public class JobPlatformSearchPage extends BaseWebPage {
             try {
                 JobSearchResult result = parseSearchResult(row);
                 Thread t = new ParseSearchResultRow(result);
-                threadPool.execute(t);
+                threadPool.submit(t);
                 log.info("restore result thread submit success");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -325,7 +325,7 @@ public class JobPlatformSearchPage extends BaseWebPage {
         initSearchPage(); //初始化页面基类对象
         navigateToPlatformHomePage(); //导航跳转到首页
         inputSearchQuery(); //初始化页面相关的控件
-        submitSearchKeyword(); //提交搜索关键字
+        submitSearchkeyword(); //提交搜索关键字
         parseCurrentSearchResultPage(); //解析搜索返回的结果集列表并入库
 
         //异步等待线程池执行完毕

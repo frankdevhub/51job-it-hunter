@@ -23,7 +23,7 @@ import java.util.concurrent.*;
 public class JobPlatformService {
 
     private final Integer CPU_CAPBILITY; //CPU性能
-    private ThreadPoolExecutor threadPool; //扫描解析的线程池对象
+    private final ThreadPoolExecutor threadPool; //扫描解析的线程池对象
 
     public JobPlatformService() {
         this.CPU_CAPBILITY = Runtime.getRuntime().availableProcessors();
@@ -54,9 +54,8 @@ public class JobPlatformService {
                     log.info("current url = " + url);
                     client.restorePageJobSearchResult(url, cachedThreadPool);
                     //依据链接规则获取下一页链接
-                    url = PlatformHttpClient.getNextResultPage(url);
+                    url = PlatformWebClient.getNextResultPage(url);
                     log.info("next url = " + url);
-
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -73,18 +72,18 @@ public class JobPlatformService {
     public void defaultDataPatrolService(String url) throws InterruptedException {
         log.info("invoke default data patrol service");
         Runnable task = () -> {
-            //子线程命名
-            log.info("[defaultDataPatrolService --> task]thread name = "
-                    + Thread.currentThread().getName());
-            Thread t = new DefaultDataPatrolThread(url);
-            t.start();
+            try {
+                Thread t = new DefaultDataPatrolThread(url);
+                t.start();
+                Thread.sleep(500L);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         };
         Thread thread = new Thread(task);
         thread.setDaemon(true);//设置为守护进程
-        threadPool.execute(thread);   //提交任务至线程池
-
-        log.info("thread t->name =" + thread.getName());
-        Thread.sleep(200L);
+        threadPool.submit(thread);   //提交任务至线程池
+        Thread.sleep(1000L);
 
     }
 }
