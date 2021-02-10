@@ -84,7 +84,13 @@ public class JobCompanyProfileTest {
      */
     @Test
     public void testGetPageHtmlTextByHtmlUnit() throws IOException {
-        String example = "";
+        //https://jobs.51job.com/all/co142799.html
+        //https://jobs.51job.com/all/co5726201.html
+        //https://jobs.51job.com/all/co5937475.html
+        //https://jobs.51job.com/all/co5567865.html
+        //https://jobs.51job.com/all/co5235448.html
+        //https://jobs.51job.com/all/co2758227.html
+        String example = "https://jobs.51job.com/all/co5440648.html";
         testGetPageHtmlTextByHtmlUnit(TEST_PAGE);
     }
 
