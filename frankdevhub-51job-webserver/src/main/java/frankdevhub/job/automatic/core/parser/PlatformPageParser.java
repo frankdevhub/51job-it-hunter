@@ -6,8 +6,8 @@ import com.gargoylesoftware.htmlunit.html.HtmlDivision;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import frankdevhub.job.automatic.core.constants.SeleniumConstants;
 import frankdevhub.job.automatic.core.exception.BusinessException;
-import frankdevhub.job.automatic.entities.JobCompany;
-import frankdevhub.job.automatic.entities.JobSearchResult;
+import frankdevhub.job.automatic.entities.business.JobCompany;
+import frankdevhub.job.automatic.entities.business.JobSearchResult;
 import frankdevhub.job.automatic.web.clients.PlatformWebClient;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
@@ -118,27 +118,25 @@ public class PlatformPageParser {
      * jobList: 企业开放的招聘的职位列表(所有页面)
      * @throws IOException
      */
-    public Map<String, Object> parseCompanyPlatformPage(String url, boolean companyInfo, boolean jobList) throws IOException {
+    public static Map<String, Object> parseCompanyPlatformPage(String url, boolean companyInfo, boolean jobList) throws IOException {
 
         Map<String, Object> data = new HashMap<>();
-
         Assert.notNull(url, "cannot find url");
         //获取企业信息coid唯一标识
         String unionId = PlatformWebClient.getPageUnionId(url);
-        Assert.notNull(unionId, "cannot find unionId");
+        Assert.notNull(unionId, "cannot find unionId, url = " + url + "");
         log.info("unionId = {}", unionId);
 
         HtmlPage page = PlatformWebClient.getWebPage(url, null); //获取企业信息页面
         JobCompany company = new JobCompany(); //创建企业信息实例
         data.put("company", company);
-
         company.setUnionId(Integer.parseInt(unionId)); //链接中提取的唯一识别号
         //测试获取公司信息介绍
         //div class = 'tCompany_center clearfix'
         HtmlDivision div = page.getFirstByXPath(SeleniumConstants.COMPANY_INFO_TEXT_XPATH);
         Assert.notNull(div, "cannot find element by path '//div[@class='tCompany_center clearfix']'");
         //获取html源码
-        String ctx = div.getTextContent();
+        String ctx = div.asXml();
         company.setContext(ctx);
         data.put("context", ctx);
         //TODO
