@@ -2,11 +2,10 @@ package data.clients;
 
 import com.gargoylesoftware.htmlunit.BrowserVersion;
 import com.gargoylesoftware.htmlunit.NicelyResynchronizingAjaxController;
-import com.gargoylesoftware.htmlunit.ScriptResult;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlDivision;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
-import frankdevhub.job.automatic.web.clients.PlatformHttpClient;
+import frankdevhub.job.automatic.web.clients.PlatformWebClient;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import tk.mybatis.mapper.util.Assert;
@@ -35,7 +34,7 @@ public class JobCompanyProfileTest {
      */
     @Test
     public void testGetPageHtmlTextByHttpCLient() throws IOException {
-        PlatformHttpClient.getPageHtmlText(TEST_PAGE);
+        PlatformWebClient.getPageHtmlText(TEST_PAGE);
     }
 
 
@@ -63,13 +62,17 @@ public class JobCompanyProfileTest {
         //div class = 'tCompany_center clearfix'
         HtmlDivision div = page.getFirstByXPath("//div[@class='tCompany_center clearfix']");
         Assert.notNull(div, "cannot find element by path '//div[@class='tCompany_center clearfix']'");
+        //获取html源码
+        String ctx = div.asXml();
+
+
         //测试调用js获取下一页
         //javascript:onPage('2');
-        ScriptResult scriptResult = page.executeJavaScript("onPage('2')");
-        Assert.notNull(scriptResult, "cannot find scriptResult");
-        page.refresh(); //页面对象刷新
-        context = page.asXml();
-        System.out.println(context);
+        //ScriptResult scriptResult = page.executeJavaScript("onPage('2')");
+        //Assert.notNull(scriptResult, "cannot find scriptResult");
+        //page.refresh(); //页面对象刷新
+        //context = page.asXml();
+        System.out.println(ctx);
 
         //释放浏览器对象
         webClient.close();
