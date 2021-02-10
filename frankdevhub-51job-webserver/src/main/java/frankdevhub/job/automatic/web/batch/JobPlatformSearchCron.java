@@ -12,7 +12,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.concurrent.CustomizableThreadFactory;
 import tk.mybatis.mapper.util.Assert;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -127,9 +126,9 @@ public class JobPlatformSearchCron {
 
         @Override
         public void run() {
-            for (PlatformDataJson data : datas) {
-                try {
-                    semaphore.acquire();
+            try {
+                semaphore.acquire();
+                for (PlatformDataJson data : datas) {
                     String link = data.getCompanyHref(); //企业平台介绍链接
                     if (null == link) {
                         continue;
@@ -138,7 +137,6 @@ public class JobPlatformSearchCron {
                     Map<String, Object> map = PlatformPageParser.parseCompanyPlatformPage(link, companyInfo, jobList);
                     JobCompany company = (JobCompany) map.get("company");
                     Assert.notNull(company, "company data cannot be null");
-
                     //unionId查询判断是否库中已经存在
                     JobCompany c = getJobCompanyService().selectByUnionId(company.getUnionId());
                     if (null != c) {
@@ -149,13 +147,14 @@ public class JobPlatformSearchCron {
                         c.doCreateEntity();
                         getJobCompanyService().insertSelective(company);
                     }
-                } catch (IOException | InterruptedException e) {
-                    e.printStackTrace();
-                } finally {
-                    semaphore.release();
                 }
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                semaphore.release();
             }
         }
+
     }
 
 }
