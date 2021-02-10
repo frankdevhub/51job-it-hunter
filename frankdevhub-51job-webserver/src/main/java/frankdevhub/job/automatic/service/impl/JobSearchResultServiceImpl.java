@@ -2,7 +2,7 @@ package frankdevhub.job.automatic.service.impl;
 
 import frankdevhub.job.automatic.core.repository.MyBatisRepository;
 import frankdevhub.job.automatic.dto.JobSearchResultQuery;
-import frankdevhub.job.automatic.entities.JobSearchResult;
+import frankdevhub.job.automatic.entities.business.JobSearchResult;
 import frankdevhub.job.automatic.mapper.JobSearchResultMapper;
 import frankdevhub.job.automatic.service.JobSearchResultService;
 import lombok.extern.slf4j.Slf4j;
@@ -13,7 +13,7 @@ import java.util.List;
 
 /**
  * @Title: JobSearchResultServiceImpl
- * @Description: //TODO
+ * @Description: 平台职位搜索返回的结果集
  * @date: 2021/1/23 23:07
  * @author: frankdevhub@gmail.com
  * @blog: blog.frankdevhub.site
@@ -97,11 +97,14 @@ public class JobSearchResultServiceImpl extends MyBatisRepository implements Job
     /**
      * 条件查询
      *
-     * @param query 查询实体
+     * @param query    查询实体
+     * @param pageNum  分页页数
+     * @param pageSize 分页每页大小
      * @return 满足条件的实体集合
      */
     @Override
-    public List<JobSearchResult> findPageWithResult(JobSearchResultQuery query) {
+    public List<JobSearchResult> findPageWithResult(JobSearchResultQuery query, int pageNum, int pageSize) {
+        setPage(pageNum, pageSize); //分页查询
         return searchResultMapper.findPageWithResult(query);
     }
 

@@ -29,7 +29,7 @@ public class JobPlatformService {
         this.CPU_CAPBILITY = Runtime.getRuntime().availableProcessors();
         this.threadPool = new ThreadPoolExecutor(2 * CPU_CAPBILITY + 1, Integer.MAX_VALUE, 100, TimeUnit.SECONDS,
                 new SynchronousQueue<Runnable>(), new CustomizableThreadFactory("jd-extract-client"),
-                new ThreadPoolExecutor.CallerRunsPolicy()); //解析每一个列表页面的线程对象所在的线程池
+                new ThreadPoolExecutor.CallerRunsPolicy());
     }
 
     @Data
@@ -81,8 +81,8 @@ public class JobPlatformService {
             }
         };
         Thread thread = new Thread(task);
-        thread.setDaemon(true);//设置为守护进程
-        threadPool.submit(thread);   //提交任务至线程池
+        thread.setDaemon(true);
+        threadPool.submit(thread);
         Thread.sleep(1000L);
 
     }

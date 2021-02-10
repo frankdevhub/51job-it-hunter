@@ -1,13 +1,13 @@
 package frankdevhub.job.automatic.service;
 
 import frankdevhub.job.automatic.dto.JobSearchResultQuery;
-import frankdevhub.job.automatic.entities.JobSearchResult;
+import frankdevhub.job.automatic.entities.business.JobSearchResult;
 
 import java.util.List;
 
 /**
  * @Title: JobSearchResultService
- * @Description: //TODO
+ * @Description: 平台职位搜索返回结果集
  * @date: 2021/1/23 23:07
  * @author: frankdevhub@gmail.com
  * @blog: blog.frankdevhub.site
@@ -84,10 +84,12 @@ public interface JobSearchResultService {
     /**
      * 条件查询
      *
-     * @param query 查询实体
+     * @param query    查询实体
+     * @param pageNum  分页页数
+     * @param pageSize 分页每页大小
      * @return 满足条件的实体集合
      */
-    List<JobSearchResult> findPageWithResult(JobSearchResultQuery query);
+    List<JobSearchResult> findPageWithResult(JobSearchResultQuery query, int pageNum, int pageSize);
 
     /**
      * 依据唯一识别号查询实体对象的数量

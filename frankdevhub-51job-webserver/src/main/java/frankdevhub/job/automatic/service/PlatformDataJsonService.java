@@ -1,13 +1,13 @@
 package frankdevhub.job.automatic.service;
 
 import frankdevhub.job.automatic.dto.PlatformDataJsonQuery;
-import frankdevhub.job.automatic.entities.PlatformDataJson;
+import frankdevhub.job.automatic.entities.business.PlatformDataJson;
 
 import java.util.List;
 
 /**
  * @Title: PlatformDataJsonService
- * @Description: //TODO
+ * @Description: 平台职位搜索返回json数据
  * @date: 2021/1/31 0:07
  * @author: frankdevhub@gmail.com
  * @blog: blog.frankdevhub.site
@@ -69,10 +69,12 @@ public interface PlatformDataJsonService {
     /**
      * 条件查询
      *
-     * @param query 查询实体
+     * @param query    查询实体
+     * @param pageNum  分页页数
+     * @param pageSize 分页大小
      * @return 满足条件的实体集合
      */
-    List<PlatformDataJson> findPageWithResult(PlatformDataJsonQuery query);
+    List<PlatformDataJson> findPageWithResult(PlatformDataJsonQuery query, int pageNum, int pageSize);
 
     /**
      * 条件查询

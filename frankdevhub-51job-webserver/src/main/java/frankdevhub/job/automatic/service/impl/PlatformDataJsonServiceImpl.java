@@ -2,7 +2,7 @@ package frankdevhub.job.automatic.service.impl;
 
 import frankdevhub.job.automatic.core.repository.MyBatisRepository;
 import frankdevhub.job.automatic.dto.PlatformDataJsonQuery;
-import frankdevhub.job.automatic.entities.PlatformDataJson;
+import frankdevhub.job.automatic.entities.business.PlatformDataJson;
 import frankdevhub.job.automatic.mapper.PlatformDataJsonMapper;
 import frankdevhub.job.automatic.service.PlatformDataJsonService;
 import lombok.extern.slf4j.Slf4j;
@@ -15,7 +15,7 @@ import java.util.UUID;
 
 /**
  * @Title: PlatformDataJsonServiceImpl
- * @Description: //TODO
+ * @Description: 平台搜索返回的json数据
  * @date: 2021/1/31 0:08
  * @author: frankdevhub@gmail.com
  * @blog: blog.frankdevhub.site
@@ -50,6 +50,11 @@ public class PlatformDataJsonServiceImpl extends MyBatisRepository implements Pl
     @Override
     public int insert(PlatformDataJson dataJson) {
         Assert.notNull(dataJson, "cannot find dataJson");
+
+        String unionId = dataJson.getJobId();
+        //校验jobid唯一识别是否非空
+        Assert.notNull(unionId, "cannot find property unionId");
+
         return dataJsonMapper.insert(dataJson);
     }
 
@@ -69,7 +74,7 @@ public class PlatformDataJsonServiceImpl extends MyBatisRepository implements Pl
 
         String unionId = dataJson.getJobId();
         //校验jobid唯一识别是否非空
-        Assert.notNull(unionId, "cannot find property jobid");
+        Assert.notNull(unionId, "cannot find property unionId");
 
         return dataJsonMapper.insertSelective(dataJson);
     }
@@ -84,11 +89,11 @@ public class PlatformDataJsonServiceImpl extends MyBatisRepository implements Pl
     public int updateByPrimaryKeySelective(PlatformDataJson dataJson) {
 
         Assert.notNull(dataJson, "cannot find dataJson");
-        Assert.notNull(dataJson.getId(), "cannot find id in object dataJson");
+        Assert.notNull(dataJson.getId(), "cannot find id in object dataJson, jobid = " + dataJson.getJobId() + "");
         String unionId = dataJson.getJobId();
 
-        //校验jobid唯一识别是否非空
-        Assert.notNull(unionId, "cannot find property jobid");
+        //校验unionId唯一识别是否非空
+        Assert.notNull(unionId, "cannot find property unionId");
         return dataJsonMapper.updateByPrimaryKeySelective(dataJson);
     }
 
@@ -105,8 +110,8 @@ public class PlatformDataJsonServiceImpl extends MyBatisRepository implements Pl
         Assert.notNull(dataJson.getId(), "cannot find id in object dataJson");
         String unionId = dataJson.getJobId();
 
-        //校验jobid唯一识别是否非空
-        Assert.notNull(dataJson, "cannot find dataJson");
+        //校验unionId唯一识别是否非空
+        Assert.notNull(unionId, "cannot find unionId");
         return dataJsonMapper.updateByPrimaryKey(dataJson);
     }
 
@@ -121,14 +126,18 @@ public class PlatformDataJsonServiceImpl extends MyBatisRepository implements Pl
         return dataJsonMapper.selectById(id);
     }
 
+
     /**
      * 条件查询
      *
-     * @param query 查询实体
+     * @param query    查询实体
+     * @param pageNum  分页页数
+     * @param pageSize 分页大小
      * @return 满足条件的实体集合
      */
     @Override
-    public List<PlatformDataJson> findPageWithResult(PlatformDataJsonQuery query) {
+    public List<PlatformDataJson> findPageWithResult(PlatformDataJsonQuery query, int pageNum, int pageSize) {
+        setPage(pageNum, pageSize); //分页查询
         return dataJsonMapper.findPageWithResult(query);
     }
 
