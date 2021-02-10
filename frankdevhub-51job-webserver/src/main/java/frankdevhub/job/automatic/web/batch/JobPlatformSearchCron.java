@@ -139,11 +139,11 @@ public class JobPlatformSearchCron {
                         //unionId查询判断是否库中已经存在
                         JobCompany c = getJobCompanyService().selectByUnionId(company.getUnionId());
                         if (null != c) {
-                            c.doUpdateEntity();
-                            c.setId(c.getId());
+                            company.doUpdateEntity();
+                            company.setId(c.getId());
                             getJobCompanyService().updateByPrimaryKeySelective(c);
                         } else {
-                            c.doCreateEntity();
+                            company.doCreateEntity();
                             getJobCompanyService().insertSelective(company);
                         }
                     } catch (Exception e) {
