@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Semaphore;
 import java.util.concurrent.SynchronousQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -35,15 +36,19 @@ public class JobPlatformSearchCron {
 
     private final Integer DEFAULT_PAGE_NUM = 1; //默认的分页页数
     private final Integer DEFAULT_PAGE_SIZE = 100; //默认的分页页面单位大小
+    private final Integer DEFAULT_SEMAPHORE = 10; //默认最大的同时运行的线程数
 
     private final Integer CPU_CAPBILITY; //CPU性能
     private final ThreadPoolExecutor threadPool; //扫描解析的线程池对象
+    private final Semaphore semaphore; //并行运行的最大线程数限制
 
     public JobPlatformSearchCron() {
         this.CPU_CAPBILITY = Runtime.getRuntime().availableProcessors();
         this.threadPool = new ThreadPoolExecutor(2 * CPU_CAPBILITY + 1, Integer.MAX_VALUE, 100, TimeUnit.SECONDS,
                 new SynchronousQueue<Runnable>(), new CustomizableThreadFactory("cron-batch-service"),
                 new ThreadPoolExecutor.CallerRunsPolicy()); //解析每一个列表页面的线程对象所在的线程池
+
+        this.semaphore = new Semaphore(DEFAULT_SEMAPHORE); //并行运行的最大线程数限制
     }
 
     private JobCompanyService getJobCompanyService() {
@@ -65,56 +70,44 @@ public class JobPlatformSearchCron {
      */
     public void refreshCompanyData(PlatformDataJsonQuery query, Integer pageNum, Integer pageSize,
                                    boolean companyInfo, boolean jobList) throws InterruptedException {
-        //配置默认分页参数大小
         if (null == pageNum) {
             pageNum = DEFAULT_PAGE_NUM;
-        }
-        if (null == pageSize) {
-            pageSize = DEFAULT_PAGE_SIZE;
-        }
-
-        //循环分页获取全量
-        List<PlatformDataJson> datas = new ArrayList<>();
-        do {
-            datas = getPlatformDataJsonService().findPageWithResult(query, pageNum, pageSize);
-            log.info("datas.size() = {}", datas.size());
-            if (null == datas || datas.isEmpty()) {
-                break;
+            if (null == pageSize) {
+                pageSize = DEFAULT_PAGE_SIZE;
             }
 
-            List<JobCompany> companys = new ArrayList<>();
-            for (PlatformDataJson data : datas) {
-                try {
-                    String link = data.getCompanyHref(); //企业平台介绍链接
-                    if (null == link) {
-                        continue;
-                    }
-                    //解析获取基础实例对象
-                    Map<String, Object> map = PlatformPageParser.parseCompanyPlatformPage(link, companyInfo, jobList);
-                    JobCompany comp = (JobCompany) map.get("company");
-                    Assert.notNull(comp, "company data cannot be null");
-                    companys.add(comp);
-                } catch (IOException e) {
-                    e.printStackTrace();
+            List<PlatformDataJson> datas = new ArrayList<>();
+            do {
+                datas = getPlatformDataJsonService().findPageWithResult(query, pageNum, pageSize);
+                log.info("datas.size() = {}", datas.size());
+                if (null == datas || datas.isEmpty()) {
+                    break;
                 }
-            }
-            Runnable task = () -> {
-                try {
+
+                List<PlatformDataJson> sourceDatas = datas;
+                Runnable task = () -> {
                     //线程池批量持久化
-                    Thread t = new JobCompanyRestoreThread(companys);
+                    Thread t = new JobCompanyRestoreThread(sourceDatas, companyInfo, jobList);
                     t.start();
-                    Thread.sleep(500L);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+                };
+                Thread thread = new Thread(task);
+                thread.setDaemon(true); //设置为守护进程
+                threadPool.submit(thread);  //提交任务至线程池
+                //TODO:依据策略进行解析操作
+                Thread.sleep(5000L);
+                pageNum++;
+
+            } while (null != datas && datas.size() > 0);
+
+            threadPool.shutdown();
+            while (true) {
+                if (threadPool.isTerminated()) {
+                    log.info("thread pool keep running...");
+                    break;
                 }
-            };
-            Thread thread = new Thread(task);
-            thread.setDaemon(true); //设置为守护进程
-            threadPool.execute(thread);  //提交任务至线程池
-            //TODO:依据策略进行解析操作
-            Thread.sleep(5000L);
-            pageNum++;
-        } while (null != datas && datas.size() > 0);
+                Thread.sleep(1000L);
+            }
+        }
     }
 
     /**
@@ -122,28 +115,44 @@ public class JobPlatformSearchCron {
      */
     @Data
     private class JobCompanyRestoreThread extends Thread {
-        private List<JobCompany> companyList;
+        private List<PlatformDataJson> datas;
+        private boolean companyInfo;
+        private boolean jobList;
 
-        public JobCompanyRestoreThread(List<JobCompany> list) {
-            this.companyList = list;
+        public JobCompanyRestoreThread(List<PlatformDataJson> datas, boolean cinfos, boolean jobs) {
+            this.datas = datas;
+            this.companyInfo = cinfos;
+            this.jobList = jobs;
         }
 
         @Override
         public void run() {
-            for (JobCompany company : companyList) {
+            for (PlatformDataJson data : datas) {
                 try {
+                    semaphore.acquire();
+                    String link = data.getCompanyHref(); //企业平台介绍链接
+                    if (null == link) {
+                        continue;
+                    }
+                    //解析获取基础实例对象
+                    Map<String, Object> map = PlatformPageParser.parseCompanyPlatformPage(link, companyInfo, jobList);
+                    JobCompany company = (JobCompany) map.get("company");
+                    Assert.notNull(company, "company data cannot be null");
+
                     //unionId查询判断是否库中已经存在
                     JobCompany c = getJobCompanyService().selectByUnionId(company.getUnionId());
                     if (null != c) {
-                        company.doUpdateEntity();
-                        company.setId(c.getId());
-                        getJobCompanyService().updateByPrimaryKeySelective(company);
+                        c.doUpdateEntity();
+                        c.setId(c.getId());
+                        getJobCompanyService().updateByPrimaryKeySelective(c);
                     } else {
-                        company.doCreateEntity();
+                        c.doCreateEntity();
                         getJobCompanyService().insertSelective(company);
                     }
-                } catch (Exception e) {
+                } catch (IOException | InterruptedException e) {
                     e.printStackTrace();
+                } finally {
+                    semaphore.release();
                 }
             }
         }
