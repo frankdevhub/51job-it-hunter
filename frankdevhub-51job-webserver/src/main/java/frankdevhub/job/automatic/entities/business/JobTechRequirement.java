@@ -1,4 +1,6 @@
-package frankdevhub.job.automatic.entities;
+package frankdevhub.job.automatic.entities.business;
+
+import frankdevhub.job.automatic.entities.BaseRecord;
 
 /**
  * @Title: JobTechProfile
@@ -10,5 +12,5 @@ package frankdevhub.job.automatic.entities;
  */
 
 @SuppressWarnings("all")
-public class JobTechProfile extends BaseRecord<JobTechProfile> {
+public class JobTechRequirement extends BaseRecord<JobTechRequirement> {
 }
