@@ -14,7 +14,9 @@ import org.apache.commons.lang.StringUtils;
 import tk.mybatis.mapper.util.Assert;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -142,11 +144,84 @@ public class PlatformPageParser {
         //TODO
         //获取html源码,去除多余换行字符存储为源数据
 
-
         //释放资源
         page.getWebClient().close();
 
         return data;
     }
 
+
+    /**
+     * 解析企业介绍信息页面的图片链接
+     *
+     * @param text 字符串参数,可以是页面链接或页面的html源码字符串
+     *             如果是企业介绍页的链接,则先获取当前页面对象的html再进行解析
+     *             如果是页面的html字符串,则进行页面字符的解析,匹配获取页面上的图片链接
+     * @return 页面上的图片链接集合
+     */
+    public static List<String> parseCompanyPlatformPageImages(String text) {
+        return null;
+    }
+
+
+    /**
+     * 解析企业介绍信息页面的图片链接
+     *
+     * @param context 企业介绍页的html源码字字符串
+     * @return 页面上的图片链接集合
+     */
+    private static List<String> getCompanyImages(String context) {
+        List<String> images = new ArrayList<>();
+        return images;
+    }
+
+
+    /**
+     * 解析企业介绍信息页面的图片链接
+     *
+     * @param text 字符串参数,可以是页面链接或页面的html源码字符串
+     *             如果是企业介绍页的链接,则先获取当前页面对象的html再进行解析
+     *             如果是页面的html字符串,则进行页面字符的解析,匹配获取页面上的图片链接
+     * @return 页面上的图片链接集合
+     */
+    public static List<String> parseCompanyPlatformPageLogos(String text) {
+        return null;
+    }
+
+
+    /**
+     * 解析企业介绍信息页面的图片链接
+     *
+     * @param context 企业介绍页的html源码字字符串
+     * @return 页面上的图片链接集合
+     */
+    private static List<String> getCompanyLogos(String context) {
+        List<String> images = new ArrayList<>();
+        return images;
+    }
+
+
+    /**
+     * 解析企业介绍信息页面的图片链接
+     *
+     * @param text 字符串参数,可以是页面链接或页面的html源码字符串
+     *             如果是企业介绍页的链接,则先获取当前页面对象的html再进行解析
+     *             如果是页面的html字符串,则进行页面字符的解析,匹配获取页面上的图片链接
+     * @return 页面上的图片链接集合
+     */
+    public static List<String> parseCompanyPlatformPageCompanyDetails(String text) {
+        return null;
+    }
+
+
+    /**
+     * 解析企业介绍信息页面的图片链接
+     *
+     * @param context 企业介绍页的html源码字字符串
+     * @return 页面上的图片链接集合
+     */
+    private static List<String> getCompanyDetails(String context) {
+        List<String> images = new ArrayList<>();
+        return images;
+    }
 }
