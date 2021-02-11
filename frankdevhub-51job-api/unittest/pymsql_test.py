@@ -37,21 +37,47 @@ class DbConfig:
     def port(self):
         return self._port
 
+    @property
+    def db(self):
+        return self._db
+
 
 class TestMysql(unittest.TestCase):
     conn = None
 
     def get_con(self):
-        self.con = pymysql.connect(host=DbConfig().host,
-                                   user=DbConfig().username,
-                                   passwd=DbConfig().password,
-                                   port=DbConfig().port,
-                                   cursorclass=pymysql.cursors.DictCursor)
+        try:
+            print("get connection")
+            self.conn = pymysql.connect(host=DbConfig().host,
+                                        user=DbConfig().username,
+                                        passwd=DbConfig().password,
+                                        port=DbConfig().port,
+                                        db=DbConfig().db,
+                                        cursorclass=pymysql.cursors.DictCursor)
+            print(f"database connected, host = {DbConfig.host}")
+        except pymysql.MySQLError as error:
+            print(error)
+
         return self.conn
+
+    def get_data_count(self):
+        query_sql = 'select count(*) from platform_data_brief_source'
+        try:
+            con = self.get_con()
+            with con.cursor() as cursor:
+                cursor.execute(query_sql)
+                res = cursor.fetchone()
+                cursor.close()
+                con.commit()
+                con.close()
+            print(f"query result = {res['count(*)']}")
+        except pymysql.MySQLError as error:
+            print(error)
 
 
 if __name__ == '__main__':
     testunit = unittest.TestSuite()
-    testunit.addTest(TestMysql("get_con"))
+    # testunit.addTest(TestMysql("get_con"))  # get_con
+    testunit.addTest(TestMysql("get_data_count"))  # get_data_count
     runner = unittest.TextTestRunner()
     runner.run(testunit)
