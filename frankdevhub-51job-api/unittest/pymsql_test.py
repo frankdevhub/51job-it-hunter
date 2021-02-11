@@ -14,11 +14,11 @@ import pymysql
 
 class TestMysql(unittest.TestSuite, object):
     def __init__(self):
-        self._host = "39.98.246.50"
-        self._username = "root"
-        self._password = "frank#0806db@ecs"
-        self._db = "51job_data_center"
-        self._port = 3306
+        self._host = "39.98.246.50"  # 数据源连接地址
+        self._username = "root"  # 数据源连接用户名
+        self._password = "frank#0806db@ecs"  # 数据源连接密码
+        self._db = "51job_data_center"  # 数据库名称
+        self._port = 3306  # 端口号
 
     @property
     def host(self):
@@ -37,6 +37,7 @@ class TestMysql(unittest.TestSuite, object):
         return self._port
 
 
+# 获取mysql数据可的链接
 def get_con():
     con = pymysql.connect(host=TestMysql().host,
                           user=TestMysql().username,
@@ -48,6 +49,6 @@ def get_con():
 
 if __name__ == '__main__':
     suite = unittest.TestSuite()
-    suite.addTest()
+    suite.addTest('get_con')  # 测试的方法名
     runner = unittest.TestRunner()
     runner.run(suite)
