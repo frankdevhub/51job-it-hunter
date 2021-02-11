@@ -14,7 +14,7 @@ import java.io.IOException;
  */
 
 @SuppressWarnings("all")
-public interface SeleniumBrowserConfiguration {
+public interface SeleniumConfiguration {
 
     /**
      * 配置缓存的目录

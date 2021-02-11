@@ -348,4 +348,7 @@ healthchecksdb
 
 # Backup folder for Package Reference Convert tool in Visual Studio 2017
 MigrationBackup/
+
+## Project Ignore
 /frankdevhub-51job-webserver/*.exe
+/.idea

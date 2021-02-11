@@ -1,4 +1,4 @@
-package frankdevhub.job.automatic.entities;
+package frankdevhub.job.automatic.entities.business;
 
 import frankdevhub.job.automatic.core.constants.BusinessConstants;
 import frankdevhub.job.automatic.core.exception.BusinessException;
