@@ -7,12 +7,13 @@
 # @time: 2021/2/11 22:39
 # @desc: 测试pymsql数据持久化
 
+
 import unittest
 
 import pymysql
 
 
-class TestMysql(unittest.TestSuite, object):
+class DbConfig:
     def __init__(self):
         self._host = "39.98.246.50"  # 数据源连接地址
         self._username = "root"  # 数据源连接用户名
@@ -37,18 +38,20 @@ class TestMysql(unittest.TestSuite, object):
         return self._port
 
 
-# 获取mysql数据可的链接
-def get_con():
-    con = pymysql.connect(host=TestMysql().host,
-                          user=TestMysql().username,
-                          passwd=TestMysql().password,
-                          port=TestMysql().port,
-                          cursorclass=pymysql.cursors.DictCursor)
-    return con
+class TestMysql(unittest.TestCase):
+    conn = None
+
+    def get_con(self):
+        self.con = pymysql.connect(host=DbConfig().host,
+                                   user=DbConfig().username,
+                                   passwd=DbConfig().password,
+                                   port=DbConfig().port,
+                                   cursorclass=pymysql.cursors.DictCursor)
+        return self.conn
 
 
 if __name__ == '__main__':
-    suite = unittest.TestSuite()
-    suite.addTest('get_con')  # 测试的方法名
-    runner = unittest.TestRunner()
-    runner.run(suite)
+    testunit = unittest.TestSuite()
+    testunit.addTest(TestMysql("get_con"))
+    runner = unittest.TextTestRunner()
+    runner.run(testunit)
