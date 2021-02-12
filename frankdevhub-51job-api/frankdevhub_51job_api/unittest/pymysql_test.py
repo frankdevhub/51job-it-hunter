@@ -3,7 +3,7 @@
 # @author: frankdevhub
 # @contact: frankdevhub@gmail.com
 # @blog: http://blog.frankdevhub.site
-# @file: pymsql_test.py
+# @file: pymysql_test.py
 # @time: 2021/2/11 22:39
 # @desc: 测试pymsql数据持久化
 
