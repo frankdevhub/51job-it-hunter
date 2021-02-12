@@ -10,9 +10,18 @@
 
 import unittest
 
+import parameterized
 import pymysql
 
+GET_SOURCE_DATA_COUNT = """
+select count(*) as total from platform_data_brief_source
+"""
+GET_SOURCE_DATA_BY_COMPANY = """
+select * from platform_data_brief_source where company_name like %s limit %s,%s
+"""
 
+
+# 数据库连接配置
 class DbConfig:
     def __init__(self):
         self._host = "39.98.246.50"  # 数据源连接地址
@@ -45,7 +54,7 @@ class DbConfig:
 class TestMysql(unittest.TestCase):
     conn = None
 
-    def get_con(self):
+    def get_conn(self):
         try:
             print("get connection")
             self.conn = pymysql.connect(host=DbConfig().host,
@@ -54,23 +63,38 @@ class TestMysql(unittest.TestCase):
                                         port=DbConfig().port,
                                         db=DbConfig().db,
                                         cursorclass=pymysql.cursors.DictCursor)
-            print(f"database connected, host = {DbConfig.host}")
+            print(f"database connected, host = {str(DbConfig.host)}")
         except pymysql.MySQLError as error:
             print(error)
 
         return self.conn
 
-    def get_data_count(self):
-        query_sql = 'select count(*) from platform_data_brief_source'
+    def get_source_data_count(self):
+        query_sql = GET_SOURCE_DATA_COUNT
         try:
-            con = self.get_con()
-            with con.cursor() as cursor:
+            conn = self.get_conn()
+            with conn.cursor() as cursor:
                 cursor.execute(query_sql)
                 res = cursor.fetchone()
                 cursor.close()
-                con.commit()
-                con.close()
-            print(f"query result = {res['count(*)']}")
+                conn.commit()
+                conn.close()
+            print(f"query result = {res['total']}")
+        except pymysql.MySQLError as error:
+            print(error)
+
+    query_by_company = [['科技', 1, 100]]
+
+    @parameterized.parameterized.expand(query_by_company)
+    def get_source_data_by_company(self, company_name, page_num, page_size):
+        query_sql = GET_SOURCE_DATA_BY_COMPANY
+        try:
+            conn = self.get_conn()
+            with conn.cursor() as cursor:
+                cursor.execute(query_sql, ('%' + company_name + '%', page_num, page_size))
+                print(cursor.description)
+                data_dict = [dict(zip([col[0] for col in desc], row)) for row in cursor.fetchall()]  # 列表表达式把数据组装起来
+            print(data_dict)
         except pymysql.MySQLError as error:
             print(error)
 
@@ -78,6 +102,7 @@ class TestMysql(unittest.TestCase):
 if __name__ == '__main__':
     testunit = unittest.TestSuite()
     # testunit.addTest(TestMysql("get_con"))  # get_con
-    testunit.addTest(TestMysql("get_data_count"))  # get_data_count
+    testunit.addTest(TestMysql("get_source_data_count"))  # get_source_data_count
+    testunit.addTest(TestMysql("get_source_data_by_company"))  # get_source_data_by_company
     runner = unittest.TextTestRunner()
     runner.run(testunit)
