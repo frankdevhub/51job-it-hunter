@@ -10,8 +10,8 @@
 
 import unittest
 
-import parameterized
 import pymysql
+from parameterized import parameterized, param
 
 GET_SOURCE_DATA_COUNT = """
 select count(*) as total from platform_data_brief_source
@@ -55,6 +55,7 @@ class TestMysql(unittest.TestCase):
     conn = None
 
     def get_conn(self):
+        print('invoke get_conn')
         try:
             print("get connection")
             self.conn = pymysql.connect(host=DbConfig().host,
@@ -70,6 +71,7 @@ class TestMysql(unittest.TestCase):
         return self.conn
 
     def get_source_data_count(self):
+        print('invoke get_source_data_count')
         query_sql = GET_SOURCE_DATA_COUNT
         try:
             conn = self.get_conn()
@@ -83,17 +85,23 @@ class TestMysql(unittest.TestCase):
         except pymysql.MySQLError as error:
             print(error)
 
-    query_by_company = [['科技', 1, 100]]
+    query_by_company = [('科技', 1, 100)]
 
-    @parameterized.parameterized.expand(query_by_company)
-    def get_source_data_by_company(self, company_name, page_num, page_size):
+    # @parameterized.expand(query_by_company)
+    # def get_source_data_by_company(self, company_name, page_num, page_size):
+    def get_source_data_by_company(self):
+        print('invoke get_source_data_by_company')
         query_sql = GET_SOURCE_DATA_BY_COMPANY
         try:
+            company_name = '科技'
+            page_num = 1
+            page_size = 1
             conn = self.get_conn()
             with conn.cursor() as cursor:
                 cursor.execute(query_sql, ('%' + company_name + '%', page_num, page_size))
-                print(cursor.description)
-                data_dict = [dict(zip([col[0] for col in desc], row)) for row in cursor.fetchall()]  # 列表表达式把数据组装起来
+                desc = cursor.description
+                print(desc)  # (('id', 253, None, 256, 256, 0, False)
+                data_dict = [dict(zip([col[0] for col in desc], row)) for row in cursor.fetchall()]
             print(data_dict)
         except pymysql.MySQLError as error:
             print(error)
