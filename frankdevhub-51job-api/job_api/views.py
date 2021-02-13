@@ -1,5 +1,4 @@
 from django.http import HttpResponse
-from django.shortcuts import render
 
 
 # !/usr/bin/env python
@@ -15,3 +14,7 @@ from django.shortcuts import render
 def echo_index(request):
     content = '<h3>Welcome, frankdevhub@gmail.com</h3>'
     return HttpResponse(content)
+
+
+if __name__ == "__main__":
+    pass
