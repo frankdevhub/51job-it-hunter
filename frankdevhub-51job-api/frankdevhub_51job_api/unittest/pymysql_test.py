@@ -50,10 +50,10 @@ class DbConfig:
         return self._db
 
 
-class TestMysql(unittest.TestCase):
+class PyMysqlTest(unittest.TestCase):
     conn = None
 
-    def get_conn(self):
+    def test_get_conn(self):
         print('invoke get_conn')
         try:
             print("client attempt to get connection ... ...")
@@ -69,11 +69,11 @@ class TestMysql(unittest.TestCase):
 
         return self.conn
 
-    def get_source_data_count(self):
+    def test_get_source_data_count(self):
         print('invoke get_source_data_count')
         query_sql = GET_SOURCE_DATA_COUNT
         try:
-            conn = self.get_conn()
+            conn = self.test_get_conn()
             with conn.cursor() as cursor:
                 cursor.execute(query_sql)
                 res = cursor.fetchone()
@@ -88,14 +88,14 @@ class TestMysql(unittest.TestCase):
 
     # @parameterized.expand(query_by_company)
     # def get_source_data_by_company(self, company_name, page_num, page_size):
-    def get_source_data_by_company(self):
+    def test_get_source_data_by_company(self):
         print('invoke get_source_data_by_company')
         query_sql = GET_SOURCE_DATA_BY_COMPANY
         try:
             company_name = '科技'
             page_num = 1
             page_size = 1
-            conn = self.get_conn()
+            conn = self.test_get_conn()
             with conn.cursor() as cursor:
                 cursor.execute(query_sql, ('%' + company_name + '%', page_num, page_size))
                 desc = cursor.description
@@ -108,8 +108,8 @@ class TestMysql(unittest.TestCase):
 
 if __name__ == '__main__':
     testunit = unittest.TestSuite()
-    # testunit.addTest(TestMysql("get_con"))  # get_con
-    testunit.addTest(TestMysql("get_source_data_count"))  # get_source_data_count
-    testunit.addTest(TestMysql("get_source_data_by_company"))  # get_source_data_by_company
+    # testunit.addTest(TestMysql("test_get_con"))  # test_get_con
+    testunit.addTest(PyMysqlTest("test_get_source_data_count"))  # test_get_source_data_count
+    testunit.addTest(PyMysqlTest("test_get_source_data_by_company"))  # test_get_source_data_by_company
     runner = unittest.TextTestRunner()
     runner.run(testunit)

@@ -18,9 +18,9 @@ HEAD_COUNT_REGEX = """
 TEST_HEAD_COUNT = "招 23 人"
 
 
-class TestRegexExpression(unittest.TestCase):
+class RegexExpressionTest(unittest.TestCase):
 
-    def match_head_count(self):
+    def test_match_head_count(self):
         print('invoke match_head_count')
         matched = re.match(HEAD_COUNT_REGEX, TEST_HEAD_COUNT, re.M | re.I)
         if matched:
@@ -31,7 +31,4 @@ class TestRegexExpression(unittest.TestCase):
 
 
 if __name__ == "__main__":
-    testunit = unittest.TestSuite()
-    testunit.addTest(TestRegexExpression("match_head_count"))
-    runner = unittest.TextTestRunner()
-    runner.run(testunit)
+    unittest.main()
