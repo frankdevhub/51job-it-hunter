@@ -12,7 +12,7 @@ import unittest
 
 """企业岗位招聘人数的正则表达式 eg:(招1人)"""
 HEAD_COUNT_REGEX = """
-.*(?<prefix>[招聘|招纳|招|需要|急需|需]+)(?<numeric>[\u4e00-\u9fa5\u767e\u5343\u96f6]+|[0-9]+|[若干])(?<surfix>人)$
+.*(?P<prefix>[招聘|招纳|招|需要|急需|需]+)(?P<numeric>[\u4e00-\u9fa5\u767e\u5343\u96f6]+|[0-9]+|[若干])(?P<surfix>人)$
 """
 
 TEST_HEAD_COUNT = "招 23 人"
@@ -32,6 +32,6 @@ class TestRegexExpression(unittest.TestCase):
 
 if __name__ == "__main__":
     testunit = unittest.TestSuite()
-    testunit.addTest(TestRegexExpression('match_head_count'))
+    testunit.addTest(TestRegexExpression("match_head_count"))
     runner = unittest.TextTestRunner()
     runner.run(testunit)
