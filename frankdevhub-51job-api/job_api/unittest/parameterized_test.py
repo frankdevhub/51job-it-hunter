@@ -11,7 +11,7 @@
 import unittest
 
 import xlrd
-from parameterized import parameterized, param
+from parameterized import parameterized
 
 
 def read_cases(file_name):
