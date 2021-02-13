@@ -56,18 +56,18 @@ from django.db import models
 
 
 class BaseRecord(models.Model):
-    id = models.CharField(max_length=64)  # 主键序号
-    create_time = models.BigIntegerField  # 创建时间
-    update_time = models.BigIntegerField  # 更新时间
+    id = models.CharField()  # 主键序号
+    create_time = models.BigIntegerField()  # 创建时间
+    update_time = models.BigIntegerField()  # 更新时间
 
 
 class PlatformDataJson(BaseRecord):
     class Meta:
         proxy = True
 
-    type = models.CharField(max_length=50)  # 搜索结果的类型
-    jt = models.IntegerField(max_length=5)
-    tags = models.CharField(max_length=50)  # 职位的标签信息
-    ad_track = models.CharField(max_length=50)
-    job_id = models.CharField(max_length=50)  # jobId岗位信息的唯一标识
-    coid = models.CharField(max_length=50)
+    type = models.CharField()  # 搜索结果的类型
+    jt = models.IntegerField()
+    tags = models.CharField()  # 职位的标签信息
+    ad_track = models.CharField()
+    job_id = models.CharField()  # jobId岗位信息的唯一标识
+    coid = models.CharField()
