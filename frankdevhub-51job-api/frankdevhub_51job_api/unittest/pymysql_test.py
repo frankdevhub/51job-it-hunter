@@ -11,7 +11,6 @@
 import unittest
 
 import pymysql
-from parameterized import parameterized, param
 
 GET_SOURCE_DATA_COUNT = """
 select count(*) as total from platform_data_brief_source
@@ -57,14 +56,14 @@ class TestMysql(unittest.TestCase):
     def get_conn(self):
         print('invoke get_conn')
         try:
-            print("get connection")
+            print("client attempt to get connection ... ...")
             self.conn = pymysql.connect(host=DbConfig().host,
                                         user=DbConfig().username,
                                         passwd=DbConfig().password,
                                         port=DbConfig().port,
                                         db=DbConfig().db,
                                         cursorclass=pymysql.cursors.DictCursor)
-            print(f"database connected, host = {str(DbConfig.host)}")
+            print(f"remote database connected, host = {str(DbConfig.host)}")
         except pymysql.MySQLError as error:
             print(error)
 
