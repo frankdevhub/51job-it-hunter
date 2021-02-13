@@ -72,7 +72,7 @@ WSGI_APPLICATION = 'frankdevhub_51job_api.wsgi.application'
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
 DATABASES = {
-    'job_api': {
+    'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': '51job_data_center',
         'HOST': '39.98.246.50',
