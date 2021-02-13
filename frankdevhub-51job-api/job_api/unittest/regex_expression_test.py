@@ -10,24 +10,24 @@
 import re
 import unittest
 
-"""企业岗位招聘人数的正则表达式 eg:(招1人)"""
-HEAD_COUNT_REGEX = """
-.*(?P<prefix>[招聘|招纳|招|需要|急需|需]+)(?P<numeric>[\u4e00-\u9fa5\u767e\u5343\u96f6]+|[0-9]+|[若干])(?P<surfix>人)$
-"""
-
-TEST_HEAD_COUNT = " 招纳23人"
-
 
 class RegexExpressionTest(unittest.TestCase):
 
-    def test_match_head_count(self):
-        print('invoke match_head_count')
-        print(f'example string = {TEST_HEAD_COUNT}')
+    def initData(self):
+        """企业岗位招聘人数的正则表达式 eg:(招1人)"""
+        self.HEAD_COUNT_REGEX = ".*(?P<prefix>[招聘|招纳|招|需要|急需|需]+)(?P<numeric>" \
+                                "[\u4e00-\u9fa5\u767e\u5343\u96f6]+|[0-9]+|[若干])(?P<surfix>人)$"
+        self.TEST_HEAD_COUNT = " 招纳23人"
 
-        filter_string = re.sub('\\t|\\s|\\n', '', TEST_HEAD_COUNT, re.M | re.I)  # 去除换行符空格符
+    def test_match_head_count(self):
+        self.initData()
+        print('invoke method -> match_head_count()')
+        print(f'example string = {self.TEST_HEAD_COUNT}')
+
+        filter_string = re.sub('\\t|\\s|\\n', '', self.TEST_HEAD_COUNT, re.M | re.I)  # 去除换行符空格符
         print(f'filtered string = {filter_string}')
 
-        pattern = re.compile(HEAD_COUNT_REGEX, re.M | re.I)
+        pattern = re.compile(self.HEAD_COUNT_REGEX, re.M | re.I)
         matched = pattern.match(filter_string)
         if matched:
             print(f'prefix = {matched.group("prefix")}')  # prefix
@@ -38,4 +38,7 @@ class RegexExpressionTest(unittest.TestCase):
 
 
 if __name__ == "__main__":
-    unittest.main()
+    testunit = unittest.TestSuite()
+    testunit.addTest(RegexExpressionTest("test_match_head_count"))  # test_match_head_count
+    runner = unittest.TextTestRunner()
+    runner.run(testunit)
