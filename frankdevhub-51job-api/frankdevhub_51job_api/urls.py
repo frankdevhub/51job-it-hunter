@@ -22,5 +22,5 @@ from job_api import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('echo/', views.echo_index),
-    path('job_api/', include('job_api.urls'))
+    path('job_market/', include('job_api.urls'))
 ]
