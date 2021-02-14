@@ -3,7 +3,7 @@
 # @author: frankdevhub
 # @contact: frankdevhub@gmail.com
 # @blog: http://blog.frankdevhub.site
-# @file: pymysql_test.py
+# @file: test_pymysql.py
 # @time: 2021/2/11 22:39
 # @desc: 测试pymsql数据持久化
 
@@ -50,11 +50,11 @@ class DbConfig:
         return self._db
 
 
-class PyMysqlTest(unittest.TestCase):
+class TestPyMysql(unittest.TestCase):
     conn = None
 
     def test_get_conn(self):
-        print('invoke get_conn')
+        print('invoke method -> get_conn()')
         try:
             print("client attempt to get connection ... ...")
             self.conn = pymysql.connect(host=DbConfig().host,
@@ -70,7 +70,7 @@ class PyMysqlTest(unittest.TestCase):
         return self.conn
 
     def test_get_source_data_count(self):
-        print('invoke get_source_data_count')
+        print('invoke method - > get_source_data_count()')
         query_sql = GET_SOURCE_DATA_COUNT
         try:
             conn = self.get_conn()
@@ -89,7 +89,7 @@ class PyMysqlTest(unittest.TestCase):
     # @parameterized.expand(query_by_company)
     # def get_source_data_by_company(self, company_name, page_num, page_size):
     def get_source_data_by_company(self):
-        print('invoke get_source_data_by_company')
+        print('invoke method -> get_source_data_by_company()')
         query_sql = GET_SOURCE_DATA_BY_COMPANY
         try:
             company_name = '科技'
@@ -109,7 +109,7 @@ class PyMysqlTest(unittest.TestCase):
 if __name__ == '__main__':
     testunit = unittest.TestSuite()
     # testunit.addTest(TestMysql("test_get_con"))  # test_get_con
-    testunit.addTest(PyMysqlTest("test_get_source_data_count"))  # test_get_source_data_count
-    testunit.addTest(PyMysqlTest("test_get_source_data_by_company"))  # test_get_source_data_by_company
+    testunit.addTest(TestPyMysql("test_get_source_data_count"))  # test_get_source_data_count
+    testunit.addTest(TestPyMysql("test_get_source_data_by_company"))  # test_get_source_data_by_company
     runner = unittest.TextTestRunner()
     runner.run(testunit)
