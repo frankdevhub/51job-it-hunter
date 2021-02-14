@@ -22,6 +22,7 @@ class TestHttpRequest(unittest.TestCase):
 
     def test_urllib_get_ip_location(self):
         """urllib module 测试获取ip地址的经纬度地理信息"""
+        print('invoke method -> test_urllib_get_ip_location')
         request_data = {'key': self.TENCENT_API_KEY, 'ip': self.TEST_IP}
 
         path_variables = urllib.parse.urlencode(request_data)
@@ -35,6 +36,7 @@ class TestHttpRequest(unittest.TestCase):
 
     def test_request_get_ip_location(self):
         """requests module 测试获取ip地址的经纬度地理信息"""
+        print('invoke method -> test_request_get_ip_location')
         request_data = {'key': self.TENCENT_API_KEY, 'ip': self.TEST_IP}
 
         path_variables = urllib.parse.urlencode(request_data)
@@ -44,8 +46,13 @@ class TestHttpRequest(unittest.TestCase):
         print(f'request_url = {str(request_url)}')
         response_data = requests.get(request_url)
 
-        print(response_data)
+        print(type(response_data))  # <class 'requests.models.Response'>
+        print(response_data.text)  # response context
 
 
 if __name__ == '__main__':
-    unittest.main()
+    testSuite = unittest.TestSuite()
+    testSuite.addTest(TestHttpRequest('test_request_get_ip_location'))  # test_request_get_ip_location
+    runners = unittest.runner.TextTestRunner()
+    runners.run(testSuite)
+    # unittest.main()
