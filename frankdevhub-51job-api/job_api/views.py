@@ -1,6 +1,10 @@
 from django.http import HttpResponse
+from requests import Response
+from rest_framework import status, viewsets
+from rest_framework.decorators import action
 
 from job_api.models import PlatformDataBriefSource
+from job_api.serializers import PlatDataJsonSerializer
 
 
 # !/usr/bin/env python
@@ -12,18 +16,28 @@ from job_api.models import PlatformDataBriefSource
 
 
 def echo_index(request):
-    content = '<h3>Welcome, frankdevhub@gmail.com</h3>'
+    content = '<h3>Welcome, contact me: frankdevhub@gmail.com</h3>'
     return HttpResponse(content)
 
 
-def get_platform_data_count(request):
-    print('invoke method -> get_platform_data_count()')
-    total_rows = PlatformDataBriefSource.objects.count()
-    print(f'total_rows = {total_rows}')
+class PlatDataJsonViewSet(viewsets.ModelViewSet):
+    queryset = PlatformDataBriefSource.objects.all()
+    serializer_class = PlatDataJsonSerializer
 
-    # TODO: None 需要替换空的视图会产生运行时异常
-    return None
+    # action是drf提供的路由和视图方法绑定关系的装饰器
+    # from rest_framework.decorators import action
+    # 参数1: methods 列表，设置视图方法允许哪些http请求访问进来
+    # 参数2: detail  当前是否方法是否属于详情页视图，
+    #        False，系统不会自动增加pk在生成的路由地址中
+    #        True  则系统会自动增加pk在生成的路由地址
 
-
-if __name__ == "__main__":
-    pass
+    @action(methods=['get'], detail=False)  # detail=False 是否为详情页数据
+    def get_platform_data_count(self, request):  # 其接口 http://127.0.0.1:port/job_market/api/plat_data
+        print('invoke method -> get_platform_data_count()')
+        if request.method == 'GET':
+            total_rows = PlatformDataBriefSource.objects.count()
+            total_serializer = PlatDataJsonSerializer(total_rows, many=False)
+            print(f'total_rows = {total_rows}')
+            return Response(data=total_serializer.data, status=status.HTTP_200_OK)
+        else:
+            pass
