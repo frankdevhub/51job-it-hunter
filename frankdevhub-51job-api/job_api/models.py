@@ -17,7 +17,7 @@ from django.db import models
 3、models.BooleanField　　布尔类型=tinyint(1)
 　　不能为空，Blank=True
 4、models.ComaSeparatedIntegerField　　用逗号分割的数字=varchar
-　　继承CharField，所以必须 max_lenght 参数
+　　继承CharField，所以必须 max_length 参数
 5、models.DateField　　日期类型 date
 　　对于参数，auto_now =True则每次更新都会更新这个时间；auto_now_add 则只是第一次创建添加，之后的更新不再改变。
 6、models.DateTimeField　　日期类型 datetime
@@ -41,7 +41,7 @@ from django.db import models
 　　参数protocol可以是：both、ipv4、ipv6
 　　验证时，会根据设置报错
 14、models.NullBooleanField　　允许为空的布尔类型
-15、models.PositiveIntegerFiel　　正Integer
+15、models.PositiveIntegerField　　正Integer
 16、models.PositiveSmallIntegerField　　正smallInteger
 17、models.SlugField　　减号、下划线、字母、数字
 18、models.SmallIntegerField　　数字
@@ -62,12 +62,41 @@ class BaseRecord(models.Model):
 
 
 class PlatformDataJson(BaseRecord):
+    """招聘平台页面返回的招聘岗位原始数据json
+    eg:{ type, jt, tags, ad_track, job_id, coid, ... ...}
+    """
+
     class Meta:
         proxy = True
 
-    type = models.CharField()  # 搜索结果的类型
+    type = models.CharField(max_length=50)  # 搜索结果的类型
     jt = models.IntegerField()
-    tags = models.CharField()  # 职位的标签信息
-    ad_track = models.CharField()
-    job_id = models.CharField()  # jobId岗位信息的唯一标识
-    coid = models.CharField()
+    tags = models.CharField(max_length=100)  # 职位的标签信息
+    ad_track = models.CharField(max_length=50)
+    job_id = models.CharField(max_length=50)  # jobId岗位信息的唯一标识
+    coid = models.CharField(max_length=20)
+    effect = models.IntegerField()
+    is_special_job = models.CharField(max_length=5)  # 是否是特种职位
+    job_href = models.CharField(max_length=100)  # 职位介绍链接
+    job_name = models.CharField(max_length=100)  # 职位名称
+    job_title = models.CharField(max_length=100)  # 职位标题
+    company_href = models.CharField(max_length=100)  # 企业介绍信息链接
+    company_name = models.CharField(max_length=100)  # 企业中文名称
+    provide_salary_text = models.CharField(max_length=100)  # 职位薪资描述
+    work_area = models.CharField(max_length=50)  # 职位所在区域
+    work_area_text = models.CharField(max_length=100)  # 职位区域中文描述
+    update_date = models.CharField(max_length=50)  # 职位信息更新日期
+    is_intern = models.CharField(max_length=5)  # 是否是实习生岗位
+    is_communicate = models.CharField(max_length=5)  # 薪资是否面议
+    company_type_text = models.CharField(max_length=100)  # 企业资质类型中文描述
+    degree_from = models.IntegerField()  # 学历要求
+    work_year = models.IntegerField()  # 工作年限要求
+    issue_date = models.CharField(max_length5=50)
+    is_from_xyz = models.CharField(max_length=5)
+    jobwelf = models.CharField(max_length=100)  # 薪资待遇福利(五险一金,周末双休)
+    jobwelf_list = models.CharField(max_length=100)  # 薪资待遇福利(五险一金,周末双休)
+    attribute_text = models.CharField(max_length=100)
+    company_size_text = models.CharField(max_length=100)
+    company_ind_text = models.CharField(max_length=100)
+    adid = models.CharField(max_length=10)
+    content = models.TextField()
