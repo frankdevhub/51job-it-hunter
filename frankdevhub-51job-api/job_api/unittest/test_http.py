@@ -2,6 +2,8 @@ import unittest
 import urllib
 import urllib.request
 
+import requests
+
 
 # !/usr/bin/env python
 # encoding: utf-8
@@ -18,8 +20,8 @@ class TestHttpRequest(unittest.TestCase):
 
     GET_IP_LOCATION = "https://apis.map.qq.com/ws/location/v1/ip?"
 
-    def test_get_ip_location(self):
-        """urllib 测试获取ip地址的经纬度地理信息"""
+    def test_urllib_get_ip_location(self):
+        """urllib module 测试获取ip地址的经纬度地理信息"""
         request_data = {'key': self.TENCENT_API_KEY, 'ip': self.TEST_IP}
 
         path_variables = urllib.parse.urlencode(request_data)
@@ -30,6 +32,19 @@ class TestHttpRequest(unittest.TestCase):
 
         response_data = urllib.request.urlopen(request_url).read()
         print(str(response_data.decode('utf-8')))
+
+    def test_request_get_ip_location(self):
+        """requests module 测试获取ip地址的经纬度地理信息"""
+        request_data = {'key': self.TENCENT_API_KEY, 'ip': self.TEST_IP}
+
+        path_variables = urllib.parse.urlencode(request_data)
+        print(f'path_variables = {str(path_variables)}')
+        api_url = self.GET_IP_LOCATION
+        request_url = api_url + path_variables
+        print(f'request_url = {str(request_url)}')
+        response_data = requests.get(request_url)
+
+        print(response_data)
 
 
 if __name__ == '__main__':
