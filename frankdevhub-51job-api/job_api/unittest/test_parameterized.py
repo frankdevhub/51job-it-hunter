@@ -3,7 +3,7 @@
 # @author: frankdevhub
 # @contact: frankdevhub@gmail.com
 # @blog: http://blog.frankdevhub.site
-# @file: parameterized_test.py
+# @file: test_parameterized.py
 # @time: 2021/2/12 16:27
 # @desc: parameterized参数化单元测试
 
