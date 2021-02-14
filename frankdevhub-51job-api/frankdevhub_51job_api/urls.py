@@ -15,12 +15,8 @@ Including another URLconf
 """
 
 from django.contrib import admin
-from django.urls import path, include
-
-from job_api import views
+from django.urls import path
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('echo/', views.echo_index),
-    path('api/', include('job_api.urls'))  # 绑定子应用
+    path('admin/', admin.site.urls)
 ]
