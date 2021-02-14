@@ -1,5 +1,3 @@
-from django.db import models
-
 # !/usr/bin/env python
 # encoding: utf-8
 # @author: frankdevhub
@@ -7,96 +5,243 @@ from django.db import models
 # @blog: http://blog.frankdevhub.site
 # @time: 2021/2/12 16:27
 
-# Create your models here.
+# This is an auto-generated Django model module.
+# You'll have to do the following manually to clean this up:
+#   * Rearrange models' order
+#   * Make sure each model has one field with primary_key=True
+#   * Make sure each ForeignKey and OneToOneField has `on_delete` set to the desired behavior
+#   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
+# Feel free to rename the models, but don't rename db_table values or field names.
 
-'''
-1、models.AutoField　　自增列= int(11)
-　　如果没有的话，默认会生成一个名称为 id 的列，如果要显示的自定义一个自增列，必须将给列设置为主键 primary_key=True。
-2、models.CharField　　字符串字段
-　　必须 max_length 参数
-3、models.BooleanField　　布尔类型=tinyint(1)
-　　不能为空，Blank=True
-4、models.ComaSeparatedIntegerField　　用逗号分割的数字=varchar
-　　继承CharField，所以必须 max_length 参数
-5、models.DateField　　日期类型 date
-　　对于参数，auto_now =True则每次更新都会更新这个时间；auto_now_add 则只是第一次创建添加，之后的更新不再改变。
-6、models.DateTimeField　　日期类型 datetime
-　　同DateField的参数
-7、models.Decimal　　十进制小数类型= decimal
-　　必须指定整数位max_digits和小数位decimal_places
-8、models.EmailField　　字符串类型（正则表达式邮箱）=varchar
-　　对字符串进行正则表达式
-9、models.FloatField　　浮点类型= double
-10、models.IntegerField　　整形
-11、models.BigIntegerField　　长整形
-　　integer_field_ranges ={
-　　　　'SmallIntegerField':(-32768,32767),
-　　　　'IntegerField':(-2147483648,2147483647),
-　　　　'BigIntegerField':(-9223372036854775808,9223372036854775807),
-　　　　'PositiveSmallIntegerField':(0,32767),
-　　　　'PositiveIntegerField':(0,2147483647),
-　　}
-12、models.IPAddressField　　字符串类型（ip4正则表达式）
-13、models.GenericIPAddressField　　字符串类型（ip4和ip6是可选的）
-　　参数protocol可以是：both、ipv4、ipv6
-　　验证时，会根据设置报错
-14、models.NullBooleanField　　允许为空的布尔类型
-15、models.PositiveIntegerField　　正Integer
-16、models.PositiveSmallIntegerField　　正smallInteger
-17、models.SlugField　　减号、下划线、字母、数字
-18、models.SmallIntegerField　　数字
-　　数据库中的字段有：tinyint、smallint、int、bigint
-19、models.TextField　　字符串=longtext
-20、models.TimeField　　时间 HH:MM[:ss[.uuuuuu]]
-21、models.URLField　　字符串，地址正则表达式
-22、models.BinaryField　　二进制
-23、models.ImageField图片
-24、models.FilePathField文件
-'''
+from django.db import models
 
 
-class BaseRecord(models.Model):
-    id = models.CharField()  # 主键序号
-    create_time = models.BigIntegerField()  # 创建时间
-    update_time = models.BigIntegerField()  # 更新时间
-
-
-class PlatformDataJson(BaseRecord):
-    """招聘平台页面返回的招聘岗位原始数据json
-    eg:{ type, jt, tags, ad_track, job_id, coid, ... ...}
-    """
+class AuthGroup(models.Model):
+    name = models.CharField(unique=True, max_length=150)
 
     class Meta:
-        proxy = True
+        managed = False
+        db_table = 'auth_group'
 
-    type = models.CharField(max_length=50)  # 搜索结果的类型
-    jt = models.IntegerField()
-    tags = models.CharField(max_length=100)  # 职位的标签信息
-    ad_track = models.CharField(max_length=50)
-    job_id = models.CharField(max_length=50)  # jobId岗位信息的唯一标识
-    coid = models.CharField(max_length=20)
-    effect = models.IntegerField()
-    is_special_job = models.CharField(max_length=5)  # 是否是特种职位
-    job_href = models.CharField(max_length=100)  # 职位介绍链接
-    job_name = models.CharField(max_length=100)  # 职位名称
-    job_title = models.CharField(max_length=100)  # 职位标题
-    company_href = models.CharField(max_length=100)  # 企业介绍信息链接
-    company_name = models.CharField(max_length=100)  # 企业中文名称
-    provide_salary_text = models.CharField(max_length=100)  # 职位薪资描述
-    work_area = models.CharField(max_length=50)  # 职位所在区域
-    work_area_text = models.CharField(max_length=100)  # 职位区域中文描述
-    update_date = models.CharField(max_length=50)  # 职位信息更新日期
-    is_intern = models.CharField(max_length=5)  # 是否是实习生岗位
-    is_communicate = models.CharField(max_length=5)  # 薪资是否面议
-    company_type_text = models.CharField(max_length=100)  # 企业资质类型中文描述
-    degree_from = models.IntegerField()  # 学历要求
-    work_year = models.IntegerField()  # 工作年限要求
-    issue_date = models.CharField(max_length5=50)
-    is_from_xyz = models.CharField(max_length=5)
-    jobwelf = models.CharField(max_length=100)  # 薪资待遇福利(五险一金,周末双休)
-    jobwelf_list = models.CharField(max_length=100)  # 薪资待遇福利(五险一金,周末双休)
-    attribute_text = models.CharField(max_length=100)
-    company_size_text = models.CharField(max_length=100)
-    company_ind_text = models.CharField(max_length=100)
-    adid = models.CharField(max_length=10)
-    content = models.TextField()
+
+class AuthGroupPermissions(models.Model):
+    group = models.ForeignKey(AuthGroup, models.DO_NOTHING)
+    permission = models.ForeignKey('AuthPermission', models.DO_NOTHING)
+
+    class Meta:
+        managed = False
+        db_table = 'auth_group_permissions'
+        unique_together = (('group', 'permission'),)
+
+
+class AuthPermission(models.Model):
+    name = models.CharField(max_length=255)
+    content_type = models.ForeignKey('DjangoContentType', models.DO_NOTHING)
+    codename = models.CharField(max_length=100)
+
+    class Meta:
+        managed = False
+        db_table = 'auth_permission'
+        unique_together = (('content_type', 'codename'),)
+
+
+class AuthUser(models.Model):
+    password = models.CharField(max_length=128)
+    last_login = models.DateTimeField(blank=True, null=True)
+    is_superuser = models.IntegerField()
+    username = models.CharField(unique=True, max_length=150)
+    first_name = models.CharField(max_length=150)
+    last_name = models.CharField(max_length=150)
+    email = models.CharField(max_length=254)
+    is_staff = models.IntegerField()
+    is_active = models.IntegerField()
+    date_joined = models.DateTimeField()
+
+    class Meta:
+        managed = False
+        db_table = 'auth_user'
+
+
+class AuthUserGroups(models.Model):
+    user = models.ForeignKey(AuthUser, models.DO_NOTHING)
+    group = models.ForeignKey(AuthGroup, models.DO_NOTHING)
+
+    class Meta:
+        managed = False
+        db_table = 'auth_user_groups'
+        unique_together = (('user', 'group'),)
+
+
+class AuthUserUserPermissions(models.Model):
+    user = models.ForeignKey(AuthUser, models.DO_NOTHING)
+    permission = models.ForeignKey(AuthPermission, models.DO_NOTHING)
+
+    class Meta:
+        managed = False
+        db_table = 'auth_user_user_permissions'
+        unique_together = (('user', 'permission'),)
+
+
+class DjangoAdminLog(models.Model):
+    action_time = models.DateTimeField()
+    object_id = models.TextField(blank=True, null=True)
+    object_repr = models.CharField(max_length=200)
+    action_flag = models.PositiveSmallIntegerField()
+    change_message = models.TextField()
+    content_type = models.ForeignKey('DjangoContentType', models.DO_NOTHING, blank=True, null=True)
+    user = models.ForeignKey(AuthUser, models.DO_NOTHING)
+
+    class Meta:
+        managed = False
+        db_table = 'django_admin_log'
+
+
+class DjangoContentType(models.Model):
+    app_label = models.CharField(max_length=100)
+    model = models.CharField(max_length=100)
+
+    class Meta:
+        managed = False
+        db_table = 'django_content_type'
+        unique_together = (('app_label', 'model'),)
+
+
+class DjangoMigrations(models.Model):
+    app = models.CharField(max_length=255)
+    name = models.CharField(max_length=255)
+    applied = models.DateTimeField()
+
+    class Meta:
+        managed = False
+        db_table = 'django_migrations'
+
+
+class DjangoSession(models.Model):
+    session_key = models.CharField(primary_key=True, max_length=40)
+    session_data = models.TextField()
+    expire_date = models.DateTimeField()
+
+    class Meta:
+        managed = False
+        db_table = 'django_session'
+
+
+class PlatformCompanyInfo(models.Model):
+    id = models.CharField(primary_key=True, max_length=64)
+    union_id = models.IntegerField(blank=True, null=True)
+    plat_company_logo = models.CharField(max_length=100, blank=True, null=True)
+    plat_company_type = models.CharField(max_length=50, blank=True, null=True)
+    plat_company_industry = models.CharField(max_length=50, blank=True, null=True)
+    plat_company_info = models.TextField(blank=True, null=True)
+    plat_company_link = models.CharField(max_length=100, blank=True, null=True)
+    context = models.TextField(blank=True, null=True)
+    tag_list = models.CharField(max_length=100, blank=True, null=True)
+    create_time = models.BigIntegerField(blank=True, null=True)
+    update_time = models.BigIntegerField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'platform_company_info'
+
+
+class PlatformDataBriefSource(models.Model):
+    id = models.CharField(primary_key=True, max_length=64)
+    type = models.CharField(max_length=50, blank=True, null=True)
+    jt = models.IntegerField(blank=True, null=True)
+    tags = models.CharField(max_length=100, blank=True, null=True)
+    ad_track = models.CharField(max_length=100, blank=True, null=True)
+    jobid = models.CharField(max_length=20, blank=True, null=True)
+    coid = models.CharField(max_length=20, blank=True, null=True)
+    effect = models.IntegerField(blank=True, null=True)
+    is_special_job = models.CharField(max_length=5, blank=True, null=True)
+    job_href = models.CharField(max_length=100, blank=True, null=True)
+    job_name = models.CharField(max_length=100, blank=True, null=True)
+    job_title = models.CharField(max_length=100, blank=True, null=True)
+    company_href = models.CharField(max_length=100, blank=True, null=True)
+    company_name = models.CharField(max_length=100, blank=True, null=True)
+    provide_salary_text = models.CharField(max_length=100, blank=True, null=True)
+    work_area = models.CharField(max_length=50, blank=True, null=True)
+    work_area_text = models.CharField(max_length=100, blank=True, null=True)
+    update_date = models.CharField(max_length=50, blank=True, null=True)
+    is_intern = models.CharField(max_length=5, blank=True, null=True)
+    is_communicate = models.CharField(max_length=5, blank=True, null=True)
+    company_type_text = models.CharField(max_length=100, blank=True, null=True)
+    degree_from = models.IntegerField(blank=True, null=True)
+    work_year = models.IntegerField(blank=True, null=True)
+    issue_date = models.CharField(max_length=50, blank=True, null=True)
+    is_from_xyz = models.CharField(max_length=5, blank=True, null=True)
+    jobwelf = models.CharField(max_length=100, blank=True, null=True)
+    jobwelf_list = models.CharField(max_length=100, blank=True, null=True)
+    attribute_text = models.CharField(max_length=100, blank=True, null=True)
+    company_size_text = models.CharField(max_length=100, blank=True, null=True)
+    company_ind_text = models.CharField(max_length=100, blank=True, null=True)
+    adid = models.CharField(max_length=10, blank=True, null=True)
+    context = models.TextField(blank=True, null=True)
+    create_time = models.BigIntegerField(blank=True, null=True)
+    update_time = models.BigIntegerField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'platform_data_brief_source'
+
+
+class PlatformDictArea(models.Model):
+    id = models.CharField(primary_key=True, max_length=64)
+    parent_id = models.CharField(max_length=64)
+    parent_ids = models.CharField(max_length=2000)
+    name = models.CharField(max_length=200)
+    merger_name = models.CharField(max_length=500)
+    short_name = models.CharField(max_length=200)
+    merger_short_name = models.CharField(max_length=500)
+    type = models.CharField(max_length=1)
+    sort = models.DecimalField(max_digits=10, decimal_places=0)
+    code = models.CharField(max_length=45, blank=True, null=True)
+    city_code = models.CharField(max_length=45, blank=True, null=True)
+    pinyin = models.CharField(max_length=500, blank=True, null=True)
+    jianpin = models.CharField(max_length=100, blank=True, null=True)
+    first_char = models.CharField(max_length=45, blank=True, null=True)
+    position_ing = models.CharField(max_length=64, blank=True, null=True)
+    position_lat = models.CharField(max_length=64, blank=True, null=True)
+    hot_area = models.CharField(max_length=64)
+    remarks = models.CharField(max_length=1000, blank=True, null=True)
+    extension1 = models.CharField(max_length=500, blank=True, null=True)
+    extension2 = models.CharField(max_length=500, blank=True, null=True)
+    extension3 = models.CharField(max_length=500, blank=True, null=True)
+    create_time = models.BigIntegerField(blank=True, null=True)
+    update_time = models.BigIntegerField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'platform_dict_area'
+
+
+class PlatformSearchResult(models.Model):
+    id = models.CharField(primary_key=True, max_length=64)
+    job_title = models.CharField(max_length=50, blank=True, null=True)
+    company_name = models.CharField(max_length=50, blank=True, null=True)
+    location = models.CharField(max_length=50, blank=True, null=True)
+    salary_range_chars = models.CharField(max_length=50, blank=True, null=True)
+    salary_range_min = models.FloatField(blank=True, null=True)
+    salary_range_max = models.FloatField(blank=True, null=True)
+    salary_time_unit = models.CharField(max_length=5, blank=True, null=True)
+    salary_numeric_unit = models.CharField(max_length=5, blank=True, null=True)
+    head_count = models.IntegerField(blank=True, null=True)
+    is_define_by_w = models.IntegerField(blank=True, null=True)
+    is_define_by_k = models.IntegerField(blank=True, null=True)
+    is_define_by_day = models.IntegerField(blank=True, null=True)
+    is_define_by_month = models.IntegerField(blank=True, null=True)
+    is_define_by_year = models.IntegerField(blank=True, null=True)
+    is_internship_pos = models.IntegerField(blank=True, null=True)
+    is_campus_only = models.IntegerField(blank=True, null=True)
+    is_salary_negotiable = models.IntegerField(blank=True, null=True)
+    publish_date_char = models.CharField(max_length=50, blank=True, null=True)
+    publish_date_month_numeric = models.IntegerField(blank=True, null=True)
+    publish_date_day_numeric = models.IntegerField(blank=True, null=True)
+    link_url = models.CharField(max_length=255, blank=True, null=True)
+    union_id = models.IntegerField(blank=True, null=True)
+    create_time = models.BigIntegerField(blank=True, null=True)
+    update_time = models.BigIntegerField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'platform_search_result'
