@@ -10,11 +10,11 @@ from job_api import models
 # @author: frankdevhub
 # @contact: frankdevhub@gmail.com
 # @blog: http://blog.frankdevhub.site
-# @file: models_test.py
+# @file: test_models.py
 # @time: 2021/2/13 23:09
 # @desc: Django model OR M持久化测试
 
-class ModelsTest(unittest.TestCase):
+class TestModels(unittest.TestCase):
     def initData(self):
         pass
 
