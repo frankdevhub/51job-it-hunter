@@ -53,6 +53,12 @@ class DbConfig:
 class TestPyMysql(unittest.TestCase):
     conn = None
 
+    def setUp(self):
+        pass
+
+    def teardown(self):
+        pass
+
     def test_get_conn(self):
         print('invoke method -> get_conn()')
         try:
