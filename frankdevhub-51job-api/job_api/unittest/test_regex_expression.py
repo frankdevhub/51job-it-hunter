@@ -3,7 +3,7 @@
 # @author: frankdevhub
 # @contact: frankdevhub@gmail.com
 # @blog: http://blog.frankdevhub.site
-# @file: regex_expression_test.py
+# @file: test_regex_expression.py
 # @time: 2021/2/13 12:24
 # @desc: 解析匹配的正则表达式测试
 
@@ -11,7 +11,7 @@ import re
 import unittest
 
 
-class RegexExpressionTest(unittest.TestCase):
+class TestRegexExpression(unittest.TestCase):
 
     def initData(self):
         """企业岗位招聘人数的正则表达式 eg:(招1人)"""
@@ -39,6 +39,6 @@ class RegexExpressionTest(unittest.TestCase):
 
 if __name__ == "__main__":
     testunit = unittest.TestSuite()
-    testunit.addTest(RegexExpressionTest("test_match_head_count"))  # test_match_head_count
+    testunit.addTest(TestRegexExpression("test_match_head_count"))  # test_match_head_count
     runner = unittest.TextTestRunner()
     runner.run(testunit)
