@@ -7,6 +7,7 @@
 # @time: 2021/2/13 12:24
 # @desc: 解析匹配的正则表达式测试
 
+import logging
 import re
 import unittest
 
@@ -23,20 +24,20 @@ class TestRegexExpression(unittest.TestCase):
         pass
 
     def test_match_head_count(self):
-        print('invoke method -> match_head_count()')
-        print(f'example string = {self.TEST_HEAD_COUNT}')
+        logging.Info('invoke method -> match_head_count()')
+        logging.Info(f'example string = {self.TEST_HEAD_COUNT}')
 
         filter_string = re.sub('\\t|\\s|\\n', '', self.TEST_HEAD_COUNT, re.M | re.I)  # 去除换行符空格符
-        print(f'filtered string = {filter_string}')
+        logging.Info(f'filtered string = {filter_string}')
 
         pattern = re.compile(self.HEAD_COUNT_REGEX, re.M | re.I)
         matched = pattern.match(filter_string)
         if matched:
-            print(f'prefix = {matched.group("prefix")}')  # prefix
-            print(f'numeric = {matched.group("numeric")}')  # numeric
-            print(f'surfix = {matched.group("surfix")}')  # surfix
+            logging.Info(f'prefix = {matched.group("prefix")}')  # prefix
+            logging.Info(f'numeric = {matched.group("numeric")}')  # numeric
+            logging.Info(f'surfix = {matched.group("surfix")}')  # surfix
         else:
-            print('mot matched')
+            logging.Info('mot matched')
 
 
 if __name__ == "__main__":

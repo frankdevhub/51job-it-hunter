@@ -8,6 +8,7 @@
 # @desc: 测试pymsql数据持久化
 
 
+import logging
 import unittest
 
 import pymysql
@@ -60,56 +61,56 @@ class TestPyMysql(unittest.TestCase):
         pass
 
     def test_get_conn(self):
-        print('invoke method -> get_conn()')
+        logging.info('invoke method -> get_conn()')
         try:
-            print("client attempt to get connection ... ...")
+            logging.info("client attempt to get connection ... ...")
             self.conn = pymysql.connect(host=DbConfig().host,
                                         user=DbConfig().username,
                                         passwd=DbConfig().password,
                                         port=DbConfig().port,
                                         db=DbConfig().db,
                                         cursorclass=pymysql.cursors.DictCursor)
-            print(f"remote database connected, host = {str(DbConfig.host)}")
+            logging.info(f"remote database connected, host = {str(DbConfig.host)}")
         except pymysql.MySQLError as error:
-            print(error)
+            logging.info(error)
 
         return self.conn
 
     def test_get_source_data_count(self):
-        print('invoke method - > get_source_data_count()')
+        logging.info('invoke method - > get_source_data_count()')
         query_sql = GET_SOURCE_DATA_COUNT
         try:
-            conn = self.get_conn()
+            conn = self.test_get_conn()
             with conn.cursor() as cursor:
                 cursor.execute(query_sql)
                 res = cursor.fetchone()
                 cursor.close()
                 conn.commit()
                 conn.close()
-            print(f"query result = {res['total']}")
+            logging.info(f"query result = {res['total']}")
         except pymysql.MySQLError as error:
-            print(error)
+            logging.info(error)
 
     query_by_company = [('科技', 1, 100)]
 
     # @parameterized.expand(query_by_company)
     # def get_source_data_by_company(self, company_name, page_num, page_size):
     def get_source_data_by_company(self):
-        print('invoke method -> get_source_data_by_company()')
+        logging.info('invoke method -> get_source_data_by_company()')
         query_sql = GET_SOURCE_DATA_BY_COMPANY
         try:
             company_name = '科技'
             page_num = 1
             page_size = 1
-            conn = self.get_conn()
+            conn = self.test_get_conn()
             with conn.cursor() as cursor:
                 cursor.execute(query_sql, ('%' + company_name + '%', page_num, page_size))
                 desc = cursor.description
-                print(desc)  # (('id', 253, None, 256, 256, 0, False)
+                logging.info(desc)  # (('id', 253, None, 256, 256, 0, False)
                 data_dict = [dict(zip([col[0] for col in desc], row)) for row in cursor.fetchall()]
-            print(data_dict)
+            logging.info(data_dict)
         except pymysql.MySQLError as error:
-            print(error)
+            logging.info(error)
 
 
 if __name__ == '__main__':

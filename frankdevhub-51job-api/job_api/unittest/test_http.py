@@ -1,3 +1,4 @@
+import logging
 import unittest
 import urllib
 import urllib.request
@@ -22,32 +23,32 @@ class TestHttpRequest(unittest.TestCase):
 
     def test_urllib_get_ip_location(self):
         """urllib module 测试获取ip地址的经纬度地理信息"""
-        print('invoke method -> test_urllib_get_ip_location')
+        logging.info('invoke method -> test_urllib_get_ip_location')
         request_data = {'key': self.TENCENT_API_KEY, 'ip': self.TEST_IP}
 
         path_variables = urllib.parse.urlencode(request_data)
-        print(f'path_variables = {str(path_variables)}')
+        logging.info(f'path_variables = {str(path_variables)}')
         api_url = self.GET_IP_LOCATION
         request_url = api_url + path_variables
-        print(f'request_url = {str(request_url)}')
+        logging.info(f'request_url = {str(request_url)}')
 
         response_data = urllib.request.urlopen(request_url).read()
-        print(str(response_data.decode('utf-8')))
+        logging.info(str(response_data.decode('utf-8')))
 
     def test_request_get_ip_location(self):
         """requests module 测试获取ip地址的经纬度地理信息"""
-        print('invoke method -> test_request_get_ip_location')
+        logging.info('invoke method -> test_request_get_ip_location')
         request_data = {'key': self.TENCENT_API_KEY, 'ip': self.TEST_IP}
 
         path_variables = urllib.parse.urlencode(request_data)
-        print(f'path_variables = {str(path_variables)}')
+        logging.info(f'path_variables = {str(path_variables)}')
         api_url = self.GET_IP_LOCATION
         request_url = api_url + path_variables
-        print(f'request_url = {str(request_url)}')
+        logging.info(f'request_url = {str(request_url)}')
         response_data = requests.get(request_url)
 
-        print(type(response_data))  # <class 'requests.models.Response'>
-        print(response_data.text)  # response context
+        logging.info(type(response_data))  # <class 'requests.models.Response'>
+        logging.info(response_data.text)  # response context
 
 
 if __name__ == '__main__':
