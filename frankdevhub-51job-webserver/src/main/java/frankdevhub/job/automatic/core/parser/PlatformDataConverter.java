@@ -3,8 +3,8 @@ package frankdevhub.job.automatic.core.parser;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import frankdevhub.job.automatic.entities.JobSearchResult;
-import frankdevhub.job.automatic.entities.PlatformDataJson;
+import frankdevhub.job.automatic.entities.business.JobSearchResult;
+import frankdevhub.job.automatic.entities.business.PlatformDataJson;
 import lombok.extern.slf4j.Slf4j;
 import tk.mybatis.mapper.util.Assert;
 

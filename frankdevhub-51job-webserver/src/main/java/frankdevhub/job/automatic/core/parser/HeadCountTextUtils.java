@@ -1,7 +1,7 @@
 package frankdevhub.job.automatic.core.parser;
 
 import frankdevhub.job.automatic.core.utils.NumericStringUtils;
-import frankdevhub.job.automatic.entities.JobSearchResult;
+import frankdevhub.job.automatic.entities.business.JobSearchResult;
 import lombok.extern.slf4j.Slf4j;
 import tk.mybatis.mapper.util.Assert;
 
