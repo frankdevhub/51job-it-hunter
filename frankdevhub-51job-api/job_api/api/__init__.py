@@ -4,5 +4,4 @@
 # @contact: frankdevhub@gmail.com
 # @blog: http://blog.frankdevhub.site
 # @file: __init__.py.py
-# @time: 2021/2/13 21:39
-# @desc: django-rest demo
+# @time: 2021/2/15 20:51

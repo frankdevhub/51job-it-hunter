@@ -17,7 +17,7 @@ Including another URLconf
 from django.conf.urls import include, url
 from rest_framework import routers
 
-from job_api.views import *
+from job_api.unittest.django.test_restful_api import *
 
 # 定义路由地址
 router = routers.DefaultRouter()
@@ -27,6 +27,6 @@ router.register(r'plat_data', PlatDataJsonViewSet)
 
 # 注册上一级的路由地址并添加
 urlpatterns = [
-    url('api/', include(router.urls)),
+    url('plat_data/', include(router.urls)),
 ]
 urlpatterns += router.urls
