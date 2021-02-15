@@ -1,7 +1,7 @@
 package frankdevhub.job.automatic.mapper;
 
 import frankdevhub.job.automatic.dto.PlatformDataJsonQuery;
-import frankdevhub.job.automatic.entities.PlatformDataJson;
+import frankdevhub.job.automatic.entities.business.PlatformDataJson;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -74,11 +74,21 @@ public interface PlatformDataJsonMapper {
      */
     int findPageWithCount(PlatformDataJsonQuery query);
 
+
     /**
-     * 依据主键jobid查询实体对象
+     * 依据唯一识别号查询实体对象的数量
      *
-     * @param jobid 唯一标识jobid
+     * @param unionId 唯一识别号
      * @return 实体对象
      */
-    PlatformDataJson selectByJobId(String jobId);
+    PlatformDataJson selectByUnionId(Integer unionId);
+
+
+    /**
+     * 依据唯一识别号查询实体对象的数量
+     *
+     * @param unionId 唯一识别号
+     * @return 满足条件的实体数量
+     */
+    int selectCountByUnionId(Integer unionId);
 }

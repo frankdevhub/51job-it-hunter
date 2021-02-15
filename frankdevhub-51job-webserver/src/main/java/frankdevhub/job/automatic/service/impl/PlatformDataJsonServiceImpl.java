@@ -153,13 +153,13 @@ public class PlatformDataJsonServiceImpl extends MyBatisRepository implements Pl
     }
 
     /**
-     * 依据主键jobid查询实体对象
+     * 依据主键unionId查询实体对象
      *
-     * @param jobId 唯一标识jobid
+     * @param unionId 唯一标识unionId
      * @return 实体对象
      */
     @Override
-    public PlatformDataJson selectByJobId(String jobId) {
-        return dataJsonMapper.selectByJobId(jobId);
+    public PlatformDataJson selectByUnionId(Integer unionId) {
+        return dataJsonMapper.selectByUnionId(unionId);
     }
 }

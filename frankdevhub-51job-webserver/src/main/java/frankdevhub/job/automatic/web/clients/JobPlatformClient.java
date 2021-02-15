@@ -216,7 +216,7 @@ public class JobPlatformClient {
                 for (PlatformDataJson data : datas) {
                     Assert.notNull(data.getJobId(), "cannot find jobId");
                     //TODO: 校验源数据 jobid查重判断是否已经存在
-                    PlatformDataJson d = getPlatformDataJsonService().selectByJobId(data.getJobId());
+                    PlatformDataJson d = getPlatformDataJsonService().selectByUnionId(Integer.parseInt(data.getJobId()));
                     log.info("property id = {}", data.getJobId());
                     if (null == d) {
                         data.doCreateEntity();

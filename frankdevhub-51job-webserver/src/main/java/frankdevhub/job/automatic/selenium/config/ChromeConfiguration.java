@@ -28,7 +28,7 @@ import java.util.concurrent.locks.ReentrantLock;
 @Slf4j
 @Data
 @SuppressWarnings("all")
-public class ChromeConfiguration implements SeleniumBrowserConfiguration {
+public class ChromeConfiguration implements SeleniumConfiguration {
 
     private final Lock configLock = new ReentrantLock();
 

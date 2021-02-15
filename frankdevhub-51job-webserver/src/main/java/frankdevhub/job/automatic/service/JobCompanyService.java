@@ -95,7 +95,7 @@ public interface JobCompanyService {
     /**
      * 依据唯一识别号查询实体对象的数量
      *
-     * @param markId 唯一识别号
+     * @param unionId 唯一识别号
      * @return 满足条件的实体数量
      */
     int selectCountByUnionId(Integer unionId);

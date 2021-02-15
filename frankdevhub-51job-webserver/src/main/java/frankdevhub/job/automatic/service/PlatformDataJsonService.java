@@ -85,10 +85,10 @@ public interface PlatformDataJsonService {
     int findPageWithCount(PlatformDataJsonQuery query);
 
     /**
-     * 依据主键jobid查询实体对象
+     * 依据主键unionId查询实体对象
      *
-     * @param jobId 唯一标识jobid
+     * @param unionId 唯一标识unionId
      * @return 实体对象
      */
-    PlatformDataJson selectByJobId(String jobId);
+    PlatformDataJson selectByUnionId(Integer unionId);
 }

@@ -31,6 +31,7 @@ public class SeleniumConstants {
     public static final String RESULT_SALARY_RANGE_XPATH = "a[@class='el']/p[@class='info']/span[@class='sal']"; //职位薪资范围描述
     public static final String RESULT_JD_PUBLISH_DATE_XPATH = "a[@class='el']/p[@class='t']/span[@class='time']"; //职位发布日期  01-26发布
     //搜索返回职位(企业简介,行业,标签)
+    public static final String COMPANY_INFO_TEXT_XPATH = "//div[@class='tCompany_center clearfix']"; //jsoup解析企业信息页面中的企业信息段落(含html)
     public static final String RESULT_COMPANY_NAME_XPATH = "div[@class='er']/a"; //职位企业名称  盛趣信息技术（上海）有限公司
     public static final String RESULT_COMPANY_TYPE_NAME_XPATH = "div[@class='er']/p[@class='dc at']"; //职位企业类型(民营公司) 民营公司 | 1000-5000人
     public static final String RESULT_COMPANY_INDUSTRY_TYPE_NAME_XPATH = "div[@class='er']/p[@class='int at']"; //职位企业类型(民营公司) 计算机软件

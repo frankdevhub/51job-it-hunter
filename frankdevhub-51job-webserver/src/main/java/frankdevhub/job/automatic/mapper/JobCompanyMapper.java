@@ -1,7 +1,7 @@
 package frankdevhub.job.automatic.mapper;
 
 import frankdevhub.job.automatic.dto.JobCompanyQuery;
-import frankdevhub.job.automatic.entities.JobCompany;
+import frankdevhub.job.automatic.entities.business.JobCompany;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -73,4 +73,22 @@ public interface JobCompanyMapper {
      * @return 满足条件的实体数量
      */
     int findPageWithCount(JobCompanyQuery query);
+
+
+    /**
+     * 依据唯一识别号查询实体对象的数量
+     *
+     * @param unionId 唯一识别号
+     * @return 实体对象
+     */
+    JobCompany selectByUnionId(Integer unionId);
+
+
+    /**
+     * 依据唯一识别号查询实体对象的数量
+     *
+     * @param unionId 唯一识别号
+     * @return 满足条件的实体数量
+     */
+    int selectCountByUnionId(Integer unionId);
 }

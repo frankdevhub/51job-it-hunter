@@ -169,7 +169,7 @@ public class PlatformWebClient {
         Assert.notNull(url, "cannot find url");
 
         //提取链接中的关键字的正则表达式
-        String regex = BusinessConstants.DEFAULT_HHTP_LINK_KEYWORD_REGEX;
+        String regex = BusinessConstants.DEFAULT_HTTP_LINK_MARK_REGEX;
         Matcher matcher = Pattern.compile(regex).matcher(url);
         if (matcher.find()) {
             return matcher.group(1);
