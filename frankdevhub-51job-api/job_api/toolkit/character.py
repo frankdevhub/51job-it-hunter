@@ -6,9 +6,13 @@
 # @file: character.py
 # @time: 2021/2/15 20:50
 
+import logging as log
 import re
 
+from .encode import CharacterEncode
 
+
+# noinspection PyTypeChecker
 class CharacterHelper:
     CN_CHARACTERS = "[\\u4E00-\\u9FA5]"  # 中文字符
     EN_CHARACTERS = "[a-zA-Z]"  # 英文字符
@@ -16,48 +20,72 @@ class CharacterHelper:
     NUMERIC_CHARACTERS = "[0-9]"  # 数值类字符
     SYMBOL_CHARACTERS = "[a-zA-Z0-9\\u4E00-\\u9FA5]"  # 符号类字符
 
+    @staticmethod
+    def character_pattern_match(target, expression):
+        """匹配字符对象"""
+        pattern = re.compile(expression)
+        matched = pattern.search(target, re.M | re.I)
+        if matched:
+            return True
+        else:
+            return False
 
-def character_pattern_match(target, expression):
-    """匹配字符对象"""
-    pattern = re.compile(expression)
-    matched = pattern.search(target, re.M | re.I)
-    if matched:
-        return True
-    else:
-        return False
+    @staticmethod
+    def is_chinese_character(target):
+        """判断是否是中文字符"""
+        log.info('invoke is_chinese_character() ...')
+        matched = CharacterHelper.character_pattern_match(target, CharacterHelper.CN_CHARACTERS)
+        return matched
 
+    @staticmethod
+    def is_simple_chinese_character(target):
+        """判断是否是简体中文字符"""
+        log.info('invoke is_simple_chinese_character() ...')
+        is_chinese = CharacterHelper.is_chinese_character(target)
+        if is_chinese:
+            # str_bytes = str.encode(target)
+            # log.info(f'character: {target} ,bytes: {str_bytes}')
+            target_copy = target
+            tmp = target_copy.encode(CharacterEncode.Big5)
+            log.info(f'source character : {target}， after convert: {tmp}')
+            if tmp == target_copy:
+                return True
+            else:
+                log.info(f'character: {target} is not a simple chinese character '
+                         f'(possible should be taiwanese character).')
+                return False
 
-def is_chinese_character(self, target):
-    """判断是否是中文字符"""
-    pass
+        else:
+            log.info(f'character: {target} is not a chinese character.')
+            return False
 
+    @staticmethod
+    def is_taiwanese_character(target):
+        """判断是否是繁体中文字符"""
+        log.info('invoke is_taiwanese_character() ...')
+        pass
 
-def is_simple_chinese_character(self, target):
-    """判断是否是简体中文字符"""
-    pass
+    @staticmethod
+    def is_english_character(target):
+        """判断是否是英文字符"""
+        log.info('invoke is_english_character() ...')
+        pass
 
+    @staticmethod
+    def is_english_capital_character(target):
+        """判断是否是英文大写字符"""
+        log.info('invoke is_english_capital_character( ...')
+        pass
 
-def is_taiwanese_character(self, target):
-    """判断是否是繁体中文字符"""
-    pass
+    @staticmethod
+    def is_numeric_character(target):
+        """判断是否是数值类字符"""
+        log.info('invoke is_numeric_character() ...')
+        matched = CharacterHelper.character_pattern_match(target, CharacterHelper.NUMERIC_CHARACTERS)
+        return matched
 
-
-def is_english_character(self, target):
-    """判断是否是英文字符"""
-    pass
-
-
-def is_english_capital_character(self, target):
-    """判断是否是英文大写字符"""
-    pass
-
-
-def is_numeric_character(self, target):
-    """判断是否是数值类字符"""
-    matched = character_pattern_match(target, self.NUMERIC_CHARACTERS)
-    return matched
-
-
-def is_symbol_character(self, target):
-    """判断是否是符号类字符"""
-    pass
+    @staticmethod
+    def is_symbol_character(target):
+        """判断是否是符号类字符"""
+        log.info('invoke is_symbol_character()')
+        pass
