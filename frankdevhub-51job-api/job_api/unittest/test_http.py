@@ -1,11 +1,3 @@
-import logging
-import unittest
-import urllib
-import urllib.request
-
-import requests
-
-
 # !/usr/bin/env python
 # encoding: utf-8
 # @author: frankdevhub
@@ -13,8 +5,19 @@ import requests
 # @blog: http://blog.frankdevhub.site
 # @file: test_http.py
 # @time: 2021/2/14 11:11
-# @desc:  Http 请求测试
 
+
+import logging as log
+import unittest
+import urllib
+import urllib.request
+
+import requests
+
+log.basicConfig(level=log.INFO)
+
+
+# noinspection PyUnresolvedReferences
 class TestHttpRequest(unittest.TestCase):
     TENCENT_API_KEY = "EPOBZ-NAQ36-5VZSA-MBIIB-NMB7O-SEBRQ"  # 腾讯地图API秘钥
     TEST_IP = "39.98.246.50"  # 测试用ip地址,阿里云服务器ECS地址
@@ -22,38 +25,42 @@ class TestHttpRequest(unittest.TestCase):
     GET_IP_LOCATION = "https://apis.map.qq.com/ws/location/v1/ip?"
 
     def test_urllib_get_ip_location(self):
-        """urllib module 测试获取ip地址的经纬度地理信息"""
-        logging.info('invoke method -> test_urllib_get_ip_location')
+        """
+        urllib module 测试获取ip地址的经纬度地理信息
+        """
+        log.info('invoke method -> test_urllib_get_ip_location')
         request_data = {'key': self.TENCENT_API_KEY, 'ip': self.TEST_IP}
 
         path_variables = urllib.parse.urlencode(request_data)
-        logging.info(f'path_variables = {str(path_variables)}')
+        log.info(f'path_variables = {str(path_variables)}')
         api_url = self.GET_IP_LOCATION
         request_url = api_url + path_variables
-        logging.info(f'request_url = {str(request_url)}')
+        log.info(f'request_url = {str(request_url)}')
 
         response_data = urllib.request.urlopen(request_url).read()
-        logging.info(str(response_data.decode('utf-8')))
+        log.info(str(response_data.decode('utf-8')))
 
     def test_request_get_ip_location(self):
-        """requests module 测试获取ip地址的经纬度地理信息"""
-        logging.info('invoke method -> test_request_get_ip_location')
+        """
+        requests module 测试获取ip地址的经纬度地理信息
+        """
+        log.info('invoke method -> test_request_get_ip_location')
         request_data = {'key': self.TENCENT_API_KEY, 'ip': self.TEST_IP}
 
         path_variables = urllib.parse.urlencode(request_data)
-        logging.info(f'path_variables = {str(path_variables)}')
+        log.info(f'path_variables = {str(path_variables)}')
         api_url = self.GET_IP_LOCATION
         request_url = api_url + path_variables
-        logging.info(f'request_url = {str(request_url)}')
+        log.info(f'request_url = {str(request_url)}')
         response_data = requests.get(request_url)
 
-        logging.info(type(response_data))  # <class 'requests.models.Response'>
-        logging.info(response_data.text)  # response context
+        log.info(type(response_data))  # <class 'requests.models.Response'>
+        log.info(response_data.text)  # response context
 
 
 if __name__ == '__main__':
-    testSuite = unittest.TestSuite()
-    testSuite.addTest(TestHttpRequest('test_request_get_ip_location'))  # test_request_get_ip_location
-    runners = unittest.runner.TextTestRunner()
-    runners.run(testSuite)
-    # unittest.main()
+    # test_suite = unittest.TestSuite()
+    # test_suite.addTest(TestHttpRequest("test_request_get_ip_location"))  # test_request_get_ip_location
+    # runner = unittest.runner.TextTestRunner()
+    # runner.run(test_suite)
+    unittest.main()

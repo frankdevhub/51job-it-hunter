@@ -1,8 +1,6 @@
 package frankdevhub.job.automatic.core.utils;
 
-import frankdevhub.job.automatic.core.constants.BusinessConstants;
 import frankdevhub.job.automatic.core.enums.CharacterEncode;
-import tk.mybatis.mapper.util.Assert;
 
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.InvocationTargetException;
@@ -75,7 +73,7 @@ public class CommonBusinessUtils {
      * @return 布尔值
      */
     public static Boolean isChineseCharacter(Character character) {
-        Assert.notNull(character, BusinessConstants.CHARACTER_NULL_ARGUMENT);
+        //Assert.notNull(character, BusinessConstants.CHARACTER_NULL_ARGUMENT);
         String regex = "[\\u4E00-\\u9FA5]";
         Matcher matcher = Pattern.compile(regex).matcher(character.toString());
         if (matcher.find())
@@ -127,7 +125,7 @@ public class CommonBusinessUtils {
      * @throws UnsupportedEncodingException
      */
     public static Boolean isEnglishCharacter(Character character) {
-        Assert.notNull(character, BusinessConstants.CHARACTER_NULL_ARGUMENT);
+        //Assert.notNull(character, BusinessConstants.CHARACTER_NULL_ARGUMENT);
         String regex = "[a-zA-Z]";
         Matcher matcher = Pattern.compile(regex).matcher(character.toString());
         Boolean match = matcher.find();
@@ -160,7 +158,7 @@ public class CommonBusinessUtils {
      * @return 布尔值
      */
     public static Boolean isNumericCharacter(Character character) {
-        Assert.notNull(character, BusinessConstants.CHARACTER_NULL_ARGUMENT);
+        //Assert.notNull(character, BusinessConstants.CHARACTER_NULL_ARGUMENT);
         String regex = "[0-9]";
         Matcher matcher = Pattern.compile(regex).matcher(character.toString());
         Boolean match = matcher.find();
@@ -174,7 +172,7 @@ public class CommonBusinessUtils {
      * @return 布尔值
      */
     public static Boolean isSymbolCharacter(Character character) {
-        Assert.notNull(character, BusinessConstants.CHARACTER_NULL_ARGUMENT);
+        //Assert.notNull(character, BusinessConstants.CHARACTER_NULL_ARGUMENT);
         String regex = "[a-zA-Z0-9\\u4E00-\\u9FA5]";
         Matcher matcher = Pattern.compile(regex).matcher(character.toString());
         Boolean match = !matcher.find();
