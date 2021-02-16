@@ -11,6 +11,8 @@ import re
 
 from .encode import CharacterEncode
 
+log.basicConfig(level=log.INFO)
+
 
 # noinspection PyTypeChecker
 class CharacterHelper:
@@ -23,8 +25,8 @@ class CharacterHelper:
     @staticmethod
     def character_pattern_match(target, expression):
         """匹配字符对象"""
-        pattern = re.compile(expression)
-        matched = pattern.search(target, re.M | re.I)
+        pattern = re.compile(expression, re.M | re.I)
+        matched = pattern.search(target)
         if matched:
             return True
         else:
@@ -43,18 +45,25 @@ class CharacterHelper:
         log.info('invoke is_simple_chinese_character() ...')
         is_chinese = CharacterHelper.is_chinese_character(target)
         if is_chinese:
-            # str_bytes = str.encode(target)
-            # log.info(f'character: {target} ,bytes: {str_bytes}')
-            target_copy = target
-            tmp = target_copy.encode(CharacterEncode.Big5)
-            log.info(f'source character : {target}， after convert: {tmp}')
-            if tmp == target_copy:
-                return True
-            else:
-                log.info(f'character: {target} is not a simple chinese character '
-                         f'(possible should be taiwanese character).')
-                return False
+            is_tw = False
+            try:
+                encode = CharacterEncode.GB2312.value
+                decode_target = target.encode(encode).decode(encode)
+                log.info(f'source character : {target}，decode(GB2312): {decode_target}')
+                if target == decode_target:
+                    return True
+                else:
+                    is_tw = True
+                    return False
 
+            except Exception as e:
+                is_tw = True
+                log.error(str(e))
+                return False
+            finally:
+                if is_tw:
+                    log.info(f'character: {target} is not a simple chinese character '
+                             f'(possible should be taiwanese character).')
         else:
             log.info(f'character: {target} is not a chinese character.')
             return False
