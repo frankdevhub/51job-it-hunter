@@ -17,13 +17,14 @@ log.basicConfig(level=log.INFO)
 class TestCharacterHelper(unittest.TestCase):
 
     def setUp(self):
-        self.characters_example = ('一', '各', '时', '個', '詢', 's', '1', '-')
+        self.characters_example = ('1', '各', '时', '個', '詢', 's', '1', '-')
 
     def test_is_simple_chinese_character(self):
         """测试是否是简体中文字符"""
         self.setUp()
         log.info(self.characters_example)
         for x in self.characters_example:
+            log.info(type(x))
             bool_res = CharacterHelper.is_simple_chinese_character(x)
             log.info(f'test rest: {bool_res}')
 

@@ -20,34 +20,15 @@ select * from platform_data_brief_source where company_name like %s limit %s,%s
 """
 
 log.basicConfig(level=log.INFO)
+
+
 # 数据库连接配置
 class DbConfig:
-    def __init__(self):
-        self._host = "39.98.246.50"  # 数据源连接地址
-        self._username = "root"  # 数据源连接用户名
-        self._password = "frank#0806db@ecs"  # 数据源连接密码
-        self._db = "51job_data_center"  # 数据库名称
-        self._port = 3306  # 端口号
-
-    @property
-    def host(self):
-        return self._host
-
-    @property
-    def username(self):
-        return self._username
-
-    @property
-    def password(self):
-        return self._password
-
-    @property
-    def port(self):
-        return self._port
-
-    @property
-    def db(self):
-        return self._db
+    HOST = "39.98.246.50"  # 数据源连接地址
+    USERNAME = "root"  # 数据源连接用户名
+    PASSWORD = "frank#0806db@ecs"  # 数据源连接密码
+    DB_NAME = "51job_data_center"  # 数据库名称
+    PORT = 3306  # 端口号
 
 
 class TestPyMysql(unittest.TestCase):
@@ -59,23 +40,25 @@ class TestPyMysql(unittest.TestCase):
     def teardown(self):
         pass
 
-    def test_get_conn(self):
+    @staticmethod
+    def test_get_conn() -> pymysql.Connection:
         log.info('invoke method -> get_conn()')
         try:
             log.info("client attempt to get connection ... ...")
-            TestPyMysql.conn = pymysql.connect(host=DbConfig().host,
-                                               user=DbConfig().username,
-                                               passwd=DbConfig().password,
-                                               port=DbConfig().port,
-                                               db=DbConfig().db,
+            TestPyMysql.conn = pymysql.connect(host=DbConfig.HOST,
+                                               user=DbConfig.USERNAME,
+                                               passwd=DbConfig.PASSWORD,
+                                               port=DbConfig.PORT,
+                                               db=DbConfig.DB_NAME,
                                                cursorclass=pymysql.cursors.DictCursor)
-            log.info(f"remote database connected, host = {str(DbConfig.host)}")
+            log.info(f"remote database connected, host = {str(DbConfig.HOST)}")
         except pymysql.MySQLError as error:
             log.info(error)
 
-        return self.conn
+        return TestPyMysql.conn
 
-    def test_get_source_data_count(self):
+    @staticmethod
+    def test_get_source_data_count(self) -> None:
         log.info('invoke method - > get_source_data_count()')
         query_sql = GET_SOURCE_DATA_COUNT
         try:
@@ -92,15 +75,16 @@ class TestPyMysql(unittest.TestCase):
 
     query_by_company = [('科技', 1, 100)]
 
+    @staticmethod
     @parameterized.expand(query_by_company)
-    def get_source_data_by_company(self, company_name, page_num, page_size):
+    def get_source_data_by_company(company_name: str, page_num: int, page_size: int) -> None:
         log.info('invoke method -> get_source_data_by_company()')
         query_sql = GET_SOURCE_DATA_BY_COMPANY
         try:
             # company_name = '科技'
             # page_num = 1
             # page_size = 1
-            conn = self.test_get_conn()
+            conn = TestPyMysql.test_get_conn()
             with conn.cursor() as cursor:
                 cursor.execute(query_sql, ('%' + company_name + '%', page_num, page_size))
                 desc = cursor.description

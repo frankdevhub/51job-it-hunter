@@ -14,26 +14,19 @@ log.basicConfig(level=log.INFO)
 
 
 class TestRegexExpression(unittest.TestCase):
+    HEAD_COUNT_REGEX = ".*(?P<prefix>[招聘|招纳|招|需要|急需|需]+)(?P<numeric>" \
+                       "[\u4e00-\u9fa5\u767e\u5343\u96f6]+|[0-9]+|[若干])(?P<surfix>人)$"
+    TEST_HEAD_COUNT = " 招纳23人"
 
-    def setUp(self):
-        """
-         企业岗位招聘人数的正则表达式 eg:(招1人)
-         """
-        self.HEAD_COUNT_REGEX = ".*(?P<prefix>[招聘|招纳|招|需要|急需|需]+)(?P<numeric>" \
-                                "[\u4e00-\u9fa5\u767e\u5343\u96f6]+|[0-9]+|[若干])(?P<surfix>人)$"
-        self.TEST_HEAD_COUNT = " 招纳23人"
-
-    def teardown(self):
-        pass
-
-    def test_match_head_count(self):
+    @staticmethod
+    def test_match_head_count():
         log.info('invoke method -> match_head_count()')
-        log.info(f'example string = {self.TEST_HEAD_COUNT}')
+        log.info(f'example string = {TestRegexExpression.TEST_HEAD_COUNT}')
 
-        filter_string = re.sub('\\t|\\s|\\n', '', self.TEST_HEAD_COUNT, re.M | re.I)  # 去除换行符空格符
+        filter_string = re.sub('\\t|\\s|\\n', '', TestRegexExpression.TEST_HEAD_COUNT, re.M | re.I)  # 去除换行符空格符
         log.info(f'filtered string = {filter_string}')
 
-        pattern = re.compile(self.HEAD_COUNT_REGEX, re.M | re.I)
+        pattern = re.compile(TestRegexExpression.HEAD_COUNT_REGEX, re.M | re.I)
         matched = pattern.match(filter_string)
         if matched:
             log.info(f'prefix = {matched.group("prefix")}')  # prefix

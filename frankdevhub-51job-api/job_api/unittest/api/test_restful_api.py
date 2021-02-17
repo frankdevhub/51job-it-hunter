@@ -27,7 +27,6 @@ class PlatDataJsonViewSet(viewsets.ModelViewSet):
     # 参数2: detail  当前是否方法是否属于详情页视图，
     #        False，系统不会自动增加pk在生成的路由地址中
     #        True  则系统会自动增加pk在生成的路由地址
-
     @action(methods=['get'], detail=False)  # detail=False 是否为详情页数据
     def get_platform_data_count(self, request):  # http://127.0.0.1:9090/job_api/plat_data/get_platform_data_count
         log.info('invoke method -> get_platform_data_count()')
