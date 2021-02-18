@@ -34,12 +34,6 @@ class DbConfig:
 class TestPyMysql(unittest.TestCase):
     conn = None
 
-    def setUp(self):
-        pass
-
-    def teardown(self):
-        pass
-
     @staticmethod
     def test_get_conn() -> pymysql.Connection:
         log.info('invoke method -> get_conn()')
@@ -58,11 +52,11 @@ class TestPyMysql(unittest.TestCase):
         return TestPyMysql.conn
 
     @staticmethod
-    def test_get_source_data_count(self) -> None:
+    def test_get_source_data_count() -> None:
         log.info('invoke method - > get_source_data_count()')
         query_sql = GET_SOURCE_DATA_COUNT
         try:
-            conn = self.test_get_conn()
+            conn = TestPyMysql.test_get_conn()
             with conn.cursor() as cursor:
                 cursor.execute(query_sql)
                 res = cursor.fetchone()
@@ -97,8 +91,8 @@ class TestPyMysql(unittest.TestCase):
 
 if __name__ == '__main__':
     test_suite = unittest.TestSuite()
-    test_suite.addTest(TestPyMysql("test_get_conn"))  # test_get_con
-    test_suite.addTest(TestPyMysql("test_get_source_data_count"))  # test_get_source_data_count
-    test_suite.addTest(TestPyMysql("test_get_source_data_by_company"))  # test_get_source_data_by_company
+    test_suite.addTest(TestPyMysql('test_get_conn'))  # test_get_con
+    test_suite.addTest(TestPyMysql('test_get_source_data_count'))  # test_get_source_data_count
+    test_suite.addTest(TestPyMysql('test_get_source_data_by_company'))  # test_get_source_data_by_company
     runner = unittest.TextTestRunner()
     runner.run(test_suite)

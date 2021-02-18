@@ -38,6 +38,6 @@ class TestRegexExpression(unittest.TestCase):
 
 if __name__ == "__main__":
     test_suite = unittest.TestSuite()
-    test_suite.addTest(TestRegexExpression("test_match_head_count"))  # test_match_head_count
+    test_suite.addTest(TestRegexExpression('test_match_head_count'))  # test_match_head_count
     runner = unittest.TextTestRunner()
     runner.run(test_suite)

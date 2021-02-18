@@ -61,7 +61,7 @@ class TestHttpRequest(unittest.TestCase):
 
 if __name__ == '__main__':
     # test_suite = unittest.TestSuite()
-    # test_suite.addTest(TestHttpRequest("test_request_get_ip_location"))  # test_request_get_ip_location
+    # test_suite.addTest(TestHttpRequest('test_request_get_ip_location'))  # test_request_get_ip_location
     # runner = unittest.runner.TextTestRunner()
     # runner.run(test_suite)
     unittest.main()
