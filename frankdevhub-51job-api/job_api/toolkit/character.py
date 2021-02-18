@@ -46,7 +46,7 @@ class CharacterHelper:
         if is_chinese:
             is_tw = False  # 是否是繁体中文字符
             try:
-                encode = CharacterEncode.GB2312.value
+                encode = CharacterEncode.GB2312.code_name
                 decode_target = target.encode(encode).decode(encode)
                 log.info(f'source character : {target}，decode(GB2312): {decode_target}')
                 if target == decode_target:
@@ -75,7 +75,7 @@ class CharacterHelper:
         if is_chinese:
             is_simple_cn = False  # 是否是中文简体字符
             try:
-                encode = CharacterEncode.Big5.value
+                encode = CharacterEncode.Big5.code_name
                 decode_target = target.encode(encode).decode(encode)
                 log.info(f'source character : {target}，decode(Big5): {decode_target}')
                 if target == decode_target:
