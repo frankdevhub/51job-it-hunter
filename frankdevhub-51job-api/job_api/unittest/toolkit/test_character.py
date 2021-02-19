@@ -42,8 +42,7 @@ class TestCharacterHelper(unittest.TestCase):
                 if type(m) == staticmethod:
                     instance_methods.append(m)
             except Exception as e:
-                # log.error(e)
-                pass
+                log.error(e)
 
         # TODO: AttributeError: 'staticmethod' object has no attribute '__code__'
         for method in instance_methods:
