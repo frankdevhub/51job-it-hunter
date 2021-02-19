@@ -170,3 +170,9 @@ LOGGING = {
         },
     },
 }
+
+REST_FRAMEWORK = {
+    # 分页
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',  # LimitOffsetPagination 分页风格
+    'PAGE_SIZE': 20,  # 每页多少条记录
+}

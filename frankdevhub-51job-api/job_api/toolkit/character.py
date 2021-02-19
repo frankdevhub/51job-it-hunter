@@ -13,6 +13,7 @@ from .encode import CharacterEncode
 
 log.basicConfig(level=log.INFO)
 
+
 class CharacterHelper:
     """通用国际字符编码"""
     CN_CHARACTERS = "[\\u4E00-\\u9FA5]"  # 中文字符
