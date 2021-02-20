@@ -150,7 +150,7 @@ LOGGING = {
             'maxBytes': 1024 * 1024 * 5,
             'backupCount': 5,
             'formatter': 'standard',
-        },
+        }
     },
     'loggers': {
         'django': {
