@@ -5,7 +5,7 @@
 # @blog: http://blog.frankdevhub.site
 # @file: test_character.py
 # @time: 2021/2/16 12:03
-
+import inspect
 import logging as log
 import unittest
 
@@ -17,40 +17,42 @@ log.basicConfig(level=log.INFO)
 class TestCharacterHelper(unittest.TestCase):
     CHARACTER_EXAMPLE = ('1', '各', '时', '個', '詢', 's', '1', '-')
 
-    # @staticmethod
-    # def test_is_simple_chinese_character():
-    #     """测试是否是简体中文字符"""
-    #     for x in TestCharacterHelper.CHARACTER_EXAMPLE:
-    #         log.info(type(x))
-    #         bool_res = CharacterHelper.is_simple_chinese_character(x)
-    #         log.info(f'test rest: {bool_res}')
+    @staticmethod
+    def test_is_simple_chinese_character():
+        """测试是否是简体中文字符"""
+        for x in TestCharacterHelper.CHARACTER_EXAMPLE:
+            log.info(type(x))
+            bool_res = CharacterHelper.is_simple_chinese_character(x)
+            log.info(f'test rest: {bool_res}')
+        return True
 
     @staticmethod
-    def test_cls_reflection_methods():
-        """测试获取类的函数成员"""
-        # methods = inspect.getmembers(CharacterHelper, inspect.ismethod)
-        instance_members = CharacterHelper.__dict__
-        log.info(f'instance members: {instance_members}')
-        log.info(f'dict keys: {instance_members.keys()}')
+    def test_get_instance_methods():
+        """测试获取类的函数成员变量"""
+        '''
+        eg:
+         (<function CharacterHelper.character_pattern_match at 0x000001A5D009F3A0>, "<class 'function'>")
+         (<function CharacterHelper.is_english_capital_character at 0x0000027B80CBF790>, "<class 'function'>")
+        '''
+        instance_members = [(obj, type(obj)) for (type_name, obj) in inspect.getmembers(CharacterHelper) if
+                            inspect.isfunction(obj)]
+        # print(instance_members)
+        # log.info(instance_members)
+        test_example = "個"
+        for inst in instance_members:
+            func = inst[0]
+            print(f'function_name: {func.__name__} ,arg_count: {func.__code__.co_argcount}')
+            fun_name = func.__name__
+            if fun_name.lstrip().startswith('is_'):
+                bool_res = func(test_example)
+                print(bool_res)
 
-        instance_methods = []
-        for key in instance_members.keys():
-            try:
-                m = instance_members.get(key)
-                print(m)
-                log.info(f'member name: {key}, type: {type(m)}')
-                if type(m) == staticmethod:
-                    instance_methods.append(m)
-            except Exception as e:
-                log.error(e)
-
-        # TODO: AttributeError: 'staticmethod' object has no attribute '__code__'
-        for method in instance_methods:
-            args_count = method.__code__.co_argcount
-            log.info(f'args_count : {args_count}')
-            args_names = method.__code__.co_varnames
-            log.info(f'args_names : {args_names}')
+        return True
 
 
 if __name__ == '__main__':
-    unittest.main()
+    test_suite = unittest.TestSuite()
+    test_suite.addTest(TestCharacterHelper('test_is_simple_chinese_character'))  # test_is_simple_chinese_character
+    test_suite.addTest(TestCharacterHelper('test_get_instance_methods'))  # test_get_instance_methods
+    runners = unittest.TextTestRunner()
+    runners.run(test_suite)
