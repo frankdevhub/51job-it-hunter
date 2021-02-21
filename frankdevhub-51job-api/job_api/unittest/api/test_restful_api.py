@@ -35,6 +35,7 @@ class PlatDataJsonViewSet(viewsets.ModelViewSet):
         log.info('invoke method -> get_platform_data_count()')
         if request.method == 'GET':
             total_rows = PlatformDataBriefSource.objects.count()
+            assert isinstance(total_rows, int)
             log.info(f'total_rows = {total_rows}')
             try:
                 return HttpResponse(content=total_rows, status=status.HTTP_200_OK)

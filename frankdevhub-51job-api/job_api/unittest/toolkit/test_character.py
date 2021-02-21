@@ -23,6 +23,7 @@ class TestCharacterHelper(unittest.TestCase):
         for x in TestCharacterHelper.CHARACTER_EXAMPLE:
             log.info(type(x))
             bool_res = CharacterHelper.is_simple_chinese_character(x)
+            assert isinstance(bool_res, bool)
             log.info(f'test rest: {bool_res}')
         return True
 
@@ -38,13 +39,14 @@ class TestCharacterHelper(unittest.TestCase):
                             inspect.isfunction(obj)]
         # print(instance_members)
         # log.info(instance_members)
-        test_example = "個"
+        test_example = "個"  # 测试使用字符
         for inst in instance_members:
             func = inst[0]
             print(f'function_name: {func.__name__} ,arg_count: {func.__code__.co_argcount}')
             fun_name = func.__name__
             if fun_name.lstrip().startswith('is_'):
                 bool_res = func(test_example)
+                assert isinstance(bool_res, bool)
                 print(bool_res)
 
         return True

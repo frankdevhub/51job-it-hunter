@@ -24,6 +24,6 @@ class CharacterEncode(Enum):
     MBCS = 'MBCS'
     GBK = 'GBK'
     Big5 = 'Big5'
-    Unicode = 'Unicode',
-    UTF8 = 'UTF8',
+    Unicode = 'Unicode'
+    UTF8 = 'UTF8'
     Base64 = 'Base64'
