@@ -10,7 +10,7 @@ import inspect
 import logging as log
 from enum import Enum, unique
 
-from job_api.toolkit.character import CharacterHelper
+from job_api.tools.character import CharacterHelper
 
 log.basicConfig(level=log.INFO)
 

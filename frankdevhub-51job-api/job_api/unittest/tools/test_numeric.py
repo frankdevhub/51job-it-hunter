@@ -13,7 +13,8 @@ log.basicConfig(level=log.INFO)
 
 
 class TestNumericUnit(unittest.TestCase):
-    pass
+    def test_numeric_unit_members(self):
+        pass
 
 
 if __name__ == '__main__':
