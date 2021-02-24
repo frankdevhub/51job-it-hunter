@@ -37,7 +37,6 @@ INSTALLED_APPS = [
     'api.contrib.messages',
     'api.contrib.staticfiles',
     'rest_framework',
-    'api',
     'job_api'
 ]
 

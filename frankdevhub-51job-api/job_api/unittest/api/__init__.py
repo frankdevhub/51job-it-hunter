@@ -1,8 +1,8 @@
-# !/usr/bin/env python
-# encoding: utf-8
-# @author: frankdevhub
-# @contact: frankdevhub@gmail.com
-# @blog: http://blog.frankdevhub.site
-# @file: __init__.py.py
-# @time: 2021/2/13 21:39
-# @desc: api-rest demo
+#!/usr/bin/env python
+# -*- coding: UTF-8 -*-
+"""
+@File ：__init__.py.py
+@Author ：frankdevhub@gmail.com
+@Blog : http://blog.frankdevhub.site
+@Date ：2021/2/21 17:42
+"""

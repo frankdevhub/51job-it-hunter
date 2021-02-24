@@ -8,14 +8,13 @@
 """
 import inspect
 import logging as log
-from enum import Enum, unique
+from enum import Enum
 
 from job_api.tools.character import CharacterHelper
 
 log.basicConfig(level=log.INFO)
 
 
-@unique
 class NumericUnit(Enum):
     """ 通用计量单位枚举类"""
 
