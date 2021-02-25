@@ -12,7 +12,7 @@ import unittest
 import xlrd
 from parameterized import parameterized
 
-log.basicConfig(level=log.INFO)
+log.basicConfig(level=log.DEBUG)
 
 
 def read_cases(file_name):
@@ -30,7 +30,7 @@ def read_cases(file_name):
 
 
 cases = read_cases("cases.xlsx")
-log.info("cases is", cases)
+log.debug("cases is", cases)
 
 
 class TestCreateDashboard(unittest.TestCase):
@@ -38,14 +38,14 @@ class TestCreateDashboard(unittest.TestCase):
     # @parameterized.expand([param(1, 2), param(3, 4)])
     @parameterized.expand([(1, 2), (3, 4)])
     def test_1(self, num1, num2):
-        log.info("\n num is ", num1, num2)
+        log.debug("\n num is ", num1, num2)
 
     # num is 1 2
     # num is 3 4
 
     @parameterized.expand([{"key1": "value1"}, {"key2": "value2"}])
     def test_21(self, a):
-        log.info("\n a is", a)
+        log.debug("\n a is", a)
 
     # a is key1
     # a is key2
@@ -53,13 +53,13 @@ class TestCreateDashboard(unittest.TestCase):
     # @parameterized.expand([param({"key1": "value1"}, {"key2": "value2"})])
     @parameterized.expand([({"key1": "value1"}, {"key2": "value2"})])
     def test_2(self, a, b):
-        log.info("\n a is", a, "b is", b)
+        log.debug("\n a is", a, "b is", b)
 
     # a is {'key1': 'value1'} b is {'key2': 'value2'}
 
     @parameterized.expand(cases)
     def test_3(self, uid, name, b, url, para, bbb, expect):
-        log.info("\n", uid, name, b, url, para, bbb, expect)
+        log.debug("\n", uid, name, b, url, para, bbb, expect)
 
 
 if __name__ == "__main__":

@@ -15,7 +15,7 @@ from job_api.models import PlatformDataBriefSource
 from job_api.pagination import PlatDataJsonPagination
 from job_api.serializers import PlatDataJsonSerializer
 
-log.basicConfig(level=log.INFO)
+log.basicConfig(level=log.DEBUG)
 
 
 class PlatDataJsonViewSet(viewsets.ModelViewSet):
@@ -32,11 +32,11 @@ class PlatDataJsonViewSet(viewsets.ModelViewSet):
     @action(methods=['GET'], detail=False)  # detail=False 是否为详情页数据
     def get_platform_data_count(self, request):
         # http://127.0.0.1:9090/job_api/plat_data/get_platform_data_count
-        log.info('invoke method -> get_platform_data_count()')
+        log.debug('invoke method -> get_platform_data_count()')
         if request.method == 'GET':
             total_rows = PlatformDataBriefSource.objects.count()
             assert isinstance(total_rows, int)
-            log.info(f'total_rows = {total_rows}')
+            log.debug(f'total_rows = {total_rows}')
             try:
                 return HttpResponse(content=total_rows, status=status.HTTP_200_OK)
             except Exception as e:
@@ -48,10 +48,10 @@ class PlatDataJsonViewSet(viewsets.ModelViewSet):
     @action(methods=['GET'], detail=False)
     def get_platform_data_by_page(self, request):
         # http://127.0.0.1:9090/job_api/plat_data/get_platform_data_by_page?page_num=1&page_size=20
-        log.info('invoke method -> get_platform_data_by_page()')
+        log.debug('invoke method -> get_platform_data_by_page()')
         if request.method == 'GET':
             datas = PlatformDataBriefSource.objects.all()
-            log.info(f'total_rows = {len(datas)}')
+            log.debug(f'total_rows = {len(datas)}')
             try:
                 return HttpResponse(content=datas, status=status.HTTP_200_OK)
             except Exception as e:

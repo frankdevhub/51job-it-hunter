@@ -13,7 +13,7 @@ import urllib.request
 
 import requests
 
-log.basicConfig(level=log.INFO)
+log.basicConfig(level=log.DEBUG)
 
 
 # noinspection PyUnresolvedReferences

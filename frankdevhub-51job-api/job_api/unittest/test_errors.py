@@ -14,7 +14,7 @@ import unittest
 
 import job_api.error.errors as api_errors
 
-log.basicConfig(level=log.INFO)
+log.basicConfig(level=log.DEBUG)
 
 
 class TestErrors(unittest.TestCase):

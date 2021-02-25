@@ -10,7 +10,7 @@ import logging as log
 import re
 import unittest
 
-log.basicConfig(level=log.INFO)
+log.basicConfig(level=log.DEBUG)
 
 
 class TestRegexExpression(unittest.TestCase):
@@ -20,20 +20,20 @@ class TestRegexExpression(unittest.TestCase):
 
     @staticmethod
     def test_match_head_count():
-        log.info('invoke method -> match_head_count()')
-        log.info(f'example string = {TestRegexExpression.TEST_HEAD_COUNT}')
+        log.debug('invoke method -> match_head_count()')
+        log.debug(f'example string = {TestRegexExpression.TEST_HEAD_COUNT}')
 
         filter_string = re.sub('\\t|\\s|\\n', '', TestRegexExpression.TEST_HEAD_COUNT, re.M | re.I)  # 去除换行符空格符
-        log.info(f'filtered string = {filter_string}')
+        log.debug(f'filtered string = {filter_string}')
 
         pattern = re.compile(TestRegexExpression.HEAD_COUNT_REGEX, re.M | re.I)
         matched = pattern.match(filter_string)
         if matched:
-            log.info(f'prefix = {matched.group("prefix")}')  # prefix
-            log.info(f'numeric = {matched.group("numeric")}')  # numeric
-            log.info(f'surfix = {matched.group("surfix")}')  # surfix
+            log.debug(f'prefix = {matched.group("prefix")}')  # prefix
+            log.debug(f'numeric = {matched.group("numeric")}')  # numeric
+            log.debug(f'surfix = {matched.group("surfix")}')  # surfix
         else:
-            log.info('mot matched')
+            log.debug('mot matched')
 
 
 if __name__ == "__main__":

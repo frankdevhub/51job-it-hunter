@@ -12,16 +12,16 @@ import unittest
 
 from frankdevhub_51job_api.tools.numeric import NumericUnit
 
-log.basicConfig(level=log.INFO)
+log.basicConfig(level=log.DEBUG)
 
 
 class TestNumericUnit(unittest.TestCase):
 
     def test_numeric_unit_members(self):
         for instance in NumericUnit.__members__:
-            log.info(f'{instance}')
+            log.debug(f'{instance}')
             for (type_name, obj) in inspect.getmembers(instance):
-                log.info(f'type_name: {type_name}, obj: {obj}')
+                log.debug(f'type_name: {type_name}, obj: {obj}')
 
 
 if __name__ == '__main__':

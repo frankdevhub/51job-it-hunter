@@ -19,7 +19,7 @@ GET_SOURCE_DATA_BY_COMPANY = """
 select * from platform_data_brief_source where company_name like %s limit %s,%s
 """
 
-log.basicConfig(level=log.INFO)
+log.basicConfig(level=log.DEBUG)
 
 
 # 数据库连接配置
@@ -36,24 +36,24 @@ class TestPyMysql(unittest.TestCase):
 
     @staticmethod
     def test_get_conn() -> pymysql.Connection:
-        log.info('invoke method -> get_conn()')
+        log.debug('invoke method -> get_conn()')
         try:
-            log.info("client attempt to get connection ... ...")
+            log.debug("client attempt to get connection ... ...")
             TestPyMysql.conn = pymysql.connect(host=DbConfig.HOST,
                                                user=DbConfig.USERNAME,
                                                passwd=DbConfig.PASSWORD,
                                                port=DbConfig.PORT,
                                                db=DbConfig.DB_NAME,
                                                cursorclass=pymysql.cursors.DictCursor)
-            log.info(f"remote database connected, host = {str(DbConfig.HOST)}")
+            log.debug(f"remote database connected, host = {str(DbConfig.HOST)}")
         except pymysql.MySQLError as error:
-            log.info(error)
+            log.debug(error)
 
         return TestPyMysql.conn
 
     @staticmethod
     def test_get_source_data_count() -> None:
-        log.info('invoke method - > get_source_data_count()')
+        log.debug('invoke method - > get_source_data_count()')
         query_sql = GET_SOURCE_DATA_COUNT
         try:
             conn = TestPyMysql.test_get_conn()
@@ -63,16 +63,16 @@ class TestPyMysql(unittest.TestCase):
                 cursor.close()
                 conn.commit()
                 conn.close()
-            log.info(f"query result = {res['total']}")
+            log.debug(f"query result = {res['total']}")
         except pymysql.MySQLError as error:
-            log.info(error)
+            log.debug(error)
 
     query_by_company = [('科技', 1, 100)]
 
     @staticmethod
     @parameterized.expand(query_by_company)
     def get_source_data_by_company(company_name: str, page_num: int, page_size: int) -> None:
-        log.info('invoke method -> get_source_data_by_company()')
+        log.debug('invoke method -> get_source_data_by_company()')
         query_sql = GET_SOURCE_DATA_BY_COMPANY
         try:
             # company_name = '科技'
@@ -82,11 +82,11 @@ class TestPyMysql(unittest.TestCase):
             with conn.cursor() as cursor:
                 cursor.execute(query_sql, ('%' + company_name + '%', page_num, page_size))
                 desc = cursor.description
-                log.info(desc)  # (('id', 253, None, 256, 256, 0, False)
+                log.debug(desc)  # (('id', 253, None, 256, 256, 0, False)
                 data_dict = [dict(zip([col[0] for col in desc], row)) for row in cursor.fetchall()]
-            log.info(data_dict)
+            log.debug(data_dict)
         except pymysql.MySQLError as error:
-            log.info(error)
+            log.debug(error)
 
 
 if __name__ == '__main__':

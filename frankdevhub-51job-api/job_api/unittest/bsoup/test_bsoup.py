@@ -12,7 +12,7 @@ import unittest
 
 from bs4 import BeautifulSoup
 
-log.basicConfig(level=log.INFO)
+log.basicConfig(level=log.DEBUG)
 
 
 class TestBeautifulSoup(unittest.TestCase):

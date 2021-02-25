@@ -11,7 +11,7 @@ import unittest
 
 from frankdevhub_51job_api.tools.character import CharacterHelper
 
-log.basicConfig(level=log.INFO)
+log.basicConfig(level=log.DEBUG)
 
 
 class TestCharacterHelper(unittest.TestCase):
@@ -21,10 +21,10 @@ class TestCharacterHelper(unittest.TestCase):
     def test_is_simple_chinese_character():
         """测试是否是简体中文字符"""
         for x in TestCharacterHelper.CHARACTER_EXAMPLE:
-            log.info(type(x))
+            log.debug(type(x))
             bool_res = CharacterHelper.is_simple_chinese_character(x)
             assert isinstance(bool_res, bool)
-            log.info(f'test rest: {bool_res}')
+            log.debug(f'test rest: {bool_res}')
         return True
 
     @staticmethod
@@ -38,7 +38,7 @@ class TestCharacterHelper(unittest.TestCase):
         instance_members = [(obj, type(obj)) for (type_name, obj) in inspect.getmembers(CharacterHelper) if
                             inspect.isfunction(obj)]
         # print(instance_members)
-        # log.info(instance_members)
+        # log.debug(instance_members)
         test_example = "個"  # 测试使用字符
         for inst in instance_members:
             func = inst[0]
