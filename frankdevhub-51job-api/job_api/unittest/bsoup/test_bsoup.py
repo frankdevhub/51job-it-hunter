@@ -36,9 +36,13 @@ class TestBeautifulSoup(unittest.TestCase):
         # soup = BeautifulSoup(open('index.html'))  # 使用本地文件创建对象
         print(soup.prettify())
 
+    def test_get_html_page(self):
+        pass
+    
 
 if __name__ == '__main__':
     test_suite = unittest.TestSuite()
     test_suite.addTest(TestBeautifulSoup("test_local"))
+    test_suite.addTest(TestBeautifulSoup("test_get_html_page"))
     runner = unittest.TextTestRunner()
     runner.run(test_suite)

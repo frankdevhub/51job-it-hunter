@@ -24,9 +24,7 @@ class TestHttpRequest(unittest.TestCase):
 
     @staticmethod
     def test_urllib_get_ip_location():
-        """
-        urllib module 测试获取ip地址的经纬度地理信息
-        """
+        """urllib module 测试获取ip地址的经纬度地理信息"""
         log.info('invoke method -> test_urllib_get_ip_location')
         request_data = {'key': TestHttpRequest.TENCENT_API_KEY, 'ip': TestHttpRequest.TEST_IP}
 
