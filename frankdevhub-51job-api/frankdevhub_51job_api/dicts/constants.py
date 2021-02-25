@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: UTF-8 -*-
 """
-@File ：constants.py
+@File ：dicts.py
 @Author ：frankdevhub@gmail.com
 @Blog : http://blog.frankdevhub.site
 @Date ：2021/2/24 18:34
@@ -10,7 +10,7 @@
 
 class SeleniumConstants:
     """
-      selenium constants
+      selenium dicts
       web element attribute name
       页面对象常用属性参数
     """

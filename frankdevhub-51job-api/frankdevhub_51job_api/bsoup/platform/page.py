@@ -8,6 +8,7 @@
 """
 import functools
 import logging as log
+import unittest
 
 log.basicConfig(level=log.INFO)
 
@@ -19,7 +20,7 @@ def valid_url(func):
     @functools.wraps(func)
     def wrapper(url):
         log.info(f'page link  = {url}')
-        assert url and url.strip() is False, "page url cannot be empty"
+        assert url and url.strip() is not None, 'page url cannot be empty'
         func(url)
         return wrapper
 

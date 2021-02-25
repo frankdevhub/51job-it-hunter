@@ -1,12 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: UTF-8 -*-
 """
-@File ：salary.py
+@File ：__init__.py.py
 @Author ：frankdevhub@gmail.com
 @Blog : http://blog.frankdevhub.site
-@Date ：2021/2/18 14:47
+@Date ：2021/2/25 14:00
 """
-
-
-class SalaryText:
-    pass

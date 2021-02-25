@@ -10,7 +10,7 @@ import inspect
 import logging as log
 import unittest
 
-from job_api.tools.numeric import NumericUnit
+from frankdevhub_51job_api.tools.numeric import NumericUnit
 
 log.basicConfig(level=log.INFO)
 
