@@ -8,9 +8,7 @@
 """
 
 import unittest
-import logging as log
-
-log.basicConfig(level=log.DEBUG)
+from frankdevhub_51job_api.tools.parser import *
 
 
 class TestParser(unittest.TestCase):
@@ -25,25 +23,15 @@ class TestParser(unittest.TestCase):
     range_texts = ['2-3万/月', '2——7万/年', '23.9-3万/月', '12000-15000/月', '23.0-334.98']
 
     def test_parse_salary_text(self):
-        self.fail()
-
-    def test_is_unit_by_thousand(self):
-        self.fail()
-
-    def test_is_unit_by_ten_thousand(self):
-        self.fail()
-
-    def test_is_unit_by_day(self):
-        self.fail()
-
-    def test_is_unit_by_month(self):
-        self.fail()
-
-    def test_is_unit_by_year(self):
-        self.fail()
+        for text in TestParser.range_texts:
+            print(f'text : {text}')
+            res = parse_salary_text(text)
+            for value in res:
+                print(value)
 
 
 if __name__ == '__main__':
     test_suite = unittest.TestSuite()
+    test_suite.addTest(TestParser('test_parse_salary_text'))
     runner = unittest.TextTestRunner()
     runner.run(test_suite)
