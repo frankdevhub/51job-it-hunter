@@ -25,8 +25,4 @@ class TestNumericUnit(unittest.TestCase):
 
 
 if __name__ == '__main__':
-    test_suite = unittest.TestSuite()
-    test_suite.addTest(TestNumericUnit("test_numeric_unit_members"))
-    runner = unittest.TextTestRunner()
-    runner.run(test_suite)
-    # unittest.main()
+    unittest.main()
