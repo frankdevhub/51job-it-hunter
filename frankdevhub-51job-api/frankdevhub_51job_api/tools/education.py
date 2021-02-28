@@ -13,4 +13,15 @@ from enum import Enum, unique
 @unique
 class EducationDegree(Enum):
     """教育学历文化水平"""
-    pass
+
+    def __new__(cls, args):
+        instance = object.__new__(cls)
+        instance.name = args['name']
+        instance.code = args['code']
+        return instance
+
+
+DOCTOR = {'name': '博士', 'code': 'DOCTOR'}
+MASTER = {'name': '硕士研究生', 'code': 'MASTER'}
+BACHELOR = {'name': '本科', 'code': 'BACHELOR'}
+TACHNICAL_COLLEGE = {'name': '中专', 'code': 'TACHNICAL_COLLEGE'}
