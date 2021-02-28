@@ -27,7 +27,7 @@ class TestRegexExpression(unittest.TestCase):
         log.debug(f'filtered string = {filter_string}')
 
         pattern = re.compile(TestRegexExpression.HEAD_COUNT_REGEX, re.M | re.I)
-        matched = pattern.match(filter_string)
+        matched = pattern.search(filter_string)
         if matched:
             log.debug(f'prefix = {matched.group("prefix")}')  # prefix
             log.debug(f'numeric = {matched.group("numeric")}')  # numeric

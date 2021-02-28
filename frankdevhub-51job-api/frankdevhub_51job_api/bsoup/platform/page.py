@@ -49,11 +49,14 @@ def get_page_html_context(url_link: str) -> str:
 
 def get_index(m, is_next: bool):
     if m:
-        index = int(m.group(1))
+        full_group = m.group()
+        group_str = m.group(1)
+        index = int(group_str.split('.')[0])
+        rest_str = full_group.replace(group_str, '', 1)
         if is_next:
-            return str(index - 1)
+            return str(index - 1) + rest_str
         else:
-            return str(index - 1)
+            return str(index - 1) + rest_str
     else:
         raise BusinessError(f'url regex cannot match page url')
 
@@ -61,17 +64,29 @@ def get_index(m, is_next: bool):
 # @valid_url
 def get_previous_page(url_link: str) -> str:
     log.info(f'get_previous_page, url_link = {url_link}')
+    url_link = re.sub('\\t|\\s|\\n', '', url_link, re.M | re.I)
+
     expr = "([0-9]+)(.html?)"
     p = re.compile(expr)
-    m = p.match(url_link)
-    last_url = re.sub(p, get_index(m, is_next=False), url_link)
-    log.info(f'previous page url_link = {last_url}')
-    return last_url
+    m = p.search(url_link, re.M | re.I)
+    p_url = re.sub(p, get_index(m, is_next=False), url_link)
+
+    log.info(f'previous page url_link = {p_url}')
+    return p_url
 
 
 @valid_url
 def get_next_page(url_link: str) -> str:
-    return ""
+    log.info(f'get_next_page, url_link = {url_link}')
+    url_link = re.sub('\\t|\\s|\\n', '', url_link, re.M | re.I)
+
+    expr = "([0-9]+)(.html?)"
+    p = re.compile(expr)
+    m = p.search(url_link, re.M | re.I)
+    n_url = re.sub(p, get_index(m, is_next=True), url_link)
+
+    log.info(f'next page url_link = {n_url}')
+    return next_url
 
 
 @valid_url
@@ -91,19 +106,3 @@ def get_page_union_id(url_link: str) -> str:
         raise BusinessError(f'cannot match union id url_link = {url_link}')
     log.info(f'union_id = {union_id}')
     return union_id
-
-
-if __name__ == '__main__':
-    test_url = "https://search.51job.com/list/020000,000000,0000,00,9,99,java,2,1.html?" \
-               "lang=c" \
-               "&postchannel=0000" \
-               "&workyear=99" \
-               "&cotype=99" \
-               "&degreefrom=99" \
-               "&jobterm=99" \
-               "&companysize=99" \
-               "&ord_field=0" \
-               "&dibiaoid=0" \
-               "&line=&welfare="
-    url = get_previous_page(test_url)
-    print(url)

@@ -32,12 +32,13 @@ class TestPage(unittest.TestCase):
 
     def test_get_previous_page(self):
         """测试获取上一页链接"""
-        url = get_previous_page(test_url)
-        print(url)
+        p_url = get_previous_page(test_url)
+        log.debug(p_url)
 
     def test_get_next_page(self):
         """测试获取下一页链接"""
-        pass
+        n_url = get_next_page(test_url)
+        log.debug(n_url)
 
     def test_get_search_keyword(self):
         pass
@@ -50,5 +51,6 @@ class TestPage(unittest.TestCase):
 if __name__ == '__main__':
     test_suite = unittest.TestCase()
     test_suite.addTest(TestPage('test_get_previous_page'))
+    test_suite.addTest(TestPage('test_get_next_page'))
     runner = unittest.TextTestRunner()
     runner.run(test_suite)
