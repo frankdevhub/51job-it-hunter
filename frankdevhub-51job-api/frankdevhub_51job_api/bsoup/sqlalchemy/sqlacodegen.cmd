@@ -1,0 +1,1 @@
+sqlacodegen mysql+pymysql://root:frank#0806db@ecs@39.98.246.50:3306/51job_data_center > models_tmp.py

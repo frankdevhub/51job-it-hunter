@@ -18,7 +18,7 @@ from frankdevhub_51job_api.dicts.constants import BusinessConstants
 log.basicConfig(level=log.INFO)
 
 __all__ = ['get_page_html_context', 'get_previous_page', 'get_next_page', 'get_search_keyword',
-           'get_page_union_id']
+           'get_page_union_id', 'get_search_list']
 
 header = {
     'Connection': 'close',
@@ -91,7 +91,16 @@ def get_next_page(url_link: str) -> str:
 
 @valid_url
 def get_search_keyword(url_link: str) -> str:
-    return ""
+    log.info(f'get_search_keyword, url_link = {url_link}')
+    expr = BusinessConstants.DEFAULT_HTTP_LINK_MARK_REGEX
+    p = pattern.compile(expr)
+    m = p.match(url_link, re.M | re.I)
+    if m:
+        key_word = m.group(1)
+    else:
+        raise BusinessError(f'cannot match search keyword, url_link = {url_link}')
+    log.info(f'key_word = {key_word}')
+    return key_word
 
 
 @valid_url
@@ -103,6 +112,12 @@ def get_page_union_id(url_link: str) -> str:
     if m:
         union_id = m.group('key')
     else:
-        raise BusinessError(f'cannot match union id url_link = {url_link}')
+        raise BusinessError(f'cannot match union id, url_link = {url_link}')
     log.info(f'union_id = {union_id}')
     return union_id
+
+
+@valid_url
+def get_search_list(url_link: str) -> dict:
+    """解析职位搜索的返回列表页"""
+    pass
