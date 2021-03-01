@@ -15,10 +15,11 @@ from frankdevhub_51job_api.tools.date import DateUnit
 from frankdevhub_51job_api.tools.numeric import NumericUnit
 from job_api.error.errors import BusinessError
 
+import json
 log.basicConfig(level=log.INFO)
 
 __all__ = ['parse_salary_text', 'is_unit_by_thousand', 'is_unit_by_ten_thousand',
-           'is_unit_by_day', 'is_unit_by_month', 'is_unit_by_year']
+           'is_unit_by_day', 'is_unit_by_month', 'is_unit_by_year', 'convert_context']
 
 """解析薪资范围的正则表达式"""
 range_regex = "(?P<min>(([1-9]\\d*\\.?\\d+)|(0\\.\\d*[1-9])|(\\d+))?)" + \

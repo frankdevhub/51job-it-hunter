@@ -13,8 +13,7 @@ import requests
 import time
 import re
 from job_api.error.errors import BusinessError
-from frankdevhub_51job_api.dicts.constants import BusinessConstants, Xpath
-from lxml import etree
+from frankdevhub_51job_api.dicts.constants import BusinessConstants
 
 log.basicConfig(level=log.INFO)
 
@@ -31,7 +30,7 @@ def valid_url(func):
     @functools.wraps(func)
     def wrapper(url_link):
         log.info(f'page link  = {url_link}')
-        assert url_link and url_link.strip() is not None, 'page url_link cannot be empty'
+        assert url_link.isspace() is not True, 'page url_link cannot be empty'
         func(url_link)
         return wrapper
 
@@ -122,7 +121,14 @@ def get_search_list(url_link: str) -> []:
     """解析职位搜索的返回列表页"""
     ctx = get_page_html_context(url_link)
     assert len(ctx.strip()) > 0, 'page context cannot be empty'
-    tree = etree.HTML(ctx)
-    rows = tree.xpath(Xpath.SEARCH_RESULT_LIST_XPATH)
-    log.info(f'rows.size = {len(rows)}')
-    return rows
+    ctx = ctx.sub('\\n', '', re.M | re.I)
+    # 源码:window.__SEARCH_RESULT__ = 句柄处开始
+    json_regex = 'window.__SEARCH_RESULT__\\s?=\\s?(?<context>\\{.*\\})</script>'
+    p = pattern.compile(json_regex)
+    m = p.match(ctx, re.M | re.I)
+    if m:
+        data_json = m.group('context')
+        assert data_json.isspace() is not True, 'cannot find data json from matched context'
+        log.info(f'data_json = {data_json}')
+    else:
+        raise BusinessError(f'cannot data json from current page context')
