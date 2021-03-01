@@ -8,7 +8,7 @@
 """
 
 
-class SeleniumConstants:
+class Xpath:
     """
       selenium dicts
       web element attribute name

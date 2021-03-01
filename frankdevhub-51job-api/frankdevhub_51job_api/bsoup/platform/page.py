@@ -13,12 +13,13 @@ import requests
 import time
 import re
 from job_api.error.errors import BusinessError
-from frankdevhub_51job_api.dicts.constants import BusinessConstants
+from frankdevhub_51job_api.dicts.constants import BusinessConstants, Xpath
+from lxml import etree
 
 log.basicConfig(level=log.INFO)
 
 __all__ = ['get_page_html_context', 'get_previous_page', 'get_next_page', 'get_search_keyword',
-           'get_page_union_id', 'get_search_list']
+           'get_page_union_id', 'get_search_list', 'get_search_list']
 
 header = {
     'Connection': 'close',
@@ -117,7 +118,11 @@ def get_page_union_id(url_link: str) -> str:
     return union_id
 
 
-@valid_url
-def get_search_list(url_link: str) -> dict:
+def get_search_list(url_link: str) -> []:
     """解析职位搜索的返回列表页"""
-    pass
+    ctx = get_page_html_context(url_link)
+    assert len(ctx.strip()) > 0, 'page context cannot be empty'
+    tree = etree.HTML(ctx)
+    rows = tree.xpath(Xpath.SEARCH_RESULT_LIST_XPATH)
+    log.info(f'rows.size = {len(rows)}')
+    return rows
