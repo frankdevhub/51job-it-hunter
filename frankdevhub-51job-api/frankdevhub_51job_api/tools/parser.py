@@ -115,3 +115,17 @@ def is_unit_by_year(text: str) -> bool:
         return True
     else:
         return False
+
+
+def convert_context(data: str) -> []:
+    """
+    平台json转换为ORM持久化对象
+    平台返回:
+    "engine_search_result"  搜索引擎返回的结果集
+    "market_ads"  市场推广广告职位
+    "auction_ads"
+    "top_ads"
+    @param data 返回的json字符串
+    @return ORM业务对象实体类集合
+    """
+    pass
