@@ -13,7 +13,7 @@ import unittest
 
 from frankdevhub_51job_api.tools.parser import *
 
-log.basicConfig(level=log.INFO)
+log.basicConfig(level=log.debug)
 
 
 class TestParser(unittest.TestCase):
@@ -39,14 +39,40 @@ class TestParser(unittest.TestCase):
     def test_parse_json_data(self):
         """解平台返回的职位信息"""
         log.debug('invoke method -> test_parse_json_data()')
-        with open('search-result-2021.json', 'r') as f:
+        with open('search-result-2021.json', 'r', encoding='utf-8') as f:
             log.debug(f'load data json, filename = {f.name}')
             test_json = json.load(f)
 
+        log.debug('json file read complete')
         assert test_json is not None, f'cannot find test_json, filename = {f.name}'
         # top_ads
-        top_ads = test_json['test_json']
-        log.debug(f'top_ads = {top_ads}, is None = {top_ads is None}')
+        top_ads = test_json['top_ads']
+        log.debug(f'top_ads = {top_ads}, is None = {top_ads is None},'
+                  f' len = {[top_ads is None], ["None", len(top_ads)]}')
+
+        # auction_ads
+        auction_ads = test_json['auction_ads']
+        log.debug(f'auction_ads = {auction_ads}, is None = {auction_ads is None},'
+                  f' len = {[auction_ads is None], ["None", len(auction_ads)]}')
+
+        # engine_search_result
+        e_s_result = test_json['engine_search_result']
+        log.debug(f'engine_search_result = {e_s_result}, is None = {e_s_result is None},'
+                  f' len = {[e_s_result is None], ["None", len(e_s_result)]}')
+
+        log.debug(f'result_type = {e_s_result}')
+        if e_s_result is not None:
+            if isinstance(e_s_result, dict):
+                log.debug(f'isinstance of json array')
+            else:
+                log.debug(f'isinstance of json')
+        # 解平台返回的职位信息
+        for result in e_s_result:
+            print(f'job_name = {result["job_name"]} job_title = {result["job_title"]} '
+                  f'company_name = {result["company_name"]} providesalary_text = {result["providesalary_text"]} '
+                  f'company_href ={result["company_href"]} job_href = {result["job_href"]}'
+                  f' workarea = {result["workarea"]} workarea_text = {result["workarea_text"]}'
+                  f' updatedate = {result["updatedate"]}')
 
 
 if __name__ == '__main__':
