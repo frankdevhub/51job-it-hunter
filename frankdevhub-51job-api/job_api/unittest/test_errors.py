@@ -19,6 +19,7 @@ log.basicConfig(level=log.DEBUG)
 
 class TestErrors(unittest.TestCase):
     def test_custom_errors(self):
+        log.debug('invoke method -> test_custom_errors()')
         sub_class_list = Exception.__subclasses__()
         for i in range(len(sub_class_list)):
             class_name = sub_class_list[i].__name__

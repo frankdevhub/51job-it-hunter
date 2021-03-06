@@ -35,14 +35,14 @@ class CharacterHelper:
     @staticmethod
     def is_chinese_character(target: chr) -> bool:
         """判断是否是中文字符"""
-        log.info('invoke is_chinese_character() ...')
+        log.info('invoke method -> is_chinese_character()')
         matched = CharacterHelper.character_pattern_match(target, CharacterHelper.CN_CHARACTERS)
         return matched
 
     @staticmethod
     def is_simple_chinese_character(target: chr) -> bool:
         """判断是否是简体中文字符"""
-        log.info('invoke is_simple_chinese_character() ...')
+        log.info('invoke method -> is_simple_chinese_character()')
         is_chinese = CharacterHelper.is_chinese_character(target)
         if is_chinese:
             is_tw = False  # 是否是繁体中文字符
@@ -71,7 +71,7 @@ class CharacterHelper:
     @staticmethod
     def is_taiwanese_character(target: chr) -> bool:
         """判断是否是繁体中文字符"""
-        log.info('invoke is_taiwanese_character() ...')
+        log.info('invoke method -> is_taiwanese_character()')
         is_chinese = CharacterHelper.is_chinese_character(target)
         if is_chinese:
             is_simple_cn = False  # 是否是中文简体字符
@@ -99,27 +99,27 @@ class CharacterHelper:
     @staticmethod
     def is_english_character(target: chr) -> bool:
         """判断是否是英文字符"""
-        log.info('invoke is_english_character() ...')
+        log.info('invoke method -> is_english_character()')
         matched = CharacterHelper.character_pattern_match(target, CharacterHelper.EN_CHARACTERS)
         return matched
 
     @staticmethod
     def is_english_capital_character(target: chr) -> bool:
         """判断是否是英文大写字符"""
-        log.info('invoke is_english_capital_character( ...')
+        log.info('invoke method -> is_english_capital_character()')
         matched = CharacterHelper.character_pattern_match(target, CharacterHelper.EN_CAPITAL_CHARACTERS)
         return matched
 
     @staticmethod
     def is_numeric_character(target: chr) -> bool:
         """判断是否是数值类字符"""
-        log.info('invoke is_numeric_character() ...')
+        log.info('invoke method -> is_numeric_character()')
         matched = CharacterHelper.character_pattern_match(target, CharacterHelper.NUMERIC_CHARACTERS)
         return matched
 
     @staticmethod
     def is_symbol_character(target: chr) -> bool:
         """判断是否是符号类字符"""
-        log.info('invoke is_symbol_character()')
+        log.info('invoke method -> is_symbol_character()')
         matched = CharacterHelper.character_pattern_match(target, CharacterHelper.SYMBOL_CHARACTERS)
         return matched

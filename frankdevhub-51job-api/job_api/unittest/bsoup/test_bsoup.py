@@ -6,12 +6,12 @@
 @Blog : http://blog.frankdevhub.site
 @Date ：2021/2/21 17:42
 """
-import requests
 import logging as log
 import unittest
 
-from lxml import etree
+import requests
 from bs4 import BeautifulSoup
+from lxml import etree
 
 log.basicConfig(level=log.DEBUG)
 
@@ -35,6 +35,7 @@ class TestBeautifulSoup(unittest.TestCase):
 
     @staticmethod
     def test_local():
+        log.debug('invoke method -> test_local()')
         html = """
         <html><head><title>The Dormouse's story</title></head>
         <body>
@@ -48,13 +49,14 @@ class TestBeautifulSoup(unittest.TestCase):
         """
         soup = BeautifulSoup(html)
         # soup = BeautifulSoup(open('index.html'))  # 使用本地文件创建对象
-        # print(soup.prettify())
+        # log.debug(soup.prettify())
 
     @staticmethod
     def test_get_html_page():
+        log.debug('invoke method -> test_get_html_page()')
         response = requests.get(url=test_url, headers=test_headers)
         page_context = response.text
-        # print(page_context)
+        # log.debug(page_context)
         tree = etree.HTML(page_context)
         """测试Xpath
         <p class="nlink">
@@ -69,20 +71,20 @@ class TestBeautifulSoup(unittest.TestCase):
             </div> 
         """
         header_tags = tree.xpath("//p[@class='nlink']")
-        print(f'header_tags size: {len(header_tags)}')
+        log.debug(f'header_tags size: {len(header_tags)}')
         assert len(header_tags) > 0
         header_tag = header_tags[0]
-        print(f'tag_name: {header_tag.tag}')
+        log.debug(f'tag_name: {header_tag.tag}')
 
         sub_tags = header_tag.xpath("a")
-        print(sub_tags)
+        log.debug(sub_tags)
         assert len(sub_tags) > 0
-        print(f'sub_tags size: {len(sub_tags)}')
+        log.debug(f'sub_tags size: {len(sub_tags)}')
 
         """获取链接地址"""
         for a_href in sub_tags:
             inner_text = a_href.xpath("string(.)")
-            print(f'text = {inner_text}, href = {a_href.attrib.get("href")}')
+            log.debug(f'text = {inner_text}, href = {a_href.attrib.get("href")}')
 
 
 if __name__ == '__main__':

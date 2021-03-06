@@ -8,12 +8,13 @@
 """
 import functools
 import logging as log
-import unittest
-import requests
-import time
 import re
-from job_api.error.errors import BusinessError
+import time
+
+import requests
+
 from frankdevhub_51job_api.dicts.constants import BusinessConstants
+from job_api.error.errors import BusinessError
 
 log.basicConfig(level=log.INFO)
 
@@ -61,7 +62,7 @@ def get_index(m, is_next: bool):
         raise BusinessError(f'url regex cannot match page url')
 
 
-# @valid_url
+@valid_url
 def get_previous_page(url_link: str) -> str:
     log.info(f'get_previous_page, url_link = {url_link}')
     url_link = re.sub('\\t|\\s|\\n', '', url_link, re.M | re.I)
