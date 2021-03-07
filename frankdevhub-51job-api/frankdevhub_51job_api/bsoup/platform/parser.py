@@ -29,7 +29,11 @@ range_regex = "(?P<min>(([1-9]\\d*\\.?\\d+)|(0\\.\\d*[1-9])|(\\d+))?)" + \
 
 
 def parse_salary_text(text: str) -> tuple:
-    """解析匹配薪资范围描述的关键字"""
+    """
+    解析匹配薪资范围描述的关键字
+    @param: text 薪资描述字符串
+    @rtype: tuple 薪资属性集合(计量时间，计量单位，是否薪资面议，是否实习岗位等)
+    """
     assert text and text.strip() is not None, 'salary text cannot be empty'
     text = text.strip()
     log.info(f'salary text : {text}')
@@ -47,7 +51,11 @@ def parse_salary_text(text: str) -> tuple:
 
 
 def is_unit_by_thousand(text: str) -> bool:
-    """是否是以千为计量单位"""
+    """
+    是否是以千为计量单位
+    @param: text 薪资描述字符串
+    @rtype: bool
+    """
     log.info(f'invoke method -> is_unit_by_thousand(), salary unit text: {text}')
     try:
         unit = NumericUnit(text.strip())
@@ -61,7 +69,11 @@ def is_unit_by_thousand(text: str) -> bool:
 
 
 def is_unit_by_ten_thousand(text: str) -> bool:
-    """是否是以万为计量单位"""
+    """
+    是否是以万为计量单位
+    @param: text 薪资描述字符串
+    @rtype: bool
+    """
     log.info(f'invoke method -> is_unit_by_ten_thousand(), salary unit text: {text}')
     try:
         unit = NumericUnit(text.strip())
@@ -77,7 +89,11 @@ def is_unit_by_ten_thousand(text: str) -> bool:
 
 
 def is_unit_by_day(text: str) -> bool:
-    """是否是以天为计量单位"""
+    """
+    是否是以天为计量单位
+    @param: text 薪资描述字符串
+    @rtype: bool
+    """
     log.info(f'invoke method -> is_unit_by_day(), time unit text: {text}')
     try:
         unit = DateUnit(text.strip())
@@ -91,7 +107,11 @@ def is_unit_by_day(text: str) -> bool:
 
 
 def is_unit_by_month(text: str) -> bool:
-    """是否是以月为计量单位"""
+    """
+    是否是以月为计量单位
+    @param: text 薪资描述字符串
+    @rtype: bool
+    """
     log.info(f'invoke method -> is_unit_by_month(), time unit text: {text}')
     try:
         unit = DateUnit(text.strip())
@@ -126,8 +146,9 @@ def convert_context(data_json: str) -> []:
     "market_ads"  市场推广广告职位
     "auction_ads"
     "top_ads"
-    @param data_json 返回的json字符串
-    @return ORM业务对象实体类集合
+    @param: data_json 返回的json字符串
+    @rtype: str
+    @return: ORM业务对象实体类集合
     """
     assert data_json.isspace() is not True, 'page search result json object cannot be empty'
     row_datas = []

@@ -35,7 +35,7 @@ def valid_url(func):
         log.info(f'page link  = {url_link}')
         assert url_link.isspace() is not True, 'page url_link cannot be empty'
         func(url_link)
-        return wrapper
+        return wrapper()
 
 
 @valid_url
