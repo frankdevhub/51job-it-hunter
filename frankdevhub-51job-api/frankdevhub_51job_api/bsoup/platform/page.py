@@ -7,12 +7,14 @@
 @Date ：2021/2/24 23:11
 """
 import functools
+import json
 import logging as log
 import re
 import time
 
 import requests
 
+from frankdevhub_51job_api.bsoup.platform import parser
 from frankdevhub_51job_api.dicts.constants import BusinessConstants
 from job_api.error.errors import BusinessError
 
@@ -72,6 +74,7 @@ def get_previous_page(url_link: str) -> str:
     m = p.search(url_link, re.M | re.I)
     p_url = re.sub(p, get_index(m, is_next=False), url_link)
 
+    assert p_url.isspace() is not True
     log.info(f'previous page url_link = {p_url}')
     return p_url
 
@@ -86,35 +89,40 @@ def get_next_page(url_link: str) -> str:
     m = p.search(url_link, re.M | re.I)
     n_url = re.sub(p, get_index(m, is_next=True), url_link)
 
+    assert n_url.isspace() is not True
     log.info(f'next page url_link = {n_url}')
     return next_url
 
 
 @valid_url
 def get_search_keyword(url_link: str) -> str:
+    """获取搜索链接中的职位搜索关键字"""
     log.info(f'get_search_keyword, url_link = {url_link}')
     expr = BusinessConstants.DEFAULT_HTTP_LINK_MARK_REGEX
     p = pattern.compile(expr)
     m = p.match(url_link, re.M | re.I)
     if m:
         key_word = m.group(1)
+        assert key_word.isspace() is False, 'search key word cannot be empty'
+        log.info(f'matched search key word = {key_word}')
     else:
         raise BusinessError(f'cannot match search keyword, url_link = {url_link}')
-    log.info(f'key_word = {key_word}')
     return key_word
 
 
 @valid_url
 def get_page_union_id(url_link: str) -> str:
+    """获取搜索返回的职位列表的唯一标识"""
     log.info(f'get_page_union_id, url_link = {url_link}')
     expr = BusinessConstants.DEFAULT_HTTP_LINK_MARK_REGEX
     p = pattern.compile(expr)
     m = p.match(url_link, re.M | re.I)
     if m:
         union_id = m.group('key')
+        assert union_id.isspace() is False, 'union id cannot be empty'
+        log.info(f'matched union id = {union_id}')
     else:
         raise BusinessError(f'cannot match union id, url_link = {url_link}')
-    log.info(f'union_id = {union_id}')
     return union_id
 
 
@@ -128,8 +136,16 @@ def get_search_list(url_link: str) -> []:
     p = pattern.compile(json_regex)
     m = p.match(ctx, re.M | re.I)
     if m:
-        data_json = m.group('context')
-        assert data_json.isspace() is not True, 'cannot find data json from matched context'
-        log.info(f'data_json = {data_json}')
+        json_str = m.group('context')
+        # 页面返回的职位列表信息的json格式数组对象
+        assert json_str.isspace() is not True, 'cannot find data json from matched context'
+        log.info(f'json_str = {json_str}')
     else:
         raise BusinessError(f'cannot data json from current page context')
+
+    data_json = json.load(json_str)
+    log.info(f'parse data_json')
+    data_rows = parser.convert_context(data_json)
+    log.info(f'parsed data_rows size = {len(data_rows)}')
+
+    return data_rows

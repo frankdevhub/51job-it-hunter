@@ -11,8 +11,6 @@ import json
 import logging as log
 import unittest
 
-from frankdevhub_51job_api.tools.parser import *
-
 log.basicConfig(level=log.debug)
 
 
@@ -42,6 +40,7 @@ class TestParser(unittest.TestCase):
         with open('search-result-2021.json', 'r', encoding='utf-8') as f:
             log.debug(f'load data json, filename = {f.name}')
             test_json = json.load(f)
+            log.debug(f'data json type = {type(test_json)}')
 
         log.debug('json file read complete')
         assert test_json is not None, f'cannot find test_json, filename = {f.name}'

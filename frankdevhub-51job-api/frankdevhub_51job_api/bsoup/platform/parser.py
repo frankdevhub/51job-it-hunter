@@ -7,6 +7,7 @@
 @Date ：2021/2/18 14:47
 """
 
+import json
 import logging as log
 import re
 
@@ -18,8 +19,7 @@ from job_api.error.errors import BusinessError
 
 log.basicConfig(level=log.INFO)
 
-__all__ = ['parse_salary_text', 'is_unit_by_thousand', 'is_unit_by_ten_thousand',
-           'is_unit_by_day', 'is_unit_by_month', 'is_unit_by_year', 'convert_context']
+__all__ = ['parse_salary_text', 'convert_context', 'convert_data']
 
 """解析薪资范围的正则表达式"""
 range_regex = "(?P<min>(([1-9]\\d*\\.?\\d+)|(0\\.\\d*[1-9])|(\\d+))?)" + \
@@ -48,7 +48,7 @@ def parse_salary_text(text: str) -> tuple:
 
 def is_unit_by_thousand(text: str) -> bool:
     """是否是以千为计量单位"""
-    log.info(f'salary unit text: {text}')
+    log.info(f'invoke method -> is_unit_by_thousand(), salary unit text: {text}')
     try:
         unit = NumericUnit(text.strip())
     except ValueError as e:
@@ -62,7 +62,7 @@ def is_unit_by_thousand(text: str) -> bool:
 
 def is_unit_by_ten_thousand(text: str) -> bool:
     """是否是以万为计量单位"""
-    log.info(f'salary unit text: {text}')
+    log.info(f'invoke method -> is_unit_by_ten_thousand(), salary unit text: {text}')
     try:
         unit = NumericUnit(text.strip())
     except ValueError as e:
@@ -78,7 +78,7 @@ def is_unit_by_ten_thousand(text: str) -> bool:
 
 def is_unit_by_day(text: str) -> bool:
     """是否是以天为计量单位"""
-    log.info(f'time unit text: {text}')
+    log.info(f'invoke method -> is_unit_by_day(), time unit text: {text}')
     try:
         unit = DateUnit(text.strip())
     except ValueError as e:
@@ -92,7 +92,7 @@ def is_unit_by_day(text: str) -> bool:
 
 def is_unit_by_month(text: str) -> bool:
     """是否是以月为计量单位"""
-    log.info(f'time unit text: {text}')
+    log.info(f'invoke method -> is_unit_by_month(), time unit text: {text}')
     try:
         unit = DateUnit(text.strip())
     except ValueError as e:
@@ -106,7 +106,7 @@ def is_unit_by_month(text: str) -> bool:
 
 def is_unit_by_year(text: str) -> bool:
     """是否是以年为计量单位"""
-    log.info(f'time unit text: {text}')
+    log.info(f'invoke method -> is_unit_by_year(), time unit text: {text}')
     try:
         unit = DateUnit(text.strip())
     except ValueError as e:
@@ -118,7 +118,7 @@ def is_unit_by_year(text: str) -> bool:
         return False
 
 
-def convert_context(data: str) -> []:
+def convert_context(data_json: str) -> []:
     """
     平台json转换为ORM持久化对象
     平台返回:
@@ -126,16 +126,27 @@ def convert_context(data: str) -> []:
     "market_ads"  市场推广广告职位
     "auction_ads"
     "top_ads"
-    @param data 返回的json字符串
+    @param data_json 返回的json字符串
     @return ORM业务对象实体类集合
     """
-    assert data.isspace() is not True, 'page search result json object cannot be empty'
-    datas = []
-    return datas
+    assert data_json.isspace() is not True, 'page search result json object cannot be empty'
+    row_datas = []
+    ctx_data = json.load(data_json)
+    try:
+        page_data = ctx_data['engine_search_result']  # engine_search_result
+        log.info(f'engine_search_result value = {page_data}')
+    except KeyError:
+        log.error(str(e))
+        raise BusinessError(f'KeyError: cannot find array object [engine_search_result] in response data')
+    for data in page_data:
+        row_datas.append(convert_data(data))
+
+    log.info(f'row_datas size = {len(row_datas)}')
+    return row_datas
 
 
 # noinspection PyTypeChecker
-def convert_context(data: str) -> models.PlatformDataBriefSource:
+def convert_data(data: dict) -> models.PlatformDataBriefSource:
     """
     平台json转换为ORM持久化对象
     平台返回:
@@ -146,15 +157,19 @@ def convert_context(data: str) -> models.PlatformDataBriefSource:
     @param data 返回的json字符串
     @return ORM业务对象实体类:PlatformDataBriefSource
     """
-    assert data.isspace() is not True, 'json object cannot be empty, key = "engine_search_result"'
+    log.info(f'invoke method -> convert_data(), data = {str(data)}')
+
+    assert len(data) > 0, 'json object cannot be empty, key = "engine_search_result"'
+    log.info(f'parse json data, json = {str(data)}')
     source_data = models.PlatformDataBriefSource()
+
     source_data.type = data['type']  # type  engine_search_result
     source_data.job_title = data['jt']  # jt  职位名称
     source_data.tags = data['tag']  # tags
     source_data.ad_track = data['ad_track']  # ad_track
     source_data.jobid = data['job_id']  # jobid 职位标识信息id
     source_data.coid = data['coid']  # coid
-    source_data.effect = data['effect']  # ad_track
+    source_data.effect = data['effect']  # effect
     source_data.is_special_job = data['is_special_job']  # is_special_job 是否是专业特殊岗位
     source_data.job_href = data['job_href']  # job_href 职位信息链接
     source_data.job_title = data['job_title']  # job_title 高级Java开发
@@ -162,7 +177,7 @@ def convert_context(data: str) -> models.PlatformDataBriefSource:
     source_data.company_href = data['company_href']  # company_href 企业介绍信息链接
     source_data.company_name = data['company_name']  # company_name 北明软件有限公司
     source_data.provide_salary_text = data['providesalary_text']  # providesalary_text 1.3-2.6万/月
-    source_data.work_area = data['workarea']  # workarea 021000
+    source_data.work_area = data['workarea']  # workarea 021000 辖区编号
     source_data.work_area_text = data['workarea_text']  # workarea_text 上海-浦东新区
     source_data.update_date = data['updatedate']  # updatedate  01-29
     source_data.is_intern = data['isIntern']  # isIntern 是否是实习岗位
@@ -172,11 +187,12 @@ def convert_context(data: str) -> models.PlatformDataBriefSource:
     source_data.work_year = data['workyear']  # workyear 5
     source_data.issue_date = data['issuedate']  # issuedate 2021-01-29 18:06:46
     source_data.is_from_xyz = data['isFromXyz']  # isFromXyz
-    source_data.jobwelf = data['jobwelf']  # ad_track
+    source_data.jobwelf = data['jobwelf']  # jobwelf 职位福利
     source_data.jobwelf_list = data['jobwelf_list']  # jobwelf 餐饮补贴 免费班车 五险一金 高温补贴 节日福利 年终奖金 加班补贴
     source_data.attribute_text = data['attribute_text']  # attribute_text
     source_data.company_size_text = data['companysize_text']  # companysize_text 500-1000人
     source_data.company_ind_text = data['companyind_text']  # companyind_text 互联网/电子商务
-    source_data.adid = data['adid']  # ad_track
+    source_data.adid = data['adid']  # adid
 
+    log.info(f'source data = {str(source_data)}')
     return source_data
