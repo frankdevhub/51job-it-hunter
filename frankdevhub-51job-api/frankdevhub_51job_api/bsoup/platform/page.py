@@ -20,7 +20,7 @@ from job_api.error.errors import BusinessError
 
 log.basicConfig(level=log.INFO)
 
-__all__ = ['get_page_html_context', 'get_previous_page', 'get_next_page', 'get_search_keyword',
+__all__ = ['valid_url', 'get_page_html_context', 'get_previous_page', 'get_next_page', 'get_search_keyword',
            'get_page_union_id', 'get_search_list', 'get_search_list']
 
 header = {
@@ -35,7 +35,7 @@ def valid_url(func):
         log.info(f'page link  = {url_link}')
         assert url_link.isspace() is not True, 'page url_link cannot be empty'
         func(url_link)
-        return wrapper()
+        return wrapper
 
 
 @valid_url

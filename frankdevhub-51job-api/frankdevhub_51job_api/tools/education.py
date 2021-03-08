@@ -16,12 +16,12 @@ class EducationDegree(Enum):
 
     def __new__(cls, args):
         instance = object.__new__(cls)
-        instance.name = args['name']
-        instance.code = args['code']
+        instance.name = args['name']  # 学历中文名称
+        instance.code = args['code']  # 学历英文代码
         return instance
 
 
-DOCTOR = {'name': '博士', 'code': 'DOCTOR'}
-MASTER = {'name': '硕士研究生', 'code': 'MASTER'}
-BACHELOR = {'name': '本科', 'code': 'BACHELOR'}
-TACHNICAL_COLLEGE = {'name': '中专', 'code': 'TACHNICAL_COLLEGE'}
+DOCTOR = {'name': '博士', 'code': 'doctor'}
+MASTER = {'name': '硕士研究生', 'code': 'master'}
+BACHELOR = {'name': '本科', 'code': 'bachelor'}
+TACHNICAL_COLLEGE = {'name': '中专', 'code': 'technical_college'}

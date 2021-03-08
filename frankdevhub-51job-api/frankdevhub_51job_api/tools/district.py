@@ -16,9 +16,9 @@ class DefaultDistrict(Enum):
 
     def __new__(cls, args):
         instance = object.__new__(cls)
-        instance.en_name = args['en_name']
-        instance.cn_name = args['cn_name']
-        instance.district_code = args['district_code']
+        instance.en_name = args['en_name']  # 辖区英语简称
+        instance.cn_name = args['cn_name']  # 辖区中文简称
+        instance.district_code = args['district_code']  # 辖区区域代码
         return instance
 
     HP = {'en_name': 'HP', 'cn_name': '黄浦', 'district_code': 310101}  # 上海市-黄浦区

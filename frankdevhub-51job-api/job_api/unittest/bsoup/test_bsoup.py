@@ -20,21 +20,25 @@ test_headers = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.119 Safari/537.36'
 }
 
-test_url = "https://search.51job.com/list/020000,000000,0000,00,9,99,java,2,1.html?" \
-           "lang=c&postchannel=0000&" \
-           "workyear=99&cotype=99&" \
-           "degreefrom=99&" \
-           "jobterm=99&" \
-           "companysize=99&" \
-           "ord_field=0&" \
-           "dibiaoid=0&" \
-           "line=&welfare="
+# 上海地区职位搜索返回结果集的测试链接
+test_search_url = "https://search.51job.com/list/020000,000000,0000,00,9,99,java,2,1.html?" \
+                  "lang=c&postchannel=0000&" \
+                  "workyear=99&cotype=99&" \
+                  "degreefrom=99&" \
+                  "jobterm=99&" \
+                  "companysize=99&" \
+                  "ord_field=0&" \
+                  "dibiaoid=0&" \
+                  "line=&welfare="
+# 企业信息介绍测试链接
+test_company_url = ""
 
 
 class TestBeautifulSoup(unittest.TestCase):
 
     @staticmethod
     def test_local():
+        """测试本地运行环境"""
         log.debug('invoke method -> test_local()')
         html = """
         <html><head><title>The Dormouse's story</title></head>
@@ -48,16 +52,19 @@ class TestBeautifulSoup(unittest.TestCase):
         <p class="story">...</p>
         """
         soup = BeautifulSoup(html)
+        assert soup is not None, 'soup cannot be empty'
         # soup = BeautifulSoup(open('index.html'))  # 使用本地文件创建对象
         # log.debug(soup.prettify())
 
     @staticmethod
     def test_get_html_page():
+        """测试解析基础页面对象，使用xpath定位元素"""
         log.debug('invoke method -> test_get_html_page()')
-        response = requests.get(url=test_url, headers=test_headers)
+        response = requests.get(url=test_search_url, headers=test_headers)
         page_context = response.text
         # log.debug(page_context)
         tree = etree.HTML(page_context)
+        assert tree is not None, 'xml tree cannot be empty'
         """测试Xpath
         <p class="nlink">
             <a class="" href="//www.51job.com/">首页</a>
@@ -71,20 +78,35 @@ class TestBeautifulSoup(unittest.TestCase):
             </div> 
         """
         header_tags = tree.xpath("//p[@class='nlink']")
-        log.debug(f'header_tags size: {len(header_tags)}')
-        assert len(header_tags) > 0
+        assert len(header_tags) > 0, 'header_tags cannot be empty'
+        log.debug(f'header_tags size = {len(header_tags)}')
         header_tag = header_tags[0]
-        log.debug(f'tag_name: {header_tag.tag}')
+        log.debug(f'tag_name = {header_tag.tag}')
 
         sub_tags = header_tag.xpath("a")
-        log.debug(sub_tags)
-        assert len(sub_tags) > 0
-        log.debug(f'sub_tags size: {len(sub_tags)}')
+        assert len(sub_tags) > 0, 'sub_tags cannot be empty'
+        log.debug(f'sub_tags =  {sub_tags}')
+        log.debug(f'sub_tags size = {len(sub_tags)}')
 
         """获取链接地址"""
         for a_href in sub_tags:
             inner_text = a_href.xpath("string(.)")
             log.debug(f'text = {inner_text}, href = {a_href.attrib.get("href")}')
+
+    @staticmethod
+    def test_get_company_page():
+        """测获取职位信息对应企业的介绍信息"""
+        log.debug('invoke method -> test_get_company_page()')
+        response = requests.get(url=test_company_url, headers=test_headers)
+        page_context = response.text
+        # log.debug(page_context)
+        tree = etree.HTML(page_context)
+        assert tree is not None, 'xml tree cannot be empty'
+        company_xpath = "//div[@class='tCompany_center clearfix']"
+        company_xml = tree.xpath(company_xpath)
+        assert company_xml is not None, f'company division cannot be locate, xpath = {str(company_xpath)}'
+        company_doc = company_xml.xpath('substring(.)')
+        log.debug(company_doc)
 
 
 if __name__ == '__main__':

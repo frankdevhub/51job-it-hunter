@@ -55,7 +55,6 @@ class CharacterHelper:
                 else:
                     is_tw = True
                     return False
-
             except Exception as e:
                 is_tw = True
                 log.error(str(e))

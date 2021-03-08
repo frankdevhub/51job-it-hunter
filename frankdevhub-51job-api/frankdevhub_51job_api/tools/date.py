@@ -15,7 +15,6 @@ date_units = {'day_1': '天', 'day_2': '日', 'month': '月', 'year': '年'}
 @unique
 class DateUnit(Enum):
     """通用时间单位"""
-
     def __new__(cls, name: str):
         instance = object.__new__(cls)
         instance.unit = date_units.get(name)
