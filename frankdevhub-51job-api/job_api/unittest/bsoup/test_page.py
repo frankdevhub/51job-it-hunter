@@ -46,12 +46,10 @@ class TestPage(unittest.TestCase):
 
     def test_get_search_keyword(self):
         log.debug('invoke method -> test_get_search_keyword()')
-        pass
 
     def test_get_page_union_id(self):
         """测试获取链接中的唯一标识"""
         log.debug('invoke method -> test_get_page_union_id()')
-        pass
 
 
 if __name__ == '__main__':
