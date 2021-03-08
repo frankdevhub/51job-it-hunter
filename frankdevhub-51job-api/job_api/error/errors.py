@@ -11,10 +11,6 @@
 # 业务运行异常
 class BusinessError(Exception):
     def __init__(self, err_msg) -> None:
-        """
-
-        @rtype: object
-        """
         self.err_msg = err_msg
 
     def __str__(self) -> str:

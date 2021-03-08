@@ -6,11 +6,11 @@
 @Blog : http://blog.frankdevhub.site
 @Date ：2021/2/24 23:11
 """
-import functools
 import json
 import logging as log
 import re
 import time
+from functools import wraps
 
 import requests
 
@@ -29,13 +29,20 @@ header = {
 }
 
 
-def valid_url(func):
-    @functools.wraps(func)
-    def wrapper(url_link):
+def valid_url(f):
+    @wraps(f)
+    def decorated(*args, **kwargs):
+        # 参数长度校验
+        assert len(args) == 1, f'invalid argument length'
+        url_link = args[0]
+        # 参数类型校验
+        assert type(url_link) is str, f'invalid argument type, {str(url_link)}'
         log.info(f'page link  = {url_link}')
-        assert url_link.isspace() is not True, 'page url_link cannot be empty'
-        func(url_link)
-        return wrapper
+        # 链接非空校验
+        assert url_link.isspace() is not True, f'page link cannot be empty'
+        return f(*args, **kwargs)
+
+    return decorated
 
 
 @valid_url
@@ -51,6 +58,20 @@ def get_page_html_context(url_link: str) -> str:
 
 
 def get_index(m, is_next: bool):
+    """
+    获取页面链接中的页数相关的字段
+     eg:
+       input:
+       matched_url = https://search.51job.com/list/020000,000000,0000,00,9,99,java,2,1.html?
+                      lang=c&postchannel=0000&workyear=99&cotype=99&degreefrom=99&
+                      jobterm=99&companysize=99&ord_field=0&dibiaoid=0&line=&welfare=
+       is_next = True
+       output = 2
+    @param m: 正则返回的匹配结果集合
+    @param is_next: 是否下一页, 是 = True 否 = False
+    @return: 上一页或下一页的页面下标索引
+    @rtype: str
+    """
     if m:
         full_group = m.group()
         group_str = m.group(1)
@@ -66,6 +87,20 @@ def get_index(m, is_next: bool):
 
 @valid_url
 def get_previous_page(url_link: str) -> str:
+    """
+    获取上一页链接地址
+    eg:
+       input = https://search.51job.com/list/020000,000000,0000,00,9,99,java,2,1.html?
+               lang=c&postchannel=0000&workyear=99&cotype=99&degreefrom=99&
+               jobterm=99&companysize=99&ord_field=0&dibiaoid=0&line=&welfare=
+       output = https://search.51job.com/list/020000,000000,0000,00,9,99,java,2,0.html?
+                lang=c&postchannel=0000&workyear=99&cotype=99&degreefrom=99&
+                jobterm=99&companysize=99&ord_field=0&dibiaoid=0&line=&welfare=
+
+    @param url_link: 当前页面的链接地址
+    @return: 上一页链接地址
+    @rtype: str
+    """
     log.info(f'get_previous_page, url_link = {url_link}')
     url_link = re.sub('\\t|\\s|\\n', '', url_link, re.M | re.I)
 
@@ -81,6 +116,20 @@ def get_previous_page(url_link: str) -> str:
 
 @valid_url
 def get_next_page(url_link: str) -> str:
+    """
+    获取上一页链接地址
+    eg:
+       input = https://search.51job.com/list/020000,000000,0000,00,9,99,java,2,1.html?
+               lang=c&postchannel=0000&workyear=99&cotype=99&degreefrom=99&
+               jobterm=99&companysize=99&ord_field=0&dibiaoid=0&line=&welfare=
+       output = https://search.51job.com/list/020000,000000,0000,00,9,99,java,2,2.html?
+                lang=c&postchannel=0000&workyear=99&cotype=99&degreefrom=99&
+                jobterm=99&companysize=99&ord_field=0&dibiaoid=0&line=&welfare=
+
+    @param url_link: 当前页面的链接地址
+    @return: 下一页链接地址
+    @rtype: str
+    """
     log.info(f'get_next_page, url_link = {url_link}')
     url_link = re.sub('\\t|\\s|\\n', '', url_link, re.M | re.I)
 
@@ -96,7 +145,18 @@ def get_next_page(url_link: str) -> str:
 
 @valid_url
 def get_search_keyword(url_link: str) -> str:
-    """获取搜索链接中的职位搜索关键字"""
+    """
+    获取搜索链接中的职位搜索关键字
+    eg:
+       input = https://search.51job.com/list/020000,000000,0000,00,9,99,java,2,1.html?
+               lang=c&postchannel=0000&workyear=99&cotype=99&degreefrom=99&
+               jobterm=99&companysize=99&ord_field=0&dibiaoid=0&line=&welfare=
+       output = java
+
+    @param url_link: 当前页面的链接地址
+    @return: 链接中的搜索关键字
+    @rtype: str
+    """
     log.info(f'get_search_keyword, url_link = {url_link}')
     expr = BusinessConstants.DEFAULT_HTTP_LINK_MARK_REGEX
     p = pattern.compile(expr)
@@ -112,7 +172,16 @@ def get_search_keyword(url_link: str) -> str:
 
 @valid_url
 def get_page_union_id(url_link: str) -> str:
-    """获取搜索返回的职位列表的唯一标识"""
+    """
+    获取页面链接中的唯一标识
+    eg:
+       input = https://jobs.51job.com/shanghai-ptq/121842092.html?s=sou_sou_soulb&t=1
+       output = 121842092
+
+    @param url_link: 页面链接
+    @return: 页面链接中的唯一标识
+    @rtype: str
+    """
     log.info(f'get_page_union_id, url_link = {url_link}')
     expr = BusinessConstants.DEFAULT_HTTP_LINK_MARK_REGEX
     p = pattern.compile(expr)

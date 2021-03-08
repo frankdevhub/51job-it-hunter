@@ -56,7 +56,7 @@ class TestPage(unittest.TestCase):
 
 if __name__ == '__main__':
     test_suite = unittest.TestCase()
-    test_suite.addTest(TestPage('test_get_previous_page'))
-    test_suite.addTest(TestPage('test_get_next_page'))
+    test_suite.addTest(TestPage('test_get_previous_page'))  # test_get_previous_page
+    test_suite.addTest(TestPage('test_get_next_page'))  # test_get_next_page
     runner = unittest.TextTestRunner()
     runner.run(test_suite)
