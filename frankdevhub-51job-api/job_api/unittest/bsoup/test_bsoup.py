@@ -111,7 +111,7 @@ class TestBeautifulSoup(unittest.TestCase):
 
 if __name__ == '__main__':
     test_suite = unittest.TestSuite()
-    # test_suite.addTest(TestBeautifulSoup('test_local'))
-    test_suite.addTest(TestBeautifulSoup('test_get_html_page'))
+    test_suite.addTest(TestBeautifulSoup('test_local'))  # test_local
+    test_suite.addTest(TestBeautifulSoup('test_get_html_page'))  # test_get_html_page
     runner = unittest.TextTestRunner()
     runner.run(test_suite)
