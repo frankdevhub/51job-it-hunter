@@ -140,7 +140,7 @@ def get_next_page(url_link: str) -> str:
 
     assert n_url.isspace() is not True
     log.info(f'next page url_link = {n_url}')
-    return next_url
+    return n_url
 
 
 @valid_url
@@ -159,7 +159,7 @@ def get_search_keyword(url_link: str) -> str:
     """
     log.info(f'get_search_keyword, url_link = {url_link}')
     expr = BusinessConstants.DEFAULT_HTTP_LINK_MARK_REGEX
-    p = pattern.compile(expr)
+    p = re.compile(expr)
     m = p.match(url_link, re.M | re.I)
     if m:
         key_word = m.group(1)
@@ -184,7 +184,7 @@ def get_page_union_id(url_link: str) -> str:
     """
     log.info(f'get_page_union_id, url_link = {url_link}')
     expr = BusinessConstants.DEFAULT_HTTP_LINK_MARK_REGEX
-    p = pattern.compile(expr)
+    p = re.compile(expr)
     m = p.match(url_link, re.M | re.I)
     if m:
         union_id = m.group('key')
@@ -202,7 +202,7 @@ def get_search_list(url_link: str) -> []:
     ctx = ctx.sub('\\n', '', re.M | re.I)
     # 源码:window.__SEARCH_RESULT__ = 句柄处开始
     json_regex = 'window.__SEARCH_RESULT__\\s?=\\s?(?<context>\\{.*\\})</script>'
-    p = pattern.compile(json_regex)
+    p = re.compile(json_regex)
     m = p.match(ctx, re.M | re.I)
     if m:
         json_str = m.group('context')

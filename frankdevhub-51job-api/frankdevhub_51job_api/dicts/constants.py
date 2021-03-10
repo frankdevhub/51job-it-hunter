@@ -111,7 +111,7 @@ class BusinessConstants:
     # 默认客户端浏览器会话缓存文件名
     DEFAULT_TEMP_COOKIE_FILE = "temp_cookie.dat"  # 缓存会话文件
     # 提取链接唯一标识的正则表达式
-    DEFAULT_HTTP_LINK_MARK_REGEX = "((?<key>[1-9]\\d*\\.?\\d*)(.html))"  # 提取链接唯一标识的正则表达式
+    DEFAULT_HTTP_LINK_MARK_REGEX = "((?P<key>[1-9]\\d*\\.?\\d*)(.html))"  # 提取链接唯一标识的正则表达式
     # 无法由平台链接生成唯一检索markId
     UNION_ID_GENERATE_ERROR = "cannot generate union id"  # 无法由平台链接生成唯一检索unionId
 
