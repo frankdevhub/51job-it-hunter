@@ -73,8 +73,9 @@ class TestPage(unittest.TestCase):
 
 if __name__ == '__main__':
     test_suite = unittest.TestCase()
-    # test_suite.addTest(TestPage('test_get_previous_page'))  # test_get_previous_page
-    # test_suite.addTest(TestPage('test_get_next_page'))  # test_get_next_page
+    test_suite.addTest(TestPage("test_get_page_html_context"))  # test_get_page_html_context
+    test_suite.addTest(TestPage('test_get_previous_page'))  # test_get_previous_page
+    test_suite.addTest(TestPage('test_get_next_page'))  # test_get_next_page
     test_suite.addTest(TestPage('test_get_search_keyword'))  # test_get_search_keyword
     test_suite.addTest(TestPage('test_get_page_union_id'))  # test_get_page_union_id
     runner = unittest.TextTestRunner()
