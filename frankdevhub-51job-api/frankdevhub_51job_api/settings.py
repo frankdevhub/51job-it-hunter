@@ -77,10 +77,10 @@ DATABASES = {
     'default': {
         'ENGINE': 'dicts.db.backends.mysql',
         'NAME': '51job_data_center',
-        'HOST': '39.98.246.50',
+        'HOST': '127.0.0.1',
         'PORT': '3306',
         'USER': 'root',
-        'PASSWORD': 'frank#0806db@ecs'
+        'PASSWORD': 'Fxmf7fa@0806'
     }
 }
 

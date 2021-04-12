@@ -18,7 +18,7 @@ Base = declarative_base()
 # Base.metadata.create_all(engine)
 
 def get_session():
-    engine = db.create_engine('mysql+pymysql://root:frank#0806db@ecs@39.98.246.50:3306/51job_data_center')
+    engine = db.create_engine('mysql+pymysql://root:Fxmf7fa@0806@127.0.0.1:3306/51job_data_center')
     assert engine is not None, f'db engine cannot be empty'
     session = sessionmaker(bind=engine)
     return session

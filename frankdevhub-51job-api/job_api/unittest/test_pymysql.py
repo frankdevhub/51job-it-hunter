@@ -24,9 +24,9 @@ log.basicConfig(level=log.DEBUG)
 
 # 数据库连接配置
 class DbConfig:
-    HOST = "39.98.246.50"  # 数据源连接地址
+    HOST = "127.0.0.1"  # 数据源连接地址
     USERNAME = "root"  # 数据源连接用户名
-    PASSWORD = "frank#0806db@ecs"  # 数据源连接密码
+    PASSWORD = "Fxmf7fa@0806"  # 数据源连接密码
     DB_NAME = "51job_data_center"  # 数据库名称
     PORT = 3306  # 端口号
 

@@ -20,7 +20,8 @@ TEST_HEAD_COUNT = "招 23 人"
 
 class RegexExpressionTest(unittest.TestCase):
 
-    def test_match_head_count(self):
+    @staticmethod
+    def test_match_head_count():
         print('invoke match_head_count')
         matched = re.match(HEAD_COUNT_REGEX, TEST_HEAD_COUNT, re.M | re.I)
         if matched:

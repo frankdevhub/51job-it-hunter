@@ -23,9 +23,9 @@ select * from platform_data_brief_source where company_name like %s limit %s,%s
 # 数据库连接配置
 class DbConfig:
     def __init__(self):
-        self._host = "39.98.246.50"  # 数据源连接地址
+        self._host = "127.0.0.1"  # 数据源连接地址
         self._username = "root"  # 数据源连接用户名
-        self._password = "frank#0806db@ecs"  # 数据源连接密码
+        self._password = "Fxmf7fa@0806"  # 数据源连接密码
         self._db = "51job_data_center"  # 数据库名称
         self._port = 3306  # 端口号
 
