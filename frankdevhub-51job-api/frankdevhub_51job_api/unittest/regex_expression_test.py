@@ -25,8 +25,7 @@ class RegexExpressionTest(unittest.TestCase):
         print('invoke match_head_count')
         matched = re.match(HEAD_COUNT_REGEX, TEST_HEAD_COUNT, re.M | re.I)
         if matched:
-            print
-            "prefix :", matched.group('prefix')
+            print("prefix :", matched.group('prefix'))
         else:
             print('no matched')
 
